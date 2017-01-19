@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:srcCompat="@android:color/background_light"
+            android:id="@+id/mian_image_item"
+            android:layout_weight="0.10" />
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:layout_height="31dp"
+            android:id="@+id/main_time_textView" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="31dp">
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/main_item_name"
+                android:layout_weight="0.20" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle=""
+                android:id="@+id/main_item_ori_price"
+                android:layout_weight="0.05" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/main_item_price"
+                android:layout_weight="0.03" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/main_item_discount"
+                android:layout_weight="0.03" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="29dp">
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/main_shop_shopName" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="46dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/main_shop_space"
+                android:layout_weight="1.80" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_action_heart"
+                android:id="@+id/imageButton"
+                android:layout_weight="1" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

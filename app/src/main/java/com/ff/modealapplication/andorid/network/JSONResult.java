@@ -15,10 +15,12 @@ public abstract class JSONResult<DataT> {
         this.message=message;
         this.data=data;
     }
+
     public JSONResult(){
     }
+
     public boolean isSuccess(){
-        return "success".equals(this.result)?true:false;
+        return "success".equals( this.result ) ? true : false;
     }
 
     @Override
@@ -38,19 +40,19 @@ public abstract class JSONResult<DataT> {
         this.result = result;
     }
 
-    public DataT getData() {
-        return data;
-    }
-
-    public void setData(DataT data) {
-        this.data = data;
-    }
-
     public String getMessage() {
         return message;
     }
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public DataT getData() {
+        return data;
+    }
+
+    public void setData(DataT data) {
+        this.data = data;
     }
 }
