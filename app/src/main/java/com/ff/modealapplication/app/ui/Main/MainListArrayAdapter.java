@@ -3,6 +3,7 @@ package com.ff.modealapplication.app.ui.Main;
 import android.content.Context;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +16,15 @@ import com.ff.modealapplication.app.core.vo.ItemVo;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by BIT on 2017-01-19.
  */
 
-public class MainListArrayAdapter extends ArrayAdapter<ItemVo> {
+public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
 
     private LayoutInflater layoutInflater;
 
@@ -58,9 +61,10 @@ public class MainListArrayAdapter extends ArrayAdapter<ItemVo> {
             view = layoutInflater.inflate(R.layout.row_main_list,parent, false);
         }
 
-        ItemVo itemVo = getItem(position);
-        //이미지 저장
-        ImageLoader.getInstance().displayImage(itemVo.getPicture(), (ImageView)view.findViewById(R.id.mian_image_item), displayImageOptions);
+        Map<String, Object> itemVo = (Map<String, Object>) getItem(position);
+
+        //이미지 저장 [ 연결된 ip로 upload ] 위치에 내용이 있어야 한다.
+        ImageLoader.getInstance().displayImage("http://192.168.1.14:8888/modeal/shop/images/"+itemVo.get("picture"), (ImageView)view.findViewById(R.id.mian_image_item), displayImageOptions);
 
         //내용저장
         TextView textTimeView=(TextView)view.findViewById(R.id.main_time_textView);
@@ -71,24 +75,25 @@ public class MainListArrayAdapter extends ArrayAdapter<ItemVo> {
         TextView textShopNameView=(TextView)view.findViewById(R.id.main_shop_shopName);
         TextView textShopSpaceView=(TextView)view.findViewById(R.id.main_shop_space);
 
-        textTimeView.setText(itemVo.getExpDate());
-        textdiscountView.setText(String.valueOf((int) itemVo.getDiscount()));
-        textItemView.setText(itemVo.getName());
+        textTimeView.setText(itemVo.get("expDate").toString());
+        textdiscountView.setText(String.valueOf(itemVo.get("discount")));
+        textItemView.setText(itemVo.get("name").toString());
         textOriPriceView.setPaintFlags(textOriPriceView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        textOriPriceView.setText(String.valueOf((int)itemVo.getOriPrice()));
-        textShopNameView.setText(String.valueOf((int)itemVo.getShopNo()));
-        textPriceView.setText(String.valueOf((int)itemVo.getPrice()));
-        textShopSpaceView.setText(itemVo.getName());
+        textOriPriceView.setText(String.valueOf(itemVo.get("oriPrice")));
+        textShopNameView.setText(String.valueOf(itemVo.get("shopNo")));
+        textPriceView.setText(String.valueOf(itemVo.get("price")));
+        textShopSpaceView.setText(itemVo.get("shopName").toString());
 
         return view;
 //        return super.getView(position, convertView, parent);
     }
-    public void add(List<ItemVo> itemVos){
-        if(itemVos ==null || itemVos.size()==0){
+    public void add(List<Map<String, Object>> list){
+        if(list ==null || list.size()==0){
           return;
         }
-        for(ItemVo itemVo : itemVos){
-            add(itemVo);
+        for(Map<String, Object> map : list){
+            Log.d("test",""+map);
+            add( map );
         }
     }
 

@@ -14,6 +14,7 @@ import com.ff.modealapplication.app.core.service.MainService;
 import com.ff.modealapplication.app.core.vo.ItemVo;
 
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends ListActivity {
 
@@ -30,24 +31,26 @@ public class MainActivity extends ListActivity {
         new MainListAsyncTask().execute();
     }
 
-    private class MainListAsyncTask extends SafeAsyncTask<List<ItemVo>>{
+    private class MainListAsyncTask extends SafeAsyncTask<List<Map<String, Object>>>{
         @Override
-        public List<ItemVo> call() throws Exception {
+        public List<Map<String, Object>> call() throws Exception {
             MainService mainService = new MainService();
-            List<ItemVo> list= mainService.MainItemList();
-            Log.d("------!!!!",""+list);
+            List<Map<String, Object>> list= mainService.MainItemList();
+            Log.d("--------",""+list);
             return list;
         }
 
         @Override
-        protected void onSuccess(List<ItemVo> itemVos) throws Exception {
-            mainListArrayAdapter.add(itemVos);
-            super.onSuccess(itemVos);
+        protected void onSuccess(List<Map<String, Object>> list) throws Exception {
+            Log.d("success test ->",""+list);
+            mainListArrayAdapter.add(list);
+            Log.d("123",""+list);
+            super.onSuccess(list);
         }
 
         @Override
         protected void onException(Exception e) throws RuntimeException {
-            Log.d("-Main Exception error :" , ""+e);
+            Log.d("*Main Exception error :" , ""+e);
             throw new RuntimeException(e);
 //            super.onException(e);
         }
