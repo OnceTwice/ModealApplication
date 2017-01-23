@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     // 뒤로가기 버튼 누를때... (170123/상욱추가)
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_login);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {

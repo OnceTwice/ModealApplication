@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.ff.modealapplication.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.List;
 import java.util.Map;
@@ -63,6 +63,7 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         Map<String, Object> itemVo = (Map<String, Object>) getItem(position);
 
         //이미지 저장 [ 연결된 ip로 upload ] 위치에 내용이 있어야 한다.
+        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
         ImageLoader.getInstance().displayImage("http://192.168.1.14:8888/modeal/shop/images/"+itemVo.get("picture"), (ImageView)view.findViewById(R.id.mian_image_item), displayImageOptions);
 
         //내용저장
