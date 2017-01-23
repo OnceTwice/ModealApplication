@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 네비게이션에 있는 로그인과 회원가입 버튼의 색깔 -->
+    <!-- 버튼 누르기 전 -->
+    <item android:state_focused="false" android:state_pressed="false">
+        <shape>
+            <solid android:color="@color/colorModeal" />
+            <stroke android:color="#ffffff" android:width="1dp"/>
+        </shape>
+    </item>
+
+    <!-- 누르고 있는 상태 -->
+    <item android:state_focused="false" android:state_pressed="true">
+        <shape>
+            <solid android:color="#D2566A" />
+            <stroke android:color="#AD3843" android:width="1dp"/>
+        </shape>
+    </item>
+
+</selector>

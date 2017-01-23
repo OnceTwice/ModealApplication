@@ -1,0 +1,12 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- 네비게이션에서 로그인과 회원가입 버튼이 있는 곳의 배경 -->
+    <gradient
+        android:angle="135"
+        android:centerColor="#E74B59"
+        android:endColor="#dd3b4a"
+        android:startColor="#e28890"
+        android:type="linear" />
+
+</shape>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 네비게이션 내부 메뉴 변경 -->
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_myPage"
+            android:title="마이페이지" />
+        <item
+            android:id="@+id/nav_bookmark"
+            android:title="즐겨찾기" />
+        <item
+            android:id="@+id/nav_setup"
+            android:title="설정" />
+        <item
+            android:id="@+id/nav_help"
+            android:title="고객센터" />
+        <item
+            android:id="@+id/nav_manage"
+            android:title="상품관리" />
+    </group>
+
+</menu>
