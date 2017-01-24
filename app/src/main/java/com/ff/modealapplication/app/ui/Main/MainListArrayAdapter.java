@@ -78,7 +78,7 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         textTimeView.setText(itemVo.get("expDate").toString());
         textdiscountView.setText(String.valueOf(itemVo.get("discount")));
         textItemView.setText(itemVo.get("name").toString());
-        textOriPriceView.setPaintFlags(textOriPriceView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        textOriPriceView.setPaintFlags(textOriPriceView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG); //가운데 줄긋기
         textOriPriceView.setText(String.valueOf(itemVo.get("oriPrice")));
         textShopNameView.setText(String.valueOf(itemVo.get("shopNo")));
         textPriceView.setText(String.valueOf(itemVo.get("price")));

@@ -2,11 +2,11 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start"
-    android:id="@+id/drawer_layout">
+    tools:openDrawer="start">
     <!-- 위 id 이름은 변경해주세요 이미 다른 xml에서 사용하고 있어요 ㅠㅠ -->
     <!-- 이 해당 액티비티의 java에서도 변경한 이름으로 고쳐서 사용해주세요 -->
 
@@ -24,11 +24,11 @@
             android:theme="@style/AppTheme.AppBarOverlay">
 
             <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/colorModeal"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                android:id="@+id/toolbar">
+                app:popupTheme="@style/AppTheme.PopupOverlay">
                 <!-- 위 id 이름은 변경해주세요 이미 다른 xml에서 사용하고 있어요 ㅠㅠ -->
                 <!-- 이 해당 액티비티의 java에서도 변경한 이름으로 고쳐서 사용해주세요 -->
 
@@ -45,14 +45,14 @@
         </android.support.design.widget.AppBarLayout>
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@drawable/filter"
             app:backgroundTint="@color/colorModeal"
             app:fabSize="mini"
-            android:id="@+id/fab" />
+            app:srcCompat="@drawable/filter" />
         <!-- 위 id 이름은 변경해주세요 이미 다른 xml에서 사용하고 있어요 ㅠㅠ -->
         <!-- 이 해당 액티비티의 java에서도 변경한 이름으로 고쳐서 사용해주세요 -->
 
@@ -87,13 +87,13 @@
 
     <!-- 왜인지 잘 모르겠지만 무조건 네비게이션뷰가 제일 아래 있어야 작동함 -->
     <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer"
-        android:id="@+id/nav_view" />
+        app:menu="@menu/activity_main_drawer" />
     <!-- 위 id 이름은 변경해주세요 이미 다른 xml에서 사용하고 있어요 ㅠㅠ -->
     <!-- 이 해당 액티비티의 java에서도 변경한 이름으로 고쳐서 사용해주세요 -->
 
