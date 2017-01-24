@@ -23,7 +23,7 @@ public class MainService {
     public List<Map<String, Object>> MainItemList(){
         String url="http://192.168.1.14:8888/modeal/mainapp/list";
 
-        HttpRequest httpRequest = HttpRequest.get(url);
+        HttpRequest httpRequest = HttpRequest.post(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_JSON);
         httpRequest.accept(HttpRequest.CONTENT_TYPE_JSON);

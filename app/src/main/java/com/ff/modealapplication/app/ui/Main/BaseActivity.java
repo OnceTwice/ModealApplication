@@ -1,6 +1,7 @@
 package com.ff.modealapplication.app.ui.Main;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.ff.modealapplication.R;
+import com.ff.modealapplication.app.ui.Search.SearchActivity;
 
 
 /**
@@ -104,7 +106,8 @@ public class BaseActivity extends ListActivity implements NavigationView.OnNavig
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // 이곳에 돋보기 눌렀을때 검색액티비티로 이동할 코드 구현하시오!!!
-        Toast.makeText(this, "검색 버튼 작동중", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivity(intent);
         return super.onOptionsItemSelected(item);
     }
 

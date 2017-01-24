@@ -9,8 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ff.modealapplication.R;
 
@@ -32,14 +30,15 @@ public class SearchActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼
 
         search_edit = (EditText) findViewById(R.id.search_button);
+
         //엔터시 이동
         search_edit.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if(keyCode == KeyEvent.KEYCODE_ENTER && KeyEvent.ACTION_DOWN == event.getAction()){
-                    final String TEXT = search_edit.getText().toString();
+                    final String SEARCH = search_edit.getText().toString();
                     Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
-                    intent.putExtra("TEXT", TEXT);
+                    intent.putExtra("SEARCH", SEARCH);
                     startActivity(intent);
                     return true;
                 }
@@ -52,7 +51,7 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //돋보기
+         //돋보기
         getMenuInflater().inflate(R.menu.main, menu);
 //        return super.onCreateOptionsMenu(menu);
         return true;
@@ -66,8 +65,12 @@ public class SearchActivity extends AppCompatActivity {
         if(id==android.R.id.home){ // 뒤로가기 클릭시 searchActivity 종료
             this.finish();
             return true;
+        } else if(id == R.id.action_button) {
+            final String SEARCH = search_edit.getText().toString();
+            Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
+            intent.putExtra("SEARCH", SEARCH);
+            startActivity(intent);
         }
-
 
         return super.onOptionsItemSelected(item);
     }

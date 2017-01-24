@@ -5,6 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#E5E5E2"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
     <!-- 위 id 이름은 변경해주세요 이미 다른 xml에서 사용하고 있어요 ㅠㅠ -->
@@ -15,6 +16,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#E5E5E2"
         android:fitsSystemWindows="true"
         tools:context="com.ff.modealapplication.app.ui.Main.MainActivity">
 
@@ -67,20 +69,24 @@
             android:id="@+id/activity_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="56dp"
+            android:background="#E5E5E2"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="30dp"
             tools:context="com.ff.modealapplication.app.ui.Main.MainActivity">
-
+            <!-- divider → list 행 간격 띄우기-->
             <ListView
                 android:id="@android:id/list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:divider="@null" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="55dp"
+                android:dividerHeight="10dp"
+                android:background="#fff"
+                android:divider="#E5E5E2" />
+
         </RelativeLayout>
         <!-- 57행부터 79행을 제외한 나머지는 다 복사해서 자신의 xml에 붙여넣으세요 -->
     </android.support.design.widget.CoordinatorLayout>
