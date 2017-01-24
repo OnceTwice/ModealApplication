@@ -1,142 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start"
-    android:id="@+id/drawer_layout_login">
-    <!-- 위 id 이름은 변경해주세요 이미 다른 xml에서 사용하고 있어요 ㅠㅠ -->
-    <!-- 이 해당 액티비티의 java에서도 변경한 이름으로 고쳐서 사용해주세요 -->
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="56dp"
+    tools:context="com.ff.modealapplication.app.ui.Main.LoginActivity">
 
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <!-- Login progress -->
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:context="com.ff.modealapplication.app.ui.Main.MainActivity">
+        android:layout_height="match_parent">
 
-        <android.support.design.widget.AppBarLayout
+        <LinearLayout
+            android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:orientation="vertical">
 
-            <android.support.v7.widget.Toolbar
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:background="@color/colorModeal"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                android:id="@+id/toolbar_login">
-                <!-- 위 id 이름은 변경해주세요 이미 다른 xml에서 사용하고 있어요 ㅠㅠ -->
-                <!-- 이 해당 액티비티의 java에서도 변경한 이름으로 고쳐서 사용해주세요 -->
+                android:layout_height="wrap_content">
 
-                <!-- 툴바에 모딜 로고 추가 -->
-                <!-- 내가 이전에 쓰던 방법인 내부 레이아웃 만들고 그 안에 이미지뷰를 통해서 가운데로 정렬했으나... -->
-                <!-- layout_gravity로 가운데 정렬이 가능하므로 내부 레이아웃 제거했고 위 툴바의 app:contentInsetStart="0dp" 도 제거 -->
-                <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/logo" />
-
-            </android.support.v7.widget.Toolbar>
-        </android.support.design.widget.AppBarLayout>
-
-        <!-- 모르겠으면 저에게 물어보세요 -->
-        <!-- 여기에다가 자신의 액티비티의 xml을 추가하세요 -->
-        <!-- 기존 자신의 Layout의 paddingTop에다가 40dp를 추가 -->
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="56dp"
-            tools:context="com.ff.modealapplication.app.ui.Main.LoginActivity">
-
-            <!-- Login progress -->
-            <ProgressBar
-                android:id="@+id/login_progress"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:visibility="gone" />
-
-            <ScrollView
-                android:id="@+id/login_form"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:id="@+id/email_login_form"
+                <AutoCompleteTextView
+                    android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:hint="@string/prompt_email"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+            </android.support.design.widget.TextInputLayout>
 
-                        <AutoCompleteTextView
-                            android:id="@+id/email"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/prompt_email"
-                            android:inputType="textEmailAddress"
-                            android:maxLines="1"
-                            android:singleLine="true" />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                    </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_password"
+                    android:imeActionId="@+id/login"
+                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+            </android.support.design.widget.TextInputLayout>
 
-                        <EditText
-                            android:id="@+id/password"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/prompt_password"
-                            android:imeActionId="@+id/login"
-                            android:imeActionLabel="@string/action_sign_in_short"
-                            android:imeOptions="actionUnspecified"
-                            android:inputType="textPassword"
-                            android:maxLines="1"
-                            android:singleLine="true" />
+            <Button
+                android:id="@+id/email_sign_in_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/action_sign_in"
+                android:textStyle="bold" />
 
-                    </android.support.design.widget.TextInputLayout>
-
-                    <Button
-                        android:id="@+id/email_sign_in_button"
-                        style="?android:textAppearanceSmall"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/action_sign_in"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-            </ScrollView>
         </LinearLayout>
-        <!-- 여기까지~~~~~~~~~~~~~~~~~~~ -->
-    </android.support.design.widget.CoordinatorLayout>
-
-    <!-- 왜인지 잘 모르겠지만 무조건 네비게이션뷰가 제일 아래 있어야 작동함 -->
-    <android.support.design.widget.NavigationView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer"
-        android:id="@+id/nav_view_login" />
-    <!-- 위 id 이름은 변경해주세요 이미 다른 xml에서 사용하고 있어요 ㅠㅠ -->
-    <!-- 이 해당 액티비티의 java에서도 변경한 이름으로 고쳐서 사용해주세요 -->
-
-</android.support.v4.widget.DrawerLayout>
+    </ScrollView>
+</LinearLayout>

@@ -29,6 +29,9 @@
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".app.ui.Main.BaseActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".app.ui.Search.SearchActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".app.ui.Search.SearchResultActivity"></activity>
