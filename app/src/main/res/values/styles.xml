@@ -14,6 +14,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!-- 네비게이션 액티비티 만들때 자동으로 생긴것으로 별도로 프로젝트 제작시 추가해주세요 -->
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

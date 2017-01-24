@@ -87,12 +87,13 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         return view;
 //        return super.getView(position, convertView, parent);
     }
+
+
     public void add(List<Map<String, Object>> list){
         if(list ==null || list.size()==0){
           return;
         }
         for(Map<String, Object> map : list){
-            Log.d("test",""+map);
             add( map );
         }
     }

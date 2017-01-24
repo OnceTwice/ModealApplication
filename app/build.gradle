@@ -28,6 +28,6 @@ dependencies {
     compile group: 'com.google.code.gson', name: 'gson', version: '2.3.1'
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.1'
-    compile 'com.android.support:design:25.1.0'
+    compile 'com.android.support:design:25.1.0' // 네비게이션뷰 쓸때 필요함
     testCompile 'junit:junit:4.12'
 }

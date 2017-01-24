@@ -44,7 +44,7 @@ public class MainActivity extends ListActivity implements NavigationView.OnNavig
         super.onCreate(savedInstanceState);
 
         // ListActivity에서 setSupportActionBar를 쓰기 위해서 한것들... (170123/상욱추가)
-        // ListActivity를 상속 받지 않으면 이거 슬필요 없습니다
+        // ListActivity를 상속 받지 않으면 이것을 쓸 필요 없습니다
         AppCompatCallback callback = new AppCompatCallback() {
             @Override
             public void onSupportActionModeStarted(ActionMode mode) {
@@ -66,6 +66,7 @@ public class MainActivity extends ListActivity implements NavigationView.OnNavig
         delegate.onCreate(savedInstanceState);
         delegate.setContentView(R.layout.activity_main);
 
+        // 위에꺼는 안쓴다면 밑에 있는 delegate는 전부 지워주세요
         // 툴바 추가 (170123/상욱추가)
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         delegate.setSupportActionBar(toolbar);

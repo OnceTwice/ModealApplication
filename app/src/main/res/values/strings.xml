@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ModealApplication</string>
-    <string name="title_activity_main2">Main2Activity</string>
 
+    <!-- 네비게이션 액티비티 만들때 자동으로 생긴것으로 별도로 프로젝트 제작시 추가해주세요 -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
