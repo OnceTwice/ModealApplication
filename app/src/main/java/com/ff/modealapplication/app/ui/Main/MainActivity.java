@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.Toast;
 
@@ -161,15 +162,12 @@ public class MainActivity extends ListActivity implements NavigationView.OnNavig
         public List<Map<String, Object>> call() throws Exception {
             MainService mainService = new MainService();
             List<Map<String, Object>> list = mainService.MainItemList();
-            Log.d("--------", "" + list);
             return list;
         }
 
         @Override
         protected void onSuccess(List<Map<String, Object>> list) throws Exception {
-            Log.d("success test ->", "" + list);
             mainListArrayAdapter.add(list);
-            Log.d("123", "" + list);
             super.onSuccess(list);
         }
 

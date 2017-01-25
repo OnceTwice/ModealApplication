@@ -84,7 +84,8 @@
                 android:layout_width="56dp"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/heart2"
-                android:id="@+id/imageView" />
+                android:id="@+id/imageView"
+                android:background="#fff"/>
 
 
         </LinearLayout>
