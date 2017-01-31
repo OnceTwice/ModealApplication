@@ -1,9 +1,8 @@
-package com.ff.modealapplication.app.ui.Main;
+package com.ff.modealapplication.app.ui.main;
 
 import android.content.Context;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +63,7 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
 
         //이미지 저장 [ 연결된 ip로 upload ] 위치에 내용이 있어야 한다.
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
-        ImageLoader.getInstance().displayImage("http://192.168.1.14:8888/modeal/shop/images/"+itemVo.get("picture"), (ImageView)view.findViewById(R.id.mian_image_item), displayImageOptions);
+        ImageLoader.getInstance().displayImage("http://192.168.1.15:8088/modeal/shop/images/"+itemVo.get("picture"), (ImageView)view.findViewById(R.id.mian_image_item), displayImageOptions);
 
         //내용저장
         TextView textTimeView=(TextView)view.findViewById(R.id.main_time_textView);

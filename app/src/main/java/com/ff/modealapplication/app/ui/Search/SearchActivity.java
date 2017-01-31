@@ -1,4 +1,4 @@
-package com.ff.modealapplication.app.ui.Search;
+package com.ff.modealapplication.app.ui.search;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +27,7 @@ import java.util.Map;
 public class SearchActivity extends AppCompatActivity {
 
     private SearchService searchService = new SearchService();
-    private  EditText search_edit;
+    private EditText search_edit;
     ListView listView;
 
     ArrayAdapter<String> adapter;
@@ -40,19 +40,19 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         // ActionBar에 타이틀 변경
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_search);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_search);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼
 
-        List<ItemVo> list = searchService.searchList();
+//        List<ItemVo> list = searchService.searchList();
 
         //검색 입력시 리스트 출력
-        listView = (ListView)findViewById(R.id.list_search);
+        listView = (ListView) findViewById(R.id.list_search);
         search_edit = (EditText) findViewById(R.id.search_button);
 
-        String test[]={"1","13","2","13","15","42","16"};
-        adapter=new ArrayAdapter<String>(this, R.layout.search_list,R.id.search_textView, test);
+        String test[] = {"1", "13", "2", "13", "15", "42", "16"};
+        adapter = new ArrayAdapter<String>(this, R.layout.search_list, R.id.search_textView, test);
         listView.setAdapter(adapter);
 
         search_edit.addTextChangedListener(new TextWatcher() {
@@ -76,7 +76,7 @@ public class SearchActivity extends AppCompatActivity {
         search_edit.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if(keyCode == KeyEvent.KEYCODE_ENTER && KeyEvent.ACTION_DOWN == event.getAction()){
+                if (keyCode == KeyEvent.KEYCODE_ENTER && KeyEvent.ACTION_DOWN == event.getAction()) {
                     final String SEARCH = search_edit.getText().toString();
                     Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
                     intent.putExtra("SEARCH", SEARCH);
@@ -88,12 +88,11 @@ public class SearchActivity extends AppCompatActivity {
         });
 
 
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-         //돋보기
+        //돋보기
         getMenuInflater().inflate(R.menu.main, menu);
 //        return super.onCreateOptionsMenu(menu);
         return true;
@@ -102,12 +101,12 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        int id=item.getItemId();
+        int id = item.getItemId();
 
-        if(id==android.R.id.home){ // 뒤로가기 클릭시 searchActivity 종료
+        if (id == android.R.id.home) { // 뒤로가기 클릭시 searchActivity 종료
             this.finish();
             return true;
-        } else if(id == R.id.action_button) {
+        } else if (id == R.id.action_button) {
             final String SEARCH = search_edit.getText().toString();
             Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
             intent.putExtra("SEARCH", SEARCH);
@@ -117,7 +116,7 @@ public class SearchActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class  SearchListAsyncTask extends SafeAsyncTask<List<ItemVo>>{
+    private class SearchListAsyncTask extends SafeAsyncTask<List<ItemVo>> {
         @Override
         public List<ItemVo> call() throws Exception {
             List<ItemVo> list = searchService.searchList();
@@ -132,7 +131,7 @@ public class SearchActivity extends AppCompatActivity {
         @Override
         protected void onException(Exception e) throws RuntimeException {
 //            super.onException(e);
-            Log.d("SearchException :" ,""+e);
+            Log.d("SearchException :", "" + e);
             throw new RuntimeException(e);
         }
     }

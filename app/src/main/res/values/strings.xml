@@ -1,12 +1,11 @@
 <resources>
-    <string name="app_name">ModealApplication</string>
+    <string name="app_name">Mobility Deal</string>
 
     <!-- 네비게이션 액티비티 만들때 자동으로 생긴것으로 별도로 프로젝트 제작시 추가해주세요 -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="title_activity_login">로그인</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -17,7 +16,9 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".app.ui.Main.MainActivity"
+            android:name=".app.ui.main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,16 +25,15 @@
 
         <!-- 액티비티 추가할때마다 아래처럼 android:theme="@style/AppTheme.NoActionBar"도 추가해 줄것 -->
         <activity
-            android:name=".app.ui.Main.LoginActivity"
-            android:label="@string/title_activity_login"
+            android:name=".app.ui.login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".app.ui.Main.BaseActivity"
+            android:name=".app.ui.main.MainActivity2"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".app.ui.Search.SearchActivity"
+            android:name=".app.ui.search.SearchActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".app.ui.Search.SearchResultActivity"
+        <activity android:name=".app.ui.search.SearchResultActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

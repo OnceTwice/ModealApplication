@@ -40,10 +40,13 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <FrameLayout
-            android:id="@+id/activity_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <FrameLayout
+                android:id="@+id/activity_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+            <!-- layout_behavior는 액션바 밑에서부터 화면구성이 이루어지도록 하는것 -->
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

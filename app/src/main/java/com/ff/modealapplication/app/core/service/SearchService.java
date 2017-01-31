@@ -17,7 +17,7 @@ import java.util.List;
 
 public class SearchService {
     public List<ItemVo> searchList(){
-        String url="192.168.1.14:8888/modeal/list/search";
+        String url="192.168.1.15:8088/modeal/list/search";
 
         HttpRequest httpRequest = HttpRequest.get(url);
 
