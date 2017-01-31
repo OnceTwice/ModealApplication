@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         android:background="#E5E5E2"
         android:fitsSystemWindows="true"
-        tools:context="com.ff.modealapplication.app.ui.main2.MainActivity2">
+        tools:context="com.ff.modealapplication.app.ui.main.MainActivity2">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -74,7 +74,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="30dp"
-            tools:context="com.ff.modealapplication.app.ui.main2.MainActivity2">
+            tools:context="com.ff.modealapplication.app.ui.main.MainActivity2">
             <!-- divider → list 행 간격 띄우기-->
             <ListView
                 android:id="@android:id/list"

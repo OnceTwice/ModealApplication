@@ -1,4 +1,4 @@
-package com.ff.modealapplication.app.ui.main2;
+package com.ff.modealapplication.app.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ import android.view.View;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.app.ui.join.JoinFragment;
 import com.ff.modealapplication.app.ui.login.LoginActivity;
-import com.ff.modealapplication.app.ui.search2.SearchActivity;
+import com.ff.modealapplication.app.ui.search.SearchActivity;
 
 
 /**
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // 프래그먼트
         // 프래그먼트의 commit은 여러번 하면 에러가 뜨므로... commit이 필요할때마다 프래그먼트트랜잭션을 만들어서 사용한다
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.activity_content, new com.ff.modealapplication.app.ui.main2.MainFragment()).commit();
+        ft.add(R.id.activity_content, new MainFragment()).commit();
 
         // 툴바 추가 (170123/상욱추가)
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

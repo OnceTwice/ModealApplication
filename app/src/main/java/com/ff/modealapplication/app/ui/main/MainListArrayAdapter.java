@@ -1,4 +1,4 @@
-package com.ff.modealapplication.app.ui.main2;
+package com.ff.modealapplication.app.ui.main;
 
 import android.content.Context;
 import android.graphics.Paint;

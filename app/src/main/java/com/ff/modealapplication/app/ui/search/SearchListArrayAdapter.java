@@ -1,4 +1,4 @@
-package com.ff.modealapplication.app.ui.search2;
+package com.ff.modealapplication.app.ui.search;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
