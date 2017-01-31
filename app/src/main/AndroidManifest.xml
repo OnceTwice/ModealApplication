@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.ff.modealapplication">
 
     <!-- 인터넷 권한 -->
@@ -13,6 +14,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- facebook -->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
         <activity
             android:name=".app.ui.main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -23,18 +30,37 @@
             </intent-filter>
         </activity>
 
-    <!-- 스플래시(어플 시작할때 잠깐 뜨는 이미지 -->
-    <activity android:name=".app.ui.main.SplashActivity"
-        android:screenOrientation="portrait"
-        android:configChanges="orientation|keyboardHidden"
-        android:theme="@style/AppTheme.NoActionBar" />
-    <!-- 스플래시 -->
+        <!-- 스플래시(어플 시작할때 잠깐 뜨는 이미지) -->
+        <activity
+            android:name=".app.ui.main.SplashActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- 스플래시 -->
 
-    <!-- 액티비티 추가할때마다 아래처럼 android:theme="@style/AppTheme.NoActionBar"도 추가해 줄것 -->
-    <activity android:name=".app.ui.login.LoginActivity" android:theme="@style/AppTheme.NoActionBar" />
-    <activity android:name=".app.ui.main.MainActivity2" android:theme="@style/AppTheme.NoActionBar" />
-    <activity android:name=".app.ui.search.SearchActivity" android:theme="@style/AppTheme.NoActionBar" />
-    <activity android:name=".app.ui.search.SearchResultActivity" android:theme="@style/AppTheme.NoActionBar" />
-</application>
+        <!-- 액티비티 추가할때마다 아래처럼 android:theme="@style/AppTheme.NoActionBar"도 추가해 줄것 -->
+        <activity
+            android:name=".app.ui.login.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".app.ui.main.MainActivity2"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".app.ui.search.SearchActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".app.ui.search.SearchResultActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <!-- facebook -->
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            tools:replace="android:theme" />
+
+    </application>
 
 </manifest>

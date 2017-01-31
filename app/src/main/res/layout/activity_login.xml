@@ -68,13 +68,15 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="80dp">
 
                     <AutoCompleteTextView
                         android:id="@+id/email"
-                        android:layout_width="match_parent"
+                        android:layout_width="250dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/prompt_email"
+                        android:layout_gravity="center"
+                        android:hint="이메일"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:singleLine="true" />
@@ -87,11 +89,12 @@
 
                     <EditText
                         android:id="@+id/password"
-                        android:layout_width="match_parent"
+                        android:layout_width="250dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/prompt_password"
+                        android:layout_gravity="center"
+                        android:hint="비밀번호"
                         android:imeActionId="@+id/login"
-                        android:imeActionLabel="@string/action_sign_in_short"
+                        android:imeActionLabel="비밀번호가 너무 짧아요"
                         android:imeOptions="actionUnspecified"
                         android:inputType="textPassword"
                         android:maxLines="1"
@@ -102,11 +105,43 @@
                 <Button
                     android:id="@+id/email_sign_in_button"
                     style="?android:textAppearanceSmall"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:text="로그인"
+                    android:textStyle="bold" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/action_sign_in"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal"
+                    android:padding="30dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="25dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/pass_text"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/join_text"
+                        android:textSize="15dp" />
+                </LinearLayout>
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/facebook_login_button"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
 
             </LinearLayout>
         </ScrollView>

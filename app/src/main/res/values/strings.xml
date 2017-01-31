@@ -7,22 +7,17 @@
 
     <string name="action_settings">Settings</string>
 
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="spinner_month">월입력</string>
     <string name="spinner_city">도시입력</string>
     <string name="spinner_gu">구입력</string>
     <string name="spinner_dong">동입력</string>
+
+    <!-- Login -->
+    <string name="join_text"><u>회원가입</u></string>
+    <string name="pass_text"><u>비밀번호 찾기</u></string>
+    <!-- facebook -->
+    <string name="facebook_app_id">741453276020021</string>
 
 </resources>

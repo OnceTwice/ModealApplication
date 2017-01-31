@@ -20,18 +20,14 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ff.modealapplication.R;
+import com.ff.modealapplication.app.core.service.LoginService;
+import com.ff.modealapplication.app.core.vo.UserVo;
 
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -49,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
 
         // 액션바 생성
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_login);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_login);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -84,8 +80,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-//            Intent intent = new Intent(this, MainActivity.class);
-//            startActivity(intent);
             finish();
         }
         return true;
@@ -115,20 +109,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError("비밀번호를 입력하세요");
+            focusView = mPasswordView;
+            cancel = true;
+        } else if (!isPasswordValid(password)) {
+            mPasswordView.setError("비밀번호가 너무 짧아요");
             focusView = mPasswordView;
             cancel = true;
         }
 
-        // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
+            mEmailView.setError("이메일을 입력하세요");
             focusView = mEmailView;
             cancel = true;
         } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
+            mEmailView.setError("이메일 형식이 아닙니다");
             focusView = mEmailView;
             cancel = true;
         }
@@ -205,11 +201,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, Integer> {
 
         private final String mEmail;
         private final String mPassword;
@@ -220,38 +212,44 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
+        protected Integer doInBackground(Void... params) {
+            UserVo userVo;
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
+                userVo = new LoginService().login(mEmail, mPassword);
             } catch (InterruptedException e) {
-                return false;
+                return 0;
             }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
+            if (userVo == null) {
+                return 1;
+            } else if (!userVo.getPassword().equals(mPassword)) {
+                return 2;
             }
-
-            // TODO: register the new account here.
-            return true;
+            return 3;
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
+        protected void onPostExecute(Integer success) {
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+            switch (success) {
+                case 0:
+                    Toast.makeText(LoginActivity.this, "잠시후 다시 로그인해주세요", Toast.LENGTH_SHORT).show();
+                    break;
+                case 1:
+                    mEmailView.setError("등록되지 않은 이메일입니다");
+                    mEmailView.requestFocus();
+                    break;
+                case 2:
+                    mPasswordView.setError("비밀번호가 다릅니다");
+                    mPasswordView.requestFocus();
+                    break;
+                case 3:
+                    Toast.makeText(LoginActivity.this, "로그인성공", Toast.LENGTH_SHORT).show();
+                    finish();
+                    break;
             }
         }
 
