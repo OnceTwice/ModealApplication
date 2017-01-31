@@ -2,13 +2,19 @@ package com.ff.modealapplication.app.ui.mypage;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ff.modealapplication.R;
+import com.ff.modealapplication.andorid.network.SafeAsyncTask;
+import com.ff.modealapplication.app.core.vo.UserVo;
+
+import java.util.List;
 
 public class UserMypageFragment extends Fragment {
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -44,7 +50,7 @@ public class UserMypageFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {       // Fragment가 생성될 때 호출되는 부분
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
@@ -54,8 +60,28 @@ public class UserMypageFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {     // onCreate 후에 화면을 구성할 때 호출되는 부분
+        View view = inflater.inflate(R.layout.fragment_user_mypage, container, false);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_mypage, container, false);
+        return view;
+    }
+
+    private class FetchUserListAsyncTask extends SafeAsyncTask<List<UserVo>> {
+        @Override
+        public List<UserVo> call() throws Exception {
+            return null;
+        }
+
+        @Override
+        protected void onException(Exception e) throws RuntimeException {
+//            super.onException(e);
+            throw new RuntimeException(e);
+        }
+
+        @Override
+        protected void onSuccess(List<UserVo> userVo) throws Exception {
+//            super.onSuccess(userVo);
+            Log.d("성공", "성공해쓰요");
+        }
     }
 }
