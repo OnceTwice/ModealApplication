@@ -3,6 +3,7 @@ package com.ff.modealapplication.app.ui.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,22 +17,22 @@ import android.view.View;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.app.ui.join.JoinFragment;
 import com.ff.modealapplication.app.ui.login.LoginActivity;
+import com.ff.modealapplication.app.ui.mypage.MypageFragment;
 import com.ff.modealapplication.app.ui.search.SearchActivity;
 
-
-/**
- * Created by BIT on 2017-01-24.
- */
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
+    private Fragment myPageFragment;
 
     private DrawerLayout drawer = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         startActivity(new Intent(this, SplashActivity.class)); // 스플래시 화면 (170131/상욱추가)
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        myPageFragment = new MypageFragment();
 
         // 프래그먼트
         // 프래그먼트의 commit은 여러번 하면 에러가 뜨므로... commit이 필요할때마다 프래그먼트트랜잭션을 만들어서 사용한다
@@ -45,8 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // 네비게이션 추가(170123/상욱추가)
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle); // setDrawerListener가 addDrawerListener로 바뀜 (170131/준현수정)
         toggle.syncState();
 
@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onClick(View view) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
         switch(view.getId()) {
             case R.id.login_button :
                 Intent intent = new Intent(this, LoginActivity.class);
@@ -108,12 +109,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
+        // Handle navigation view item clicks here.
         int id = item.getItemId();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
         if (id == R.id.nav_myPage) {
-//            ft.replace(R.id.activity_content, new SearchFragment());
+            transaction.replace(R.id.activity_content, myPageFragment);
         } else if (id == R.id.nav_bookmark) {
 
         } else if (id == R.id.nav_setup) {
@@ -123,10 +125,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_manage) {
 
         }
-//        ft.addToBackStack(null);
-//        ft.commit();
+
+        transaction.addToBackStack(null);
+        transaction.commit();
 
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 }

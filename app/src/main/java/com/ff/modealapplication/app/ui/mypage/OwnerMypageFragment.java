@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.ff.modealapplication.R;
 
-public class MypageFragment extends Fragment {
+public class OwnerMypageFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -18,7 +18,7 @@ public class MypageFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public MypageFragment() {
+    public OwnerMypageFragment() {
         // Required empty public constructor
     }
 
@@ -28,11 +28,11 @@ public class MypageFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MypageFragment.
+     * @return A new instance of fragment OwnerMypageFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MypageFragment newInstance(String param1, String param2) {
-        MypageFragment fragment = new MypageFragment();
+    public static OwnerMypageFragment newInstance(String param1, String param2) {
+        OwnerMypageFragment fragment = new OwnerMypageFragment();
         Bundle args = new Bundle();
 
         args.putString(ARG_PARAM1, param1);
@@ -55,12 +55,7 @@ public class MypageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-
-        // 이곳에서 분기시켜서 Owner로 갈지 User로 갈지 결정
-
-
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mypage, container, false);
+        return inflater.inflate(R.layout.fragment_owner_mypage, container, false);
     }
 }
