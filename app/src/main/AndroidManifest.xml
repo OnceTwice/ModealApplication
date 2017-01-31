@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".app.ui.main2.MainActivity"
+            android:name=".app.ui.main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,12 +28,12 @@
             android:name=".app.ui.login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".app.ui.main2.MainActivity2"
+            android:name=".app.ui.main.MainActivity2"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".app.ui.search2.SearchActivity"
+            android:name=".app.ui.search.SearchActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".app.ui.search2.SearchResultActivity"
+        <activity android:name=".app.ui.search.SearchResultActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
