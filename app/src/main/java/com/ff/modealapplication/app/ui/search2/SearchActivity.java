@@ -1,4 +1,4 @@
-package com.ff.modealapplication.app.ui.search;
+package com.ff.modealapplication.app.ui.search2;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -50,10 +50,6 @@ public class SearchActivity extends AppCompatActivity {
         //검색 입력시 리스트 출력
         listView = (ListView) findViewById(R.id.list_search);
         search_edit = (EditText) findViewById(R.id.search_button);
-
-        String test[] = {"1", "13", "2", "13", "15", "42", "16"};
-        adapter = new ArrayAdapter<String>(this, R.layout.search_list, R.id.search_textView, test);
-        listView.setAdapter(adapter);
 
         search_edit.addTextChangedListener(new TextWatcher() {
             @Override

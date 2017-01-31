@@ -1,4 +1,4 @@
-package com.ff.modealapplication.app.ui.main;
+package com.ff.modealapplication.app.ui.main2;
 
 import android.app.ListActivity;
 import android.content.Context;
@@ -26,7 +26,7 @@ import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.MainService;
 import com.ff.modealapplication.app.ui.login.LoginActivity;
-import com.ff.modealapplication.app.ui.search.SearchActivity;
+import com.ff.modealapplication.app.ui.search2.SearchActivity;
 
 import java.util.List;
 import java.util.Map;

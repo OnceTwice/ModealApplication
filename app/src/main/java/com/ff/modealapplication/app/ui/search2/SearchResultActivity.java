@@ -1,4 +1,4 @@
-package com.ff.modealapplication.app.ui.search;
+package com.ff.modealapplication.app.ui.search2;
 
 import android.content.Intent;
 import android.os.Bundle;
