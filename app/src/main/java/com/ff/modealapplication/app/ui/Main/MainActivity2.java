@@ -60,7 +60,7 @@ public class MainActivity2 extends ListActivity implements NavigationView.OnNavi
         };
         delegate = AppCompatDelegate.create(this, callback);
         delegate.onCreate(savedInstanceState);
-        delegate.setContentView(R.layout.activity_main);
+        delegate.setContentView(R.layout.activity_main2);
 
         // 위에꺼는 안쓴다면 밑에 있는 delegate는 전부 지워주세요
         // 툴바 추가 (170123/상욱추가)

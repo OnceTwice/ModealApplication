@@ -30,12 +30,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
+        setContentView(R.layout.activity_main);
 
         // 프래그먼트
         // 프래그먼트의 commit은 여러번 하면 에러가 뜨므로... commit이 필요할때마다 프래그먼트트랜잭션을 만들어서 사용한다
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.activity_content, new MainFragment()).commit();
+        ft.add(R.id.activity_content, new com.ff.modealapplication.app.ui.main.MainFragment()).commit();
 
         // 툴바 추가 (170123/상욱추가)
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
