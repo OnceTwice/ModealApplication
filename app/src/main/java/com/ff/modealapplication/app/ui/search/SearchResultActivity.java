@@ -8,9 +8,16 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.ff.modealapplication.R;
+import com.ff.modealapplication.andorid.network.SafeAsyncTask;
+import com.ff.modealapplication.app.core.service.SearchService;
+
+import java.util.List;
+import java.util.Map;
 
 public class SearchResultActivity extends AppCompatActivity {
 
+    SearchService searchService;
+    SearchResultListAdapter searchResultListAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,11 +28,14 @@ public class SearchResultActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼
 
+        //searchactivity 에서 검색값 받아오기
         Intent intent = getIntent();
         String result_search=intent.getExtras().getString("SEARCH");
 
         TextView textView = (TextView)findViewById(R.id.search_result);
         textView.setText(result_search);
+
+        new ResultListAsyncTask().execute();
 
     }
 
@@ -53,6 +63,26 @@ public class SearchResultActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public class ResultListAsyncTask extends SafeAsyncTask<List<Map<String, Object>>> {
+
+        @Override
+        public List<Map<String, Object>> call() throws Exception {
+            List<Map<String, Object>> list= searchService.resultList();
+            return null;
+        }
+
+        @Override
+        protected void onException(Exception e) throws RuntimeException {
+//            super.onException(e);
+            throw new RuntimeException(e);
+        }
+
+        @Override
+        protected void onSuccess(List<Map<String, Object>> maps) throws Exception {
+            searchResultListAdapter.add(maps);
+//            super.onSuccess(maps);
+        }
+    }
 
 
 }

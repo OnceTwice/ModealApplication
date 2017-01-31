@@ -1,4 +1,4 @@
-package com.ff.modealapplication.app.ui.main;
+package com.ff.modealapplication.app.ui.search;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -19,10 +19,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by BIT on 2017-01-19.
+ * Created by BIT on 2017-01-31.
  */
 
-public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
+public class SearchResultListAdapter extends ArrayAdapter<List<Map<String, Object>>> {
 
     private LayoutInflater layoutInflater;
 
@@ -46,11 +46,10 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
             //.handler( new Handler() )// default
             .build();
 
-    public MainListArrayAdapter(Context context) {
-        super(context, R.layout.activity_main2);
-        layoutInflater = LayoutInflater.from(context);
+    public SearchResultListAdapter(Context context) {
+        super(context, R.layout.row_main_list);
+        layoutInflater =LayoutInflater.from(context);
     }
-
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -87,14 +86,12 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
 //        return super.getView(position, convertView, parent);
     }
 
-
     public void add(List<Map<String, Object>> list){
         if(list ==null || list.size()==0){
-          return;
+            return;
         }
         for(Map<String, Object> map : list){
-            add( map );
+//            add( map );
         }
     }
-
 }

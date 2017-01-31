@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             app:srcCompat="@android:color/background_light"
-            android:id="@+id/mian_image_item"
+            android:id="@+id/main_image_item"
             android:layout_weight="0.10" />
 
         <TextView

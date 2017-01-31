@@ -21,8 +21,9 @@ public class SearchListArrayAdapter extends ArrayAdapter<ItemVo> {
 
     private LayoutInflater layoutInflater;
 
-    public SearchListArrayAdapter(Context context, int resource) {
+    public SearchListArrayAdapter(Context context) {
         super(context, R.layout.activity_search);
+        layoutInflater = LayoutInflater.from(context);
     }
 
 
