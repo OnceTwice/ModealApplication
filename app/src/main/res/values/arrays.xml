@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="month">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
+    <string-array name="city">
+        <item>서울</item>
+        <item>부산</item>
+        <item>대전</item>
+        <item>울산</item>
+        <item>대구</item>
+        <item>광주</item>
+    </string-array>
+
+    <string-array name="gu">
+        <item>종로구</item>
+        <item>용산구</item>
+        <item>광진구</item>
+        <item>중랑구</item>
+        <item>강북구</item>
+        <item>노원구</item>
+        <item>서대문구</item>
+        <item>양천구</item>
+        <item>구로구</item>
+        <item>영등포구</item>
+        <item>관악구</item>
+        <item>강남구</item>
+        <item>강동구</item>
+        <item>중구</item>
+        <item>성동구</item>
+        <item>동대문구</item>
+        <item>성북구</item>
+        <item>도봉구</item>
+        <item>은평구</item>
+        <item>마포구</item>
+        <item>강서구</item>
+        <item>금천구</item>
+        <item>동작구</item>
+        <item>서초구</item>
+        <item>송파구</item>
+    </string-array>
+
+    <string-array name="dong">
+        <item>정릉동</item>
+        <item>서초동</item>
+        <item>목동</item>
+        <item>혜화동</item>
+        <item>돈암동</item>
+    </string-array>
+</resources>
