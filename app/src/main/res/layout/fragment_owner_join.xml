@@ -200,6 +200,12 @@
                 android:background="@android:drawable/editbox_background"
                 android:hint="매장명"
                 android:inputType="text" />
+
+            <Button
+                android:id="@+id/btnCallByMarket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="매장찾기"/>
         </LinearLayout>
 
         <LinearLayout
