@@ -1,12 +1,18 @@
 package com.ff.modealapplication.app.ui.join;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.ff.modealapplication.R;
+import com.ff.modealapplication.app.ui.map.SearchShopToJoinActivity;
+
+import static android.app.Activity.RESULT_OK;
 
 public class OwnerJoinFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -52,8 +58,29 @@ public class OwnerJoinFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_owner_join, container, false);
+        Button map = (Button) view.findViewById(R.id.btnCallByMarket);
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                Intent intentToMap = new Intent(OwnerJoinFragment.this.getActivity(), SearchShopToJoinActivity.class);
+                startActivityForResult(intentToMap, 1000);
+            }
+        });
         // Inflate the layout for this fragment
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("RESULT========>", "" + requestCode);
+        Log.d("RESULT========>", "" + resultCode);
+        //Log.d("RESULT========>", data.getStringExtra("joinMapInfoVo".toString()));
+
+        if (requestCode == 1000 && resultCode == RESULT_OK) {
+
+        }
     }
 }
