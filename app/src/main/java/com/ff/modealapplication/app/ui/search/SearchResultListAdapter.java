@@ -3,6 +3,7 @@ package com.ff.modealapplication.app.ui.search;
 import android.content.Context;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import java.util.Map;
  * Created by BIT on 2017-01-31.
  */
 
-public class SearchResultListAdapter extends ArrayAdapter<List<Map<String, Object>>> {
+public class SearchResultListAdapter extends ArrayAdapter<Map<String, Object>> {
 
     private LayoutInflater layoutInflater;
 
@@ -47,7 +48,7 @@ public class SearchResultListAdapter extends ArrayAdapter<List<Map<String, Objec
             .build();
 
     public SearchResultListAdapter(Context context) {
-        super(context, R.layout.row_main_list);
+        super(context, R.layout.activity_search_result);
         layoutInflater =LayoutInflater.from(context);
     }
     @NonNull
@@ -90,8 +91,11 @@ public class SearchResultListAdapter extends ArrayAdapter<List<Map<String, Objec
         if(list ==null || list.size()==0){
             return;
         }
-        for(Map<String, Object> map : list){
-//            add( map );
+        for(Map<String, Object> maps : list){
+            Log.d("testing",""+maps);
+            add( maps );
         }
     }
+
+
 }

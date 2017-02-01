@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ff.modealapplication.R;
@@ -16,17 +18,28 @@ import java.util.Map;
 
 public class SearchResultActivity extends AppCompatActivity {
 
-    SearchService searchService;
-    SearchResultListAdapter searchResultListAdapter;
+    SearchResultListAdapter searchResultListAdapter =null;
+
+    public SearchResultActivity() {
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
 
+        searchResultListAdapter = new SearchResultListAdapter(this);
+        ListView listView = (ListView) findViewById(R.id.list_searchResultList);
+
+        listView.setAdapter(searchResultListAdapter);
+
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_search);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼
+
+        SearchService.init(this);
 
         //searchactivity 에서 검색값 받아오기
         Intent intent = getIntent();
@@ -36,16 +49,8 @@ public class SearchResultActivity extends AppCompatActivity {
         textView.setText(result_search);
 
         new ResultListAsyncTask().execute();
-
     }
 
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //돋보기
-        getMenuInflater().inflate(R.menu.main, menu);
-//        return super.onCreateOptionsMenu(menu);
-        return true;
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -67,20 +72,21 @@ public class SearchResultActivity extends AppCompatActivity {
 
         @Override
         public List<Map<String, Object>> call() throws Exception {
-            List<Map<String, Object>> list= searchService.resultList();
-            return null;
+            List<Map<String, Object>> list= new SearchService().resultList();
+            return list;
         }
 
         @Override
         protected void onException(Exception e) throws RuntimeException {
 //            super.onException(e);
+            Log.d("SearchRunTime","Error :"+e);
             throw new RuntimeException(e);
         }
 
         @Override
         protected void onSuccess(List<Map<String, Object>> maps) throws Exception {
             searchResultListAdapter.add(maps);
-//            super.onSuccess(maps);
+            super.onSuccess(maps);
         }
     }
 

@@ -1,10 +1,7 @@
 package com.ff.modealapplication.app.core.service;
 
 
-import android.util.Log;
-
 import com.ff.modealapplication.andorid.network.JSONResult;
-
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,7 +31,6 @@ public class MainService {
         if(responseCode != HttpURLConnection.HTTP_OK){
             throw new RuntimeException("HTTP RESPONSE :" + responseCode);
         }
-        Log.d("=====",""+responseCode);
 
         JSONResultMainList jsonResultMainList = fromJSON(httpRequest, JSONResultMainList.class);
 
