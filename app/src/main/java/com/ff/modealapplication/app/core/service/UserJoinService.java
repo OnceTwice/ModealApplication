@@ -13,7 +13,7 @@ import java.net.HttpURLConnection;
 import java.util.List;
 
 public class UserJoinService {
-    public List<UserVo> fetchUserList(String id, String password, String gender, String location, String birth) {
+    public List<UserVo> fetchUserList(String id, String password) {
         String url = "http://192.168.1.26:8088/modeal/user/app/input";
         HttpRequest httpRequest = HttpRequest.get(url);
 
@@ -22,11 +22,9 @@ public class UserJoinService {
         httpRequest.connectTimeout(3000);
         httpRequest.readTimeout(3000);
 
-        Log.d("아이디 : ", id);
-        Log.d("비밀번호 : ", password);
-        Log.d("성별 ", gender);
-        Log.d("위치", location);
-        Log.d("생년월일 : ", birth);
+        Log.d("=======================", "서비스 입갤");
+        Log.d("서비스쪽 아이디 : ", id);
+        Log.d("서비스쪽 비밀번호 : ", password);
 
         int responseCode = httpRequest.code();
 

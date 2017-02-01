@@ -121,29 +121,35 @@
                 android:layout_height="wrap_content"
                 android:text="거주지역 : " />
 
-            <Spinner
-                android:id="@+id/city"
+            <EditText
+                android:id="@+id/etCity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/city"
-                android:prompt="@string/spinner_city"
-                android:spinnerMode="dialog" />
+                android:background="@android:drawable/editbox_background" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="시" />
 
-            <Spinner
-                android:id="@+id/gu"
+            <EditText
+                android:id="@+id/etGu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/gu"
-                android:prompt="@string/spinner_gu"
-                android:spinnerMode="dialog" />
+                android:background="@android:drawable/editbox_background" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="구" />
 
-            <Spinner
-                android:id="@+id/dong"
+            <EditText
+                android:id="@+id/etDong"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/dong"
-                android:prompt="@string/spinner_dong"
-                android:spinnerMode="dialog" />
+                android:background="@android:drawable/editbox_background" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="동" />
         </LinearLayout>
 
         <LinearLayout

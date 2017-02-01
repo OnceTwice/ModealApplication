@@ -7,14 +7,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="5dp">
 
             <TextView
                 android:id="@+id/textID"
@@ -23,7 +23,7 @@
                 android:text="ID : " />
 
             <EditText
-                android:id="@+id/id"
+                android:id="@+id/etUserId"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/editbox_background"
@@ -39,8 +39,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="5dp">
 
             <TextView
                 android:id="@+id/textPassword"
@@ -49,7 +49,7 @@
                 android:text="Password : " />
 
             <EditText
-                android:id="@+id/etPassword"
+                android:id="@+id/etUserPassword"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/editbox_background"
@@ -60,8 +60,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="5dp">
 
             <TextView
                 android:id="@+id/RPassword"
@@ -70,7 +70,7 @@
                 android:text="PW 재입력 : " />
 
             <EditText
-                android:id="@+id/etPasswordConfirm"
+                android:id="@+id/etUserPasswordConfirm"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/editbox_background"
@@ -81,8 +81,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -90,20 +90,20 @@
                 android:text="성별 : " />
 
             <RadioGroup
-                android:id="@+id/radioGroupGender"
+                android:id="@+id/radioGroupUserGender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/radio_man"
+                    android:id="@+id/UserRadio_man"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:text="남자" />
 
                 <RadioButton
-                    android:id="@+id/radio_woman"
+                    android:id="@+id/UserRadio_woman"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="여자" />
@@ -113,44 +113,50 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="거주지역 : " />
 
-            <Spinner
-                android:id="@+id/city"
+            <EditText
+                android:id="@+id/etUserCity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/city"
-                android:prompt="@string/spinner_city"
-                android:spinnerMode="dialog" />
+                android:background="@android:drawable/editbox_background" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="시" />
 
-            <Spinner
-                android:id="@+id/gu"
+            <EditText
+                android:id="@+id/etUserGu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/gu"
-                android:prompt="@string/spinner_gu"
-                android:spinnerMode="dialog" />
+                android:background="@android:drawable/editbox_background" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="구" />
 
-            <Spinner
-                android:id="@+id/dong"
+            <EditText
+                android:id="@+id/etUserDong"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/dong"
-                android:prompt="@string/spinner_dong"
-                android:spinnerMode="dialog" />
+                android:background="@android:drawable/editbox_background" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="동" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -189,13 +195,13 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnCancel"
+                android:id="@+id/btnUserCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="취소" />
 
             <Button
-                android:id="@+id/btnSubmit"
+                android:id="@+id/btnUserSubmit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="보내기" />
