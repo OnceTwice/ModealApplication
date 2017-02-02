@@ -80,7 +80,7 @@
             android:label="@string/Login"
             android:theme="@style/App_Simple" />
         <activity
-            android:name=".app.ui.mypage.ABBBActivity"
+            android:name=".app.ui.mypage.MyPageActivity"
             android:label="@string/MyPage"
             android:theme="@style/App_Simple"/>
     </application>
