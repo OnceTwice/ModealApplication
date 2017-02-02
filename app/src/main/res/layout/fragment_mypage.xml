@@ -5,4 +5,9 @@
     android:orientation="vertical"
     tools:context="com.ff.modealapplication.app.ui.mypage.MypageFragment">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="마이 페이지!!!"/>
+
 </LinearLayout>

@@ -15,13 +15,15 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.ff.modealapplication.R;
-import com.ff.modealapplication.app.ui.join.JoinFragment;
+import com.ff.modealapplication.app.ui.join.JoinActivity;
 import com.ff.modealapplication.app.ui.login.LoginActivity;
+import com.ff.modealapplication.app.ui.mypage.MyPageActivity;
 import com.ff.modealapplication.app.ui.mypage.MypageFragment;
 import com.ff.modealapplication.app.ui.search.SearchActivity;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
     private Fragment myPageFragment;
+    private Fragment mainFragment;
 
     private DrawerLayout drawer = null;
 
@@ -33,11 +35,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         myPageFragment = new MypageFragment();
+        mainFragment = new MainFragment();
 
         // 프래그먼트
         // 프래그먼트의 commit은 여러번 하면 에러가 뜨므로... commit이 필요할때마다 프래그먼트트랜잭션을 만들어서 사용한다
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.activity_content, new MainFragment()).commit();
+        ft.add(R.id.activity_content, mainFragment).commit();
 
         // 툴바 추가 (170123/상욱추가)
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -74,19 +77,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onClick(View view) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
         switch(view.getId()) {
             case R.id.login_button :
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
-                drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.register_button :
-                ft.replace(R.id.activity_content, new JoinFragment()).addToBackStack(null).commit();
-                drawer.closeDrawer(GravityCompat.START);
+                Intent intent1 = new Intent(this, JoinActivity.class);
+                startActivity(intent1);
                 break;
         }
+
+        drawer.closeDrawer(GravityCompat.START);
     }
 
     // 액션바 맨 오른쪽 돋보기 추가 (170123/상욱추가)
@@ -109,13 +111,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_myPage) {
-            transaction.replace(R.id.activity_content, myPageFragment);
+            Intent intent = new Intent(this, MyPageActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_bookmark) {
 
         } else if (id == R.id.nav_setup) {
@@ -125,9 +126,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_manage) {
 
         }
-
-        transaction.addToBackStack(null);
-        transaction.commit();
 
         drawer.closeDrawer(GravityCompat.START);
 

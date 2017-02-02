@@ -38,13 +38,16 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <!-- 스플래시 -->
 
+
         <!-- 매장등록 지도로 하기 -->
-            <activity android:name=".app.ui.map.SearchShopToJoinActivity"
+        <activity
+            android:name=".app.ui.map.SearchShopToJoinActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.EDIT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -71,6 +74,15 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             tools:replace="android:theme" />
+
+        <activity
+            android:name=".app.ui.join.JoinActivity"
+            android:label="@string/Login"
+            android:theme="@style/App_Simple" />
+        <activity
+            android:name=".app.ui.mypage.MyPageActivity"
+            android:label="@string/MyPage"
+            android:theme="@style/App_Simple"/>
     </application>
 
 </manifest>
