@@ -39,5 +39,12 @@ dependencies {
     compile 'com.android.support:support-v4:25.1.0'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.facebook.android:facebook-android-sdk:4.+' // facebook
+
+    // 로그인유지 세션&쿠키
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.0.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.0.1'
+
     testCompile 'junit:junit:4.12'
 }

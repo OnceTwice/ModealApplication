@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -12,19 +13,25 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.app.core.service.LoginService;
 import com.ff.modealapplication.app.core.vo.UserVo;
+
+import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
@@ -39,10 +46,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
+    // 페이스북 사용되는 콜백매니저
+    private CallbackManager callbackManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        callbackManager = CallbackManager.Factory.create(); // 페이스북 콜백매니저
 
         // 액션바 생성
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_login);
@@ -52,18 +64,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-
         mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +76,49 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        // 페이스북 로그인
+        LoginButton loginButton = (LoginButton) findViewById(R.id.facebook_login_button);
+        loginButton.setReadPermissions("public_profile", "user_birthday", "email", "user_location", "user_hometown");
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        UserVo userVo = new UserVo();
+                        userVo.setId(!object.optString("id").isEmpty() ? object.optString("id") : null);
+                        userVo.setGender(!object.optString("gender").isEmpty() ? object.optString("gender") : null);
+                        userVo.setLocation(!object.optString("location").isEmpty() ? object.optJSONObject("location").optString("name").substring(0, object.optJSONObject("location").optString("name").lastIndexOf(',')) : null);
+                        userVo.setBirth(!object.optString("birthday").isEmpty() ? object.optString("birthday") : null);
+                        userVo.setManagerIdentified(3);
+
+                        new UserLoginTask(userVo).execute(); // 쓰레드를 써야하므로...
+                    }
+                });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id, name, age_range, gender, locale, birthday, email, location, hometown");
+                graphRequest.setParameters(parameters);
+                graphRequest.executeAsync();
+            }
+
+            @Override
+            public void onCancel() {
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+            }
+        });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+    // 페이스북 로그인 여기까지~
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -203,21 +246,34 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     public class UserLoginTask extends AsyncTask<Void, Void, Integer> {
 
-        private final String mEmail;
-        private final String mPassword;
+        private String mEmail = null;
+        private String mPassword = null;
+        private UserVo userVo = new UserVo();
 
-        UserLoginTask(String email, String password) {
+        public UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
+            userVo.setId(email);
+            userVo.setPassword(password);
+        }
+
+        public UserLoginTask(UserVo userVo) {
+            this.userVo = userVo;
         }
 
         @Override
         protected Integer doInBackground(Void... params) {
-            UserVo userVo;
+            if (userVo.getManagerIdentified() == 3) { // 페이스북 로그인시
+                UserVo serverUserVo = new LoginService().login(userVo);
+                if (serverUserVo == null) {
+                    new LoginService().FBJoin(userVo);
+                }
+                return 4;
+            }
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
-                userVo = new LoginService().login(mEmail, mPassword);
+                userVo = new LoginService().login(userVo);
             } catch (InterruptedException e) {
                 return 0;
             }
@@ -233,7 +289,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onPostExecute(Integer success) {
             mAuthTask = null;
             showProgress(false);
-
             switch (success) {
                 case 0:
                     Toast.makeText(LoginActivity.this, "잠시후 다시 로그인해주세요", Toast.LENGTH_SHORT).show();
@@ -249,6 +304,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 case 3:
                     Toast.makeText(LoginActivity.this, "로그인성공", Toast.LENGTH_SHORT).show();
                     finish();
+                    break;
+                case 4:
+                    finish();
+                    Toast.makeText(getApplication(), "페이스북 로그인 성공", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
