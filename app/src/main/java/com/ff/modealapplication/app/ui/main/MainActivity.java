@@ -17,7 +17,7 @@ import android.view.View;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.app.ui.join.JoinActivity;
 import com.ff.modealapplication.app.ui.login.LoginActivity;
-import com.ff.modealapplication.app.ui.mypage.MyPageActivity;
+import com.ff.modealapplication.app.ui.mypage.ABBBActivity;
 import com.ff.modealapplication.app.ui.mypage.MypageFragment;
 import com.ff.modealapplication.app.ui.search.SearchActivity;
 
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_myPage) {
-            Intent intent = new Intent(this, MyPageActivity.class);
+            Intent intent = new Intent(this, ABBBActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_bookmark) {
 

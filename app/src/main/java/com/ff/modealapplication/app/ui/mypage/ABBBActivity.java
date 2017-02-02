@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.ff.modealapplication.R;
 
-public class MyPageActivity extends AppCompatActivity {
+public class ABBBActivity extends AppCompatActivity {
     private Fragment myPageFragment;
 
     @Override
