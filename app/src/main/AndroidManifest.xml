@@ -83,6 +83,15 @@
             android:name=".app.ui.mypage.MyPageActivity"
             android:label="@string/MyPage"
             android:theme="@style/App_Simple"/>
+
+        <!-- 아이템 액티비티 -->
+        <activity android:name=".app.ui.item.ItemActivity"/>
+        <activity android:name=".app.ui.item.ItemInsertActivity"/>
+        <activity android:name=".app.ui.item.ItemModifyActivity"/>
+        <activity android:name=".app.ui.item.ItemDetailActivity"/>
+
+
+
     </application>
 
 </manifest>

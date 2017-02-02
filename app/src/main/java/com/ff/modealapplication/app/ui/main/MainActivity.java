@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.ff.modealapplication.R;
+import com.ff.modealapplication.app.ui.item.ItemActivity;
 import com.ff.modealapplication.app.ui.join.JoinActivity;
 import com.ff.modealapplication.app.ui.login.LoginActivity;
 import com.ff.modealapplication.app.ui.mypage.MyPageActivity;
@@ -124,7 +125,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_help) {
 
         } else if (id == R.id.nav_manage) {
-
+            Intent intent = new Intent(this, ItemActivity.class);
+            startActivity(intent);
         }
 
         drawer.closeDrawer(GravityCompat.START);
