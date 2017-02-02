@@ -28,7 +28,7 @@ public class ItemActivity extends AppCompatActivity { // AppCompatActivity 상�
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_list); // 첫화면인 item_list.xml을 출력
 
-        // ListView 생성 후 세팅?????????????????
+        // ListView 생성 후 세팅?
         itemListArrayAdapter = new ItemListArrayAdapter(this);
         ListView listView = (ListView) findViewById(R.id.item_list);
         listView.setAdapter(itemListArrayAdapter);
