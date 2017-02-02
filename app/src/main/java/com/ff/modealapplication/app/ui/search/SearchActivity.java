@@ -66,24 +66,20 @@ public class SearchActivity extends AppCompatActivity {
         });
 
 
-     /*   //검색 입력시 리스트 출력
-        listView = (ListView) findViewById(R.id.list_search);
-
-*/
         search_edit.addTextChangedListener(new TextWatcher() {
+            //count 갯수만큼 글자들이 after길이만큼의 글자로 대치되려고 할 때 호출
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 SearchActivity.this.searchListArrayAdapter.getFilter().filter(s);
             }
-
+            //count 갯수만큼 글자들로 대치되었을때 호출
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 SearchActivity.this.searchListArrayAdapter.getFilter().filter(s);
             }
-
+            //edittext 텍스트가 변경시 호출
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
@@ -136,4 +132,8 @@ public class SearchActivity extends AppCompatActivity {
         }
 
     }
+
+    //shared Preference 앱에 데이터 저장
+    //값 리스트 출력
+
 }

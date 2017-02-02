@@ -30,7 +30,7 @@ public class SearchService {
     }
 
     public List<ItemVo> searchList(){
-        String url="http://192.168.1.14:8888/modeal/list/search";
+        String url="http://192.168.1.34:8888/modeal/list/search";
 
         HttpRequest httpRequest = HttpRequest.post(url);
 
@@ -50,7 +50,7 @@ public class SearchService {
     }
 
     public List<Map<String, Object>> resultList(){
-        String url = "http://192.168.1.14:8888/modeal/list/resultsearch";
+        String url = "http://192.168.1.34:8888/modeal/list/resultsearch";
 
         HttpRequest httpRequest = HttpRequest.post(url);
 
