@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class MainService {
     public List<Map<String, Object>> MainItemList(){
-        String url="http://192.168.1.34:8888/modeal/mainapp/list";
+        String url="http://192.168.1.87:8888/modeal/mainapp/list";
 
         HttpRequest httpRequest = HttpRequest.post(url);
 

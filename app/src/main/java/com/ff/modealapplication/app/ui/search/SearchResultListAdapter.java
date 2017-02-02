@@ -63,7 +63,7 @@ public class SearchResultListAdapter extends ArrayAdapter<Map<String, Object>> {
 
         //이미지 저장 [ 연결된 ip로 upload ] 위치에 내용이 있어야 한다.
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
-        ImageLoader.getInstance().displayImage("http://192.168.1.34:8888/modeal/shop/images/"+itemVo.get("picture"), (ImageView)view.findViewById(R.id.main_image_item), displayImageOptions);
+        ImageLoader.getInstance().displayImage("http://192.168.1.87:8888/modeal/shop/images/"+itemVo.get("picture"), (ImageView)view.findViewById(R.id.main_image_item), displayImageOptions);
 
         //내용저장
         TextView textTimeView=(TextView)view.findViewById(R.id.main_time_textView);
