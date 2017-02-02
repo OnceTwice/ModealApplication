@@ -57,7 +57,7 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
 //        ((TextView) view.findViewById(R.id.item_list_distance)).setText(map.get("distance").toString());    // 거리(반경)
 
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
-        ImageLoader.getInstance().displayImage("http://192.168.1.45:8088/modeal/shop/images/" + map.get("picture"),
+        ImageLoader.getInstance().displayImage("http://192.168.1.90:8088/modeal/shop/images/" + map.get("picture"),
                 (ImageView) view.findViewById(R.id.item_list_image), displayImageOption);                // 상품이미지
 
         return view;

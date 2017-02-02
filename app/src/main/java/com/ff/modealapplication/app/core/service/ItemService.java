@@ -20,7 +20,7 @@ public class ItemService {
     // 상품 목록 -----------------------------------------------------------------------------------
     public List<Map<String, Object>> itemList(Long shopNo) {
 
-        String url = "http://192.168.1.45:8088/modeal/list/shopItemList";
+        String url = "http://192.168.1.90:8088/modeal/list/shopItemList";
         HttpRequest httpRequest = HttpRequest.post(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
@@ -46,7 +46,7 @@ public class ItemService {
     public List<ItemVo> itemInsert(String item_name, Long ori_price, Long count, Long price, String exp_date, Long discount) {
 
         // 데이터를 가져올 url를 작성해줌
-        String url = "http://192.168.1.45:8088/modeal/list";     // http://192.168.1.13:8088/modeal/list?no=2  내url 연결 사이트를 이클립스에 프로젝트를 만들어줘야함
+        String url = "http://192.168.1.90:8088/modeal/list";     // http://192.168.1.13:8088/modeal/list?no=2  내url 연결 사이트를 이클립스에 프로젝트를 만들어줘야함
         HttpRequest httpRequest = HttpRequest.post(url);               // post 방식으로 연결
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);     // 전달 타입(클래스명.메서드명(파라미터))
@@ -79,7 +79,7 @@ public class ItemService {
     // 상품 수정 -----------------------------------------------------------------------------------
     public List<ItemVo> itemModify(String item_name, Long ori_price, Long count, Long price, String exp_date, Long discount) {
 
-        String url = "http://192.168.1.45:8088/modeal/list";
+        String url = "http://192.168.1.90:8088/modeal/list";
         HttpRequest httpRequest = HttpRequest.post(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
