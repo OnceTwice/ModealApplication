@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
@@ -165,7 +166,37 @@ public class UserJoinFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("보내기 버튼 클릭!!!", "클릭함!!!!!!");
+//                Log.d("보내기 버튼 클릭!!!", "클릭함!!!!!!");
+
+                // 아이디 입력 확인
+                if( etID.getText().toString().length() == 0 ) {
+                    Toast.makeText(UserJoinFragment.this.getActivity(), "ID를 입력하세요!", Toast.LENGTH_SHORT).show();
+                    etID.requestFocus();
+                    return;
+                }
+
+                // 비밀번호 입력 확인
+                if( etPassword.getText().toString().length() == 0 ) {
+                    Toast.makeText(UserJoinFragment.this.getActivity(), "비밀번호를 입력하세요!", Toast.LENGTH_SHORT).show();
+                    etPassword.requestFocus();
+                    return;
+                }
+
+                // 비밀번호 확인 입력 확인
+                if( etPasswordConfirm.getText().toString().length() == 0 ) {
+                    Toast.makeText(UserJoinFragment.this.getActivity(), "비밀번호 확인을 입력하세요!", Toast.LENGTH_SHORT).show();
+                    etPasswordConfirm.requestFocus();
+                    return;
+                }
+
+                // 비밀번호 일치 확인
+                if( !etPassword.getText().toString().equals(etPasswordConfirm.getText().toString()) ) {
+                    Toast.makeText(UserJoinFragment.this.getActivity(), "비밀번호가 일치하지 않습니다!", Toast.LENGTH_SHORT).show();
+                    etPassword.setText("");
+                    etPasswordConfirm.setText("");
+                    etPassword.requestFocus();
+                    return;
+                }
 
                 new FetchUserListAsyncTask().execute();
             }
@@ -183,6 +214,24 @@ public class UserJoinFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroyView() {       // View 리소스를 해제할 수 있도록 호출, backstack를 사용했다면 Fragment를 다시 돌아갈 때 onCreateView()가 호출됨
+        Log.d("U===LifeCycle", "onDestroyView called!!!!!");
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {           // fragment 상태를 완전히 종료할 수 있도록 호출
+        Log.d("U===LifeCycle", "onDestroy called!!!!!");
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDetach() {            // Fragment가 Activity와 연결이 완전히 끊기기 직전에 호출
+        Log.d("U===LifeCycle", "onDetach called!!!!!");
+        super.onDetach();
+    }
+
     private class FetchUserListAsyncTask extends SafeAsyncTask<List<UserVo>> {
         @Override
         public List<UserVo> call() throws Exception {
@@ -191,9 +240,9 @@ public class UserJoinFragment extends Fragment {
             id = etID.getText().toString();
             password = etPassword.getText().toString();
 
-            city = etCity.getText().toString();
-            gu = etGu.getText().toString();
-            dong = etDong.getText().toString();
+            city = etCity.getText().toString()+"시 ";
+            gu = etGu.getText().toString()+"구 ";
+            dong = etDong.getText().toString()+"동 ";
 
             year = etYear.getText().toString();
             day = etDay.getText().toString();
@@ -211,7 +260,9 @@ public class UserJoinFragment extends Fragment {
             Log.d("month======", month);
             Log.d("day======", day);
 
-            List<UserVo> list = userJoinService.fetchUserList(id, password);
+            List<UserVo> list = userJoinService.fetchUserList(id, password, gender, city+gu+dong, year+month+day);
+
+            System.out.println(list);
 
             return list;
         }
@@ -219,6 +270,7 @@ public class UserJoinFragment extends Fragment {
         @Override
         protected void onException(Exception e) throws RuntimeException {
 //            super.onException(e);
+            Log.d("errrrrrr", "oooor"+e);
             throw new RuntimeException(e);
         }
 

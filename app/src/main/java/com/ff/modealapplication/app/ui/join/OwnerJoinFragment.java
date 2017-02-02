@@ -10,11 +10,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.ff.modealapplication.R;
+import com.ff.modealapplication.app.core.service.UserJoinService;
 import com.ff.modealapplication.app.ui.map.SearchShopToJoinActivity;
 
 import static android.app.Activity.RESULT_OK;
 
 public class OwnerJoinFragment extends Fragment {
+    private UserJoinService userJoinService = new UserJoinService();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";

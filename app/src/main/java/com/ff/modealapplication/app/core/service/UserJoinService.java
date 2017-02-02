@@ -13,8 +13,8 @@ import java.net.HttpURLConnection;
 import java.util.List;
 
 public class UserJoinService {
-    public List<UserVo> fetchUserList(String id, String password) {
-        String url = "http://192.168.1.26:8088/modeal/user/app/input";
+    public List<UserVo> fetchUserList(String id, String password, String gender, String location, String birth) {
+        String url = "http://192.168.1.26:8088/modeal/user/app/userinput";
         HttpRequest httpRequest = HttpRequest.get(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);     // 전달 타입
@@ -25,8 +25,11 @@ public class UserJoinService {
         Log.d("=======================", "서비스 입갤");
         Log.d("서비스쪽 아이디 : ", id);
         Log.d("서비스쪽 비밀번호 : ", password);
+        Log.d("서비스쪽 성별 : ", gender);
+        Log.d("서비스쪽 거주지역 : ", location);
+        Log.d("서비스쪽 생일 : ", birth);
 
-        int responseCode = httpRequest.code();
+        int responseCode = httpRequest.send("id="+id+ "&password="+password+ "&gender="+gender+"&location="+location + "&birth="+birth).code();
 
         if(responseCode != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("HTTP Response : " + responseCode);
