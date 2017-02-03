@@ -1,7 +1,6 @@
 package com.ff.modealapplication.app.ui.search;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -40,7 +39,6 @@ public class SearchActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.list_search);
 
         listView.setAdapter(searchListArrayAdapter);
-
 
         // ActionBar에 타이틀 변경
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_search);

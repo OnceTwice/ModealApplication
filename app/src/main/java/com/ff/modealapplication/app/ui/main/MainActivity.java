@@ -23,7 +23,7 @@ import com.ff.modealapplication.app.ui.mypage.MyPageActivity;
 import com.ff.modealapplication.app.ui.mypage.MypageFragment;
 import com.ff.modealapplication.app.ui.search.SearchActivity;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     private Fragment myPageFragment;
     private Fragment mainFragment;
 
@@ -56,10 +56,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         // 로그인 클릭시
-        ((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.login_button).setOnClickListener(this);
+        ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.login_button).setOnClickListener(this);
 
         // 회원가입 클릭시
-        ((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.register_button).setOnClickListener(this);
+        ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.register_button).setOnClickListener(this);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -79,12 +79,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onClick(View view) {
-        switch(view.getId()) {
-            case R.id.login_button :
+        switch (view.getId()) {
+            case R.id.login_button:
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.register_button :
+            case R.id.register_button:
                 Intent intent1 = new Intent(this, JoinActivity.class);
                 startActivity(intent1);
                 break;

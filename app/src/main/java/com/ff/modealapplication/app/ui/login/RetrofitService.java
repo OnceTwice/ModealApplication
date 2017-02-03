@@ -1,42 +1,71 @@
 package com.ff.modealapplication.app.ui.login;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import android.util.Log;
 
-/**
- * Created by BIT on 2017-02-02.
- */
+import com.ff.modealapplication.app.core.vo.UserVo;
+
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RetrofitService {
-    protected static Object retrofit(Class<?> className) {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.1.15:8088/modeal/userapp/login").addConverterFactory(GsonConverterFactory.create()).build();
-//        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
-//        return new Retrofit.Builder().baseUrl(host).addConverterFactory(GsonConverterFactory.create(gson)).build();
-//        return new Retrofit.Builder().baseUrl(host).addConverterFactory(GsonConverterFactory.create()).client(client()).build();
-//        return new Retrofit.Builder().baseUrl(host).addConverterFactory(GsonConverterFactory.create(gson)).client(client()).build();
-        return retrofit.create(className);
+
+    public UserVo login(UserVo userVo /*final LoginCallback loginCallback*/) {
+        Response response = null;
+        try {
+            response = new RetrofitLoginService().api().login(userVo).execute();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (response == null) {
+                if (userVo.getManagerIdentified() == 3) {
+                    return userVo;
+                }
+                userVo.setId("No ID");
+                return userVo;
+            }
+            return (UserVo) response.body();
+        }
     }
-//  private static OkHttpClient client()
-//  {
-//    return new OkHttpClient.Builder().addInterceptor(new Interceptor()
-//    {
-//      @Override
-//      public Response intercept(Chain chain) throws IOException
-//      {
-//        Request original = chain.request();
-//        Request.Builder requestBuilder = original.newBuilder().method(original.method(), original.body());
+
+    public void FBJoin(UserVo userVo) {
+        new RetrofitLoginService().api().fbjoin(userVo).enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                Log.w("성", "공"+response.body());
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.w("망", "함"+t);
+            }
+        });
+    }
+//        new RetrofitLoginService().api().createUser(userVo).enqueue(new Callback<UserVo>() {
+//            @Override
+//            public void onResponse(Call<UserVo> call, Response<UserVo> response) {
+//                Log.i("============", response.body() + "←여기값나옴");
+//            }
 //
-//        String token = "sample-token";
-//        if (!TextUtils.isEmpty(token))
-//          requestBuilder.header("Authorization", token);
+//            @Override
+//            public void onFailure(Call<UserVo> call, Throwable t) {
+//            }
+//        });
+//    }
+//                if (response != null && response.isSuccessful() && response.body() != null) {
+//                    Log.w("!!!", response.body() + "????");
+////                    loginCallback.onSuccess(response.body());
+//                }
+//                    Log.w("실패시...!!!", response.body() + "????");
+//            }
 //
-//        String locale = Locale.getDefault().getLanguage();
-//        requestBuilder.header("X-Locale", locale);
+//                loginCallback.onError();
 //
-//        Request request = requestBuilder.build();
-//        return chain.proceed(request);
-//      }
-//    }).build();
-//  }
+//    public interface LoginCallback {
+//        void onSuccess(UserVo userVo);
+//        void onError();
+//    }
 }
 

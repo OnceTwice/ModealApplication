@@ -28,7 +28,6 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.ff.modealapplication.R;
-import com.ff.modealapplication.app.core.service.LoginService;
 import com.ff.modealapplication.app.core.vo.UserVo;
 
 import org.json.JSONObject;
@@ -264,20 +263,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Integer doInBackground(Void... params) {
             if (userVo.getManagerIdentified() == 3) { // 페이스북 로그인시
-                UserVo serverUserVo = new LoginService().login(userVo);
-                if (serverUserVo == null) {
-                    new LoginService().FBJoin(userVo);
+                UserVo serverUserVo = new RetrofitService().login(userVo);
+                if (serverUserVo.getNo() == null) {
+                    new RetrofitService().FBJoin(userVo);
                 }
                 return 4;
             }
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
-                userVo = new LoginService().login(userVo);
+                userVo = new RetrofitService().login(userVo);
             } catch (InterruptedException e) {
                 return 0;
             }
-            if (userVo == null) {
+            if (userVo.getId() == "No ID") {
                 return 1;
             } else if (!userVo.getPassword().equals(mPassword)) {
                 return 2;
