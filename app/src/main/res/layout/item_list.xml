@@ -32,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="상품목록 (점주용)"
+                    android:text="상품목록(점주용)"
                     android:textColor="#fff"
                     android:textSize="18dp" />
 
@@ -66,18 +66,8 @@
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:divider="#E5E5E2"
-                android:dividerHeight="10dp" /> <!-- Item1과 Item2 사이 간격-->
+                android:dividerHeight="10dp" /> <!-- Item1과 Item2 사이 간격 -->
         </LinearLayout>
 
-        <!-- + (상품등록) 버튼
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/button_item_insert"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="10dp"
-            app:backgroundTint="#E74B59"
-            app:fabSize="mini"
-            app:srcCompat="@drawable/filter" /> -->
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

@@ -44,7 +44,7 @@ public class ItemActivity extends AppCompatActivity { // AppCompatActivity 상�
 
         new ItemListTask().execute(); // 아래 ItemListTask 클래스 실행
 
-//        //LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //        View view = getLayoutInflater().inflate(R.layout.item_list_row, null, false);
 //        // 수정 버튼 클릭시
 //        view.findViewById(R.id.button_modify).setOnClickListener(new View.OnClickListener() {

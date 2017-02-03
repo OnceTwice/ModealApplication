@@ -113,7 +113,14 @@
                 android:text="TextView"
                 android:textSize="15dp" />
 
-            <ImageButton
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/heart2"
+                android:id="@+id/imageView"
+                android:background="#fff"/>
+
+            <!-- <ImageButton
                 android:id="@+id/button_liked"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
@@ -122,7 +129,7 @@
                 android:layout_marginRight="5dp"
                 android:background="#fff"
                 android:gravity="right"
-                app:srcCompat="@drawable/heart_empty" />
+                app:srcCompat="@drawable/heart_empty" /> -->
         </LinearLayout>
     </LinearLayout>
 
@@ -131,7 +138,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:background="#fff"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
