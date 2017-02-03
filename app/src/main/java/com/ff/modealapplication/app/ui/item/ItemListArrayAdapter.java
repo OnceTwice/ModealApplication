@@ -47,8 +47,7 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         }
 
         Map<String, Object> map = getItem(position);
-
-        ((TextView) view.findViewById(R.id.shop_name)).setText(map.get("shopName").toString());             // 해당 매장명
+//        ((TextView) view.findViewById(R.id.shop_name)).setText(map.get("shopName").toString());             // 해당 매장명
         ((TextView) view.findViewById(R.id.item_list_clock)).setText(map.get("expDate").toString());        // 유통기한
         ((TextView) view.findViewById(R.id.item_list_name)).setText(map.get("name").toString());            // 상품명
         ((TextView) view.findViewById(R.id.item_list_ori_price)).setText(map.get("oriPrice").toString());   // 원가
@@ -68,7 +67,6 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         if (list == null) {
             return;
         }
-
         for (Map<String, Object> map : list) {
             Log.d("test", "" + map);
             add(map);

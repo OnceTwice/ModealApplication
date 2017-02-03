@@ -18,6 +18,6 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 finish();
             }
-        }, 1500); // 1.5초후 이미지 사라짐
+        }, 500); // 0.5초후 이미지 사라짐
     }
 }

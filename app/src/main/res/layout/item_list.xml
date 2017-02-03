@@ -1,26 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:background="#e5e5e2"
+    android:fitsSystemWindows="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/item_list"
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
-    <!-- + (상품등록) 버튼 -->
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/button_item_insert"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="10dp"
-        app:backgroundTint="#E74B59"
-        app:fabSize="mini"
-        app:srcCompat="@drawable/filter" />
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-</android.support.design.widget.CoordinatorLayout>
+            <!-- 상품목록 헤더부분 -->
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_item_list"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/colorModeal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="상품목록 (점주용)"
+                    android:textColor="#fff"
+                    android:textSize="18dp" />
 
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <!-- 해당 매장명 출력 -->
+            <TextView
+                android:id="@+id/shop_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#fff"
+                android:gravity="center"
+                android:text="TextView"
+                android:textSize="20dp" />
+
+            <!-- 해당 매장 상품 목록 출력 -->
+            <ListView
+                android:id="@+id/item_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:divider="#E5E5E2"
+                android:dividerHeight="10dp" /> <!-- Item1과 Item2 사이 간격-->
+        </LinearLayout>
+
+        <!-- + (상품등록) 버튼
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/button_item_insert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="10dp"
+            app:backgroundTint="#E74B59"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/filter" /> -->
+    </android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

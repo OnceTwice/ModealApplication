@@ -6,13 +6,16 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:gravity="center_horizontal"
+    android:background="#e5e5e2"
     android:orientation="vertical">
 
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
+
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -24,6 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/colorModeal">
+                <!-- 아이디인 툴바 로그인 부분은 내 아이디로 변경해줘야함 -->
 
                 <!-- text에 자신에게 맞는 이름 쓰기 -->
                 <TextView
@@ -36,6 +40,7 @@
 
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
+        <!-- layout_behavior를 사용해야 액션바 밑에서부터 출력 -->
 
         <!-- TextView 대신 자신에게 맞는 뷰 넣기 -->
         <TextView

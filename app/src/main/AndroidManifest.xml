@@ -85,12 +85,14 @@
             android:theme="@style/App_Simple"/>
 
         <!-- 아이템 액티비티 -->
-        <activity android:name=".app.ui.item.ItemActivity"/>
-        <activity android:name=".app.ui.item.ItemInsertActivity"/>
-        <activity android:name=".app.ui.item.ItemModifyActivity"/>
-        <activity android:name=".app.ui.item.ItemDetailActivity"/>
-
-
+        <activity android:name=".app.ui.item.ItemActivity"
+            android:theme="@style/AppTheme.NoActionBar"/> <!-- NoActionBar 사용시 기본 헤더 숨겨짐-->
+        <activity android:name=".app.ui.item.ItemInsertActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".app.ui.item.ItemModifyActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".app.ui.item.ItemDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
     </application>
 

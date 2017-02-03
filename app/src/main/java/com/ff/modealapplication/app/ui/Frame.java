@@ -17,10 +17,11 @@ public class Frame extends AppCompatActivity {
         setContentView(R.layout.frame);
 
         // 자체 제작 액션바
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_login);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_login); // 아이디인 툴바 로그인 부분은 내 아이디로 변경해줘야함
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 뒤로가기 화살표 표시
+
     }
     // ********************* 돋보기 필요 없는 경우 지우기 *********************
     // 돋보기 표시
