@@ -58,9 +58,6 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".app.ui.main.MainActivity2"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".app.ui.search.SearchActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -94,6 +91,8 @@
         <activity android:name=".app.ui.item.ItemDetailActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity android:name=".app.ui.help.HelpActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:gravity="center_horizontal"
+    android:background="#e5e5e2"
+    android:orientation="vertical">
+
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_help"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/colorModeal">
+                <!-- 아이디인 툴바 로그인 부분은 내 아이디로 변경해줘야함 -->
+
+                <!-- text에 자신에게 맞는 이름 쓰기 -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="고객센터"
+                    android:textColor="#ffffff"
+                    android:textSize="18dp" />
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+        <!-- layout_behavior를 사용해야 액션바 밑에서부터 출력 -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:background="#fff"
+                android:padding="10dp"
+                android:layout_margin="10dp"
+                android:hint="제목을 입력해주세요" />
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:textSize="12dp"
+                android:gravity="top"
+                android:layout_marginTop="-10dp"
+                android:padding="10dp"
+                android:layout_margin="10dp"
+                android:background="#fff"
+                android:hint="문의 내용을 입력해주세요." />
+
+            <Button
+                android:text="문 의 하 기"
+                android:layout_margin="10dp"
+                android:textSize="16dp"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:background="@color/colorModeal"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/button2" />
+
+        </LinearLayout>
+
+
+        <!-- TextView 대신 자신에게 맞는 뷰 넣기 -->
+
+
+    </android.support.design.widget.CoordinatorLayout>
+</LinearLayout>
+
+

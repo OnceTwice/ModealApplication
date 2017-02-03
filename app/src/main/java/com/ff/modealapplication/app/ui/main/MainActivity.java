@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.ff.modealapplication.R;
+import com.ff.modealapplication.app.ui.help.HelpActivity;
 import com.ff.modealapplication.app.ui.item.ItemActivity;
 import com.ff.modealapplication.app.ui.join.JoinActivity;
 import com.ff.modealapplication.app.ui.login.LoginActivity;
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
+
     // 네비게이션 메뉴 선택시 일어날 작업을 입력하시오 (170123/상욱추가)
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -123,7 +125,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_setup) {
 
         } else if (id == R.id.nav_help) {
-
+            Intent intent = new Intent(this, HelpActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_manage) {
             Intent intent = new Intent(this, ItemActivity.class);
             startActivity(intent);
