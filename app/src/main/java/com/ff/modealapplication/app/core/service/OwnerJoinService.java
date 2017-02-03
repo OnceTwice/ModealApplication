@@ -1,5 +1,7 @@
 package com.ff.modealapplication.app.core.service;
 
+import android.util.Log;
+
 import com.ff.modealapplication.andorid.network.JSONResult;
 import com.ff.modealapplication.app.core.vo.UserVo;
 import com.github.kevinsawicki.http.HttpRequest;
@@ -11,7 +13,7 @@ import java.net.HttpURLConnection;
 import java.util.List;
 
 public class OwnerJoinService {
-    public List<UserVo> fetchOwnerList(UserVo userVo) {
+    public UserVo fetchOwnerList(UserVo userVo) {
         String url = "http://192.168.1.26:8088/modeal/user/app/ownerinput";
         HttpRequest httpRequest = HttpRequest.post(url);
 
@@ -20,9 +22,12 @@ public class OwnerJoinService {
         httpRequest.connectTimeout(3000);
         httpRequest.readTimeout(3000);
 
+        Log.d("=======================", "사업자 서비스 입갤");
         System.out.println(userVo);
 
         httpRequest.send(toJson(userVo));
+        System.out.println(userVo);
+        System.out.println(toJson(userVo));
 
         int responseCode = httpRequest.code();
         if (responseCode != HttpURLConnection.HTTP_OK) {
@@ -31,7 +36,7 @@ public class OwnerJoinService {
 
         JSONResultOwner jsonResultOwner = fromJSON(httpRequest, JSONResultOwner.class);
 
-        return jsonResultOwner.getData();
+        return (UserVo) jsonResultOwner.getData();
     }
 
     public class JSONResultOwner extends JSONResult<List<UserVo>> {

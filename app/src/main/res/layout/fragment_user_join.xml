@@ -164,7 +164,7 @@
                 android:text="생년월일 : " />
 
             <EditText
-                android:id="@+id/etYear"
+                android:id="@+id/etUserYear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/editbox_background"
@@ -172,7 +172,7 @@
                 android:inputType="number" />
 
             <Spinner
-                android:id="@+id/month"
+                android:id="@+id/spUserMonth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:entries="@array/month"
@@ -180,7 +180,7 @@
                 android:spinnerMode="dialog" />
 
             <EditText
-                android:id="@+id/etdDay"
+                android:id="@+id/etUserDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/editbox_background"

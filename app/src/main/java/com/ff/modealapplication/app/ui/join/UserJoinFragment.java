@@ -80,9 +80,12 @@ public class UserJoinFragment extends Fragment {
     public static UserJoinFragment newInstance(String param1, String param2) {
         UserJoinFragment fragment = new UserJoinFragment();
         Bundle args = new Bundle();
+
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -112,9 +115,9 @@ public class UserJoinFragment extends Fragment {
         etGu = (EditText) view.findViewById(R.id.etUserGu);
         etDong = (EditText) view.findViewById(R.id.etUserDong);
 
-        etYear = (EditText) view.findViewById(R.id.etYear);
-        spinnerMonth = (Spinner) view.findViewById(R.id.month);
-        etDay = (EditText) view.findViewById(R.id.etdDay);
+        etYear = (EditText) view.findViewById(R.id.etUserYear);
+        spinnerMonth = (Spinner) view.findViewById(R.id.spUserMonth);
+        etDay = (EditText) view.findViewById(R.id.etUserDay);
 
         btnSubmit = (Button) view.findViewById(R.id.btnUserSubmit);
         btnCancel = (Button) view.findViewById(R.id.btnUserCancel);
@@ -122,11 +125,11 @@ public class UserJoinFragment extends Fragment {
         /********  성별입력(최초선택)    ********/
         if(man.isChecked()) {
             gender = "man";
-            Log.d("젠더젠더12121212", gender);
+            Log.d("사용자 젠더젠더12121212", gender);
         }
         else if(woman.isChecked()) {
             gender = "woman";
-            Log.d("젠더젠더13131313", gender);
+            Log.d("사용자 젠더젠더13131313", gender);
         }
 
         /********  성별입력(변경)    ********/
@@ -134,14 +137,16 @@ public class UserJoinFragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 switch (i) {
-                    case R.id.radio_man :
+                    case R.id.UserRadio_man : {
                         gender = "man";
-                            Log.d("젠더젠더", gender);
+                        Log.d("사용자 젠더젠더", gender);
                         break;
-                    case R.id.radio_woman :
+                    }
+                    case R.id.UserRadio_woman : {
                         gender = "woman";
-                            Log.d("젠더젠더", gender);
+                        Log.d("사용자 젠더젠더", gender);
                         break;
+                    }
                 }
             }
         });
@@ -160,9 +165,6 @@ public class UserJoinFragment extends Fragment {
             }
         });
 
-        Log.d("아이디아이디", id);
-        Log.d("비번비번", password);
-
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -170,28 +172,28 @@ public class UserJoinFragment extends Fragment {
 
                 // 아이디 입력 확인
                 if( etID.getText().toString().length() == 0 ) {
-                    Toast.makeText(UserJoinFragment.this.getActivity(), "ID를 입력하세요!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserJoinFragment.this.getActivity(), "사용자 ID를 입력하세요!", Toast.LENGTH_SHORT).show();
                     etID.requestFocus();
                     return;
                 }
 
                 // 비밀번호 입력 확인
                 if( etPassword.getText().toString().length() == 0 ) {
-                    Toast.makeText(UserJoinFragment.this.getActivity(), "비밀번호를 입력하세요!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserJoinFragment.this.getActivity(), "사용자 비밀번호를 입력하세요!", Toast.LENGTH_SHORT).show();
                     etPassword.requestFocus();
                     return;
                 }
 
                 // 비밀번호 확인 입력 확인
                 if( etPasswordConfirm.getText().toString().length() == 0 ) {
-                    Toast.makeText(UserJoinFragment.this.getActivity(), "비밀번호 확인을 입력하세요!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserJoinFragment.this.getActivity(), "사용자 비밀번호 확인을 입력하세요!", Toast.LENGTH_SHORT).show();
                     etPasswordConfirm.requestFocus();
                     return;
                 }
 
                 // 비밀번호 일치 확인
                 if( !etPassword.getText().toString().equals(etPasswordConfirm.getText().toString()) ) {
-                    Toast.makeText(UserJoinFragment.this.getActivity(), "비밀번호가 일치하지 않습니다!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserJoinFragment.this.getActivity(), "사용자 비밀번호가 일치하지 않습니다!", Toast.LENGTH_SHORT).show();
                     etPassword.setText("");
                     etPasswordConfirm.setText("");
                     etPassword.requestFocus();
@@ -216,19 +218,19 @@ public class UserJoinFragment extends Fragment {
 
     @Override
     public void onDestroyView() {       // View 리소스를 해제할 수 있도록 호출, backstack를 사용했다면 Fragment를 다시 돌아갈 때 onCreateView()가 호출됨
-        Log.d("U===LifeCycle", "onDestroyView called!!!!!");
+        Log.d("User===LifeCycle", "onDestroyView called!!!!!");
         super.onDestroyView();
     }
 
     @Override
     public void onDestroy() {           // fragment 상태를 완전히 종료할 수 있도록 호출
-        Log.d("U===LifeCycle", "onDestroy called!!!!!");
+        Log.d("User===LifeCycle", "onDestroy called!!!!!");
         super.onDestroy();
     }
 
     @Override
     public void onDetach() {            // Fragment가 Activity와 연결이 완전히 끊기기 직전에 호출
-        Log.d("U===LifeCycle", "onDetach called!!!!!");
+        Log.d("User===LifeCycle", "onDetach called!!!!!");
         super.onDetach();
     }
 
@@ -262,7 +264,7 @@ public class UserJoinFragment extends Fragment {
 
             List<UserVo> list = userJoinService.fetchUserList(id, password, gender, city+gu+dong, year+month+day);
 
-            System.out.println(list);
+            System.out.println("사용자 출력=====" + list);
 
             return list;
         }
@@ -270,14 +272,14 @@ public class UserJoinFragment extends Fragment {
         @Override
         protected void onException(Exception e) throws RuntimeException {
 //            super.onException(e);
-            Log.d("errrrrrr", "oooor"+e);
+            Log.d("사용자", "oooor"+e);
             throw new RuntimeException(e);
         }
 
         @Override
         protected void onSuccess(List<UserVo> userVo) throws Exception {
 //            super.onSuccess(userVo);
-            Log.d("성공", "성공해쓰요");
+            Log.d("사용자 성공", "성공해쓰요");
         }
     }
 }

@@ -22,7 +22,7 @@ public class UserJoinService {
         httpRequest.connectTimeout(3000);
         httpRequest.readTimeout(3000);
 
-        Log.d("=======================", "서비스 입갤");
+        Log.d("=======================", "사용자 서비스 입갤");
         Log.d("서비스쪽 아이디 : ", id);
         Log.d("서비스쪽 비밀번호 : ", password);
         Log.d("서비스쪽 성별 : ", gender);
