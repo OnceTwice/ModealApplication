@@ -18,12 +18,11 @@ import android.widget.Toast;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.OwnerJoinService;
+import com.ff.modealapplication.app.core.vo.ShopVo;
 import com.ff.modealapplication.app.core.vo.UserVo;
 import com.ff.modealapplication.app.ui.map.SearchShopToJoinActivity;
 
 public class OwnerJoinFragment extends Fragment {
-    private OwnerJoinService ownerJoinService = new OwnerJoinService();
-
     private EditText etID;
     private EditText etPassword;
     private EditText etPasswordConfirm;
@@ -258,6 +257,7 @@ public class OwnerJoinFragment extends Fragment {
 
     private class FetchOwnerListAsyncTask extends SafeAsyncTask<UserVo> {
         private UserVo userVo = new UserVo();
+        private ShopVo shopVo = new ShopVo();
 
         @Override
         public UserVo call() throws Exception {
@@ -285,7 +285,7 @@ public class OwnerJoinFragment extends Fragment {
             userVo.setGender(gender);
             userVo.setLocation(city+gu+dong);
             userVo.setBirth(year+month+day);
-            userVo.setManagerIdentified(2);     // 2 : 사업자
+            userVo.setManagerIdentified(2);     // 2 : 사업자 고유 번호
 
             Log.d("id======", id);
             Log.d("password======", password);
@@ -318,7 +318,8 @@ public class OwnerJoinFragment extends Fragment {
 
         @Override
         protected void onSuccess(UserVo userVo) throws Exception {
-            super.onSuccess(userVo);
+//            super.onSuccess(userVo);
+            Log.d("사업자 성공", "성공해쓰요");
         }
     }
 }

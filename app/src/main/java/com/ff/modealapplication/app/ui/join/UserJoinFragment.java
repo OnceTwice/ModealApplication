@@ -237,7 +237,7 @@ public class UserJoinFragment extends Fragment {
     private class FetchUserListAsyncTask extends SafeAsyncTask<List<UserVo>> {
         @Override
         public List<UserVo> call() throws Exception {
-            Log.d("11123123123123", "tqtqtqtqtqtqtqtq");
+//            Log.d("11123123123123", "tqtqtqtqtqtqtqtq");
 
             id = etID.getText().toString();
             password = etPassword.getText().toString();

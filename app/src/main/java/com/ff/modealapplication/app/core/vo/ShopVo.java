@@ -1,9 +1,5 @@
 package com.ff.modealapplication.app.core.vo;
 
-/**
- * Created by BIT on 2017-01-19.
- */
-
 public class ShopVo {
     private long no;
     private String address;
@@ -14,21 +10,6 @@ public class ShopVo {
     private String introduce;
     private double longitude;
     private double latitude;
-
-    @Override
-    public String toString() {
-        return "ShopVo{" +
-                "no=" + no +
-                ", address='" + address + '\'' +
-                ", newAddress='" + newAddress + '\'' +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", picture='" + picture + '\'' +
-                ", introduce='" + introduce + '\'' +
-                ", longitude=" + longitude +
-                ", latitude=" + latitude +
-                '}';
-    }
 
     public long getNo() {
         return no;
@@ -100,5 +81,20 @@ public class ShopVo {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    @Override
+    public String toString() {
+        return "ShopVo{" +
+                "no=" + no +
+                ", address='" + address + '\'' +
+                ", newAddress='" + newAddress + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", picture='" + picture + '\'' +
+                ", introduce='" + introduce + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                '}';
     }
 }
