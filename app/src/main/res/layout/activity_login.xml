@@ -9,9 +9,7 @@
     android:orientation="vertical"
     tools:context="com.ff.modealapplication.app.ui.login.LoginActivity">
 
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
@@ -116,6 +114,7 @@
                     android:padding="30dp">
 
                     <TextView
+                        android:id="@+id/login_findpw_button"
                         android:layout_width="0dp"
                         android:layout_height="25dp"
                         android:layout_marginRight="10dp"
@@ -125,6 +124,7 @@
                         android:textSize="15dp" />
 
                     <TextView
+                        android:id="@+id/login_join_button"
                         android:layout_width="0dp"
                         android:layout_height="25dp"
                         android:layout_marginLeft="10dp"
@@ -139,6 +139,13 @@
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center" />
+
+                <com.google.android.gms.common.SignInButton
+                    android:id="@+id/sign_in_button"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp" />
 
             </LinearLayout>
         </ScrollView>

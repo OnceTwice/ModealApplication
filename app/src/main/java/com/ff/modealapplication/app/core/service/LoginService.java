@@ -15,7 +15,7 @@ import java.net.HttpURLConnection;
 
 public class LoginService {
 
-    // 일반로그인 & 페이스북로그인
+    // 일반로그인 & 페이스북로그인 & 구글로그인
     public UserVo login(UserVo userVo) {
 //        String url = "http://192.168.1.15:8088/modeal/userapp/login"; // 학원 로컬
         String url = "http://192.168.0.17:8088/modeal/userapp/login"; // 집
@@ -32,16 +32,15 @@ public class LoginService {
         if (responseCode != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("Http Response : " + responseCode);
         }
-
         UserVo resultUser = fromJson(httpRequest, UserVo.class);
 
         return resultUser;
     }
 
-    // 페이스북회원가입
-    public void FBJoin(UserVo userVo) {
+    // 소셜로그인 회원정보 저장
+    public void SocialJoin(UserVo userVo) {
 //        String url = "http://192.168.1.15:8088/modeal/userapp/fbjoin"; // 학원 로컬
-        String url = "http://192.168.0.17:8088/modeal/userapp/fbjoin"; // 집
+        String url = "http://192.168.0.17:8088/modeal/userapp/social"; // 집
         HttpRequest httpRequest = HttpRequest.post(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_JSON);
@@ -57,6 +56,29 @@ public class LoginService {
         }
     }
 
+    // 비밀번호 찾기
+    public UserVo findPW(String email) {
+//        String url = "http://192.168.1.15:8088/modeal/userapp/fbjoin"; // 학원 로컬
+        String url = "http://192.168.0.17:8088/modeal/userapp/findpw"; // 집
+        HttpRequest httpRequest = HttpRequest.post(url);
+
+        httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
+        httpRequest.accept(HttpRequest.CONTENT_TYPE_JSON);
+        httpRequest.connectTimeout(3000);
+        httpRequest.readTimeout(3000);
+
+        httpRequest.send("email=" + email);
+
+        int responseCode = httpRequest.code();
+        if (responseCode != HttpURLConnection.HTTP_OK) {
+            throw new RuntimeException("Http Response : " + responseCode);
+        }
+        UserVo resultUser = fromJson(httpRequest, UserVo.class);
+
+        return resultUser;
+    }
+
+    // 서버에서부터 UserVo로 보내고 있어서 이건 쓸 필요가 지금은 없다
     private class JSONResultUser extends JSONResult<UserVo> {
     }
 

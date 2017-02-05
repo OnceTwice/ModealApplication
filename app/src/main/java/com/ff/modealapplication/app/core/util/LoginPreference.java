@@ -1,4 +1,4 @@
-package com.ff.modealapplication.app.ui.login;
+package com.ff.modealapplication.app.core.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "909125768226",
+    "project_id": "mobility-deal"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909125768226:android:c253b18040ec1f05",
+        "android_client_info": {
+          "package_name": "com.ff.modealapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "909125768226-hn3scpn17b83aivmvsmluie4eqe6dnud.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEFFPZ7IHQ6EK2D8NBvuPqiY_jRygkgJc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

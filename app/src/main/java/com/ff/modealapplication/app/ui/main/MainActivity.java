@@ -23,7 +23,7 @@ import com.ff.modealapplication.app.ui.item.ItemActivity;
 import com.ff.modealapplication.app.ui.join.JoinActivity;
 import com.ff.modealapplication.app.ui.login.LoginActivity;
 import com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity;
-import com.ff.modealapplication.app.ui.login.LoginPreference;
+import com.ff.modealapplication.app.core.util.LoginPreference;
 import com.ff.modealapplication.app.ui.mypage.MyPageActivity;
 import com.ff.modealapplication.app.ui.mypage.MypageFragment;
 import com.ff.modealapplication.app.ui.search.SearchActivity;

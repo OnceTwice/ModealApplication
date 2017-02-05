@@ -10,11 +10,14 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,11 +32,20 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.app.core.service.LoginService;
+import com.ff.modealapplication.app.core.util.LoginPreference;
 import com.ff.modealapplication.app.core.vo.UserVo;
+import com.ff.modealapplication.app.ui.join.JoinActivity;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONObject;
 
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, View.OnClickListener {
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -46,8 +58,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
+    // 안드로이드 키보드 숨길때
+    private InputMethodManager imm;
+
     // 페이스북 사용되는 콜백매니저
     private CallbackManager callbackManager;
+
+    // 구글
+    private GoogleApiClient mGoogleApiClient;
+    private static final int RC_SIGN_IN = 9001;
+    private static final String TAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,16 +86,33 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
 
+        // 회원가입
+        findViewById(R.id.login_join_button).setOnClickListener(this);
+
+        // 비밀번호 찾기
+        findViewById(R.id.login_findpw_button).setOnClickListener(this);
+
+        // 안드로이드 키보드 숨길때
+        imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
+        mEmailSignInButton.setOnClickListener(this);
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        // ----- 구글 로그인 -----
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
+            @Override
+            public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                Log.w("구글 로그인 실패", connectionResult.getErrorMessage());
+            }
+        }).addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
+        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        signInButton.setSize(SignInButton.SIZE_STANDARD);
+        signInButton.setOnClickListener(this);
+        // ----- 구글 로그인 -----
 
         // 페이스북 로그인
         LoginButton loginButton = (LoginButton) findViewById(R.id.facebook_login_button);
@@ -88,7 +125,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         UserVo userVo = new UserVo();
-                        userVo.setId(!object.optString("id").isEmpty() ? object.optString("id") : null);
+                        userVo.setId(!object.optString("email").isEmpty() ? object.optString("email") : object.optString("id"));
                         userVo.setGender(!object.optString("gender").isEmpty() ? object.optString("gender") : null);
                         userVo.setLocation(!object.optString("location").isEmpty() ? object.optJSONObject("location").optString("name").substring(0, object.optJSONObject("location").optString("name").lastIndexOf(',')) : null);
                         userVo.setBirth(!object.optString("birthday").isEmpty() ? object.optString("birthday") : null);
@@ -113,12 +150,65 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
     }
 
+    // 구글 로그인
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    // 구글 로그인 성공 후
+    private void handleSignInResult(GoogleSignInResult result) {
+        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+            UserVo userVo = new UserVo();
+            userVo.setId(acct.getEmail());
+            userVo.setManagerIdentified(4);
+
+            new UserLoginTask(userVo).execute();
+        } else {
+            // Signed out, show unauthenticated UI.
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        // 페이스북
         callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        // 구글 로그인
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
     }
-    // 페이스북 로그인 여기까지~
+    // 페이스북&구글 로그인 여기까지~
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sign_in_button: // 구글 로그인
+                signIn();
+                break;
+            case R.id.login_join_button: { // 회원가입
+                Intent intent = new Intent(LoginActivity.this, JoinActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.login_findpw_button: { // 비밀번호 찾기
+                Intent intent = new Intent(getApplicationContext(), FindPasswordActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.email_sign_in_button: { // 일반 로그인
+                imm.hideSoftInputFromWindow(mPasswordView.getWindowToken(), 0);
+                attemptLogin();
+            }
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -128,14 +218,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         return true;
     }
 
-
     // 로그인 구현 하는곳
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
     private void attemptLogin() {
         if (mAuthTask != null) {
             return;
@@ -199,7 +282,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Shows the progress UI and hides the login form.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
+    public void showProgress(final boolean show) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
         // the progress spinner.
@@ -263,25 +346,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Integer doInBackground(Void... params) {
-            if (userVo.getManagerIdentified() == 3) { // 페이스북 로그인시
-                UserVo serverUserVo = new LoginService().login(userVo);
-                if (serverUserVo != null) {
-                    LoginPreference.put(getApplicationContext(), serverUserVo);
-                }
-                if (serverUserVo == null) {
-                    new LoginService().FBJoin(userVo);
-                    LoginPreference.put(getApplicationContext(), userVo);
-                }
-                return 4;
-            }
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-                userVo = new LoginService().login(userVo);
-                if (userVo != null) {
-                    LoginPreference.put(getApplicationContext(), userVo);
+                if (userVo.getManagerIdentified() == 3) { // 페이스북 로그인시
+                    UserVo serverUserVo = new LoginService().login(userVo);
+                    if (serverUserVo != null) {
+                        LoginPreference.put(getApplicationContext(), serverUserVo);
+                    } else {
+                        new LoginService().SocialJoin(userVo);
+                        LoginPreference.put(getApplicationContext(), userVo);
+                    }
+                    return 4;
+                } else if (userVo.getManagerIdentified() == 4) { // 구글 로그인시
+                    UserVo serverUserVo = new LoginService().login(userVo);
+                    if (serverUserVo != null) {
+                        LoginPreference.put(getApplicationContext(), serverUserVo);
+                    } else {
+                        new LoginService().SocialJoin(userVo);
+                        LoginPreference.put(getApplicationContext(), userVo);
+                    }
+                    return 5;
+                } else {
+                    userVo = new LoginService().login(userVo);
+                    if (userVo != null) {
+                        LoginPreference.put(getApplicationContext(), userVo);
+                    }
                 }
-            } catch (InterruptedException e) {
+            } catch (Exception e) {
                 return 0;
             }
             if (userVo == null) {
@@ -309,12 +399,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     mPasswordView.requestFocus();
                     break;
                 case 3:
-                    Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
                     finish();
+                    Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
                     break;
                 case 4:
                     finish();
                     Toast.makeText(getApplication(), "페이스북 로그인 성공", Toast.LENGTH_SHORT).show();
+                    break;
+                case 5:
+                    finish();
+                    Toast.makeText(getApplication(), "구글 로그인 성공", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
