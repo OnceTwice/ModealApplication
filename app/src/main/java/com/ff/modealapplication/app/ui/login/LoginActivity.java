@@ -28,6 +28,7 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.ff.modealapplication.R;
+import com.ff.modealapplication.app.core.service.LoginService;
 import com.ff.modealapplication.app.core.vo.UserVo;
 
 import org.json.JSONObject;
@@ -263,20 +264,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Integer doInBackground(Void... params) {
             if (userVo.getManagerIdentified() == 3) { // 페이스북 로그인시
-                UserVo serverUserVo = new RetrofitService().login(userVo);
-                if (serverUserVo.getNo() == null) {
-                    new RetrofitService().FBJoin(userVo);
+                UserVo serverUserVo = new LoginService().login(userVo);
+                if (serverUserVo != null) {
+                    LoginPreference.put(getApplicationContext(), serverUserVo);
+                }
+                if (serverUserVo == null) {
+                    new LoginService().FBJoin(userVo);
+                    LoginPreference.put(getApplicationContext(), userVo);
                 }
                 return 4;
             }
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
-                userVo = new RetrofitService().login(userVo);
+                userVo = new LoginService().login(userVo);
+                if (userVo != null) {
+                    LoginPreference.put(getApplicationContext(), userVo);
+                }
             } catch (InterruptedException e) {
                 return 0;
             }
-            if (userVo.getId() == "No ID") {
+            if (userVo == null) {
                 return 1;
             } else if (!userVo.getPassword().equals(mPassword)) {
                 return 2;
@@ -301,7 +309,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     mPasswordView.requestFocus();
                     break;
                 case 3:
-                    Toast.makeText(LoginActivity.this, "로그인성공", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
                     finish();
                     break;
                 case 4:

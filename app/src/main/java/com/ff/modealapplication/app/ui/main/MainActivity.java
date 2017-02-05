@@ -13,13 +13,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.app.ui.help.HelpActivity;
 import com.ff.modealapplication.app.ui.item.ItemActivity;
 import com.ff.modealapplication.app.ui.join.JoinActivity;
 import com.ff.modealapplication.app.ui.login.LoginActivity;
 import com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity;
+import com.ff.modealapplication.app.ui.login.LoginPreference;
 import com.ff.modealapplication.app.ui.mypage.MyPageActivity;
 import com.ff.modealapplication.app.ui.mypage.MypageFragment;
 import com.ff.modealapplication.app.ui.search.SearchActivity;
@@ -64,6 +68,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (LoginPreference.getValue(getApplicationContext(), "id") != null) {
+            ((Button) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.login_button)).setText("로그아웃");
+        } else if (LoginPreference.getValue(getApplicationContext(), "id") == null) {
+            ((Button) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.login_button)).setText("로그인");
+        }
     }
 
     // 단순히 액션바부터 네비게이션 돋보기 추가하기 위해서는 여기서 부터~~~
@@ -82,9 +97,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login_button:
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-                break;
+                if (((Button) findViewById(R.id.login_button)).getText() == "로그인") {
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    startActivity(intent);
+                    break;
+                } else {
+                    Toast.makeText(this, LoginPreference.getValue(getApplicationContext(), "id"), Toast.LENGTH_SHORT).show();
+                    LoginManager.getInstance().logOut();
+                    LoginPreference.removeAll(getApplicationContext());
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    break;
+                }
             case R.id.register_button:
                 Intent intent1 = new Intent(this, JoinActivity.class);
                 startActivity(intent1);

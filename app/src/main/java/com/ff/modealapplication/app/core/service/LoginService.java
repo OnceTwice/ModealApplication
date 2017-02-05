@@ -17,8 +17,8 @@ public class LoginService {
 
     // 일반로그인 & 페이스북로그인
     public UserVo login(UserVo userVo) {
-        String url = "http://192.168.1.15:8088/modeal/userapp/login"; // 학원 로컬
-//        String url = "http://192.168.0.17:8088/modeal/userapp/login"; // 집
+//        String url = "http://192.168.1.15:8088/modeal/userapp/login"; // 학원 로컬
+        String url = "http://192.168.0.17:8088/modeal/userapp/login"; // 집
         HttpRequest httpRequest = HttpRequest.post(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_JSON);
@@ -33,14 +33,15 @@ public class LoginService {
             throw new RuntimeException("Http Response : " + responseCode);
         }
 
-        JSONResultUser jsonResultUser = fromJson(httpRequest, JSONResultUser.class);
-        return jsonResultUser.getData();
+        UserVo resultUser = fromJson(httpRequest, UserVo.class);
+
+        return resultUser;
     }
 
     // 페이스북회원가입
     public void FBJoin(UserVo userVo) {
-        String url = "http://192.168.1.15:8088/modeal/userapp/fbjoin"; // 학원 로컬
-//        String url = "http://192.168.0.17:8088/modeal/userapp/fbjoin"; // 집
+//        String url = "http://192.168.1.15:8088/modeal/userapp/fbjoin"; // 학원 로컬
+        String url = "http://192.168.0.17:8088/modeal/userapp/fbjoin"; // 집
         HttpRequest httpRequest = HttpRequest.post(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_JSON);
@@ -54,9 +55,6 @@ public class LoginService {
         if (responseCode != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("Http Response : " + responseCode);
         }
-
-//        JSONResultUser jsonResultUser = fromJson(httpRequest, JSONResultUser.class);
-//        return jsonResultUser.getData();
     }
 
     private class JSONResultUser extends JSONResult<UserVo> {
