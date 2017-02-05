@@ -68,7 +68,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (LoginPreference.getValue(getApplicationContext(), "id") != null) {
+            ((Button) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.login_button)).setText("로그아웃");
+        } else if (LoginPreference.getValue(getApplicationContext(), "id") == null) {
+            ((Button) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.login_button)).setText("로그인");
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -80,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ((Button) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.login_button)).setText("로그인");
         }
     }
+
 
     // 단순히 액션바부터 네비게이션 돋보기 추가하기 위해서는 여기서 부터~~~
     // 뒤로가기 버튼 누를때... (170123/상욱추가)
@@ -101,13 +116,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Intent intent = new Intent(this, LoginActivity.class);
                     startActivity(intent);
                     break;
-                } else {
-                    Toast.makeText(this, LoginPreference.getValue(getApplicationContext(), "id"), Toast.LENGTH_SHORT).show();
+                } else if (((Button) findViewById(R.id.login_button)).getText() == "로그아웃") {
+                    Toast.makeText(this, LoginPreference.getValue(getApplicationContext(), "id") + " 로그아웃", Toast.LENGTH_SHORT).show();
                     LoginManager.getInstance().logOut();
                     LoginPreference.removeAll(getApplicationContext());
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+                    onPause();
+                    onResume();
                     break;
                 }
             case R.id.register_button:
@@ -156,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_manage) {
             Intent intent = new Intent(this, ItemActivity.class);
             startActivity(intent);
-        } else if(id == R.id.nav_marketDetail) {
+        } else if (id == R.id.nav_marketDetail) {
             Intent intent = new Intent(this, MarketDetailInformationActivity.class);
             startActivity(intent);
         }
