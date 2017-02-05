@@ -18,6 +18,9 @@
         <item
             android:id="@+id/nav_manage"
             android:title="상품관리" />
+        <item
+            android:id="@+id/nav_marketDetail"
+            android:title="매장상세정보"/>
     </group>
 
 </menu>

@@ -19,6 +19,7 @@ import com.ff.modealapplication.app.ui.help.HelpActivity;
 import com.ff.modealapplication.app.ui.item.ItemActivity;
 import com.ff.modealapplication.app.ui.join.JoinActivity;
 import com.ff.modealapplication.app.ui.login.LoginActivity;
+import com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity;
 import com.ff.modealapplication.app.ui.mypage.MyPageActivity;
 import com.ff.modealapplication.app.ui.mypage.MypageFragment;
 import com.ff.modealapplication.app.ui.search.SearchActivity;
@@ -129,6 +130,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         } else if (id == R.id.nav_manage) {
             Intent intent = new Intent(this, ItemActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.nav_marketDetail) {
+            Intent intent = new Intent(this, MarketDetailInformationActivity.class);
             startActivity(intent);
         }
 
