@@ -2,7 +2,6 @@ package com.ff.modealapplication.app.core.service;
 
 import android.util.Log;
 
-import com.ff.modealapplication.andorid.network.JSONResult;
 import com.ff.modealapplication.app.core.vo.UserVo;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
@@ -29,22 +28,22 @@ public class UserJoinService {
         Log.d("서비스쪽 거주지역 : ", location);
         Log.d("서비스쪽 생일 : ", birth);
 
-        int responseCode = httpRequest.send("id="+id+ "&password="+password+ "&gender="+gender+"&location="+location + "&birth="+birth).code();
+        int responseCode = httpRequest.send("id="+id+ "&password="+password+ "&gender="+gender+"&location="+location + "&birth="+birth).code();     // 웹으로 데이터 전달
 
         if(responseCode != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("HTTP Response : " + responseCode);
         }
 
-        System.out.println(fromJSON(httpRequest, UserJoinService.JSONResultUserList.class).getClass().getName());
-        Log.d("에러뜬당",""+fromJSON(httpRequest, UserJoinService.JSONResultUserList.class).getClass().getName());
+//        System.out.println(fromJSON(httpRequest, UserJoinService.JSONResultUserList.class).getClass().getName());
+//        Log.d("에러뜬당",""+fromJSON(httpRequest, UserJoinService.JSONResultUserList.class).getClass().getName());
 
-        UserJoinService.JSONResultUserList jsonResult = fromJSON(httpRequest, UserJoinService.JSONResultUserList.class);            // 에러 뜸
+//        UserJoinService.JSONResultUserList jsonResult = fromJSON(httpRequest, UserJoinService.JSONResultUserList.class);            // 에러 뜸
 
-        return jsonResult.getData();
+        return null;
     }
 
-    public class JSONResultUserList extends JSONResult<List<UserVo>> {
-    }
+//    public class JSONResultUserList extends JSONResult<List<UserVo>> {
+//    }
 
     // JSON 문자열을 자바 객체로 변환
     protected <V> V fromJSON(HttpRequest request, Class<V> target ) {
