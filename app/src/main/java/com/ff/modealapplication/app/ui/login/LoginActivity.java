@@ -109,6 +109,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Log.w("구글 로그인 실패", connectionResult.getErrorMessage());
             }
         }).addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
+
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setOnClickListener(this);
@@ -169,6 +170,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             new UserLoginTask(userVo).execute();
         } else {
             // Signed out, show unauthenticated UI.
+            Log.w("Login fail", result.toString());
         }
     }
 
@@ -368,6 +370,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 } else {
                     userVo = new LoginService().login(userVo);
                     if (userVo != null) {
+                        if (userVo.getManagerIdentified() == 3 || userVo.getManagerIdentified() == 4) {
+                            return 1;
+                        }
                         LoginPreference.put(getApplicationContext(), userVo);
                     }
                 }

@@ -14,12 +14,12 @@ import java.net.HttpURLConnection;
  */
 
 public class LoginService {
+        String url = "http://192.168.1.15:8088/modeal/userapp"; // 학원 로컬
+//        String url = "http://192.168.0.17:8088/modeal/userapp/login"; // 집
 
     // 일반로그인 & 페이스북로그인 & 구글로그인
     public UserVo login(UserVo userVo) {
-//        String url = "http://192.168.1.15:8088/modeal/userapp/login"; // 학원 로컬
-        String url = "http://192.168.0.17:8088/modeal/userapp/login"; // 집
-        HttpRequest httpRequest = HttpRequest.post(url);
+        HttpRequest httpRequest = HttpRequest.post(url +"/login");
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_JSON);
         httpRequest.accept(HttpRequest.CONTENT_TYPE_JSON);
@@ -39,9 +39,7 @@ public class LoginService {
 
     // 소셜로그인 회원정보 저장
     public void SocialJoin(UserVo userVo) {
-//        String url = "http://192.168.1.15:8088/modeal/userapp/fbjoin"; // 학원 로컬
-        String url = "http://192.168.0.17:8088/modeal/userapp/social"; // 집
-        HttpRequest httpRequest = HttpRequest.post(url);
+        HttpRequest httpRequest = HttpRequest.post(url + "/social");
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_JSON);
         httpRequest.accept(HttpRequest.CONTENT_TYPE_JSON);
@@ -58,9 +56,7 @@ public class LoginService {
 
     // 비밀번호 찾기
     public UserVo findPW(String email) {
-//        String url = "http://192.168.1.15:8088/modeal/userapp/fbjoin"; // 학원 로컬
-        String url = "http://192.168.0.17:8088/modeal/userapp/findpw"; // 집
-        HttpRequest httpRequest = HttpRequest.post(url);
+        HttpRequest httpRequest = HttpRequest.post(url + "/findpw");
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
         httpRequest.accept(HttpRequest.CONTENT_TYPE_JSON);

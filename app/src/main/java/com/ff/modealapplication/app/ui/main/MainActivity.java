@@ -19,13 +19,14 @@ import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.ff.modealapplication.R;
+import com.ff.modealapplication.app.core.util.LoginPreference;
 import com.ff.modealapplication.app.ui.help.HelpActivity;
 import com.ff.modealapplication.app.ui.item.ItemActivity;
 import com.ff.modealapplication.app.ui.join.JoinActivity;
 import com.ff.modealapplication.app.ui.login.LoginActivity;
 import com.ff.modealapplication.app.ui.map.MainMapFragment;
 import com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity;
-import com.ff.modealapplication.app.core.util.LoginPreference;
+import com.ff.modealapplication.app.ui.message.MessagingActivity;
 import com.ff.modealapplication.app.ui.mypage.MyPageActivity;
 import com.ff.modealapplication.app.ui.mypage.MypageFragment;
 import com.ff.modealapplication.app.ui.search.SearchActivity;
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // 액션바 맨 오른쪽 돋보기 추가 (170123/상욱추가)
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.include_map, menu);
         return true;
     }
 
@@ -146,8 +147,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // 이곳에 돋보기 눌렀을때 검색액티비티로 이동할 코드 구현하시오!!!
-        Intent intent = new Intent(this, SearchActivity.class);
-        startActivity(intent);
+        if (item.getItemId() == R.id.action_button) {
+            Intent intent = new Intent(this, SearchActivity.class);
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.map_button) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -165,7 +171,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_bookmark) {
 
         } else if (id == R.id.nav_setup) {
-
+            Intent intent = new Intent(this, MessagingActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_help) {
             Intent intent = new Intent(this, HelpActivity.class);
             startActivity(intent);

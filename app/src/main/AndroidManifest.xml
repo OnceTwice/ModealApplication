@@ -38,6 +38,20 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <!-- 스플래시 -->
 
+        <!-- 구글 클라우드 메시징(알림) -->
+        <service
+            android:name=".app.ui.message.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".app.ui.message.MyFirebaseInstanceIDService" >
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <!-- 구글 클라우드 메시징(알림) -->
 
         <!-- 매장등록 지도로 하기 -->
         <activity
@@ -51,6 +65,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".app.ui.message.MessagingActivity" />
 
         <!-- 액티비티 추가할때마다 아래처럼 android:theme="@style/AppTheme.NoActionBar"도 추가해 줄것 -->
         <activity
