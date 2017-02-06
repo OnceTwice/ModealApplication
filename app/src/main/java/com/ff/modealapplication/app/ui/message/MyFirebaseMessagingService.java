@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -33,28 +34,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Check if the message contains notification
         if (remoteMessage.getNotification() != null) {
+            Log.d(TAG, "Message title : " + remoteMessage.getNotification().getTitle());
             Log.d(TAG, "Message body : " + remoteMessage.getNotification().getBody());
-            sendNotification(remoteMessage.getNotification().getBody());
+            sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
         }
-
-//        String title = "";
-//        String message = "";
-//        if( remoteMessage.getNotification() == null   ){
-//            title = remoteMessage.getData().get("title");
-//            message = remoteMessage.getData().get("message");
-//        }
-//        else{
-//            title = remoteMessage.getNotification().getTitle();
-//            message = remoteMessage.getNotification().getBody();
-//        }
     }
 
-    private void sendNotification(String messageBody) {
+    private void sendNotification(String title, String body) {
 
         Intent intent = new Intent(this, MessagingActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, (int)(Math.random()*100000), intent, PendingIntent.FLAG_ONE_SHOT);
 
         // Set sound of notification
 
@@ -62,14 +53,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.logo1)
-                .setContentTitle("FCM 테스트")
-                .setContentText(messageBody)
+                .setContentTitle(title)
+                .setContentText(body)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        notificationManager.notify((int)(Math.random()*100000), notificationBuilder.build());
+
+        // 알림 올 경우 화면꺼짐상태에서 화면 켜기
+        PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+        PowerManager.WakeLock wakelock = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
+        wakelock.acquire(5000);
     }
 }
