@@ -35,7 +35,10 @@ public class UserJoinService {
             throw new RuntimeException("HTTP Response : " + responseCode);
         }
 
-        UserJoinService.JSONResultUserList jsonResult = fromJSON(httpRequest, UserJoinService.JSONResultUserList.class);
+        System.out.println(fromJSON(httpRequest, UserJoinService.JSONResultUserList.class).getClass().getName());
+        Log.d("에러뜬당",""+fromJSON(httpRequest, UserJoinService.JSONResultUserList.class).getClass().getName());
+
+        UserJoinService.JSONResultUserList jsonResult = fromJSON(httpRequest, UserJoinService.JSONResultUserList.class);            // 에러 뜸
 
         return jsonResult.getData();
     }

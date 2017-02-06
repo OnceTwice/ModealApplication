@@ -247,6 +247,7 @@ public class OwnerJoinFragment extends Fragment {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                getActivity().finish();
                 Log.d("사업자 회원가입", "취소!!!!!");
             }
         });
@@ -312,7 +313,7 @@ public class OwnerJoinFragment extends Fragment {
         @Override
         protected void onException(Exception e) throws RuntimeException {
 //            super.onException(e);
-            Log.d("사업자", "oooor"+e);
+            Log.d("사업자", "서비스 에러뜸!!!"+e);
             throw new RuntimeException(e);
         }
 
@@ -320,6 +321,7 @@ public class OwnerJoinFragment extends Fragment {
         protected void onSuccess(UserVo userVo) throws Exception {
 //            super.onSuccess(userVo);
             Log.d("사업자 성공", "성공해쓰요");
+            getActivity().finish();
         }
     }
 }
