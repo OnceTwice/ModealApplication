@@ -208,7 +208,7 @@ public class UserJoinFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d("click to back!!!!!", "취소!!!!!!!");
-                getActivity().getSupportFragmentManager().popBackStack();
+                getActivity().finish();
             }
         });
 
@@ -272,7 +272,7 @@ public class UserJoinFragment extends Fragment {
         @Override
         protected void onException(Exception e) throws RuntimeException {
 //            super.onException(e);
-            Log.d("사용자", "oooor"+e);
+            Log.d("사용자", "서비스 에러뜸!!!"+e);
             throw new RuntimeException(e);
         }
 
@@ -280,6 +280,7 @@ public class UserJoinFragment extends Fragment {
         protected void onSuccess(List<UserVo> userVo) throws Exception {
 //            super.onSuccess(userVo);
             Log.d("사용자 성공", "성공해쓰요");
+            getActivity().finish();
         }
     }
 }
