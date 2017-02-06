@@ -21,14 +21,14 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_detail);
 
-        // 삭제 버튼 클릭시
+  /*      // 삭제 버튼 클릭시
         findViewById(R.id.button_delete).setOnClickListener(this);
 
         // 수정 버튼 클릭시
         findViewById(R.id.button_modify).setOnClickListener(this);
 
         // 숨기기 버튼 클릭시
-        findViewById(R.id.button_hiding).setOnClickListener(this);
+        findViewById(R.id.button_hiding).setOnClickListener(this);*/
     }
 
     @Override
