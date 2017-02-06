@@ -12,22 +12,30 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
         android:src="@drawable/apple" />
 
     <EditText
-        android:id="@+id/info"
+        android:id="@+id/titleM"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
-        android:hint="뭐냐 너는?" />
+        android:hint="Title" />
+
+    <EditText
+        android:id="@+id/bodyM"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:hint="Body" />
 
     <Button
+        android:id="@+id/sendM"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="버튼"
-        android:id="@+id/sendM" />
+        android:text="버튼" />
 </LinearLayout>

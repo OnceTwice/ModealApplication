@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "909125768226",
-    "project_id": "mobility-deal"
+    "firebase_url": "https://mobility-deal.firebaseio.com",
+    "project_id": "mobility-deal",
+    "storage_bucket": "mobility-deal.appspot.com"
   },
   "client": [
     {
@@ -12,6 +14,10 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "909125768226-7obn4tsl88o5iejdgeti3qfbng5kldun.apps.googleusercontent.com",
+          "client_type": 3
+        },
         {
           "client_id": "909125768226-hn3scpn17b83aivmvsmluie4eqe6dnud.apps.googleusercontent.com",
           "client_type": 3
@@ -27,11 +33,16 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "909125768226-7obn4tsl88o5iejdgeti3qfbng5kldun.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

@@ -1,5 +1,7 @@
 package com.ff.modealapplication.app.ui.message;
 
+import android.util.Log;
+
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
@@ -16,6 +18,27 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     @Override
     public void onTokenRefresh() {
-        String token = FirebaseInstanceId.getInstance().getToken();
+        // Get updated token
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG, "Refreshed token: " + refreshedToken);
+
+        // You can save the token into third party server to do anything you want
+//        sendRegistrationToServer(token);
     }
+
+//    private void sendRegistrationToServer(String token) {
+//        //You can implement this method to store the token on your server
+//        //Not required for current project
+//        OkHttpClient client = new OkHttpClient();
+//        RequestBody body = new FormBody.Builder().add("Token", token).build();
+//
+//        //request
+//        Request request = new Request.Builder().url("http://192.168.1.15:8088/modeal/message").post(body).build();
+//
+//        try {
+//            client.newCall(request).execute();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
