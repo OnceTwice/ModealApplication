@@ -1,5 +1,6 @@
 package com.ff.modealapplication.app.ui.join;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.OwnerJoinService;
+import com.ff.modealapplication.app.core.service.map.JoinMapInfoVo;
 import com.ff.modealapplication.app.core.vo.ShopVo;
 import com.ff.modealapplication.app.core.vo.UserVo;
 import com.ff.modealapplication.app.ui.map.SearchShopToJoinActivity;
@@ -43,14 +45,12 @@ public class OwnerJoinFragment extends Fragment {
     private Button btnMarketSearch;
 
     private EditText etMarketAddress;
-    private EditText etMarketAddressDetail;
 
     private EditText etMarketPhoneNumber;
 
     private Button btnPictureUpload;
 
     private EditText etMarketIntroduce;
-    private EditText etMarketIntroduceDetail;
 
     private Button btnSubmit;
     private Button btnCancel;
@@ -69,10 +69,8 @@ public class OwnerJoinFragment extends Fragment {
 
     String marketName = "";
     String marketAddress = "";
-    String marketAddressDetail = "";
     String marketPhoneNumber = "";
     String marketIntroduce = "";
-    String marketIntroduceDetail = "";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -109,6 +107,11 @@ public class OwnerJoinFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {       // Fragment가 생성될 때 호출되는 부분
         super.onCreate(savedInstanceState);
 
@@ -116,6 +119,18 @@ public class OwnerJoinFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        JoinMapInfoVo joinMapInfoVo = (JoinMapInfoVo) data.getSerializableExtra("joinMapInfoVo");
+
+        etMarketName.setText(joinMapInfoVo.getTitle());         // 매장명
+        etMarketAddress.setText(joinMapInfoVo.getAddress());    // 매장주소
+        etMarketPhoneNumber.setText(joinMapInfoVo.getPhone());  // 매장전화번호
+
     }
 
     @Override
@@ -142,14 +157,12 @@ public class OwnerJoinFragment extends Fragment {
         btnMarketSearch = (Button) view.findViewById(R.id.btnOwnerAddressSearch);
 
         etMarketAddress = (EditText) view.findViewById(R.id.etOwnerMarketAddress);
-        etMarketAddressDetail = (EditText) view.findViewById(R.id.etOwnerMarketAddressDetail);
 
         etMarketPhoneNumber = (EditText) view.findViewById(R.id.etOwnerMarketPhoneNumber);
 
         btnPictureUpload = (Button) view.findViewById(R.id.btnOwnerPictureUpload);
 
         etMarketIntroduce = (EditText) view.findViewById(R.id.etOwnerMarketAddress);
-        etMarketIntroduceDetail = (EditText) view.findViewById(R.id.etOwnerMarketAddressDetail);
 
         btnSubmit = (Button) view.findViewById(R.id.btnOwnerSubmit);
         btnCancel = (Button) view.findViewById(R.id.btnOwnerCancel);
@@ -203,6 +216,7 @@ public class OwnerJoinFragment extends Fragment {
                 Intent intentToMap = new Intent(OwnerJoinFragment.this.getActivity(), SearchShopToJoinActivity.class);
                 startActivityForResult(intentToMap, 1000);
             }
+
         });
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -276,10 +290,8 @@ public class OwnerJoinFragment extends Fragment {
 
             marketName = etMarketName.getText().toString();
             marketAddress = etMarketAddress.getText().toString();
-            marketAddressDetail = etMarketAddressDetail.getText().toString();
             marketPhoneNumber = etMarketPhoneNumber.getText().toString();
             marketIntroduce = etMarketIntroduce.getText().toString();
-            marketIntroduceDetail = etMarketIntroduceDetail.getText().toString();
 
             userVo.setId(id);
             userVo.setPassword(password);
@@ -301,11 +313,9 @@ public class OwnerJoinFragment extends Fragment {
 
             Log.d("marketName===", marketName);
             Log.d("marketAddress===", marketAddress);
-            Log.d("marketAddressDetail===", marketAddressDetail);
             Log.d("marketPhoneNumber===", marketPhoneNumber);
-            Log.d("marketIntroduceDetail=", marketIntroduceDetail);
 
-            UserVo ownerVo = new OwnerJoinService().fetchOwnerList(userVo);
+            UserVo ownerVo = new OwnerJoinService().fetchOwnerList(userVo, shopVo);
 
             return ownerVo;
         }

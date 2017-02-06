@@ -233,7 +233,7 @@ public class SearchShopToJoinActivity extends FragmentActivity implements MapVie
         sb.append("latitude=").append(item.latitude).append("\n");
         sb.append("distance=").append(item.distance).append("\n");
         sb.append("direction=").append(item.direction).append("\n");
-        Toast.makeText(this, sb.toString(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, sb.toString(), Toast.LENGTH_SHORT).show();
 
         joinMapInfoVo.setTitle(item.title);
         joinMapInfoVo.setImageUrl(item.imageUrl);
@@ -248,7 +248,8 @@ public class SearchShopToJoinActivity extends FragmentActivity implements MapVie
         Intent intent = new Intent(SearchShopToJoinActivity.this, JoinFragment.class);
 
         intent.putExtra("joinMapInfoVo", joinMapInfoVo);
-        Log.d("joinMapInfoVo====>", "" + joinMapInfoVo);
+//        Log.d("joinMapInfoVo====>", "" + joinMapInfoVo);
+
         setResult(RESULT_OK, intent);
         finish();
     }

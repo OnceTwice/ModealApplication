@@ -3,6 +3,7 @@ package com.ff.modealapplication.app.core.service;
 import android.util.Log;
 
 import com.ff.modealapplication.andorid.network.JSONResult;
+import com.ff.modealapplication.app.core.vo.ShopVo;
 import com.ff.modealapplication.app.core.vo.UserVo;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
@@ -13,7 +14,7 @@ import java.net.HttpURLConnection;
 import java.util.List;
 
 public class OwnerJoinService {
-    public UserVo fetchOwnerList(UserVo userVo) {
+    public UserVo fetchOwnerList(UserVo userVo, ShopVo shopVo) {
         String url = "http://192.168.1.26:8088/modeal/user/app/ownerinput";
         HttpRequest httpRequest = HttpRequest.post(url);
 
@@ -23,13 +24,16 @@ public class OwnerJoinService {
         httpRequest.readTimeout(3000);
 
         Log.d("=======================", "사업자 서비스 입갤");
-        System.out.println(userVo);
+        System.out.println("USERVO=====" + userVo);
+        System.out.println("SHOPVO=====" + shopVo);
 
         httpRequest.send(toJson(userVo));
+
         System.out.println(userVo);
         System.out.println(toJson(userVo));
 
         int responseCode = httpRequest.code();
+
         if (responseCode != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("Http Response : " + responseCode);
         }

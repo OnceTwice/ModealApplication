@@ -233,19 +233,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp">
-
-            <EditText
-                android:id="@+id/etOwnerMarketAddressDetail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:drawable/editbox_background"
-                android:hint="상세주소" />
-        </LinearLayout>
-
-        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp">
@@ -307,19 +294,6 @@
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/editbox_background"
                 android:hint="매장소개" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp">
-
-            <EditText
-                android:id="@+id/etOwnerMarketIntroduceDetail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:drawable/editbox_background"
-                android:hint="매장상세소개" />
         </LinearLayout>
 
         <LinearLayout
