@@ -20,12 +20,12 @@ import com.ff.modealapplication.app.core.service.MainService;
 import java.util.List;
 import java.util.Map;
 
-public class MainFragment extends Fragment {
+public class MainListFragment extends Fragment {
 
     private MainListArrayAdapter mainListArrayAdapter = null;
     ListView listView = null;
 
-    public MainFragment() {
+    public MainListFragment() {
     }
 
     @Override
@@ -35,7 +35,7 @@ public class MainFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View mFragment = inflater.inflate(R.layout.fragment_main, container, false);
+        View mFragment = inflater.inflate(R.layout.fragment_main_list, container, false);
         mainListArrayAdapter = new MainListArrayAdapter(mFragment.getContext());
         listView = (ListView)mFragment.findViewById(android.R.id.list);
         listView.setAdapter(mainListArrayAdapter);

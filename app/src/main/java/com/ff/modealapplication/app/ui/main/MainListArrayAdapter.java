@@ -47,7 +47,7 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
             .build();
 
     public MainListArrayAdapter(Context context) {
-        super(context, R.layout.fragment_main);
+        super(context, R.layout.fragment_main_list);
         layoutInflater = LayoutInflater.from(context);
     }
 

@@ -8,7 +8,7 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="10dp"
-    tools:context="com.ff.modealapplication.app.ui.main.MainFragment">
+    tools:context="com.ff.modealapplication.app.ui.main.MainListFragment">
 
     <!-- divider → list 행 간격 띄우기-->
     <ListView

@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services' // 구글 로그인 연동
 
 android {
     compileSdkVersion 25

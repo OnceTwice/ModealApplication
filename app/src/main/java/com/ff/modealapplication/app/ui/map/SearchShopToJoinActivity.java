@@ -87,7 +87,7 @@ public class SearchShopToJoinActivity extends FragmentActivity implements MapVie
 
                     @Override
                     public void onFail() {
-                        showToast("트래픽 제한 초과!!!");
+                  //      showToast("트래픽 제한 초과!!!");
                     }
                 });
             }
@@ -114,7 +114,7 @@ public class SearchShopToJoinActivity extends FragmentActivity implements MapVie
 
             @Override
             public void onFail() {
-                showToast("API_KEY의 제한 트래픽이 초과되었습니다.");
+                //showToast("API_KEY의 제한 트래픽이 초과되었습니다.");
             }
         });
     }
