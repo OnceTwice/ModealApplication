@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ff.modealapplication">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <!-- 인터넷 권한 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -19,9 +21,12 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+        <!-- facebook -->
+
 
         <activity
             android:name=".app.ui.main.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,6 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
 
         <!-- 스플래시(어플 시작할때 잠깐 뜨는 이미지) -->
         <activity
@@ -38,25 +44,26 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <!-- 스플래시 -->
 
+
         <!-- 구글 클라우드 메시징(알림) -->
-        <service
-            android:name=".app.ui.message.MyFirebaseMessagingService">
+        <service android:name=".app.ui.message.MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service
-            android:name=".app.ui.message.MyFirebaseInstanceIDService" >
+        <service android:name=".app.ui.message.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
         <!-- 구글 클라우드 메시징(알림) -->
 
+
         <!-- 매장등록 지도로 하기 -->
         <activity
             android:name=".app.ui.map.SearchShopToJoinActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -65,19 +72,22 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity android:name=".app.ui.message.MessagingActivity" />
 
-        <!-- 액티비티 추가할때마다 아래처럼 android:theme="@style/AppTheme.NoActionBar"도 추가해 줄것 -->
+        <!-- 액티비티 추가할때마다 android:theme="@style/AppTheme.NoActionBar" 도 추가해줘야 자체제작액션바 사용가능 -->
+        <!-- 액티비티 추가할떄마다 android:name=".app.ui.message.WakeUpActivity" 도 추가해줘야 화면고정됨 -->
         <activity
             android:name=".app.ui.login.LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" /> <!-- EditText가 있는 액티비티에서 키보드 자동 숨기기 -->
         <activity
             android:name=".app.ui.search.SearchActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".app.ui.search.SearchResultActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- facebook -->
@@ -85,38 +95,54 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             tools:replace="android:theme" />
+        <!-- facebook -->
+
         <activity
             android:name=".app.ui.join.JoinActivity"
             android:label="@string/Login"
+            android:screenOrientation="portrait"
             android:theme="@style/App_Simple" />
         <activity
             android:name=".app.ui.mypage.MyPageActivity"
             android:label="@string/MyPage"
+            android:screenOrientation="portrait"
             android:theme="@style/App_Simple" />
 
         <!-- 아이템 액티비티 -->
         <activity
             android:name=".app.ui.item.ItemActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" /> <!-- NoActionBar 사용시 기본 헤더 숨겨짐 -->
         <activity
             android:name=".app.ui.item.ItemInsertActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".app.ui.item.ItemModifyActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".app.ui.item.ItemDetailActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".app.ui.help.HelpActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".app.ui.market.MarketDetailInformationActivity" />
+        <activity
+            android:name=".app.ui.market.MarketDetailInformationActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".app.ui.login.FindPasswordActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <!-- 액티비티 추가할때마다 android:theme="@style/AppTheme.NoActionBar" 도 추가해줘야 자체제작액션바 사용가능 -->
+        <!-- 액티비티 추가할떄마다 android:name=".app.ui.message.WakeUpActivity" 도 추가해줘야 화면고정됨 -->
     </application>
 
 </manifest>

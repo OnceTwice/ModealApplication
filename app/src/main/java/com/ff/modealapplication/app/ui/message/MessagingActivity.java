@@ -22,11 +22,11 @@ public class MessagingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messaging);
+        FirebaseMessaging.getInstance().subscribeToTopic("notice"); // 푸시 알림 전송시 같은 토픽명 그룹 전체에 메세지 전송 가능
 
         findViewById(R.id.push_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseMessaging.getInstance().subscribeToTopic("notice"); // 푸시 알림 전송시 같은 토픽명 그룹 전체에 메세지 전송 가능
 //                FirebaseInstanceId.getInstance().getToken(); // 사용자 기기의 고유 토큰 값
                 new Thread() {
                     public void run() {
