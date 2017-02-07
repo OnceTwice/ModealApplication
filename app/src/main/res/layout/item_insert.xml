@@ -7,8 +7,7 @@
     android:orientation="vertical"
     android:weightSum="1">
 
-    <android.support.design.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -134,15 +133,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_marginRight="5dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
                         android:orientation="vertical">
 
                         <TextView
@@ -161,8 +160,8 @@
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:orientation="vertical">
 
                         <TextView
@@ -192,20 +191,55 @@
                         android:layout_height="wrap_content"
                         android:text="유통기한" />
 
-                    <EditText
-                        android:id="@+id/exp_date"
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:inputType="textPersonName"
-                        android:text="" />
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/date_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="yyyy/mm/dd"
+                            android:textSize="20dp" />
+
+                        <Button
+                            android:id="@+id/button_date"
+                            android:layout_width="60dp"
+                            android:layout_height="50dp"
+                            android:onClick="onClick"
+                            android:text="날짜" />
+
+                        <TextView
+                            android:id="@+id/time_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="hh:mm"
+                            android:textSize="20dp" />
+
+                        <Button
+                            android:id="@+id/button_time"
+                            android:layout_width="60dp"
+                            android:layout_height="50dp"
+                            android:onClick="onClick"
+                            android:text="시간" />
+
+                        <!-- <EditText
+                            android:id="@+id/exp_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:inputType="textPersonName"
+                            android:text="" /> -->
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <!-- 취소 / 등록 버튼-->
                 <LinearLayout
-                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="0.20"
                     android:gravity="center"
                     android:orientation="horizontal">

@@ -73,15 +73,11 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
             Log.d("price : ", editText4.getText().toString());
             Long price = Long.parseLong(editText4.getText().toString());
 
-            EditText editText5 = (EditText) findViewById(R.id.exp_date);
-            Log.d("exp_date : ", editText5.getText().toString());
-            String exp_date = editText5.getText().toString();
-
             EditText editText6 = (EditText) findViewById(R.id.discount);
             Log.d("discount : ", editText6.getText().toString());
             Long discount = Long.parseLong(editText6.getText().toString());
 
-            List<ItemVo> list = itemService.itemModify(item_name, ori_price, count, price, exp_date, discount);
+            List<ItemVo> list = itemService.itemModify(item_name, ori_price, count, price, "12345", discount);
             return list;
         }
 
