@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -23,6 +24,7 @@ import com.ff.modealapplication.app.core.service.map.JoinMapInfoVo;
 import com.ff.modealapplication.app.core.vo.ShopVo;
 import com.ff.modealapplication.app.core.vo.UserVo;
 import com.ff.modealapplication.app.ui.map.SearchShopToJoinActivity;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class OwnerJoinFragment extends Fragment {
     private EditText etID;
@@ -48,7 +50,7 @@ public class OwnerJoinFragment extends Fragment {
 
     private EditText etMarketPhoneNumber;
 
-    private Button btnPictureUpload;
+    ImageView imageView;
 
     private EditText etMarketIntroduce;
 
@@ -69,8 +71,12 @@ public class OwnerJoinFragment extends Fragment {
 
     String marketName = "";
     String marketAddress = "";
+    String marketNewAddress = "";
     String marketPhoneNumber = "";
+    String imageURL = "";
     String marketIntroduce = "";
+    String longitude = "";
+    String latitude = "";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -122,15 +128,22 @@ public class OwnerJoinFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {        // SearchShopToJoinActivity.java에서 보낸 데이터를 받아옴
         super.onActivityResult(requestCode, resultCode, data);
 
         JoinMapInfoVo joinMapInfoVo = (JoinMapInfoVo) data.getSerializableExtra("joinMapInfoVo");
 
         etMarketName.setText(joinMapInfoVo.getTitle());         // 매장명
         etMarketAddress.setText(joinMapInfoVo.getAddress());    // 매장주소
+        marketNewAddress = joinMapInfoVo.getNewAddress();
         etMarketPhoneNumber.setText(joinMapInfoVo.getPhone());  // 매장전화번호
+        imageURL = joinMapInfoVo.getImageUrl();
+        longitude = joinMapInfoVo.getLongitude();
+        latitude = joinMapInfoVo.getLatitude();
 
+        Log.d("onActivityResult 이미지", imageURL);
+
+        ImageLoader.getInstance().displayImage(imageURL, (ImageView)getView().findViewById(R.id.marketImage));
     }
 
     @Override
@@ -160,9 +173,9 @@ public class OwnerJoinFragment extends Fragment {
 
         etMarketPhoneNumber = (EditText) view.findViewById(R.id.etOwnerMarketPhoneNumber);
 
-        btnPictureUpload = (Button) view.findViewById(R.id.btnOwnerPictureUpload);
+        imageView = (ImageView) view.findViewById(R.id.marketImage);        // 이미지
 
-        etMarketIntroduce = (EditText) view.findViewById(R.id.etOwnerMarketAddress);
+        etMarketIntroduce = (EditText) view.findViewById(R.id.etOwnerMarketIntroduce);
 
         btnSubmit = (Button) view.findViewById(R.id.btnOwnerSubmit);
         btnCancel = (Button) view.findViewById(R.id.btnOwnerCancel);
@@ -209,6 +222,8 @@ public class OwnerJoinFragment extends Fragment {
                 Log.d("------>", "onNothingMonthSelected");
             }
         });
+
+        /******************************************* 사용자 & 사업자 경계 **************************************************/
 
         btnMarketSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -300,6 +315,15 @@ public class OwnerJoinFragment extends Fragment {
             userVo.setBirth(year+month+day);
             userVo.setManagerIdentified(2);     // 2 : 사업자 고유 번호
 
+            shopVo.setName(marketName);
+            shopVo.setAddress(marketAddress);
+            shopVo.setNewAddress(marketNewAddress);
+            shopVo.setPhone(marketPhoneNumber);
+            shopVo.setPicture(imageURL);
+            shopVo.setIntroduce(marketIntroduce);
+            shopVo.setLongitude(Double.parseDouble(longitude));
+            shopVo.setLatitude(Double.parseDouble(latitude));
+
             Log.d("id======", id);
             Log.d("password======", password);
 
@@ -313,7 +337,12 @@ public class OwnerJoinFragment extends Fragment {
 
             Log.d("marketName===", marketName);
             Log.d("marketAddress===", marketAddress);
+            Log.d("marketNewAddress===", marketNewAddress);
             Log.d("marketPhoneNumber===", marketPhoneNumber);
+            Log.d("imageURL===", imageURL);
+            Log.d("marketIntroduce===", marketIntroduce);
+            Log.d("longitude===", longitude);
+            Log.d("latitude===", latitude);
 
             UserVo ownerVo = new OwnerJoinService().fetchOwnerList(userVo, shopVo);
 

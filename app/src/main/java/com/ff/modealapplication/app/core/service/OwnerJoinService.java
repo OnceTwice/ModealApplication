@@ -2,7 +2,6 @@ package com.ff.modealapplication.app.core.service;
 
 import android.util.Log;
 
-import com.ff.modealapplication.andorid.network.JSONResult;
 import com.ff.modealapplication.app.core.vo.ShopVo;
 import com.ff.modealapplication.app.core.vo.UserVo;
 import com.github.kevinsawicki.http.HttpRequest;
@@ -11,7 +10,7 @@ import com.google.gson.GsonBuilder;
 
 import java.io.Reader;
 import java.net.HttpURLConnection;
-import java.util.List;
+import java.util.HashMap;
 
 public class OwnerJoinService {
     public UserVo fetchOwnerList(UserVo userVo, ShopVo shopVo) {
@@ -20,14 +19,20 @@ public class OwnerJoinService {
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_JSON);     // 전달 타입
         httpRequest.accept(HttpRequest.CONTENT_TYPE_JSON);          // 받을 타입
-        httpRequest.connectTimeout(3000);
+        httpRequest.connectTimeout(15000);
         httpRequest.readTimeout(3000);
 
         Log.d("=======================", "사업자 서비스 입갤");
         System.out.println("USERVO=====" + userVo);
         System.out.println("SHOPVO=====" + shopVo);
 
-        httpRequest.send(toJson(userVo));
+        HashMap<Object, Object> map = new HashMap<>();
+        map.put("user", userVo);
+        map.put("shop", shopVo);
+
+        System.out.println(map);
+
+        httpRequest.send(toJson(map));           // 에러 발생 지점
 
         System.out.println(userVo);
         System.out.println(toJson(userVo));
@@ -38,13 +43,14 @@ public class OwnerJoinService {
             throw new RuntimeException("Http Response : " + responseCode);
         }
 
-        JSONResultOwner jsonResultOwner = fromJSON(httpRequest, JSONResultOwner.class);
+//        JSONResultOwner jsonResultOwner = fromJSON(httpRequest, JSONResultOwner.class);
 
-        return (UserVo) jsonResultOwner.getData();
+//        return (UserVo) jsonResultOwner.getData();
+        return null;
     }
 
-    public class JSONResultOwner extends JSONResult<List<UserVo>> {
-    }
+//    public class JSONResultOwner extends JSONResult<List<UserVo>> {
+//    }
 
     // JSON 문자열을 자바 객체로 변환
     protected <V> V fromJSON(HttpRequest request, Class<V> target ) {
