@@ -22,9 +22,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import static com.ff.modealapplication.R.id.date_text;
-import static com.ff.modealapplication.R.id.time_text;
-
 /**
  * Created by bit-desktop on 2017-01-19.
  */
@@ -44,8 +41,8 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.item_insert); // ← 입력된 레이아웃의 대한 클래스
 
         // 텍스트뷰 2개 연결
-        dateText = (TextView)findViewById(date_text);
-        timeText = (TextView)findViewById(time_text);
+        dateText = (TextView)findViewById(R.id.date_text);
+        timeText = (TextView)findViewById(R.id.time_text);
 
         // 현재 날짜와 시간을 가져오기 위한 calender 인스턴스 선언
         Calendar calendar = new GregorianCalendar();

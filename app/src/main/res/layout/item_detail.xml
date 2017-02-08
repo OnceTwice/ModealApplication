@@ -30,7 +30,7 @@
             android:paddingEnd="5dp"
             android:paddingStart="5dp"
             android:paddingTop="5dp"
-            android:src="@drawable/cake" />
+            android:src="@drawable/apple" />
 
         <!-- 유통기한 : 나중에 날짜 시간으로 변경해야함 -->
         <TextView
