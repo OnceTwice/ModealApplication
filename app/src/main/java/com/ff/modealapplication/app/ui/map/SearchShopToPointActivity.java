@@ -2,34 +2,45 @@ package com.ff.modealapplication.app.ui.map;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.MapsService;
 import com.ff.modealapplication.app.core.service.map.MapApiConst;
 import com.ff.modealapplication.app.core.vo.ShopVo;
+import com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity;
 
-import net.daum.mf.map.api.CameraUpdateFactory;
+import net.daum.mf.map.api.CalloutBalloonAdapter;
 import net.daum.mf.map.api.MapCircle;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapPointBounds;
 import net.daum.mf.map.api.MapView;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 
-public class SearchShopToPointActivity extends AppCompatActivity implements MapView.MapViewEventListener{
+public class SearchShopToPointActivity extends AppCompatActivity implements MapView.MapViewEventListener, MapView.POIItemEventListener{
     Double longitude;
     Double latitude;
     String range;
     MapCircle circle;
+    private HashMap<Integer, ShopVo> mTagItemMap = new HashMap<Integer, ShopVo>();
     private MapsService mapsService = new MapsService();
     private MapView mapView;
 
@@ -52,6 +63,10 @@ public class SearchShopToPointActivity extends AppCompatActivity implements MapV
         //----------------------------------------------------------------
         mapView = new MapView(this);
         mapView.setDaumMapApiKey(MapApiConst.DAUM_MAPS_ANDROID_APP_API_KEY);
+//------------------------리스너
+        mapView.setMapViewEventListener(this);
+        mapView.setPOIItemEventListener(this);
+        mapView.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter());
 
         RelativeLayout container = (RelativeLayout) findViewById(R.id.map_view_point);
 
@@ -68,6 +83,35 @@ public class SearchShopToPointActivity extends AppCompatActivity implements MapV
 
         new FetchShopListAsyncTask().execute();
     }
+
+    @Override
+    public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
+
+    }
+
+    @Override
+    public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem) {
+
+    }
+
+    @Override
+    public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {
+        ShopVo shopVo = mTagItemMap.get(mapPOIItem.getTag());
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("ShopTitle=").append(shopVo.getName()).append("\n");
+
+        Toast.makeText(getApplicationContext(), sb.toString(), Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent(this, MarketDetailInformationActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {
+
+    }
+
     private class FetchShopListAsyncTask extends SafeAsyncTask<List<ShopVo>> {
         @Override
         public List<ShopVo> call() throws Exception {
@@ -115,9 +159,10 @@ public class SearchShopToPointActivity extends AppCompatActivity implements MapV
             poiItem.setCustomImageAnchor(0.5f, 1.0f);
 
             mapView.addPOIItem(poiItem);
+            mTagItemMap.put(poiItem.getTag(), shopVo);
         }
 
-        mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
+        //mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
 
         MapPOIItem[] poiItems = mapView.getPOIItems();
         if (poiItems.length > 0) {
@@ -178,4 +223,62 @@ public class SearchShopToPointActivity extends AppCompatActivity implements MapV
     public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
 
     }
+
+    /*************************
+     * 마커 어댑터 시작
+     *************************/
+    class CustomCalloutBalloonAdapter implements CalloutBalloonAdapter {
+        private final View mCalloutBalloon;
+
+        public CustomCalloutBalloonAdapter() {
+            mCalloutBalloon = getLayoutInflater().inflate(R.layout.custom_callout_balloon, null);
+        }
+
+        @Override
+        public View getCalloutBalloon(MapPOIItem poiItem) {
+            if (poiItem == null) {
+                return null;
+            }
+            ShopVo shopVo = mTagItemMap.get(poiItem.getTag());
+            if (shopVo == null) {
+                return null;
+            }
+            ImageView imageViewBadge = (ImageView) mCalloutBalloon.findViewById(R.id.badge);
+            TextView textViewTitle = (TextView) mCalloutBalloon.findViewById(R.id.title);
+            textViewTitle.setText(shopVo.getName());
+            TextView textViewDesc = (TextView) mCalloutBalloon.findViewById(R.id.desc);
+            textViewDesc.setText(shopVo.getAddress());
+            imageViewBadge.setImageDrawable(createDrawableFromUrl(shopVo.getPicture()));
+            return mCalloutBalloon;
+        }
+
+        @Override
+        public View getPressedCalloutBalloon(MapPOIItem mapPOIItem) {
+            return null;
+        }
+    }
+
+    private Drawable createDrawableFromUrl(String url) {
+        try {
+            InputStream is = (InputStream) this.fetch(url);
+            Drawable d = Drawable.createFromStream(is, "src");
+            return d;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private Object fetch(String address) throws MalformedURLException, IOException {
+        URL url = new URL(address);
+        Object content = url.getContent();
+        return content;
+    }
+
+    /********************
+     * 마커 어댑터 끝
+     *******************/
 }

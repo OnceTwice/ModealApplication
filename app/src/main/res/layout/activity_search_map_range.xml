@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:hint="내 위치에서 검색"
-        android:text=""
+        android:text="서초2동"
         android:ems="10"
         android:id="@+id/editText_address"
         android:layout_alignParentTop="true"
