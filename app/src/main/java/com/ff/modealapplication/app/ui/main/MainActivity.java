@@ -24,6 +24,7 @@ import com.ff.modealapplication.app.ui.help.HelpActivity;
 import com.ff.modealapplication.app.ui.item.ItemActivity;
 import com.ff.modealapplication.app.ui.join.JoinActivity;
 import com.ff.modealapplication.app.ui.login.LoginActivity;
+import com.ff.modealapplication.app.ui.map.MainMapActivity;
 import com.ff.modealapplication.app.ui.map.MainMapFragment;
 import com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity;
 import com.ff.modealapplication.app.ui.message.MessagingActivity;
@@ -33,7 +34,7 @@ import com.ff.modealapplication.app.ui.search.SearchActivity;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, MainMapFragment.OnFragmentInteractionListener {
     private Fragment myPageFragment;
-    private Fragment mainFrameFragment;
+    private Fragment mainListFragment;
 
     private DrawerLayout drawer = null;
 
@@ -45,12 +46,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         myPageFragment = new MypageFragment();
-        mainFrameFragment = new MainFrameFragment();
+        mainListFragment = new MainListFragment();
 
         // 프래그먼트
         // 프래그먼트의 commit은 여러번 하면 에러가 뜨므로... commit이 필요할때마다 프래그먼트트랜잭션을 만들어서 사용한다
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.activity_content, mainFrameFragment).commit();
+        ft.add(R.id.activity_content, mainListFragment).commit();
 
         // 툴바 추가 (170123/상욱추가)
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -151,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(this, SearchActivity.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.map_button) {
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = new Intent(this, MainMapActivity.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

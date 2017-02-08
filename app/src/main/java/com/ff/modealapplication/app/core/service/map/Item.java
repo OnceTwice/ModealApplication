@@ -1,6 +1,7 @@
 package com.ff.modealapplication.app.core.service.map;
 
-public class Item {
+public class
+Item {
 	public String title;
 	public String imageUrl;
 	public String address;

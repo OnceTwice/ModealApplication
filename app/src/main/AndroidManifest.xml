@@ -143,6 +143,15 @@
 
         <!-- 액티비티 추가할때마다 android:theme="@style/AppTheme.NoActionBar" 도 추가해줘야 자체제작액션바 사용가능 -->
         <!-- 액티비티 추가할떄마다 android:name=".app.ui.message.WakeUpActivity" 도 추가해줘야 화면고정됨 -->
+        <activity
+            android:name=".app.ui.map.MainMapActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".app.ui.map.SearchMapRangeActivity"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".app.ui.map.AddressListActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

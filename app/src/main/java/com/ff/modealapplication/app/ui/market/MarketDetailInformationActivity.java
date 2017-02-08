@@ -1,5 +1,6 @@
 package com.ff.modealapplication.app.ui.market;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -11,5 +12,7 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market_detail_information);
+        Intent intent = new Intent(this.getIntent());
+
     }
 }
