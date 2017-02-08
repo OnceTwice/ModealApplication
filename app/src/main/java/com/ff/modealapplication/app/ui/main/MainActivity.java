@@ -24,8 +24,8 @@ import com.ff.modealapplication.app.ui.help.HelpActivity;
 import com.ff.modealapplication.app.ui.item.ItemActivity;
 import com.ff.modealapplication.app.ui.join.JoinActivity;
 import com.ff.modealapplication.app.ui.login.LoginActivity;
-import com.ff.modealapplication.app.ui.map.MainMapActivity;
 import com.ff.modealapplication.app.ui.map.MainMapFragment;
+import com.ff.modealapplication.app.ui.map.SearchMapRangeActivity;
 import com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity;
 import com.ff.modealapplication.app.ui.message.MessagingActivity;
 import com.ff.modealapplication.app.ui.mypage.MyPageActivity;
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(this, SearchActivity.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.map_button) {
-            Intent intent = new Intent(this, MainMapActivity.class);
+            Intent intent = new Intent(this, SearchMapRangeActivity.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

@@ -3,6 +3,7 @@ package com.ff.modealapplication.app.ui.map;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -13,17 +14,31 @@ import android.widget.TextView;
 import com.ff.modealapplication.R;
 
 public class SearchMapRangeActivity extends Activity implements View.OnClickListener {
+
+    public static Activity FinishSearchMapRangeActivity;
+
     private Button mConfirm, mCancel, findAddress;
-    private String longitude, latitude;
-    private String range = null;
+    private String longitude = null;
+    private String latitude = null;
+    private String range = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FinishSearchMapRangeActivity = SearchMapRangeActivity.this;
+
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_search_map_range);
 
-        setContent();
+        if (this.getIntent() != null) {
+            Intent setIntent = new Intent(this.getIntent());
+            ((TextView) findViewById(R.id.textView_address)).setText(setIntent.getStringExtra("title"));
+            longitude = setIntent.getStringExtra("longitude");
+            latitude = setIntent.getStringExtra("latitude");
+
+            setContent();
+        }
+
 
         ((SeekBar) findViewById(R.id.seekBar)).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -35,12 +50,10 @@ public class SearchMapRangeActivity extends Activity implements View.OnClickList
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
 
@@ -60,7 +73,14 @@ public class SearchMapRangeActivity extends Activity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnConfirm:
-                this.finish();
+                Intent intentResult = new Intent(this, SearchShopToPointActivity.class);
+                Log.d("Rnage=====>", "longitude=" + longitude + ", latitude=" + latitude + ", range=" + range);
+                intentResult.putExtra("longitude", longitude);
+                intentResult.putExtra("latitude", latitude);
+                intentResult.putExtra("title", ((TextView)findViewById(R.id.textView_address)).getText());
+                intentResult.putExtra("range", range);
+                startActivity(intentResult);
+
                 break;
 
             case R.id.button_findAddress:
@@ -93,10 +113,9 @@ public class SearchMapRangeActivity extends Activity implements View.OnClickList
         }
 
         if (requestCode == 1000) {
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             ((TextView) findViewById(R.id.textView_address)).setText(data.getStringExtra("title"));
-            longitude = data.getStringExtra("lng");
-            latitude = data.getStringExtra("lat");
+            longitude = data.getStringExtra("longitude");
+            latitude = data.getStringExtra("latitude");
 
 
             //Toast.makeText(MainActivity.this, "결과 : " + resultMsg, Toast.LENGTH_SHORT).show();

@@ -30,6 +30,8 @@ public class AddressListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FinishAddressListActivity = AddressListActivity.this;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address_list);
 
@@ -70,7 +72,6 @@ public class AddressListActivity extends AppCompatActivity {
             }
             super.onSuccess(addressVo);
             addressListArrayAdapter.add(daumItemVos);
-            Log.d("끝까지 잘됨?","ㅇㅇ 잘됨");
         }
     }
 

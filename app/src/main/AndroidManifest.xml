@@ -23,7 +23,6 @@
             android:value="@string/facebook_app_id" />
         <!-- facebook -->
 
-
         <activity
             android:name=".app.ui.main.MainActivity"
             android:screenOrientation="portrait"
@@ -34,7 +33,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
 
         <!-- 스플래시(어플 시작할때 잠깐 뜨는 이미지) -->
         <activity
@@ -151,7 +149,13 @@
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".app.ui.map.AddressListActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".app.ui.map.SearchToMapActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".app.ui.map.SearchShopToPointActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:hint="내 위치에서 검색"
-        android:text="광주"
+        android:text=""
         android:ems="10"
         android:id="@+id/editText_address"
         android:layout_alignParentTop="true"
@@ -90,7 +90,7 @@
 
 
     <Button
-    android:id="@+id/btnCancel"
+    android:id="@+id/btnConfirm"
     android:layout_width="150dp"
     android:layout_height="wrap_content"
     android:text="검색"
@@ -98,16 +98,16 @@
         android:layout_alignLeft="@+id/seekBar"
         android:layout_alignStart="@+id/seekBar"
         android:layout_marginBottom="8dp"
-        android:layout_toLeftOf="@+id/btnConfirm"
-        android:layout_toStartOf="@+id/btnConfirm" />
+        android:layout_toLeftOf="@+id/btnCancel"
+        android:layout_toStartOf="@+id/btnCancel" />
 
     <Button
-    android:id="@+id/btnConfirm"
+    android:id="@+id/btnCancel"
     android:layout_width="150dp"
     android:layout_height="wrap_content"
     android:text="취소"
-        android:layout_alignBaseline="@+id/btnCancel"
-        android:layout_alignBottom="@+id/btnCancel"
+        android:layout_alignBaseline="@+id/btnConfirm"
+        android:layout_alignBottom="@+id/btnConfirm"
         android:layout_alignRight="@+id/textView_address"
         android:layout_alignEnd="@+id/textView_address" />
 

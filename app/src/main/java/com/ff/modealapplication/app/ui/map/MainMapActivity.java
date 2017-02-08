@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -73,12 +72,8 @@ public class MainMapActivity extends AppCompatActivity implements MapView.MapVie
 
         /****************** 단추 *********************/
         findViewById(R.id.map_fab).setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
-                System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
                 Intent intent = new Intent(MainMapActivity.this, SearchMapRangeActivity.class);
                 startActivity(intent);
             }
@@ -91,7 +86,7 @@ public class MainMapActivity extends AppCompatActivity implements MapView.MapVie
     @Override
     public void onMapViewInitialized(MapView mapView) {
 //        mapView.setCurrentLocationTrackingMode(mapView.getCurrentLocationTrackingMode());
-        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+       // mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
 
 
         //문제점 ==> 자리가 아직 덜잡혔는데 모든 과정을 진행함...

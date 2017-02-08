@@ -46,7 +46,7 @@ public class AddressListArrayAdapter extends ArrayAdapter<DaumItemVo> {
         textViewId.setText(daumItemVo.getTitle());
         //버튼 세팅이다
 
-
+/*****************바로 선택*******************/
         view.findViewById(R.id.button_select).setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,21 +56,22 @@ public class AddressListArrayAdapter extends ArrayAdapter<DaumItemVo> {
 
                 Intent intent = ((AddressListActivity) context).getIntent();
                 intent.putExtra("title", daumItemVo.getTitle());
-                intent.putExtra("lng", "" + daumItemVo.getLng());
-                intent.putExtra("lat", "" + daumItemVo.getLat());
+                intent.putExtra("longitude", "" + daumItemVo.getLng());
+                intent.putExtra("latitude", "" + daumItemVo.getLat());
 
                 ((AddressListActivity) context).setResult(((AddressListActivity) context).RESULT_OK, intent);
                 ((AddressListActivity) context).finish();
             }
         });
 
+/*****************지도로 선택*******************/
         view.findViewById(R.id.button_map).setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(context, SearchToMapActivity.class);
-//                intent.putExtra("lng", "" + daumItemVo.getLng());
-//                intent.putExtra("lat", "" + daumItemVo.getLat());
-//                context.startActivity(intent);
+                Intent intent = new Intent(context, SearchToMapActivity.class);
+                intent.putExtra("longitude", "" + daumItemVo.getLng());
+                intent.putExtra("latitude", "" + daumItemVo.getLat());
+                context.startActivity(intent);
             }
         });
 
