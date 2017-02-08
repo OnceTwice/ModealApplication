@@ -130,7 +130,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         userVo.setGender(!object.optString("gender").isEmpty() ? object.optString("gender") : null);
                         userVo.setLocation(!object.optString("location").isEmpty() ? object.optJSONObject("location").optString("name").substring(0, object.optJSONObject("location").optString("name").lastIndexOf(',')) : null);
                         userVo.setBirth(!object.optString("birthday").isEmpty() ? object.optString("birthday") : null);
-                        userVo.setManagerIdentified(3);
+                        userVo.setManagerIdentified(3L);
 
                         new UserLoginTask(userVo).execute(); // 쓰레드를 써야하므로...
                     }
@@ -165,7 +165,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             GoogleSignInAccount acct = result.getSignInAccount();
             UserVo userVo = new UserVo();
             userVo.setId(acct.getEmail());
-            userVo.setManagerIdentified(4);
+            userVo.setManagerIdentified(4L);
 
             new UserLoginTask(userVo).execute();
         } else {

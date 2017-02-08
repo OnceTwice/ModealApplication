@@ -11,7 +11,7 @@ public class UserVo {
     private String gender;
     private String location;
     private String birth;
-    private int managerIdentified;
+    private Long managerIdentified;
     private Long shopNo;
 
     public Long getNo() {
@@ -62,11 +62,11 @@ public class UserVo {
         this.birth = birth;
     }
 
-    public int getManagerIdentified() {
+    public Long getManagerIdentified() {
         return managerIdentified;
     }
 
-    public void setManagerIdentified(int managerIdentified) {
+    public void setManagerIdentified(Long managerIdentified) {
         this.managerIdentified = managerIdentified;
     }
 

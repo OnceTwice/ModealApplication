@@ -22,7 +22,7 @@ public class LoginPreference {
         editor.putString("gender", userVo.getGender());
         editor.putString("location", userVo.getLocation());
         editor.putString("birth", userVo.getBirth());
-        editor.putInt("managerIdentified", userVo.getManagerIdentified());
+        editor.putLong("managerIdentified", userVo.getManagerIdentified());
         if (userVo.getShopNo() != null) {
             editor.putLong("shopNo", userVo.getShopNo());
         }

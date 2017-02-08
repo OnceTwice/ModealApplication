@@ -26,9 +26,27 @@ public class OwnerJoinService {
         System.out.println("USERVO=====" + userVo);
         System.out.println("SHOPVO=====" + shopVo);
 
-        HashMap<Object, Object> map = new HashMap<>();
-        map.put("user", userVo);
-        map.put("shop", shopVo);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userNo", userVo.getNo());
+        map.put("userId", userVo.getId());                              //
+        map.put("userPassword", userVo.getPassword());                  //
+        map.put("userGender", userVo.getGender());                      //
+        map.put("userLocation", userVo.getLocation());                  //
+        map.put("userBirth", userVo.getBirth());                        //
+        map.put("userManagerIdentified", userVo.getManagerIdentified());    //
+        map.put("userShopNo", userVo.getShopNo());
+
+        map.put("shopNo", shopVo.getNo());                              //
+        map.put("shopAddress", shopVo.getAddress());                    //
+        map.put("shopNewAddress", shopVo.getNewAddress());              //
+        map.put("shopName", shopVo.getName());                          //
+        map.put("shopPhone", shopVo.getPhone());                        //
+        map.put("shopPicture", shopVo.getPicture());                    //
+        map.put("shopIntroduce", shopVo.getIntroduce());                //
+        map.put("shopLongitude", shopVo.getLongitude());                //
+        map.put("shopLatitude", shopVo.getLatitude());                  //
+//        map.put("user", userVo);
+//        map.put("shop", shopVo);
 
         System.out.println(map);
 

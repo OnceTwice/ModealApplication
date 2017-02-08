@@ -26,6 +26,8 @@ import com.ff.modealapplication.app.core.vo.UserVo;
 import com.ff.modealapplication.app.ui.map.SearchShopToJoinActivity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import static android.app.Activity.RESULT_OK;
+
 public class OwnerJoinFragment extends Fragment {
     private EditText etID;
     private EditText etPassword;
@@ -131,19 +133,25 @@ public class OwnerJoinFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {        // SearchShopToJoinActivity.java에서 보낸 데이터를 받아옴
         super.onActivityResult(requestCode, resultCode, data);
 
-        JoinMapInfoVo joinMapInfoVo = (JoinMapInfoVo) data.getSerializableExtra("joinMapInfoVo");
+        if(resultCode== RESULT_OK && requestCode == 1000) {
+            Log.d("tttttttt", "bbbbbbbbb");
+            JoinMapInfoVo joinMapInfoVo = (JoinMapInfoVo) data.getSerializableExtra("joinMapInfoVo");
 
-        etMarketName.setText(joinMapInfoVo.getTitle());         // 매장명
-        etMarketAddress.setText(joinMapInfoVo.getAddress());    // 매장주소
-        marketNewAddress = joinMapInfoVo.getNewAddress();
-        etMarketPhoneNumber.setText(joinMapInfoVo.getPhone());  // 매장전화번호
-        imageURL = joinMapInfoVo.getImageUrl();
-        longitude = joinMapInfoVo.getLongitude();
-        latitude = joinMapInfoVo.getLatitude();
+            etMarketName.setText(joinMapInfoVo.getTitle());         // 매장명
+            etMarketAddress.setText(joinMapInfoVo.getAddress());    // 매장주소
+            marketNewAddress = joinMapInfoVo.getNewAddress();
+            etMarketPhoneNumber.setText(joinMapInfoVo.getPhone());  // 매장전화번호
+            imageURL = joinMapInfoVo.getImageUrl();
+            longitude = joinMapInfoVo.getLongitude();
+            latitude = joinMapInfoVo.getLatitude();
 
-        Log.d("onActivityResult 이미지", imageURL);
+            Log.d("onActivityResult 이미지", imageURL);
 
-        ImageLoader.getInstance().displayImage(imageURL, (ImageView)getView().findViewById(R.id.marketImage));
+            ImageLoader.getInstance().displayImage(imageURL, (ImageView)getView().findViewById(R.id.marketImage));
+        } else {
+
+        }
+
     }
 
     @Override
@@ -313,7 +321,7 @@ public class OwnerJoinFragment extends Fragment {
             userVo.setGender(gender);
             userVo.setLocation(city+gu+dong);
             userVo.setBirth(year+month+day);
-            userVo.setManagerIdentified(2);     // 2 : 사업자 고유 번호
+            userVo.setManagerIdentified(2L);     // 2 : 사업자 고유 번호
 
             shopVo.setName(marketName);
             shopVo.setAddress(marketAddress);
