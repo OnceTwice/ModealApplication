@@ -27,14 +27,14 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
     private LayoutInflater layoutInflater;
 
     //통신 중 오류시 error 이미지 보여주기
-    DisplayImageOptions displayImageOptions =  new DisplayImageOptions.Builder()
+    DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
             // .showImageOnLoading( R.drawable.ic_default_profile )// resource or drawable
-            .showImageForEmptyUri( R.drawable.ic_image_error )// resource or drawable
-            .showImageOnFail( R.drawable.ic_image_error )// resource or drawable
+            .showImageForEmptyUri(R.drawable.ic_image_error)// resource or drawable
+            .showImageOnFail(R.drawable.ic_image_error)// resource or drawable
             //.resetViewBeforeLoading( false )// default
-            .delayBeforeLoading( 0 )
+            .delayBeforeLoading(0)
             //.cacheInMemory( false )// default
-            .cacheOnDisc( true )// false is default
+            .cacheOnDisc(true)// false is default
             //.preProcessor(...)
             //.postProcessor(...)
             //.extraForDownloader(...)
@@ -55,24 +55,27 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        if(view == null){
-            view = layoutInflater.inflate(R.layout.row_main_list,parent, false);
+        if (view == null) {
+            view = layoutInflater.inflate(R.layout.row_main_list, parent, false);
         }
 
-        Map<String, Object> itemVo = (Map<String, Object>) getItem(position);
+        final Map<String, Object> itemVo = (Map<String, Object>) getItem(position);
 
         //이미지 저장 [ 연결된 ip로 upload ] 위치에 내용이 있어야 한다.
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
-        ImageLoader.getInstance().displayImage("http://192.168.1.87:8888/modeal/shop/images/"+itemVo.get("picture"), (ImageView)view.findViewById(R.id.main_image_item), displayImageOptions);
+        ImageLoader.getInstance().displayImage("http://192.168.1.93:8088/modeal/shop/images/" + itemVo.get("picture"), (ImageView) view.findViewById(R.id.main_image_item), displayImageOptions);
 
         //내용저장
-        TextView textTimeView=(TextView)view.findViewById(R.id.main_time_textView);
-        TextView textItemView=(TextView)view.findViewById(R.id.main_item_name);
-        TextView textPriceView=(TextView)view.findViewById(R.id.main_item_price);
-        TextView textOriPriceView=(TextView)view.findViewById(R.id.main_item_ori_price);
-        TextView textdiscountView=(TextView)view.findViewById(R.id.main_item_discount);
-        TextView textShopNameView=(TextView)view.findViewById(R.id.main_shop_shopName);
-        TextView textShopSpaceView=(TextView)view.findViewById(R.id.main_shop_space);
+        TextView textTimeView = (TextView) view.findViewById(R.id.main_time_textView);
+        TextView textItemView = (TextView) view.findViewById(R.id.main_item_name);
+        TextView textPriceView = (TextView) view.findViewById(R.id.main_item_price);
+        TextView textOriPriceView = (TextView) view.findViewById(R.id.main_item_ori_price);
+        TextView textdiscountView = (TextView) view.findViewById(R.id.main_item_discount);
+        TextView textShopNameView = (TextView) view.findViewById(R.id.main_shop_shopName);
+        TextView textShopSpaceView = (TextView) view.findViewById(R.id.main_shop_space);
+
+        // 액티비티로 데이터 보내기 위해서...
+        ((TextView)view.findViewById(R.id.send_no)).setText(String.valueOf(itemVo.get("no")));
 
         textTimeView.setText(itemVo.get("expDate").toString());
         textdiscountView.setText(String.valueOf(itemVo.get("discount")));
@@ -83,18 +86,23 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         textPriceView.setText(String.valueOf(itemVo.get("price")));
         textShopSpaceView.setText(itemVo.get("shopName").toString());
 
+        ((ImageView) view.findViewById(R.id.bookmark_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ImageView) v.findViewById(R.id.bookmark_button)).setImageResource(R.drawable.heart_full);
+            }
+        });
+
         return view;
 //        return super.getView(position, convertView, parent);
     }
 
-
-    public void add(List<Map<String, Object>> list){
-        if(list ==null || list.size()==0){
-          return;
+    public void add(List<Map<String, Object>> list) {
+        if (list == null || list.size() == 0) {
+            return;
         }
-        for(Map<String, Object> map : list){
-            add( map );
+        for (Map<String, Object> map : list) {
+            add(map);
         }
     }
-
 }

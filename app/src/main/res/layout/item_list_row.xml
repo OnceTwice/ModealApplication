@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical">
 
     <LinearLayout
@@ -72,6 +73,12 @@
                 android:gravity="right"
                 android:text="TextView"
                 android:textSize="17dp" />
+
+            <TextView
+                android:id="@+id/send_no"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone" />
         </LinearLayout>
 
         <!-- 매장명 / 별점 ★★★★★ / 거리 / 찜♡ 버튼 -->

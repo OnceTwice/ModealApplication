@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,8 +23,9 @@ import java.util.Map;
  * Created by bit-desktop on 2017-01-19.
  */
 
-public class ItemActivity extends AppCompatActivity { // AppCompatActivity 상속해줘야 main 화면 출력됨
+public class ItemActivity extends AppCompatActivity implements AdapterView.OnItemClickListener { // AppCompatActivity 상속해줘야 main 화면 출력됨
     private ItemListArrayAdapter itemListArrayAdapter = null;
+    private ListView listView = null;
 
     @Override // Alt + Insert 누르고 오버라이드 메서드 클릭 후 onCreate 추가
     protected void onCreate(/*@Nullable*/ Bundle savedInstanceState) {
@@ -40,51 +40,21 @@ public class ItemActivity extends AppCompatActivity { // AppCompatActivity 상�
 
         // ListView 생성
         itemListArrayAdapter = new ItemListArrayAdapter(this);
-        ListView listView = (ListView) findViewById(R.id.item_list);
-        LinearLayout linearLayout = (LinearLayout) View.inflate(this,R.layout.item_list_row ,null);
+        listView = (ListView) findViewById(R.id.item_list);
+//        LinearLayout linearLayout = (LinearLayout) View.inflate(this,R.layout.item_list_row ,null);
         listView.setAdapter(itemListArrayAdapter);
 
-
-
         // 리스트뷰 아이템 클릭 이벤트 처리
-       listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView adapterView, View view, int position, long id) {
-//               Intent intent = new Intent(ItemActivity.this, ItemDetailActivity.class);
-//                startActivity(intent);
-            }
-        });
+        listView.setOnItemClickListener(this);
 
         new ItemListTask().execute(); // 아래 ItemListTask 클래스 실행
+    }
 
-//        // 수정 버튼 클릭시
-//        findViewById(R.id.button_modify).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(ItemActivity.this, ItemModifyActivity.class);
-//                Log.d("!!!!!!!!!!!!!!!!", "!!!!!!!!!!!!!!");
-//                startActivity(intent);
-//            }
-//        });
-
-//        // 삭제 버튼 클릭시
-//        findViewById(R.id.button_delete).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(ItemActivity.this, ItemActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        // 상품 클릭시
-//        findViewById(R.id.item_list_row).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(ItemActivity.this, ItemDetailActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
+        intent.putExtra("no", ((TextView)view.findViewById(R.id.send_no)).getText().toString());
+        startActivity(intent);
     }
 
     // 헤더부분 옵션메뉴: ←, +
@@ -105,7 +75,6 @@ public class ItemActivity extends AppCompatActivity { // AppCompatActivity 상�
         }
         return super.onOptionsItemSelected(item); // return true와 동일
     }
-
 
     private class ItemListTask extends SafeAsyncTask<List<Map<String, Object>>> {
         @Override

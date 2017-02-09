@@ -1,6 +1,7 @@
 package com.ff.modealapplication.app.ui.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -10,17 +11,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.MainService;
+import com.ff.modealapplication.app.ui.item.ItemDetailActivity;
 
 import java.util.List;
 import java.util.Map;
 
-public class MainListFragment extends Fragment {
+import static android.R.id.list;
+
+public class MainListFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     private MainListArrayAdapter mainListArrayAdapter = null;
     ListView listView = null;
@@ -37,12 +43,20 @@ public class MainListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mFragment = inflater.inflate(R.layout.fragment_main_list, container, false);
         mainListArrayAdapter = new MainListArrayAdapter(mFragment.getContext());
-        listView = (ListView)mFragment.findViewById(android.R.id.list);
+        listView = (ListView) mFragment.findViewById(list);
         listView.setAdapter(mainListArrayAdapter);
+        listView.setOnItemClickListener(this);
 
         new MainListAsyncTask().execute(); // 뒤로가기해도 뜨기 위해선 onCreate가 아닌 onCreateView에 넣어야함
-                                            // onCreateView가 뷰가 만들어질때마다 이루어지는 것 같으므로... 뒤로가기해서 이 프래그먼트로 돌아올때 뷰를 다시 만드므로...?
+        // onCreateView가 뷰가 만들어질때마다 이루어지는 것 같으므로... 뒤로가기해서 이 프래그먼트로 돌아올때 뷰를 다시 만드므로...?
         return mFragment;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(getContext(), ItemDetailActivity.class);
+        intent.putExtra("no", ((TextView)view.findViewById(R.id.send_no)).getText().toString());
+        startActivity(intent);
     }
 
     private class MainListAsyncTask extends SafeAsyncTask<List<Map<String, Object>>> {

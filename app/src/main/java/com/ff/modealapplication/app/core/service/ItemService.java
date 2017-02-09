@@ -1,5 +1,7 @@
 package com.ff.modealapplication.app.core.service;
 
+import android.util.Log;
+
 import com.ff.modealapplication.andorid.network.JSONResult;
 import com.ff.modealapplication.app.core.vo.ItemVo;
 import com.github.kevinsawicki.http.HttpRequest;
@@ -20,7 +22,7 @@ public class ItemService {
     // 상품 목록 -----------------------------------------------------------------------------------
     public List<Map<String, Object>> itemList(Long shopNo) {
 
-        String url = "http://192.168.1.90:8088/modeal/list/shopItemList";
+        String url = "http://192.168.1.93:8088/modeal/list/shopItemList";
         HttpRequest httpRequest = HttpRequest.post(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
@@ -36,6 +38,9 @@ public class ItemService {
         }
         // 이클립스에서 어플로 데이터를 받기
         ItemService.JSONResultItemList jsonResult = fromJSON(httpRequest, ItemService.JSONResultItemList.class);
+
+        Log.w("======================", jsonResult.getData() + "----");
+
         return jsonResult.getData();
     }
 
@@ -46,7 +51,7 @@ public class ItemService {
     public List<ItemVo> itemInsert(String item_name, Long ori_price, Long count, Long price, String exp_date, Long discount) {
 
         // 데이터를 가져올 url를 작성해줌
-        String url = "http://192.168.1.90:8088/modeal/list";     // http://192.168.1.13:8088/modeal/list?no=2  내url 연결 사이트를 이클립스에 프로젝트를 만들어줘야함
+        String url = "http://192.168.1.93:8088/modeal/list";     // http://192.168.1.13:8088/modeal/list?no=2  내url 연결 사이트를 이클립스에 프로젝트를 만들어줘야함
         HttpRequest httpRequest = HttpRequest.post(url);               // post 방식으로 연결
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);     // 전달 타입(클래스명.메서드명(파라미터))
@@ -79,7 +84,7 @@ public class ItemService {
     // 상품 수정 -----------------------------------------------------------------------------------
     public List<ItemVo> itemModify(String item_name, Long ori_price, Long count, Long price, String exp_date, Long discount) {
 
-        String url = "http://192.168.1.90:8088/modeal/list";
+        String url = "http://192.168.1.93:8088/modeal/list";
         HttpRequest httpRequest = HttpRequest.post(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
@@ -101,6 +106,27 @@ public class ItemService {
 
         ItemService.JSONResultItemModify jsonResult = fromJSON(httpRequest, ItemService.JSONResultItemModify.class);
         return jsonResult.getData();
+    }
+
+    // 상품 상세 목록 ------------------------------------------------------------------------------ (170209/상욱추가)
+    public ItemVo itemDetail(Long no) {
+        Log.w("!!!!!!!!", "접근?");
+        String url = "http://192.168.1.93:8088/modeal/list/itemDetail";
+        HttpRequest httpRequest = HttpRequest.post(url);
+
+        httpRequest.contentType(httpRequest.CONTENT_TYPE_FORM);
+        httpRequest.accept(httpRequest.CONTENT_TYPE_JSON);
+        httpRequest.connectTimeout(10000);
+        httpRequest.readTimeout(10000);
+
+        httpRequest.send("no=" + no);
+        int responseCode = httpRequest.code();
+
+        if (responseCode != HttpURLConnection.HTTP_OK) {
+            throw new RuntimeException("HTTP Response :" + responseCode);
+        }
+
+        return fromJSON(httpRequest, ItemVo.class);
     }
 
     private class JSONResultItemModify extends JSONResult<List<ItemVo>> {

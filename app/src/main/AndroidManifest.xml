@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ff.modealapplication">
 
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!--<uses-permission android:name="android.permission.WAKE_LOCK" />-->
 
     <!-- 인터넷 권한 -->
     <uses-permission android:name="android.permission.INTERNET" />

@@ -47,8 +47,10 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
             }
 
             case R.id.button_cancel: {
-                Intent intent = new Intent(ItemModifyActivity.this, ItemActivity.class);
-                startActivity(intent);
+                // 누나 이건 그냥 finish() 해야해
+                // 상품목록에서 수정 눌러서 수정페이지로 넘어올때 이전 액티비티를 없애고 온게 아니라서 그냥 피니시만 해도 이전 액티비티가 남아있어서 거기로 가 (170209/상욱수정)
+//                Intent intent = new Intent(ItemModifyActivity.this, ItemActivity.class);
+//                startActivity(intent);
                 finish();
             }
         }
@@ -77,7 +79,7 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
             Log.d("discount : ", editText6.getText().toString());
             Long discount = Long.parseLong(editText6.getText().toString());
 
-            List<ItemVo> list = itemService.itemModify(item_name, ori_price, count, price, "12345", discount);
+            List<ItemVo> list = itemService.itemModify(item_name, ori_price, count, price, "a12345", discount);
             return list;
         }
 

@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ff.modealapplication.R;
@@ -37,9 +36,8 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> impl
 
     public ItemListArrayAdapter(Context context) {
         super(context, R.layout.item_list);
-        // layoutInflater = LayoutInflater.from(context);
-        // 위 방법으로 했더니 에러가 뜨길래 아래 방법으로 교체하니 에러 안뜸... (170207/상욱변경)
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+         layoutInflater = LayoutInflater.from(context);
+//        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE); // 위와 같음
     }
 
     @NonNull
@@ -68,13 +66,16 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> impl
 //        ((TextView) convertView.findViewById(R.id.shop_name)).setText(map.get("shopName").toString());             // 해당 매장명
         ((TextView) convertView.findViewById(R.id.item_list_clock)).setText(map.get("expDate").toString());        // 유통기한
         ((TextView) convertView.findViewById(R.id.item_list_name)).setText(map.get("name").toString());            // 상품명
-        ((TextView) convertView.findViewById(R.id.item_list_ori_price)).setText(map.get("oriPrice").toString());   // 원가
+        ((TextView) convertView.findViewById(R.id.item_list_ori_price)).setText((map.get("oriPrice")).toString());   // 원가
         ((TextView) convertView.findViewById(R.id.item_list_price)).setText(map.get("price").toString());          // 판매가
         ((TextView) convertView.findViewById(R.id.item_list_shop_name)).setText(map.get("shopName").toString());   // 매장명
-//        ((TextView) convertView.findViewById(R.id.item_list_distance)).setText(map.get("distance").toString());    // 거리(반경)
+        ((TextView) convertView.findViewById(R.id.item_list_distance)).setText(map.get("no").toString());    // 거리(반경)
+
+        // 액티비티로 데이터 보내기 위해서...
+        ((TextView)convertView.findViewById(R.id.send_no)).setText(String.valueOf(map.get("no")));
 
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
-        ImageLoader.getInstance().displayImage("http://192.168.1.90:8088/modeal/shop/images/" + map.get("picture"),
+        ImageLoader.getInstance().displayImage("http://192.168.1.93:8088/modeal/shop/images/" + map.get("picture"),
                 (ImageView) convertView.findViewById(R.id.item_list_image), displayImageOption);                // 상품이미지
 
         return convertView;
@@ -86,15 +87,15 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> impl
         switch (view.getId()) {
 
             case R.id.button_hiding_item: {
-                LinearLayout show = (LinearLayout) view.findViewById(R.id.button_hiding_item);
+//                LinearLayout show = (LinearLayout) view.findViewById(R.id.button_hiding_item);
                 if ( // 상품출력유무
                     ((Button) view.findViewById(R.id.button_hiding_item)).getText() == "보이기") {
                     ((Button) view.findViewById(R.id.button_hiding_item)).setText("숨기기");
-                    show.setVisibility(view.INVISIBLE);
+//                    show.setVisibility(view.INVISIBLE);
 
                 } else {
                     ((Button) view.findViewById(R.id.button_hiding_item)).setText("보이기");
-                    show.setVisibility(view.VISIBLE);
+//                    show.setVisibility(view.VISIBLE);
                 }
                 break;
             }

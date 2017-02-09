@@ -165,10 +165,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_myPage) {
-            Intent intent = new Intent(this, MyPageActivity.class);
-            startActivity(intent);
+            if ((Long)LoginPreference.getValue(getApplicationContext(), "managerIdentified") == -1) { // 로그인 안했을때
+                Toast.makeText(this, "로그인하세요", Toast.LENGTH_SHORT).show();
+            } else if ((Long)LoginPreference.getValue(getApplicationContext(), "managerIdentified") == 2) { // 사업자 로그인 했을때
+                Toast.makeText(this, "사업자페이지로넘어가기", Toast.LENGTH_SHORT).show();
+            } else if ((Long)LoginPreference.getValue(getApplicationContext(), "managerIdentified") == 1) { // 일반 로그인 했을때
+                Intent intent = new Intent(this, MyPageActivity.class);
+                startActivity(intent);
+            } else if ((Long)LoginPreference.getValue(getApplicationContext(), "managerIdentified") == 3 || (Long)LoginPreference.getValue(getApplicationContext(), "managerIdentified") == 4) { // 페이지북(3), 구글(4) 로그인 했을때
+                Toast.makeText(this, "소셜로그인중...", Toast.LENGTH_SHORT).show();
+            }
         } else if (id == R.id.nav_bookmark) {
 
         } else if (id == R.id.nav_setup) {
@@ -192,6 +199,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-        
+
     }
 }

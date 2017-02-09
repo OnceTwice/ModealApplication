@@ -5,87 +5,92 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:padding="10dp"
         android:weightSum="1">
 
         <ImageView
+            android:id="@+id/main_image_item"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            app:srcCompat="@android:color/background_light"
-            android:id="@+id/main_image_item"
-            android:layout_weight="0.10" />
+            android:layout_weight="0.10"
+            app:srcCompat="@android:color/background_light" />
 
         <TextView
-            android:text="TextView"
+            android:id="@+id/main_time_textView"
             android:layout_width="match_parent"
-            android:textAlignment="center"
             android:layout_height="31dp"
-            android:id="@+id/main_time_textView" />
+            android:text="TextView"
+            android:textAlignment="center" />
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="31dp">
+            android:layout_height="31dp"
+            android:orientation="horizontal">
 
             <TextView
-                android:text="TextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/main_item_name"
-                android:layout_weight="0.20" />
-
-            <TextView
-                android:text="TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle=""
+                android:layout_weight="0.20"
+                android:text="TextView" />
+
+            <TextView
                 android:id="@+id/main_item_ori_price"
-                android:layout_weight="0.05" />
-
-            <TextView
-                android:text="TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.05"
+                android:text="TextView"
+                android:textStyle="" />
+
+            <TextView
                 android:id="@+id/main_item_price"
-                android:layout_weight="0.03" />
-
-            <TextView
-                android:text="TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.03"
+                android:text="TextView" />
+
+            <TextView
                 android:id="@+id/main_item_discount"
-                android:layout_weight="0.03" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.03"
+                android:text="TextView" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                android:id="@+id/send_no"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="29dp">
+            android:layout_height="29dp"
+            android:orientation="horizontal">
 
             <TextView
-                android:text="TextView"
+                android:id="@+id/main_shop_shopName"
                 android:layout_width="175dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/main_shop_shopName" />
+                android:text="TextView" />
 
             <TextView
-                android:text="TextView"
+                android:id="@+id/main_shop_space"
                 android:layout_width="46dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/main_shop_space"
-                android:layout_weight="1.80" />
+                android:layout_weight="1.80"
+                android:text="TextView" />
 
             <ImageView
+                android:id="@+id/bookmark_button"
                 android:layout_width="56dp"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/heart2"
-                android:id="@+id/imageView"
-                android:background="#fff"/>
-
+                android:background="#fff"
+                app:srcCompat="@drawable/heart2" />
 
         </LinearLayout>
 

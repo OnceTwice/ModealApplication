@@ -234,8 +234,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
-        Log.w(email, password);
-
         boolean cancel = false;
         View focusView = null;
 
@@ -351,16 +349,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Integer doInBackground(Void... params) {
             try {
-                if (userVo.getManagerIdentified() == 3) { // 페이스북 로그인시
-                    UserVo serverUserVo = new LoginService().login(userVo);
-                    if (serverUserVo != null) {
-                        LoginPreference.put(getApplicationContext(), serverUserVo);
-                    } else {
-                        new LoginService().SocialJoin(userVo);
+                if (userVo.getManagerIdentified() == null) { // 이해불가능... null일때를 맨위에 올려야만 되는게 이상함... 원래 안이랬는데...
+                    userVo = new LoginService().login(userVo);
+                    if (userVo != null) {
+                        if (userVo.getManagerIdentified() == 3L || userVo.getManagerIdentified() == 4L) {
+                            return 1;
+                        }
                         LoginPreference.put(getApplicationContext(), userVo);
                     }
-                    return 4;
-                } else if (userVo.getManagerIdentified() == 4) { // 구글 로그인시
+
+                } else if (userVo.getManagerIdentified() == 4L) { // 구글 로그인시
                     UserVo serverUserVo = new LoginService().login(userVo);
                     if (serverUserVo != null) {
                         LoginPreference.put(getApplicationContext(), serverUserVo);
@@ -369,16 +367,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         LoginPreference.put(getApplicationContext(), userVo);
                     }
                     return 5;
-                } else {
-                    userVo = new LoginService().login(userVo);
-                    if (userVo != null) {
-                        if (userVo.getManagerIdentified() == 3 || userVo.getManagerIdentified() == 4) {
-                            return 1;
-                        }
+                } else if (userVo.getManagerIdentified() == 3L) { // 페이스북 로그인시
+                    UserVo serverUserVo = new LoginService().login(userVo);
+                    if (serverUserVo != null) {
+                        LoginPreference.put(getApplicationContext(), serverUserVo);
+                    } else {
+                        new LoginService().SocialJoin(userVo);
                         LoginPreference.put(getApplicationContext(), userVo);
                     }
+                    return 4;
                 }
             } catch (Exception e) {
+                Log.w("에러", e);
                 return 0;
             }
             if (userVo == null) {
@@ -411,11 +411,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     break;
                 case 4:
                     finish();
-                    Toast.makeText(getApplication(), "페이스북 로그인 성공", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "페이스북 로그인 성공", Toast.LENGTH_SHORT).show();
                     break;
                 case 5:
                     finish();
-                    Toast.makeText(getApplication(), "구글 로그인 성공", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "구글 로그인 성공", Toast.LENGTH_SHORT).show();
                     break;
             }
         }

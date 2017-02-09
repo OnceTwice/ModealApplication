@@ -29,8 +29,12 @@ public class LoginPreference {
         editor.commit();
     }
 
-    public static String getValue(Context context, String key) {
+    // long 타입도 getString으로 받아와서 에러가 떴었음...
+    public static Object getValue(Context context, String key) {
         SharedPreferences pref = context.getSharedPreferences("loginInfo", MODE_PRIVATE);
+        if (key.equals("managerIdentified") || key.equals("shopNo")) {
+            return pref.getLong(key, -1);
+        }
         return pref.getString(key, null);
     }
 
