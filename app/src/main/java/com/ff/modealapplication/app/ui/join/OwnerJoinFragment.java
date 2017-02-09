@@ -26,6 +26,7 @@ import com.ff.modealapplication.app.core.service.map.JoinMapInfoVo;
 import com.ff.modealapplication.app.core.vo.ShopVo;
 import com.ff.modealapplication.app.core.vo.UserVo;
 import com.ff.modealapplication.app.ui.map.SearchShopToJoinActivity;
+import com.ff.modealapplication.app.ui.map.SearchToShopInMapActivity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import static android.app.Activity.RESULT_OK;
@@ -255,6 +256,8 @@ public class OwnerJoinFragment extends Fragment {
                             startActivityForResult(intentToMap, 1000);
                         } else if(flag[0] == 1) {
                             Toast.makeText(getActivity(), "다른 곳으로!!!", Toast.LENGTH_SHORT).show();
+                            Intent intentToMap = new Intent(OwnerJoinFragment.this.getActivity(), SearchToShopInMapActivity.class);
+                            startActivityForResult(intentToMap, 1000);
                         }
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
