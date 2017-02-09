@@ -59,14 +59,14 @@
             android:layout_marginBottom="30dp"
             android:layout_marginEnd="30dp"
             android:layout_marginRight="30dp"
-            android:src="@drawable/apple"
+            android:src="@drawable/icon_map_ok"
             app:backgroundTint="@color/colorModeal"
             app:fabSize="mini"
             app:rippleColor="@color/colorPrimaryDark" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/apple"
+            app:srcCompat="@drawable/icon_map_ok"
             android:layout_gravity="center" />
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>
