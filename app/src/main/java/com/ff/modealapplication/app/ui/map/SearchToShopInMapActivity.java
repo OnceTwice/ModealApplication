@@ -17,8 +17,6 @@ import net.daum.mf.map.api.MapView;
 
 public class SearchToShopInMapActivity extends AppCompatActivity implements MapView.MapViewEventListener {
 
-    Double longitude;
-    Double latitude;
     private MapView mapView;
 
     @Override
