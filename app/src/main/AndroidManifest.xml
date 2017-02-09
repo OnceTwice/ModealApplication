@@ -103,11 +103,6 @@
             android:label="@string/Login"
             android:screenOrientation="portrait"
             android:theme="@style/App_Simple" />
-        <activity
-            android:name=".app.ui.mypage.MyPageActivity"
-            android:label="@string/MyPage"
-            android:screenOrientation="portrait"
-            android:theme="@style/App_Simple" />
 
         <!-- 아이템 액티비티 -->
         <activity
@@ -159,6 +154,12 @@
 
         <activity android:name=".app.ui.map.SearchToShopInMapActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".app.ui.mypage.UserMyPageActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".app.ui.mypage.OwnerMyPageActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
     </application>
 
 </manifest>

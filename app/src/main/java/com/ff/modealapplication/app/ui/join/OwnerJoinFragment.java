@@ -83,6 +83,8 @@ public class OwnerJoinFragment extends Fragment {
     String longitude = "";
     String latitude = "";
 
+    final int[] flag = {0};
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -137,24 +139,30 @@ public class OwnerJoinFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode== RESULT_OK && requestCode == 1000) {
-            Log.d("tttttttt", "bbbbbbbbb");
-            JoinMapInfoVo joinMapInfoVo = (JoinMapInfoVo) data.getSerializableExtra("joinMapInfoVo");
+            if(flag[0] == 0) {
+                Log.d("tttttttt", "bbbbbbbbb");
+                JoinMapInfoVo joinMapInfoVo = (JoinMapInfoVo) data.getSerializableExtra("joinMapInfoVo");
 
-            etMarketName.setText(joinMapInfoVo.getTitle());         // 매장명
-            etMarketAddress.setText(joinMapInfoVo.getAddress());    // 매장주소
-            marketNewAddress = joinMapInfoVo.getNewAddress();
-            etMarketPhoneNumber.setText(joinMapInfoVo.getPhone());  // 매장전화번호
-            imageURL = joinMapInfoVo.getImageUrl();
-            longitude = joinMapInfoVo.getLongitude();
-            latitude = joinMapInfoVo.getLatitude();
+                etMarketName.setText(joinMapInfoVo.getTitle());         // 매장명
+                etMarketAddress.setText(joinMapInfoVo.getAddress());    // 매장주소
+                marketNewAddress = joinMapInfoVo.getNewAddress();
+                etMarketPhoneNumber.setText(joinMapInfoVo.getPhone());  // 매장전화번호
+                imageURL = joinMapInfoVo.getImageUrl();
+                longitude = joinMapInfoVo.getLongitude();
+                latitude = joinMapInfoVo.getLatitude();
 
-            Log.d("onActivityResult 이미지", imageURL);
+                Log.d("onActivityResult 이미지", imageURL);
 
-            ImageLoader.getInstance().displayImage(imageURL, (ImageView)getView().findViewById(R.id.marketImage));
+                ImageLoader.getInstance().displayImage(imageURL, (ImageView)getView().findViewById(R.id.marketImage));
+            } else if(flag[0] == 1) {
+                longitude = data.getStringExtra("longitude");
+                latitude = data.getStringExtra("latitude");
+//                Log.d("위치위치위치", longitude + "=======" + latitude);
+//                Toast.makeText(getActivity(), "longitude : " + longitude + ", latitude : " + latitude, Toast.LENGTH_SHORT).show();
+            }
         } else {
 
         }
-
     }
 
     @Override
@@ -239,8 +247,8 @@ public class OwnerJoinFragment extends Fragment {
         btnMarketSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final int[] flag = {0};
                 String items[] = {"매장명으로 검색", "지도에서 직접 찾기"};
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("Title");
                 builder.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
@@ -255,7 +263,6 @@ public class OwnerJoinFragment extends Fragment {
                             Intent intentToMap = new Intent(OwnerJoinFragment.this.getActivity(), SearchShopToJoinActivity.class);
                             startActivityForResult(intentToMap, 1000);
                         } else if(flag[0] == 1) {
-                            Toast.makeText(getActivity(), "다른 곳으로!!!", Toast.LENGTH_SHORT).show();
                             Intent intentToMap = new Intent(OwnerJoinFragment.this.getActivity(), SearchToShopInMapActivity.class);
                             startActivityForResult(intentToMap, 1000);
                         }
@@ -266,6 +273,7 @@ public class OwnerJoinFragment extends Fragment {
                         dialog.cancel();
                     }
                 });
+
                 builder.show();
             }
 

@@ -44,6 +44,7 @@ public class SearchToShopInMapActivity extends AppCompatActivity implements MapV
                 returnIntent.putExtra("latitude", String.valueOf(mapView.getMapCenterPoint().getMapPointGeoCoord().latitude));
                 returnIntent.putExtra("longitude", String.valueOf(mapView.getMapCenterPoint().getMapPointGeoCoord().longitude));
 
+                setResult(RESULT_OK, returnIntent);
                 finish();
             }
         });

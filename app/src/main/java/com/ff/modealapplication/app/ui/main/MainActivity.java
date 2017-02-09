@@ -28,12 +28,11 @@ import com.ff.modealapplication.app.ui.map.MainMapFragment;
 import com.ff.modealapplication.app.ui.map.SearchMapRangeActivity;
 import com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity;
 import com.ff.modealapplication.app.ui.message.MessagingActivity;
-import com.ff.modealapplication.app.ui.mypage.MyPageActivity;
-import com.ff.modealapplication.app.ui.mypage.MypageFragment;
+import com.ff.modealapplication.app.ui.mypage.OwnerMyPageActivity;
+import com.ff.modealapplication.app.ui.mypage.UserMyPageActivity;
 import com.ff.modealapplication.app.ui.search.SearchActivity;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, MainMapFragment.OnFragmentInteractionListener {
-    private Fragment myPageFragment;
     private Fragment mainListFragment;
 
     private DrawerLayout drawer = null;
@@ -45,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        myPageFragment = new MypageFragment();
         mainListFragment = new MainListFragment();
 
         // 프래그먼트
@@ -166,12 +164,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_myPage) {
-            if ((Long)LoginPreference.getValue(getApplicationContext(), "managerIdentified") == -1) { // 로그인 안했을때
+            if ((Long)LoginPreference.getValue(getApplicationContext(), "managerIdentified") == -1) {       // 로그인 안했을때
                 Toast.makeText(this, "로그인하세요", Toast.LENGTH_SHORT).show();
+            } else if ((Long)LoginPreference.getValue(getApplicationContext(), "managerIdentified") == 1) { // 사용자 로그인 했을때
+                Toast.makeText(this, "사용자 페이지", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, UserMyPageActivity.class);
+                startActivity(intent);
             } else if ((Long)LoginPreference.getValue(getApplicationContext(), "managerIdentified") == 2) { // 사업자 로그인 했을때
-                Toast.makeText(this, "사업자페이지로넘어가기", Toast.LENGTH_SHORT).show();
-            } else if ((Long)LoginPreference.getValue(getApplicationContext(), "managerIdentified") == 1) { // 일반 로그인 했을때
-                Intent intent = new Intent(this, MyPageActivity.class);
+                Toast.makeText(this, "사업자 페이지", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, OwnerMyPageActivity.class);
                 startActivity(intent);
             } else if ((Long)LoginPreference.getValue(getApplicationContext(), "managerIdentified") == 3 || (Long)LoginPreference.getValue(getApplicationContext(), "managerIdentified") == 4) { // 페이지북(3), 구글(4) 로그인 했을때
                 Toast.makeText(this, "소셜로그인중...", Toast.LENGTH_SHORT).show();

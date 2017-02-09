@@ -48,12 +48,12 @@ public class OwnerJoinService {
 //        map.put("user", userVo);
 //        map.put("shop", shopVo);
 
-        System.out.println(map);
+//        System.out.println(map);
 
         httpRequest.send(toJson(map));           // 에러 발생 지점
 
-        System.out.println(userVo);
-        System.out.println(toJson(userVo));
+//        System.out.println(userVo);
+//        System.out.println(toJson(userVo));
 
         int responseCode = httpRequest.code();
 
