@@ -1,9 +1,11 @@
 package com.ff.modealapplication.app.ui.join;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -236,8 +238,32 @@ public class OwnerJoinFragment extends Fragment {
         btnMarketSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentToMap = new Intent(OwnerJoinFragment.this.getActivity(), SearchShopToJoinActivity.class);
-                startActivityForResult(intentToMap, 1000);
+                final int[] flag = {0};
+                String items[] = {"매장명으로 검색", "지도에서 직접 찾기"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Title");
+                builder.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        Toast.makeText(getActivity(), i+"", Toast.LENGTH_SHORT).show();
+                        flag[0] = i;
+                    }
+                }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        if(flag[0] == 0) {
+                            Intent intentToMap = new Intent(OwnerJoinFragment.this.getActivity(), SearchShopToJoinActivity.class);
+                            startActivityForResult(intentToMap, 1000);
+                        } else if(flag[0] == 1) {
+                            Toast.makeText(getActivity(), "다른 곳으로!!!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Cancel 버튼 클릭 시
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
             }
 
         });
@@ -323,15 +349,6 @@ public class OwnerJoinFragment extends Fragment {
             userVo.setBirth(year+month+day);
             userVo.setManagerIdentified(2L);     // 2 : 사업자 고유 번호
 
-            shopVo.setName(marketName);
-            shopVo.setAddress(marketAddress);
-            shopVo.setNewAddress(marketNewAddress);
-            shopVo.setPhone(marketPhoneNumber);
-            shopVo.setPicture(imageURL);
-            shopVo.setIntroduce(marketIntroduce);
-            shopVo.setLongitude(Double.parseDouble(longitude));
-            shopVo.setLatitude(Double.parseDouble(latitude));
-
             Log.d("id======", id);
             Log.d("password======", password);
 
@@ -343,12 +360,32 @@ public class OwnerJoinFragment extends Fragment {
             Log.d("month======", month);
             Log.d("day======", day);
 
+            shopVo.setName(marketName);
+            shopVo.setAddress(marketAddress);
+            shopVo.setNewAddress(marketNewAddress);
+            shopVo.setPhone(marketPhoneNumber);
+            shopVo.setPicture(imageURL);
+            shopVo.setIntroduce(marketIntroduce);
+
             Log.d("marketName===", marketName);
             Log.d("marketAddress===", marketAddress);
             Log.d("marketNewAddress===", marketNewAddress);
             Log.d("marketPhoneNumber===", marketPhoneNumber);
             Log.d("imageURL===", imageURL);
             Log.d("marketIntroduce===", marketIntroduce);
+            Log.d("longitude===", longitude);
+            Log.d("latitude===", latitude);
+
+            if(longitude == null) {
+                shopVo.setLongitude(Double.parseDouble("0.0"));
+            } else {
+                shopVo.setLongitude(Double.parseDouble(longitude));
+            }
+            if(latitude == null) {
+                shopVo.setLatitude(Double.parseDouble("0.0"));
+            } else {
+                shopVo.setLatitude(Double.parseDouble(latitude));
+            }
             Log.d("longitude===", longitude);
             Log.d("latitude===", latitude);
 
