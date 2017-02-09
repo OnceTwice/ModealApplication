@@ -31,9 +31,6 @@ public class SearchToShopInMapActivity extends AppCompatActivity implements MapV
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 뒤로가기 화살표 표시
 
-        Intent intent = new Intent(this.getIntent());
-        longitude = Double.valueOf(intent.getStringExtra("longitude"));
-        latitude = Double.valueOf(intent.getStringExtra("latitude"));
 
         mapView = new MapView(this);
         mapView.setDaumMapApiKey(MapApiConst.DAUM_MAPS_ANDROID_APP_API_KEY);
@@ -65,7 +62,7 @@ public class SearchToShopInMapActivity extends AppCompatActivity implements MapV
 
     @Override
     public void onMapViewInitialized(MapView mapView) {
-        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(latitude, longitude), true);
+        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(37.537229, 127.005515), true);
     }
 
     @Override
