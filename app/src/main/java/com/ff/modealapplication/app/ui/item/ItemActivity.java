@@ -54,6 +54,7 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
         intent.putExtra("no", ((TextView)view.findViewById(R.id.send_no)).getText().toString());
+
         startActivity(intent);
     }
 

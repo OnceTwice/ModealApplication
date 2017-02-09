@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.ff.modealapplication.R;
@@ -60,7 +61,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.button_delete: {
+            case R.id.button_delete_item: {
 //            ItemListAsyncTask itemListAsyncTask = new ItemListAsyncTask();
 //            itemListAsyncTask.execute();
 
@@ -69,13 +70,13 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                 finish();
             }
 
-            case R.id.button_hiding: {
+            case R.id.button_hiding_item: {
                 Intent intent = new Intent(ItemDetailActivity.this, ItemActivity.class);
                 startActivity(intent);
                 finish();
             }
 
-            case R.id.button_modify: {
+            case R.id.button_modify_item: {
                 Intent intent = new Intent(ItemDetailActivity.this, ItemActivity.class);
                 startActivity(intent);
                 finish();
@@ -103,11 +104,11 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         protected void onSuccess(ItemVo itemVo) throws Exception {
             Log.w("!!!!!!!!", "성공");
             StringTokenizer tokens = new StringTokenizer(itemVo.getExpDate());
-            String year = tokens.nextToken("/");
-            String month = tokens.nextToken("/");
-            String day = tokens.nextToken(" ");
-            String hour = tokens.nextToken(":");
-            String minute = tokens.nextToken(":");
+            String year = tokens.nextToken("년");
+            String month = tokens.nextToken("월");
+            String day = tokens.nextToken("일 ");
+            String hour = tokens.nextToken("시");
+            String minute = tokens.nextToken("분");
 
             ((TextView)findViewById(R.id.item_list_clock)).setText(year + "년 " + month + "월 " + day + "일 " + hour + "시 " + minute + "분");
         }

@@ -40,9 +40,9 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_insert); // ← 입력된 레이아웃의 대한 클래스
 
-        // 텍스트뷰 2개 연결
-        dateText = (TextView)findViewById(R.id.date_text);
-        timeText = (TextView)findViewById(R.id.time_text);
+        // 유통기한 날짜ㆍ시간 텍스트뷰 연결
+        dateText = (TextView) findViewById(R.id.date_text);
+        timeText = (TextView) findViewById(R.id.time_text);
 
         // 현재 날짜와 시간을 가져오기 위한 calender 인스턴스 선언
         Calendar calendar = new GregorianCalendar();
@@ -67,19 +67,20 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         switch (view.getId()) {
 
             // 날짜 버튼 클릭시 설정 화면 보여줌
-            case R.id.button_date: {
+            case R.id.date_text: {
                 // 여기서 리스너도 등록함
                 new DatePickerDialog(ItemInsertActivity.this, DateSetListener, Year, Month, Day).show();
                 break;
             }
 
             // 시간 버튼 클릭시 설정 화면 보여줌
-            case R.id.button_time: {
+            case R.id.time_text: {
                 new TimePickerDialog(ItemInsertActivity.this, TimeSetListener, Hour, Minute, false).show();
                 break;
             }
 
-            case R.id.button_insert: { // 버튼 클릭시
+            // 등록 버튼 클릭시
+            case R.id.button_insert: {
                 ItemListAsyncTask itemListAsyncTask = new ItemListAsyncTask();
                 itemListAsyncTask.execute();
 
@@ -89,6 +90,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
                 break;
             }
 
+            // 취소 버튼 클릭시
             case R.id.button_cancel: {
                 Intent intent = new Intent(ItemInsertActivity.this, ItemActivity.class);
                 startActivity(intent);
@@ -121,7 +123,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         }
     };
 
-    void UpdateNow(){
+    void UpdateNow() {
         dateText.setText(String.format("%d/%d/%d", Year, Month + 1, Day));
         timeText.setText(String.format("%d:%d", Hour, Minute));
         String expDate = dateText.getText().toString() + " " + timeText.getText().toString();
@@ -131,25 +133,25 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
     private class ItemListAsyncTask extends SafeAsyncTask<List<ItemVo>> {
 
         public List<ItemVo> call() throws Exception {
-            EditText editText1 = (EditText) findViewById(R.id.item_name);
-            Log.d("name : ", editText1.getText().toString());
-            String item_name = editText1.getText().toString();
+            EditText nameInsert = (EditText) findViewById(R.id.item_name);
+            Log.d("name : ", nameInsert.getText().toString());
+            String item_name = nameInsert.getText().toString();
 
-            EditText editText2 = (EditText) findViewById(R.id.ori_price);
-            Log.d("ori_price : ", editText2.getText().toString());
-            Long ori_price = Long.parseLong(editText2.getText().toString()); // 스트링을 롱으로 변경해줌
+            EditText oriInsert = (EditText) findViewById(R.id.ori_price);
+            Log.d("ori_price : ", oriInsert.getText().toString());
+            Long ori_price = Long.parseLong(oriInsert.getText().toString()); // 스트링을 롱으로 변경해줌
 
-            EditText editText3 = (EditText) findViewById(R.id.count);
-            Log.d("count : ", editText3.getText().toString());
-            Long count = Long.parseLong(editText3.getText().toString());
+            EditText countInsert = (EditText) findViewById(R.id.count);
+            Log.d("count : ", countInsert.getText().toString());
+            Long count = Long.parseLong(countInsert.getText().toString());
 
-            EditText editText4 = (EditText) findViewById(R.id.price);
-            Log.d("price : ", editText4.getText().toString());
-            Long price = Long.parseLong(editText4.getText().toString());
+            EditText priceInsert = (EditText) findViewById(R.id.price);
+            Log.d("price : ", priceInsert.getText().toString());
+            Long price = Long.parseLong(priceInsert.getText().toString());
 
-            EditText editText5 = (EditText) findViewById(R.id.discount);
-            Log.d("discount : ", editText5.getText().toString());
-            Long discount = Long.parseLong(editText5.getText().toString());
+            EditText discountInsert = (EditText) findViewById(R.id.discount);
+            Log.d("discount : ", discountInsert.getText().toString());
+            Long discount = Long.parseLong(discountInsert.getText().toString());
 
             TextView dateText = (TextView) findViewById(R.id.date_text);
             Log.d("exp_date : ", dateText.getText().toString());
@@ -159,7 +161,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
             Log.d("exp_date : ", timeText.getText().toString());
             String exp_time = timeText.getText().toString();
 
-            List<ItemVo> list = itemService.itemInsert(item_name, ori_price, count, price, exp_date, discount);
+            List<ItemVo> list = itemService.itemInsert(item_name, ori_price, count, price, "abcde", discount);
 
             return list;
         }

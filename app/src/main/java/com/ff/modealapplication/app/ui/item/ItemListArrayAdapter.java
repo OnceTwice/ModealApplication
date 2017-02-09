@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ff.modealapplication.R;
@@ -61,7 +62,6 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> impl
         holder.modify.setOnClickListener(this);
         holder.delete.setOnClickListener(this);
 
-
         Map<String, Object> map = getItem(position);
 //        ((TextView) convertView.findViewById(R.id.shop_name)).setText(map.get("shopName").toString());             // 해당 매장명
         ((TextView) convertView.findViewById(R.id.item_list_clock)).setText(map.get("expDate").toString());        // 유통기한
@@ -75,7 +75,7 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> impl
         ((TextView)convertView.findViewById(R.id.send_no)).setText(String.valueOf(map.get("no")));
 
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
-        ImageLoader.getInstance().displayImage("http://192.168.1.93:8088/modeal/shop/images/" + map.get("picture"),
+        ImageLoader.getInstance().displayImage("http://192.168.1.90:8088/modeal/shop/images/" + map.get("picture"),
                 (ImageView) convertView.findViewById(R.id.item_list_image), displayImageOption);                // 상품이미지
 
         return convertView;
