@@ -71,7 +71,7 @@
             android:id="@+id/center_Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_map_ok"
+            android:src="@drawable/icon_map_aim"
             app:fabSize="mini"
             android:layout_gravity="center"/>
     </android.support.design.widget.CoordinatorLayout>

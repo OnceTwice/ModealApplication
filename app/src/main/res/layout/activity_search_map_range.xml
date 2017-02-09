@@ -1,128 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dip"
-    android:layout_height="200dip"
-    android:background="#ffffff">
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="내 위치에서 검색"
-        android:text="서초2동"
-        android:ems="10"
-        android:id="@+id/editText_address"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="13dp"
-        android:layout_toStartOf="@+id/button_findAddress"
-        android:layout_toLeftOf="@+id/button_findAddress" />
-
-    <Button
-    android:text="주소찾기"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/button_findAddress"
-        android:layout_alignBottom="@+id/editText_address"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_alignTop="@+id/editText_address" /><![CDATA[
-
-    " />
-
-    ]]>
+    android:layout_height="400dip"
+    android:background="#eeeeee">
 
     <TextView
-    android:text="                       "
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/textView_address"
+        android:id="@+id/textView_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView6"
         android:layout_alignBottom="@+id/textView6"
-        android:layout_toRightOf="@+id/textView6"
+        android:layout_alignEnd="@+id/button_findAddress"
         android:layout_alignRight="@+id/button_findAddress"
-        android:layout_alignEnd="@+id/button_findAddress" />
-
-    <TextView
-    android:text="주소 : "
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="11dp"
-    android:id="@+id/textView6"
-        android:layout_below="@+id/editText_address"
-        android:layout_alignLeft="@+id/editText_address"
-        android:layout_alignStart="@+id/editText_address" />
-
-    <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="범위(m) :"
-    android:id="@+id/textView"
-        android:layout_below="@+id/seekBar"
         android:layout_toRightOf="@+id/textView6"
-        android:layout_toEndOf="@+id/textView6"
-        android:layout_marginLeft="13dp"
-        android:layout_marginStart="13dp" />
+        android:text="" />
 
-    <SeekBar
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/seekBar"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/textView6"
-        android:layout_alignStart="@+id/textView6"
-        android:layout_alignRight="@+id/textView_address"
-        android:layout_alignEnd="@+id/textView_address" />
     <!--android:layout_toStartOf="@+id/button_findAddress" />-->
     <TextView
-        android:text="      "
+        android:id="@+id/textView_lange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView_lange"
         android:layout_alignBaseline="@+id/textView"
         android:layout_alignBottom="@+id/textView"
-        android:layout_toRightOf="@+id/textView" />
+        android:layout_toRightOf="@+id/textView"
+        android:text="      " />
 
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/button_findAddress"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="39dp"
+        android:text="주소 : " />
 
     <Button
-    android:id="@+id/btnConfirm"
-    android:layout_width="150dp"
-    android:layout_height="wrap_content"
-    android:text="검색"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/seekBar"
-        android:layout_alignStart="@+id/seekBar"
-        android:layout_marginBottom="8dp"
-        android:layout_toLeftOf="@+id/btnCancel"
-        android:layout_toStartOf="@+id/btnCancel" />
-
-    <Button
-    android:id="@+id/btnCancel"
-    android:layout_width="150dp"
-    android:layout_height="wrap_content"
-    android:text="취소"
+        android:id="@+id/btnCancel"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/btnConfirm"
         android:layout_alignBottom="@+id/btnConfirm"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="취소" />
+
+    <Button
+        android:id="@+id/btnConfirm"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="16dp"
+        android:text="검색" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:textOff="내 위치 찾기"
+        android:textOn="내 위치찾기 종료" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnConfirm"
+        android:layout_alignLeft="@+id/textView6"
+        android:layout_alignStart="@+id/textView6"
+        android:layout_marginBottom="50dp"
+        android:text="범위(m) :" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView"
+        android:layout_alignEnd="@+id/textView_address"
+        android:layout_alignLeft="@+id/editText_address"
         android:layout_alignRight="@+id/textView_address"
-        android:layout_alignEnd="@+id/textView_address" />
+        android:layout_alignStart="@+id/editText_address"
+        android:layout_marginBottom="40dp" />
 
+    <EditText
+        android:id="@+id/editText_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/text_mygps"
+        android:layout_alignStart="@+id/text_mygps"
+        android:layout_below="@+id/toggleButton"
+        android:layout_marginTop="30dp"
+        android:layout_toLeftOf="@+id/button_findAddress"
+        android:layout_toStartOf="@+id/button_findAddress"
+        android:ems="10"
+        android:hint="주소를 입력해 주세요"
+        android:inputType="textPersonName"
+        android:text="서초2동" />
 
-    <!---->
+    <Button
+        android:id="@+id/button_findAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/editText_address"
+        android:layout_alignEnd="@+id/toggleButton"
+        android:layout_alignRight="@+id/toggleButton"
+        android:text="주소찾기" />
 
-
-
-
-
-
-
-
-
-
-
-
+    <TextView
+        android:id="@+id/text_mygps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/toggleButton"
+        android:layout_alignBottom="@+id/toggleButton"
+        android:layout_alignLeft="@+id/textView6"
+        android:layout_alignStart="@+id/textView6"
+        android:layout_toLeftOf="@+id/toggleButton"
+        android:text="내 위치 : " />
 </RelativeLayout>

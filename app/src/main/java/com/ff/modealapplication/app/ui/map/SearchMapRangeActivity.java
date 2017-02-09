@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ff.modealapplication.R;
 
@@ -37,6 +38,7 @@ public class SearchMapRangeActivity extends Activity implements View.OnClickList
             latitude = setIntent.getStringExtra("latitude");
 
             setContent();
+
         }
 
 
@@ -44,7 +46,7 @@ public class SearchMapRangeActivity extends Activity implements View.OnClickList
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-                ((TextView) findViewById(R.id.textView)).setText("주변반경 : " + progress * 10);
+                ((TextView) findViewById(R.id.textView)).setText("범위(m) : " + progress * 10);
                 range = String.valueOf(progress * 10);
             }
 
@@ -73,25 +75,36 @@ public class SearchMapRangeActivity extends Activity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnConfirm:
-                Intent intentResult = new Intent(this, SearchShopToPointActivity.class);
-                Log.d("Rnage=====>", "longitude=" + longitude + ", latitude=" + latitude + ", range=" + range);
-                intentResult.putExtra("longitude", longitude);
-                intentResult.putExtra("latitude", latitude);
-                intentResult.putExtra("title", ((TextView)findViewById(R.id.textView_address)).getText());
-                intentResult.putExtra("range", range);
-                startActivity(intentResult);
+                if((((TextView)findViewById(R.id.textView_address)).getText().toString()).equals("")){
+
+                    Toast.makeText(getApplicationContext(), "'주소찾기' 버튼을 실행 해 주세요", Toast.LENGTH_SHORT).show();
+                }else{
+
+                    Intent intentResult = new Intent(this, SearchShopToPointActivity.class);
+                    Log.d("Rnage=====>", "longitude=" + longitude + ", latitude=" + latitude + ", range=" + range);
+                    intentResult.putExtra("longitude", longitude);
+                    intentResult.putExtra("latitude", latitude);
+                    intentResult.putExtra("title", ((TextView) findViewById(R.id.textView_address)).getText());
+                    intentResult.putExtra("range", range);
+                    startActivity(intentResult);
+                }
 
                 break;
 
             case R.id.button_findAddress:
+                if ((((EditText)findViewById(R.id.editText_address)).getText().toString()).equals(""))  {
+                    Toast.makeText(getApplicationContext(), "주소를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                } else {
 
-                Intent intent = new Intent(this, AddressListActivity.class);
-                EditText editText = (EditText) findViewById(R.id.editText_address);
+                    Intent intent = new Intent(this, AddressListActivity.class);
+                    EditText editText = (EditText) findViewById(R.id.editText_address);
 
-                String addr = editText.getText().toString();
+                    String addr = editText.getText().toString();
 
-                intent.putExtra("addr", addr);
-                startActivityForResult(intent, 1000);
+                    intent.putExtra("addr", addr);
+                    startActivityForResult(intent, 1000);
+
+                }
                 break;
 
             case R.id.btnCancel:
