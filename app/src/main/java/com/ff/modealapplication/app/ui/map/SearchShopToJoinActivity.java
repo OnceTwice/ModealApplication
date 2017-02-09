@@ -87,7 +87,7 @@ public class SearchShopToJoinActivity extends FragmentActivity implements MapVie
 
                     @Override
                     public void onFail() {
-                  //      showToast("트래픽 제한 초과!!!");
+                        //      showToast("트래픽 제한 초과!!!");
                     }
                 });
             }
