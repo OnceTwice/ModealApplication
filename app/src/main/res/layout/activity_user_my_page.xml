@@ -14,14 +14,13 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar_user_my_page"
+                android:id="@+id/toolbar_user_myPage"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/colorModeal">
@@ -32,13 +31,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="마이페이지"
+                    android:text="사용자 마이페이지"
                     android:textColor="#ffffff"
                     android:textSize="18dp" />
 
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
         <!-- layout_behavior를 사용해야 액션바 밑에서부터 출력 -->
+
         <!-- TextView 대신 자신에게 맞는 뷰 넣기 -->
         <LinearLayout
             android:layout_width="match_parent"

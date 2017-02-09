@@ -15,11 +15,12 @@ public class UserMyPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_my_page);
 
         // 자체 제작 액션바
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_user_my_page); // 아이디인 툴바 로그인 부분은 내 아이디로 변경해줘야함
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_user_myPage); // 아이디인 툴바 로그인 부분은 내 아이디로 변경해줘야함
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 뒤로가기 화살표 표시
     }
+
     // 뒤로가기 클릭시 & 돋보기 클릭시
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
