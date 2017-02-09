@@ -58,7 +58,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="490dp"
+        android:layout_height="match_parent"
         android:background="#E5E5E2"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -69,13 +69,13 @@
         <ListView
             android:id="@+id/list_searchResultList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:dividerHeight="10dp"
             android:background="#fff"
             android:layout_margin="10dp"
             android:divider="#E5E5E2"
-            android:layout_weight="0.91" />
+            android:layout_weight="4.06" />
     </LinearLayout>
 </RelativeLayout>

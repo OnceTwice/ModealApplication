@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.app.core.vo.ItemVo;
@@ -35,9 +36,9 @@ public class SearchListArrayAdapter extends ArrayAdapter<ItemVo> {
         }
         ItemVo itemVo = getItem(position);
 
-//        TextView textView = (TextView)view.findViewById(R.id.text_search_list);
+        TextView textView = (TextView)view.findViewById(R.id.text_search_list);
 
-//        textView.setText(itemVo.getName());
+        textView.setText(itemVo.getName());
 
         return  view;
 //        return super.getView(position, convertView, parent);

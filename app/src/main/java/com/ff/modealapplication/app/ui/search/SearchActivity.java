@@ -11,8 +11,11 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
@@ -26,19 +29,37 @@ public class SearchActivity extends AppCompatActivity {
     SearchService searchService = new SearchService();
     SearchListArrayAdapter searchListArrayAdapter = null;
     private EditText search_edit;
+    SearchDBArrayAdapter searchDBArrayAdapter = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        new SearchListAsyncTask().execute();
+//        new SearchListAsyncTask().execute();
+
+        final SearchDBManager searchDBManager = new SearchDBManager(getApplicationContext(), "SEARCH.db",null,1);
 
 //        setListAdapter(searchListArrayAdapter);
 //        ListActivity 상속 받지 않고 setListAdapter를 쓰기 위한 다른 방도
-        searchListArrayAdapter = new SearchListArrayAdapter(this);
+//        searchListArrayAdapter = new SearchListArrayAdapter(this);
         ListView listView = (ListView) findViewById(R.id.list_search);
+//        ArrayAdapter<String> lastSearchAdapter = new ArrayAdapter<String>(this, R.layout.row_search_list_image,)
+//        listView.setAdapter(searchListArrayAdapter);
+        searchDBArrayAdapter = new SearchDBArrayAdapter(this);
 
-        listView.setAdapter(searchListArrayAdapter);
+        listView.setAdapter(searchDBArrayAdapter);
+        searchDBArrayAdapter.add(searchDBManager.PrintData());
+
+        //listview 클릭시 editText에 클릭한 값 넣기
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
+                intent.putExtra("SEARCH", ((TextView)view.findViewById(R.id.text_search_list)).getText().toString());
+                startActivity(intent);
+            }
+        });
 
         // ActionBar에 타이틀 변경
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_search);
@@ -57,6 +78,8 @@ public class SearchActivity extends AppCompatActivity {
                     final String SEARCH = search_edit.getText().toString();
                     Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
                     intent.putExtra("SEARCH", SEARCH);
+                    //search insert 최근검색어 추가.
+                    searchDBManager.insert("insert into SEARCH_LIST (name) values('"+SEARCH+"');");
                     startActivity(intent);
                     return true;
                 }
@@ -65,23 +88,28 @@ public class SearchActivity extends AppCompatActivity {
         });
 
 
+        //텍스트 변경시 적용
         search_edit.addTextChangedListener(new TextWatcher() {
             //count 갯수만큼 글자들이 after길이만큼의 글자로 대치되려고 할 때 호출
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                SearchActivity.this.searchListArrayAdapter.getFilter().filter(s);
+//                SearchActivity.this.searchListArrayAdapter.getFilter().filter(s);
+//                getSharedPreference();
+                Toast.makeText(SearchActivity.this, "입력전",Toast.LENGTH_SHORT).show();
             }
             //count 갯수만큼 글자들로 대치되었을때 호출
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                SearchActivity.this.searchListArrayAdapter.getFilter().filter(s);
+//                SearchActivity.this.searchListArrayAdapter.getFilter().filter(s);
+                Toast.makeText(SearchActivity.this, "입력중",Toast.LENGTH_SHORT).show();
             }
             //edittext 텍스트가 변경시 호출
             @Override
             public void afterTextChanged(Editable s) {
+                Toast.makeText(SearchActivity.this, "입력후",Toast.LENGTH_SHORT).show();
+
             }
         });
-
     }
 
     @Override
@@ -132,7 +160,5 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
-    //shared Preference 앱에 데이터 저장
-    //값 리스트 출력
 
 }

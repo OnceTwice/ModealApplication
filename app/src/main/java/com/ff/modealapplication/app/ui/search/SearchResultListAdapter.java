@@ -3,7 +3,6 @@ package com.ff.modealapplication.app.ui.search;
 import android.content.Context;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,7 +91,6 @@ public class SearchResultListAdapter extends ArrayAdapter<Map<String, Object>> {
             return;
         }
         for(Map<String, Object> maps : list){
-            Log.d("testing",""+maps);
             add( maps );
         }
     }
