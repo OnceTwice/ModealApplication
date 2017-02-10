@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -32,7 +33,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_item_detail); // 아이디인 툴바 로그인 부분은 내 아이디로 변경해줘야함
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 뒤로가기 화살표 표시
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);                // 뒤로가기 화살표 표시
 
         new ItemDetailTask().execute();
 
@@ -91,23 +92,24 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         @Override // 에러나면 Exception 발생
         protected void onException(Exception e) throws RuntimeException {
+            Log.e("Error!!!!!!!!!!!! : ", e + "");
             super.onException(e);
         }
 
         @Override // 성공하면 해당 매장명과 상품목록 출력
         protected void onSuccess(Map<String, Object> itemMap) throws Exception {
-            StringTokenizer tokens = new StringTokenizer(itemMap.get("expDate").toString(), "/: ");
+            StringTokenizer tokens = new StringTokenizer(itemMap.get("expDate").toString(), "-/: ");
             String year = tokens.nextToken();
             String month = tokens.nextToken();
             String day = tokens.nextToken();
             String hour = tokens.nextToken();
             String minute = tokens.nextToken();
 
-            ((TextView)findViewById(R.id.item_list_clock)).setText(year + "년 " + month + "월 " + day + "일 " + hour + "시 " + minute + "분");
-            ((TextView)findViewById(R.id.item_list_name)).setText(itemMap.get("name").toString());
-            ((TextView)findViewById(R.id.item_list_ori_price)).setText(itemMap.get("oriPrice").toString());
-            ((TextView)findViewById(R.id.item_list_price)).setText(itemMap.get("price").toString());
-            ((TextView)findViewById(R.id.item_list_shop_name)).setText(itemMap.get("shopName").toString());
+            ((TextView)findViewById(R.id.item_detail_clock)).setText(year + "년 " + month + "월 " + day + "일 " + hour + "시 " + minute + "분");
+            ((TextView)findViewById(R.id.item_detail_name)).setText(itemMap.get("name").toString());
+            ((TextView)findViewById(R.id.item_detail_ori_price)).setText(itemMap.get("oriPrice") + "");
+            ((TextView)findViewById(R.id.item_detail_price)).setText(itemMap.get("price") + "");
+            ((TextView)findViewById(R.id.item_detail_shop_name)).setText(itemMap.get("shopName").toString());
         }
     }
 }

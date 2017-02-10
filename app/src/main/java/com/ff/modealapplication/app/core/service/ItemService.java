@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class ItemService {
 
-    // 상품 목록 -----------------------------------------------------------------------------------
+    // 상품 목록 ----------------------------------------------------------------------------------- (참고해보기)
     public List<Map<String, Object>> itemList(Long shopNo) {
 
         String url = "http://192.168.1.90:8088/modeal/list/shopItemList";
@@ -28,13 +28,13 @@ public class ItemService {
         httpRequest.connectTimeout(10000);
         httpRequest.readTimeout(10000);
 
-        // 어플에서 이클립스로 데이터를 보냄
+        // 안드로이드에서 이클립스로 데이터를 보내기
         int responseCode = httpRequest.send("no=" + shopNo).code();
 
         if (responseCode != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("HTTP Response : " + responseCode);
         }
-        // 이클립스에서 어플로 데이터를 받기
+        // 이클립스에서 안드로이드로 데이터를 받기
         ItemService.JSONResultItemList jsonResult = fromJSON(httpRequest, ItemService.JSONResultItemList.class);
 
         return jsonResult.getData();
@@ -43,11 +43,11 @@ public class ItemService {
     private class JSONResultItemList extends JSONResult<List<Map<String, Object>>> {
     }
 
-    // 상품 등록 -----------------------------------------------------------------------------------
-    public List<ItemVo> itemInsert(String item_name, Long ori_price, Long count, Long price, String exp_date, Long discount) {
+    // 상품 등록 ----------------------------------------------------------------------------------- (참고해보기)
+    public void itemInsert(String item_name, Long ori_price, Long count, Long price, String exp_date, Long discount) {
 
         // 데이터를 가져올 url를 작성해줌
-        String url = "http://192.168.1.90:8088/modeal/list";     // http://192.168.1.13:8088/modeal/list?no=2  내url 연결 사이트를 이클립스에 프로젝트를 만들어줘야함
+        String url = "http://192.168.1.90:8088/modeal/list/itemInsert";     // http://192.168.1.13:8088/modeal/list?no=2  내url 연결 사이트를 이클립스에 프로젝트를 만들어줘야함
         HttpRequest httpRequest = HttpRequest.post(url);               // post 방식으로 연결
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);     // 전달 타입(클래스명.메서드명(파라미터))
@@ -67,17 +67,14 @@ public class ItemService {
         if (responseCode != HttpURLConnection.HTTP_OK) {                        // http_ok : 접속성공 코드번호 : 200
             throw new RuntimeException("HTTP Response : " + responseCode); // if문 조건식이 참이면 RuntimeException(에러)나고
         }
-
-        ItemService.JSONResultItemInsert jsonResult = fromJSON(httpRequest, ItemService.JSONResultItemInsert.class);
-        return jsonResult.getData();
     }
 
-    private class JSONResultItemInsert extends JSONResult<List<ItemVo>> {
+    private class JSONResultItemInsert extends JSONResult<ItemVo> {
         // ↑ String 에서 원하는 데이터를 추출하기 위해 JSONResult 사용,
         // 데이터(스트링) 안에서 원하는 값을 추출하기 위해 <List<ItemVo>> 사용
     }
 
-    // 상품 수정 -----------------------------------------------------------------------------------
+    // 상품 수정 ----------------------------------------------------------------------------------- (집에서 해볼것!)
     public List<ItemVo> itemModify(String item_name, Long ori_price, Long count, Long price, String exp_date, Long discount) {
 
         String url = "http://192.168.1.90:8088/modeal/list";
@@ -104,6 +101,11 @@ public class ItemService {
         return jsonResult.getData();
     }
 
+    private class JSONResultItemModify extends JSONResult<List<ItemVo>> {
+        // ↑ String 에서 원하는 데이터를 추출하기 위해 JSONResult 사용,
+        // 데이터(스트링) 안에서 원하는 값을 추출하기 위해 <List<ItemVo>> 사용
+    }
+
     // 상품 상세 목록 ------------------------------------------------------------------------------ (170209/상욱추가)
     public Map<String, Object> itemDetail(Long no) {
         String url = "http://192.168.1.90:8088/modeal/list/itemDetail";
@@ -122,15 +124,13 @@ public class ItemService {
         }
 
         ItemMap itemMap = fromJSON(httpRequest, ItemMap.class);
-
+        Log.w("::::::::::::::::::::::", itemMap.getData() + "");
         return itemMap.getData();
     }
 
     private class ItemMap extends JSONResult<Map<String, Object>> {
     }
 
-    private class JSONResultItemModify extends JSONResult<List<ItemVo>> {
-    }
 
     // JSON 문자열을 자바 객체로 변환 --------------------------------------------------------------
     protected <V> V fromJSON(HttpRequest request, Class<V> target) {

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -22,6 +23,9 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import static android.R.attr.data;
+import static com.ff.modealapplication.R.id.item_name;
+
 /**
  * Created by bit-desktop on 2017-01-19.
  */
@@ -31,7 +35,8 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
     int Year, Month, Day, Hour, Minute;
     TextView dateText;
     TextView timeText;
-    String expDate;
+
+    ItemListAsyncTask itemListAsyncTask;
 
     private ItemService itemService = new ItemService();
 
@@ -81,7 +86,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
 
             // 등록 버튼 클릭시
             case R.id.button_insert: {
-                ItemListAsyncTask itemListAsyncTask = new ItemListAsyncTask();
+                itemListAsyncTask = new ItemListAsyncTask();
                 itemListAsyncTask.execute();
 
                 Intent intent = new Intent(ItemInsertActivity.this, ItemActivity.class); // 경로 설정해주고
@@ -130,10 +135,10 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         Log.w("----------", expDate);
     }
 
-    private class ItemListAsyncTask extends SafeAsyncTask<List<ItemVo>> {
+    private class ItemListAsyncTask extends SafeAsyncTask<ItemVo> {
 
-        public List<ItemVo> call() throws Exception {
-            EditText nameInsert = (EditText) findViewById(R.id.item_name);
+        public ItemVo call() throws Exception {
+            EditText nameInsert = (EditText) findViewById(item_name);
             Log.d("name : ", nameInsert.getText().toString());
             String item_name = nameInsert.getText().toString();
 
@@ -161,9 +166,9 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
             Log.d("exp_date : ", timeText.getText().toString());
             String exp_time = timeText.getText().toString();
 
-            List<ItemVo> list = itemService.itemInsert(item_name, ori_price, count, price, "abcde", discount);
+            itemService.itemInsert(item_name, ori_price, count, price, exp_date + " " + exp_time, discount);
 
-            return list;
+            return null;
         }
 
         @Override
@@ -173,7 +178,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         }
 
         @Override
-        protected void onSuccess(List<ItemVo> itemVos) throws Exception {
+        protected void onSuccess(ItemVo itemVos) throws Exception {
             //super.onSuccess(itemVos);
         }
     }

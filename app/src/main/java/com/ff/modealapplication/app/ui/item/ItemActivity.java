@@ -27,7 +27,7 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
     private ItemListArrayAdapter itemListArrayAdapter = null;
     private ListView listView = null;
 
-    @Override // Alt + Insert 누르고 오버라이드 메서드 클릭 후 onCreate 추가
+    @Override //
     protected void onCreate(/*@Nullable*/ Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_list); // 첫화면인 item_list.xml을 출력
@@ -58,14 +58,14 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
         startActivity(intent);
     }
 
-    // 헤더부분 옵션메뉴: ←, +
+    // 헤더부분 옵션메뉴: ← (뒤로가기), + (상품추가)
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.plus, menu);
         return true;
     }
 
-    // ← 또는 + 버튼 클릭시
+    // ←(뒤로가기) 또는 +(상품추가) 버튼 클릭시
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.plus_button) {
@@ -85,7 +85,7 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
 
         @Override // 에러나면 Exception 발생
         protected void onException(Exception e) throws RuntimeException {
-            Log.d("!!", "" + e);
+            Log.d("!!!!!!!!!!!!!", "" + e);
             super.onException(e);
         }
 
