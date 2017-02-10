@@ -141,6 +141,13 @@
                 android:layout_height="wrap_content"
                 android:text="구(군)" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp">
+
             <EditText
                 android:id="@+id/etUserDong"
                 android:layout_width="wrap_content"

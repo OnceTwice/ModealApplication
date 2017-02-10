@@ -2,6 +2,7 @@ package com.ff.modealapplication.app.ui.join;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -171,22 +172,30 @@ public class UserJoinFragment extends Fragment {
 //                Log.d("보내기 버튼 클릭!!!", "클릭함!!!!!!");
 
                 // 아이디 입력 확인
-                if( etID.getText().toString().length() == 0 ) {
-                    Toast.makeText(UserJoinFragment.this.getActivity(), "사용자 ID를 입력하세요!", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(etID.getText().toString())) {
+                    etID.setError("이메일을 입력하세요");
+                    etID.requestFocus();
+                    return;
+                } else if (!isEmailValid(etID.getText().toString())) {
+                    etID.setError("이메일 형식이 아닙니다");
                     etID.requestFocus();
                     return;
                 }
 
                 // 비밀번호 입력 확인
-                if( etPassword.getText().toString().length() == 0 ) {
-                    Toast.makeText(UserJoinFragment.this.getActivity(), "사용자 비밀번호를 입력하세요!", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(etPassword.getText().toString())) {
+                    etPassword.setError("비밀번호를 입력하세요");
+                    etPassword.requestFocus();
+                    return;
+                } else if (!isPasswordValid(etPassword.getText().toString())) {
+                    etPassword.setError("비밀번호가 너무 짧아요");
                     etPassword.requestFocus();
                     return;
                 }
 
                 // 비밀번호 확인 입력 확인
-                if( etPasswordConfirm.getText().toString().length() == 0 ) {
-                    Toast.makeText(UserJoinFragment.this.getActivity(), "사용자 비밀번호 확인을 입력하세요!", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(etPasswordConfirm.getText().toString())) {
+                    etPasswordConfirm.setError("비밀번호를 입력하세요");
                     etPasswordConfirm.requestFocus();
                     return;
                 }
@@ -214,6 +223,16 @@ public class UserJoinFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    private boolean isEmailValid(String email) {
+        //TODO: Replace this with your own logic
+        return email.contains("@");
+    }
+
+    private boolean isPasswordValid(String password) {
+        //TODO: Replace this with your own logic
+        return password.length() > 4;
     }
 
     @Override

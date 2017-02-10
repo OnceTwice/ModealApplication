@@ -15,6 +15,26 @@
         <item>12</item>
     </string-array>
 
+    <string-array name="first">
+        <item></item>
+        <item>시</item>
+        <item>도</item>
+    </string-array>
+
+    <string-array name="second">
+        <item></item>
+        <item>구</item>
+        <item>군</item>
+    </string-array>
+
+    <string-array name="third">
+        <item></item>
+        <item>동</item>
+        <item>읍</item>
+        <item>면</item>
+        <item>리</item>
+    </string-array>
+
     <string-array name="city">
         <item>서울</item>
         <item>부산</item>
