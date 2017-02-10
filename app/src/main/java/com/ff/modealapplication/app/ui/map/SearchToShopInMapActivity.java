@@ -15,7 +15,7 @@ import com.ff.modealapplication.app.ui.join.JoinFragment;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
-public class SearchToShopInMapActivity extends AppCompatActivity implements MapView.MapViewEventListener {
+public class SearchToShopInMapActivity extends AppCompatActivity implements MapView.MapViewEventListener { // 사업자 회원가입시 매장을 지도에서 직접 찾기
 
     private MapView mapView;
 

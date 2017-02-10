@@ -35,25 +35,23 @@ public class SearchToMapActivity extends AppCompatActivity implements MapReverse
 
         Intent intent = new Intent(this.getIntent());
 
-        longitude = Double.valueOf(intent.getStringExtra("longitude"));
-        latitude = Double.valueOf(intent.getStringExtra("latitude"));
-        System.out.println("longitude="+longitude+", latitude=" + latitude);
+        longitude = Double.valueOf(intent.getStringExtra("longitude")); // 받아온 경도
+        latitude = Double.valueOf(intent.getStringExtra("latitude")); // 받아온 위도
 
-        mapView = new MapView(this);
+        mapView = new MapView(this); // 다음 맵뷰
         mapView.setMapViewEventListener(this);
-        mapView.setDaumMapApiKey(MapApiConst.DAUM_MAPS_ANDROID_APP_API_KEY);
+        mapView.setDaumMapApiKey(MapApiConst.DAUM_MAPS_ANDROID_APP_API_KEY); // api key
         RelativeLayout container = (RelativeLayout) findViewById(R.id.map_view_SearchToMap);
 
+        container.addView(mapView); // 해당 레이아웃에 맵뷰 넣기
 
-        container.addView(mapView);
-
-        findViewById(R.id.fab_select).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.fab_select).setOnClickListener(new View.OnClickListener() { // 플로팅버튼 누르면 해당 위치 경도 위도 받아옴
             @Override
             public void onClick(View view) {
-                MapPoint thisMapPoint = MapPoint.mapPointWithGeoCoord(mapView.getMapCenterPoint().getMapPointGeoCoord().latitude, mapView.getMapCenterPoint().getMapPointGeoCoord().longitude);
-                MapReverseGeoCoder mapReverseGeoCoder = new MapReverseGeoCoder(MapApiConst.DAUM_MAPS_ANDROID_APP_API_KEY, thisMapPoint, SearchToMapActivity.this, SearchToMapActivity.this);
+                MapPoint thisMapPoint = MapPoint.mapPointWithGeoCoord(mapView.getMapCenterPoint().getMapPointGeoCoord().latitude, mapView.getMapCenterPoint().getMapPointGeoCoord().longitude); // 지도 중앙에 해당하는 경도, 위도를 저장
+                MapReverseGeoCoder mapReverseGeoCoder = new MapReverseGeoCoder(MapApiConst.DAUM_MAPS_ANDROID_APP_API_KEY, thisMapPoint, SearchToMapActivity.this, SearchToMapActivity.this); // 그걸 어떻게 하나봄...
 
-                mapReverseGeoCoder.startFindingAddress();
+                mapReverseGeoCoder.startFindingAddress(); // 경도, 위도에 해당하는 주소 검색?
             }
         });
     }
@@ -68,21 +66,22 @@ public class SearchToMapActivity extends AppCompatActivity implements MapReverse
     }
 
     @Override
-    public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
+    public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) { // 자세히는 모르겠지만 경도, 위도, 주소를 가지고 맨 처음 액티비티로 돌아가는것 같다
          Intent returnIntent = new Intent(this, SearchMapRangeActivity.class);
 
-        returnIntent.putExtra("latitude", String.valueOf(mapView.getMapCenterPoint().getMapPointGeoCoord().latitude));
-        returnIntent.putExtra("longitude", String.valueOf(mapView.getMapCenterPoint().getMapPointGeoCoord().longitude));
-        returnIntent.putExtra("title", s);
+        returnIntent.putExtra("latitude", String.valueOf(mapView.getMapCenterPoint().getMapPointGeoCoord().latitude)); // 위도 담기
+        returnIntent.putExtra("longitude", String.valueOf(mapView.getMapCenterPoint().getMapPointGeoCoord().longitude)); // 경도 담기
+        returnIntent.putExtra("title", s); // 주소 담기
 
-        FinishAddressListActivity.finish();
-        FinishSearchMapRangeActivity.finish();
+        FinishAddressListActivity.finish(); // AddressListActivity 닫기
+        FinishSearchMapRangeActivity.finish(); // SearchMapRangeActivity 닫기
 
-        startActivity(returnIntent);
+        startActivity(returnIntent); // 닫고 다시 SearchMapRangeActivity 열기
 
-        finish();
+        finish(); // 끝~
     }
 
+    // 나머지 해석 못했음...
     @Override
     public void onReverseGeoCoderFailedToFindAddress(MapReverseGeoCoder mapReverseGeoCoder) {
 

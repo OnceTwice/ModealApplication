@@ -36,7 +36,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 
-public class SearchShopToJoinActivity extends FragmentActivity implements MapView.MapViewEventListener, MapView.POIItemEventListener {
+public class SearchShopToJoinActivity extends FragmentActivity implements MapView.MapViewEventListener, MapView.POIItemEventListener { // 사업자 회원가입시 매장을 매장명으로 검색
 
     private static final String LOG_TAG = "SearchDemoActivity";
 

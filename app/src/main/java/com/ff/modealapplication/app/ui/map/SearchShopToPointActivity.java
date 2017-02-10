@@ -55,31 +55,31 @@ public class SearchShopToPointActivity extends AppCompatActivity implements MapV
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 뒤로가기 화살표 표시
 //       -------------------------------------------------------
         Intent intent = new Intent(this.getIntent());
-        longitude = Double.valueOf(intent.getStringExtra("longitude"));
-        latitude = Double.valueOf(intent.getStringExtra("latitude"));
-        range = intent.getStringExtra("range");
+        longitude = Double.valueOf(intent.getStringExtra("longitude")); // 이전 액티비티에서 받아온 경도
+        latitude = Double.valueOf(intent.getStringExtra("latitude")); // 받아온 위도
+        range = intent.getStringExtra("range"); // 받아온 반경
 
-        ((TextView) findViewById(R.id.search_shop_to_point)).setText(""+intent.getStringExtra("title"));
+        ((TextView) findViewById(R.id.search_shop_to_point)).setText(""+intent.getStringExtra("title")); // 받아온 주소값 툴바명으로 사용
         //----------------------------------------------------------------
-        mapView = new MapView(this);
-        mapView.setDaumMapApiKey(MapApiConst.DAUM_MAPS_ANDROID_APP_API_KEY);
-//------------------------리스너
+        mapView = new MapView(this); // 다음 맵뷰 생성
+        mapView.setDaumMapApiKey(MapApiConst.DAUM_MAPS_ANDROID_APP_API_KEY); // 다음 맵뷰 키값
+//------------------------리스너 // 뭔지 잘 모르겠음 꼭 넣어줘야 하는거 같음
         mapView.setMapViewEventListener(this);
         mapView.setPOIItemEventListener(this);
-        mapView.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter());
+        mapView.setCalloutBalloonAdapter(new CustomCalloutBalloonAdapter()); // 마커 어댑터..?
 
         RelativeLayout container = (RelativeLayout) findViewById(R.id.map_view_point);
 
-        circle = new MapCircle(
-                MapPoint.mapPointWithGeoCoord(latitude, longitude),
-                Integer.valueOf(range),
-                Color.argb(25, 255, 0, 0),
-                Color.argb(25, 255, 0, 0)
+        circle = new MapCircle( // 원 그리기
+                MapPoint.mapPointWithGeoCoord(latitude, longitude), // 중앙지점
+                Integer.valueOf(range), // 반경
+                Color.argb(25, 255, 0, 0), // 테두리색
+                Color.argb(25, 255, 0, 0) // 색칠되는 색
         );
         circle.setTag(1234);
-        mapView.addCircle(circle);
+        mapView.addCircle(circle); // 맵뷰에 원 추가
 
-        container.addView(mapView);
+        container.addView(mapView); // 레이아웃에 맵뷰 넣기
 
         new FetchShopListAsyncTask().execute();
     }
@@ -95,7 +95,7 @@ public class SearchShopToPointActivity extends AppCompatActivity implements MapV
     }
 
     @Override
-    public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) {
+    public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem, MapPOIItem.CalloutBalloonButtonType calloutBalloonButtonType) { // 마커 클릭시 해당 매장으로 이동
         ShopVo shopVo = mTagItemMap.get(mapPOIItem.getTag());
 
         StringBuilder sb = new StringBuilder();
@@ -103,7 +103,7 @@ public class SearchShopToPointActivity extends AppCompatActivity implements MapV
 
         Toast.makeText(getApplicationContext(), sb.toString(), Toast.LENGTH_LONG).show();
 
-        Intent intent = new Intent(this, MarketDetailInformationActivity.class);
+        Intent intent = new Intent(this, MarketDetailInformationActivity.class); // 마커 해당 매장으로 이동
         startActivity(intent);
     }
 
@@ -115,7 +115,7 @@ public class SearchShopToPointActivity extends AppCompatActivity implements MapV
     private class FetchShopListAsyncTask extends SafeAsyncTask<List<ShopVo>> {
         @Override
         public List<ShopVo> call() throws Exception {
-            List<ShopVo> list = mapsService.fetchShopList(range, String.valueOf(longitude), String.valueOf(latitude));
+            List<ShopVo> list = mapsService.fetchShopList(range, String.valueOf(longitude), String.valueOf(latitude)); // 해당 원 안에 있는 상점을 서버에서 가져오기
             return list;
         }
 
@@ -140,16 +140,16 @@ public class SearchShopToPointActivity extends AppCompatActivity implements MapV
         }
     }
 
-    private void showResult(List<ShopVo> shopVoList) {
+    private void showResult(List<ShopVo> shopVoList) { // 풍선 생성
         MapPointBounds mapPointBounds = new MapPointBounds();
         for (int i = 0; i < shopVoList.size(); i++) {
             ShopVo shopVo = shopVoList.get(i);
 
-            MapPOIItem poiItem = new MapPOIItem();
-            poiItem.setItemName(shopVoList.get(i).getName());
+            MapPOIItem poiItem = new MapPOIItem(); // 풍선
+            poiItem.setItemName(shopVoList.get(i).getName()); // 주소 넣음
             poiItem.setTag(i);
-            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(shopVoList.get(i).getLatitude(), shopVoList.get(i).getLongitude());
-            poiItem.setMapPoint(mapPoint);
+            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(shopVoList.get(i).getLatitude(), shopVoList.get(i).getLongitude()); // 맵포인트에 위도, 경도 넣음
+            poiItem.setMapPoint(mapPoint); // 풍선에 위도, 경도가 들어간 맵포인트 넣음
             mapPointBounds.add(mapPoint);
             poiItem.setMarkerType(MapPOIItem.MarkerType.CustomImage);
             poiItem.setCustomImageResourceId(R.drawable.map_pin_blue);
@@ -235,7 +235,7 @@ public class SearchShopToPointActivity extends AppCompatActivity implements MapV
         }
 
         @Override
-        public View getCalloutBalloon(MapPOIItem poiItem) {
+        public View getCalloutBalloon(MapPOIItem poiItem) { // 풍선 만들기
             if (poiItem == null) {
                 return null;
             }
@@ -243,10 +243,10 @@ public class SearchShopToPointActivity extends AppCompatActivity implements MapV
             if (shopVo == null) {
                 return null;
             }
-            ImageView imageViewBadge = (ImageView) mCalloutBalloon.findViewById(R.id.badge);
-            TextView textViewTitle = (TextView) mCalloutBalloon.findViewById(R.id.title);
+            ImageView imageViewBadge = (ImageView) mCalloutBalloon.findViewById(R.id.badge); // 매장사진
+            TextView textViewTitle = (TextView) mCalloutBalloon.findViewById(R.id.title); // 매장명
             textViewTitle.setText(shopVo.getName());
-            TextView textViewDesc = (TextView) mCalloutBalloon.findViewById(R.id.desc);
+            TextView textViewDesc = (TextView) mCalloutBalloon.findViewById(R.id.desc); // 주소
             textViewDesc.setText(shopVo.getAddress());
             imageViewBadge.setImageDrawable(createDrawableFromUrl(shopVo.getPicture()));
             return mCalloutBalloon;

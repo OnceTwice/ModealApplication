@@ -6,6 +6,7 @@
 
     <TextView
         android:id="@+id/textView_address"
+        android:layout_marginLeft="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView6"
@@ -18,12 +19,13 @@
     <!--android:layout_toStartOf="@+id/button_findAddress" />-->
     <TextView
         android:id="@+id/textView_lange"
+        android:layout_marginLeft="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView"
         android:layout_alignBottom="@+id/textView"
         android:layout_toRightOf="@+id/textView"
-        android:text="      " />
+        android:text="0" />
 
 
     <TextView
@@ -40,35 +42,25 @@
 
     <Button
         android:id="@+id/btnCancel"
-        android:layout_width="150dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/btnConfirm"
         android:layout_alignBottom="@+id/btnConfirm"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
         android:text="취소" />
 
     <Button
         android:id="@+id/btnConfirm"
-        android:layout_width="150dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="16dp"
+        android:layout_marginLeft="15dp"
         android:text="검색" />
-
-    <ToggleButton
-        android:id="@+id/toggleButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:textOff="내 위치 찾기"
-        android:textOn="내 위치찾기 종료" />
 
     <TextView
         android:id="@+id/textView"
@@ -78,18 +70,7 @@
         android:layout_alignLeft="@+id/textView6"
         android:layout_alignStart="@+id/textView6"
         android:layout_marginBottom="50dp"
-        android:text="범위(m) :" />
-
-    <SeekBar
-        android:id="@+id/seekBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView"
-        android:layout_alignEnd="@+id/textView_address"
-        android:layout_alignLeft="@+id/editText_address"
-        android:layout_alignRight="@+id/textView_address"
-        android:layout_alignStart="@+id/editText_address"
-        android:layout_marginBottom="40dp" />
+        android:text="범위 :" />
 
     <EditText
         android:id="@+id/editText_address"
@@ -98,6 +79,7 @@
         android:layout_alignLeft="@+id/text_mygps"
         android:layout_alignStart="@+id/text_mygps"
         android:layout_below="@+id/toggleButton"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="30dp"
         android:layout_toLeftOf="@+id/button_findAddress"
         android:layout_toStartOf="@+id/button_findAddress"
@@ -125,4 +107,28 @@
         android:layout_alignStart="@+id/textView6"
         android:layout_toLeftOf="@+id/toggleButton"
         android:text="내 위치 : " />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView_lange"
+        android:layout_alignEnd="@+id/textView_address"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignRight="@+id/textView_address"
+        android:layout_alignStart="@+id/textView"
+        android:layout_marginBottom="26dp" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="22dp"
+        android:textOff="내 위치 찾기"
+        android:textOn="내 위치찾기 종료" />
 </RelativeLayout>

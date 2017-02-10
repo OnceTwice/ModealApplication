@@ -8,7 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-
     <!-- 170123/상욱추가 -->
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

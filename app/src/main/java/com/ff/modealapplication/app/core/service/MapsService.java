@@ -17,11 +17,12 @@ import java.util.List;
  * Created by BIT on 2017-02-06.
  */
 
-public class MapsService {
+public class MapsService { // 단순한 서비스
 
     public List<ShopVo> fetchShopList(String range, String longitude, String latitude) {
 
-        String url = "http://163.44.171.41:8080/modeal/map/list?range="+range+"&longitude="+longitude+"&latitude="+latitude;//제발 로컬에서 테스트 하지 말자...
+//        String url = "http://163.44.171.41:8080/modeal/map/list?range="+range+"&longitude="+longitude+"&latitude="+latitude; // 제발 로컬에서 테스트 하지 말자...
+        String url = "http://192.168.1.93:8088/modeal/map/list?range="+range+"&longitude="+longitude+"&latitude="+latitude;
         HttpRequest httpRequest = HttpRequest.get(url);
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
         httpRequest.accept(HttpRequest.CONTENT_TYPE_JSON);
@@ -41,7 +42,8 @@ public class MapsService {
     }
 
     public AddressVo fetchAddress(String addr) {
-        String url = "http://163.44.171.41:8080/modeal/map/addresstopoint";
+//        String url = "http://163.44.171.41:8080/modeal/map/addresstopoint";
+        String url = "http://192.168.1.93:8088/modeal/map/addresstopoint";
         HttpRequest httpRequest = HttpRequest.get(url);
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
         httpRequest.accept(HttpRequest.CONTENT_TYPE_JSON);
