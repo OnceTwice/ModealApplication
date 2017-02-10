@@ -43,7 +43,7 @@ public class SearchActivity extends AppCompatActivity {
 //        setListAdapter(searchListArrayAdapter);
 //        ListActivity 상속 받지 않고 setListAdapter를 쓰기 위한 다른 방도
 //        searchListArrayAdapter = new SearchListArrayAdapter(this);
-        ListView listView = (ListView) findViewById(R.id.list_search);
+        final ListView listView = (ListView) findViewById(R.id.list_search);
 //        ArrayAdapter<String> lastSearchAdapter = new ArrayAdapter<String>(this, R.layout.row_search_list_image,)
 //        listView.setAdapter(searchListArrayAdapter);
         searchDBArrayAdapter = new SearchDBArrayAdapter(this);
@@ -69,23 +69,30 @@ public class SearchActivity extends AppCompatActivity {
 
         //검색 버튼 입력
         search_edit = (EditText) findViewById(R.id.search_button);
+        Log.d("size",""+search_edit.getTextSize()+"");
 
-        //엔터시 이동
-        search_edit.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER && KeyEvent.ACTION_DOWN == event.getAction()) {
-                    final String SEARCH = search_edit.getText().toString();
-                    Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
-                    intent.putExtra("SEARCH", SEARCH);
-                    //search insert 최근검색어 추가.
-                    searchDBManager.insert("insert into SEARCH_LIST (name) values('"+SEARCH+"');");
-                    startActivity(intent);
-                    return true;
+        if(search_edit==null || search_edit.getTextSize()==0){
+          }else {
+
+         }
+            //엔터시 이동
+            search_edit.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                        if (keyCode == KeyEvent.KEYCODE_ENTER && KeyEvent.ACTION_DOWN == event.getAction()) {
+                            final String SEARCH = search_edit.getText().toString();
+                            Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
+                            intent.putExtra("SEARCH", SEARCH);
+                            //search insert 최근검색어 추가.
+                            searchDBManager.insert("insert into SEARCH_LIST (name) values('" + SEARCH + "');");
+                            startActivity(intent);
+                            return true;
+                        }
+
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
 
 
         //텍스트 변경시 적용

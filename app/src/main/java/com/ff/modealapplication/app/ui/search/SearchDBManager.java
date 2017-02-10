@@ -42,7 +42,7 @@ public class SearchDBManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         List<String> str = new ArrayList<String>();
 
-        Cursor cursor = db.rawQuery("select DISTINCT name from SEARCH_LIST ORDER BY _id DESC", null);
+        Cursor cursor = db.rawQuery("select DISTINCT name from SEARCH_LIST ", null);
         while (cursor.moveToNext()) {
             str.add(cursor.getString(0));
         }
