@@ -69,10 +69,10 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> impl
         ((TextView) convertView.findViewById(R.id.item_list_ori_price)).setText((map.get("oriPrice")).toString());   // 원가
         ((TextView) convertView.findViewById(R.id.item_list_price)).setText(map.get("price").toString());          // 판매가
         ((TextView) convertView.findViewById(R.id.item_list_shop_name)).setText(map.get("shopName").toString());   // 매장명
-        ((TextView) convertView.findViewById(R.id.item_list_distance)).setText(map.get("no").toString());    // 거리(반경)
+//        ((TextView) convertView.findViewById(R.id.item_list_distance)).setText(map.get(""));    // 거리(반경)
 
         // 액티비티로 데이터 보내기 위해서...
-        ((TextView)convertView.findViewById(R.id.send_no)).setText(String.valueOf(map.get("no")));
+        ((TextView)convertView.findViewById(R.id.send_no)).setText(String.valueOf(((Double)map.get("no")).longValue()));
 
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
         ImageLoader.getInstance().displayImage("http://192.168.1.90:8088/modeal/shop/images/" + map.get("picture"),

@@ -39,8 +39,6 @@ public class ItemService {
         // 이클립스에서 어플로 데이터를 받기
         ItemService.JSONResultItemList jsonResult = fromJSON(httpRequest, ItemService.JSONResultItemList.class);
 
-        Log.w("======================", jsonResult.getData() + "----");
-
         return jsonResult.getData();
     }
 
@@ -109,8 +107,7 @@ public class ItemService {
     }
 
     // 상품 상세 목록 ------------------------------------------------------------------------------ (170209/상욱추가)
-    public ItemVo itemDetail(Long no) {
-        Log.w("!!!!!!!!", "접근?");
+    public Map<String, Object> itemDetail(Long no) {
         String url = "http://192.168.1.90:8088/modeal/list/itemDetail";
         HttpRequest httpRequest = HttpRequest.post(url);
 
@@ -126,7 +123,12 @@ public class ItemService {
             throw new RuntimeException("HTTP Response :" + responseCode);
         }
 
-        return fromJSON(httpRequest, ItemVo.class);
+        ItemMap itemMap = fromJSON(httpRequest, ItemMap.class);
+
+        return itemMap.getData();
+    }
+
+    private class ItemMap extends JSONResult<Map<String, Object>> {
     }
 
     private class JSONResultItemModify extends JSONResult<List<ItemVo>> {

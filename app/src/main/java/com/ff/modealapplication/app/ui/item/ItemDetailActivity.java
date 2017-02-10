@@ -5,17 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.ItemService;
-import com.ff.modealapplication.app.core.vo.ItemVo;
 
+import java.util.Map;
 import java.util.StringTokenizer;
 
 /**
@@ -84,33 +82,32 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    private class ItemDetailTask extends SafeAsyncTask<ItemVo> {
+    private class ItemDetailTask extends SafeAsyncTask<Map<String, Object>> {
         @Override
-        public ItemVo call() throws Exception {
+        public Map<String, Object> call() throws Exception {
             // getIntent().getStringExtra("no") ← 이전 액티비티에서 no값 받아옴 (이걸로 서버에 접근해서 해당 정보 가져오기 위해서...)
-            String s = getIntent().getStringExtra("no");
-            Log.w("********************", s + "???");
-            return itemService.itemDetail(1L);
+            return itemService.itemDetail(Long.parseLong(getIntent().getStringExtra("no")));
         }
 
         @Override // 에러나면 Exception 발생
         protected void onException(Exception e) throws RuntimeException {
-            Log.w("!!!!!!!!", "에러");
-            Log.d("!!", "" + e);
             super.onException(e);
         }
 
         @Override // 성공하면 해당 매장명과 상품목록 출력
-        protected void onSuccess(ItemVo itemVo) throws Exception {
-            Log.w("!!!!!!!!", "성공");
-            StringTokenizer tokens = new StringTokenizer(itemVo.getExpDate());
-            String year = tokens.nextToken("년");
-            String month = tokens.nextToken("월");
-            String day = tokens.nextToken("일 ");
-            String hour = tokens.nextToken("시");
-            String minute = tokens.nextToken("분");
+        protected void onSuccess(Map<String, Object> itemMap) throws Exception {
+            StringTokenizer tokens = new StringTokenizer(itemMap.get("expDate").toString(), "/: ");
+            String year = tokens.nextToken();
+            String month = tokens.nextToken();
+            String day = tokens.nextToken();
+            String hour = tokens.nextToken();
+            String minute = tokens.nextToken();
 
             ((TextView)findViewById(R.id.item_list_clock)).setText(year + "년 " + month + "월 " + day + "일 " + hour + "시 " + minute + "분");
+            ((TextView)findViewById(R.id.item_list_name)).setText(itemMap.get("name").toString());
+            ((TextView)findViewById(R.id.item_list_ori_price)).setText(itemMap.get("oriPrice").toString());
+            ((TextView)findViewById(R.id.item_list_price)).setText(itemMap.get("price").toString());
+            ((TextView)findViewById(R.id.item_list_shop_name)).setText(itemMap.get("shopName").toString());
         }
     }
 }
