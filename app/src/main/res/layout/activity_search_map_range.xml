@@ -102,9 +102,9 @@
         android:layout_toLeftOf="@+id/button_findAddress"
         android:layout_toStartOf="@+id/button_findAddress"
         android:ems="10"
-        android:hint="주소를 입력해 주세요"
+        android:hint="주소 입력"
         android:inputType="textPersonName"
-        android:text="서초2동" />
+        android:text="" />
 
     <Button
         android:id="@+id/button_findAddress"

@@ -17,6 +17,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  * Created by BIT on 2017-01-19.
@@ -63,7 +64,7 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
 
         //이미지 저장 [ 연결된 ip로 upload ] 위치에 내용이 있어야 한다.
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
-        ImageLoader.getInstance().displayImage("http://192.168.1.93:8088/modeal/shop/images/" + itemVo.get("picture"), (ImageView) view.findViewById(R.id.main_image_item), displayImageOptions);
+        ImageLoader.getInstance().displayImage("http://192.168.1.90:8088/modeal/shop/images/" + itemVo.get("picture"), (ImageView) view.findViewById(R.id.main_image_item), displayImageOptions);
 
         //내용저장
         TextView textTimeView = (TextView) view.findViewById(R.id.main_time_textView);
@@ -77,13 +78,24 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         // 액티비티로 데이터 보내기 위해서...
         ((TextView)view.findViewById(R.id.send_no)).setText(String.valueOf(itemVo.get("no")));
 
+        StringTokenizer tokens = new StringTokenizer(itemVo.get("expDate").toString(), "/:- ");
+        String year = tokens.nextToken();
+        String month = tokens.nextToken();
+        String day = tokens.nextToken();
+        String hour = tokens.nextToken();
+        String minute = tokens.nextToken();
+        String second = tokens.nextToken();
+
+//        String expDate = year + "년 " + month + "월 " +
+
         textTimeView.setText(itemVo.get("expDate").toString());
-        textdiscountView.setText(String.valueOf(itemVo.get("discount")));
+        // ((Double)itemVo.get("discount")).longValue() [Double형 → Long형]
+        textdiscountView.setText(String.valueOf(((Double)itemVo.get("discount")).longValue()));
         textItemView.setText(itemVo.get("name").toString());
         textOriPriceView.setPaintFlags(textOriPriceView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG); //가운데 줄긋기
-        textOriPriceView.setText(String.valueOf(itemVo.get("oriPrice")));
+        textOriPriceView.setText(String.valueOf(((Double)itemVo.get("oriPrice")).longValue()));
         textShopNameView.setText(String.valueOf(itemVo.get("shopNo")));
-        textPriceView.setText(String.valueOf(itemVo.get("price")));
+        textPriceView.setText(String.valueOf(((Double)itemVo.get("price")).longValue()));
         textShopSpaceView.setText(itemVo.get("shopName").toString());
 
         ((ImageView) view.findViewById(R.id.bookmark_button)).setOnClickListener(new View.OnClickListener() {

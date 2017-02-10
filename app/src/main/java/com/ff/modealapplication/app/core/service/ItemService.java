@@ -1,7 +1,5 @@
 package com.ff.modealapplication.app.core.service;
 
-import android.util.Log;
-
 import com.ff.modealapplication.andorid.network.JSONResult;
 import com.ff.modealapplication.app.core.vo.ItemVo;
 import com.github.kevinsawicki.http.HttpRequest;
