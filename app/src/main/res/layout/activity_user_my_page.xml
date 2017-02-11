@@ -56,13 +56,33 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ID(Email)" />
+                    android:text="ID(Email) : " />
 
-                <EditText
-                    android:layout_width="150dp"
+                <TextView
+                    android:id="@+id/tvUserMyPageID"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:drawable/editbox_background"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Password : " />
+
+                <TextView
+                    android:id="@+id/tvUserMyPagePassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberPassword"
+                    android:text=""/>
             </LinearLayout>
 
             <LinearLayout
@@ -74,13 +94,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="GENDER" />
+                    android:text="생별 : " />
 
-                <EditText
-                    android:layout_width="150dp"
+                <TextView
+                    android:id="@+id/tvUserMyPageGender"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:drawable/editbox_background"
-                    android:inputType="text" />
+                    android:text="" />
             </LinearLayout>
 
             <LinearLayout
@@ -92,13 +112,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="거주지역" />
+                    android:text="거주지역 : " />
 
-                <EditText
-                    android:layout_width="150dp"
+                <TextView
+                    android:id="@+id/tvUserMyPageLocation"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:drawable/editbox_background"
-                    android:inputType="text" />
+                    android:text="" />
             </LinearLayout>
 
             <LinearLayout
@@ -110,17 +130,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Birth" />
+                    android:text="Birth : " />
 
-                <EditText
-                    android:layout_width="150dp"
+                <TextView
+                    android:id="@+id/tvUserMyPageBirth"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:drawable/editbox_background"
-                    android:inputType="text" />
+                    android:text="" />
             </LinearLayout>
 
             <Button
-                android:id="@+id/btnInformModify"
+                android:id="@+id/btnUserInformModify"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

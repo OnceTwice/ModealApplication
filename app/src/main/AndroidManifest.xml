@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ff.modealapplication">
 
-    <!--<uses-permission android:name="android.permission.WAKE_LOCK" />-->
+    <!-- <uses-permission android:name="android.permission.WAKE_LOCK" /> -->
+
 
     <!-- 인터넷 권한 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -153,13 +154,22 @@
         <activity
             android:name=".app.ui.map.SearchShopToPointActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".app.ui.map.SearchToShopInMapActivity"
+        <activity
+            android:name=".app.ui.map.SearchToShopInMapActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".app.ui.mypage.UserMyPageActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".app.ui.mypage.OwnerMyPageActivity"
+        <!-- 마이페이지 -->
+        <activity
+            android:name=".app.ui.mypage.UserMyPageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".app.ui.mypage.OwnerMyPageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <!-- 회원정보수정 -->
+        <activity android:name=".app.ui.modify.UserModifyActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".app.ui.modify.OwnerModifyActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
 
     </application>

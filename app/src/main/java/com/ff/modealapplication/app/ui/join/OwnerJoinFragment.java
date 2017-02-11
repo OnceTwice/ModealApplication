@@ -27,7 +27,6 @@ import com.ff.modealapplication.app.core.vo.ShopVo;
 import com.ff.modealapplication.app.core.vo.UserVo;
 import com.ff.modealapplication.app.ui.map.SearchShopToJoinActivity;
 import com.ff.modealapplication.app.ui.map.SearchToShopInMapActivity;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -153,7 +152,7 @@ public class OwnerJoinFragment extends Fragment {
 
                 Log.d("onActivityResult 이미지", imageURL);
 
-                ImageLoader.getInstance().displayImage(imageURL, (ImageView)getView().findViewById(R.id.marketImage));
+//                ImageLoader.getInstance().displayImage(imageURL, (ImageView)getView().findViewById(R.id.marketImage));        // 대안을 찾음
             } else if(flag[0] == 1) {
                 longitude = data.getStringExtra("longitude");
                 latitude = data.getStringExtra("latitude");

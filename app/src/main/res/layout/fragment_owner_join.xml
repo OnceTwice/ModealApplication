@@ -24,11 +24,11 @@
 
             <EditText
                 android:id="@+id/etOwnerID"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/editbox_background"
-                android:hint="ID"
-                android:inputType="text" />
+                android:hint="이메일 형식"
+                android:inputType="textEmailAddress"/>
 
             <Button
                 android:layout_width="wrap_content"

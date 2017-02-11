@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 public class OwnerJoinService {
     public UserVo fetchOwnerList(UserVo userVo, ShopVo shopVo) {
-        String url = "http://192.168.1.26:8088/modeal/user/app/ownerinput";
+        String url = "http://10.10.102.57:8088/modeal/user/app/ownerinput";
         HttpRequest httpRequest = HttpRequest.post(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_JSON);     // 전달 타입

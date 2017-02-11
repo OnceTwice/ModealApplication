@@ -13,7 +13,7 @@ import java.util.List;
 
 public class UserJoinService {
     public List<UserVo> fetchUserList(String id, String password, String gender, String location, String birth) {
-        String url = "http://192.168.1.26:8088/modeal/user/app/userinput";
+        String url = "http://10.10.102.57:8088/modeal/user/app/userinput";
         HttpRequest httpRequest = HttpRequest.get(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);     // 전달 타입

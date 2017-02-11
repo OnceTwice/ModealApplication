@@ -56,13 +56,33 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ID(Email)" />
+                    android:text="ID(Email) : " />
 
-                <EditText
-                    android:layout_width="150dp"
+                <TextView
+                    android:id="@+id/tvOwnerMyPageID"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:drawable/editbox_background"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Password : " />
+
+                <TextView
+                    android:id="@+id/tvOwnerMyPagePassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberPassword"
+                    android:text=""/>
             </LinearLayout>
 
             <LinearLayout
@@ -74,13 +94,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="GENDER" />
+                    android:text="생별 : " />
 
-                <EditText
-                    android:layout_width="150dp"
+                <TextView
+                    android:id="@+id/tvOwnerMyPageGender"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:drawable/editbox_background"
-                    android:inputType="text" />
+                    android:text="" />
             </LinearLayout>
 
             <LinearLayout
@@ -92,13 +112,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="거주지역" />
+                    android:text="거주지역 : " />
 
-                <EditText
-                    android:layout_width="150dp"
+                <TextView
+                    android:id="@+id/tvOwnerMyPageLocation"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:drawable/editbox_background"
-                    android:inputType="text" />
+                    android:text="" />
             </LinearLayout>
 
             <LinearLayout
@@ -110,13 +130,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Birth" />
+                    android:text="생년월일 : " />
 
-                <EditText
-                    android:layout_width="150dp"
+                <TextView
+                    android:id="@+id/tvOwnerMyPageBirth"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:drawable/editbox_background"
-                    android:inputType="text" />
+                    android:text="" />
             </LinearLayout>
 
             <LinearLayout
@@ -128,13 +148,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Name" />
+                    android:text="매장명 : " />
 
-                <EditText
-                    android:layout_width="150dp"
+                <TextView
+                    android:id="@+id/tvOwnerMyPageMarketName"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:drawable/editbox_background"
-                    android:inputType="text" />
+                    android:text=""/>
             </LinearLayout>
 
             <LinearLayout
@@ -146,13 +166,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Address" />
+                    android:text="매장주소 : " />
 
-                <EditText
-                    android:layout_width="150dp"
+                <TextView
+                    android:id="@+id/tvOwnerMyPageMarketAddress"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:drawable/editbox_background"
-                    android:inputType="text" />
+                    android:text=""/>
             </LinearLayout>
 
             <LinearLayout
@@ -164,13 +184,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tel." />
+                    android:text="매장 전화번호 : " />
 
-                <EditText
-                    android:layout_width="150dp"
+                <TextView
+                    android:id="@+id/tvOwnerMyPageMarketPhoneNumber"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:drawable/editbox_background"
-                    android:inputType="text" />
+                    android:text=""/>
             </LinearLayout>
 
             <LinearLayout
@@ -182,34 +202,31 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Introduce" />
+                    android:text="매장 소개 : " />
 
-                <EditText
-                    android:layout_width="150dp"
+                <TextView
+                    android:id="@+id/tvOwnerMyPageMarketIntroduce"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:drawable/editbox_background"
-                    android:inputType="text" />
+                    android:text=""/>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="horizontal"
                 android:padding="5dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Photo" />
 
                 <ImageView
+                    android:id="@+id/imgVOwnerMyPageMarketImg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/logo1" />
             </LinearLayout>
 
             <Button
-                android:id="@+id/btnInformModify"
+                android:id="@+id/btnOwnerInformModify"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
