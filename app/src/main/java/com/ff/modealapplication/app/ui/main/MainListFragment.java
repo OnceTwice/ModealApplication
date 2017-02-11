@@ -55,7 +55,7 @@ public class MainListFragment extends Fragment implements AdapterView.OnItemClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(getContext(), ItemDetailActivity.class);
-        intent.putExtra("no", ((TextView)view.findViewById(R.id.send_no)).getText().toString());
+        intent.putExtra("no", ((TextView) view.findViewById(R.id.send_no)).getText().toString());
         startActivity(intent);
     }
 

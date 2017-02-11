@@ -45,6 +45,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, View.OnClickListener {
 
     /**
@@ -334,6 +337,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         private String mEmail = null;
         private String mPassword = null;
         private UserVo userVo = new UserVo();
+        private Map<String, Object> resultUser = new HashMap<String,Object>();
 
         public UserLoginTask(String email, String password) {
             mEmail = email;
@@ -350,27 +354,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Integer doInBackground(Void... params) {
             try {
                 if (userVo.getManagerIdentified() == null) { // 이해불가능... null일때를 맨위에 올려야만 되는게 이상함... 원래 안이랬는데...
-                    userVo = new LoginService().login(userVo);
-                    if (userVo != null) {
-                        if (userVo.getManagerIdentified() == 3L || userVo.getManagerIdentified() == 4L) {
+                    resultUser = new LoginService().login(userVo);
+                    if (resultUser != null) {
+                        if (((Double)resultUser.get("managerIdentified")).longValue() == 3L || ((Double)resultUser.get("managerIdentified")).longValue() == 4L) {
                             return 1;
                         }
-                        LoginPreference.put(getApplicationContext(), userVo);
+                        LoginPreference.put(getApplicationContext(), resultUser);
                     }
 
                 } else if (userVo.getManagerIdentified() == 4L) { // 구글 로그인시
-                    UserVo serverUserVo = new LoginService().login(userVo);
-                    if (serverUserVo != null) {
-                        LoginPreference.put(getApplicationContext(), serverUserVo);
+                    resultUser = new LoginService().login(userVo);
+                    if (resultUser != null) {
+                        LoginPreference.put(getApplicationContext(), resultUser);
                     } else {
                         new LoginService().SocialJoin(userVo);
                         LoginPreference.put(getApplicationContext(), userVo);
                     }
                     return 5;
                 } else if (userVo.getManagerIdentified() == 3L) { // 페이스북 로그인시
-                    UserVo serverUserVo = new LoginService().login(userVo);
-                    if (serverUserVo != null) {
-                        LoginPreference.put(getApplicationContext(), serverUserVo);
+                    resultUser = new LoginService().login(userVo);
+                    if (resultUser != null) {
+                        LoginPreference.put(getApplicationContext(), resultUser);
                     } else {
                         new LoginService().SocialJoin(userVo);
                         LoginPreference.put(getApplicationContext(), userVo);
@@ -381,9 +385,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Log.w("에러", e);
                 return 0;
             }
-            if (userVo == null) {
+            if (resultUser == null) {
                 return 1;
-            } else if (!userVo.getPassword().equals(mPassword)) {
+            } else if (!resultUser.get("password").equals(mPassword)) {
                 return 2;
             }
             return 3;

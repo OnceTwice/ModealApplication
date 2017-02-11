@@ -1,6 +1,8 @@
 package com.ff.modealapplication.app.ui.main;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -37,8 +39,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout drawer = null;
 
+    // LocationManager 객체를 얻어온다
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         startActivity(new Intent(this, SplashActivity.class)); // 스플래시 화면 (170131/상욱추가)
 
         super.onCreate(savedInstanceState);
@@ -164,17 +169,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_myPage) {
-            if ((Long)LoginPreference.getValue(getApplicationContext(), "managerIdentified") == -1) {       // 로그인 안했을때
+            if ((Long) LoginPreference.getValue(getApplicationContext(), "managerIdentified") == -1) {       // 로그인 안했을때
                 Toast.makeText(this, "로그인하세요", Toast.LENGTH_SHORT).show();
-            } else if ((Long)LoginPreference.getValue(getApplicationContext(), "managerIdentified") == 1) { // 사용자 로그인 했을때
+            } else if ((Long) LoginPreference.getValue(getApplicationContext(), "managerIdentified") == 1) { // 사용자 로그인 했을때
                 Toast.makeText(this, "사용자 페이지", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, UserMyPageActivity.class);
                 startActivity(intent);
-            } else if ((Long)LoginPreference.getValue(getApplicationContext(), "managerIdentified") == 2) { // 사업자 로그인 했을때
+            } else if ((Long) LoginPreference.getValue(getApplicationContext(), "managerIdentified") == 2) { // 사업자 로그인 했을때
                 Toast.makeText(this, "사업자 페이지", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, OwnerMyPageActivity.class);
                 startActivity(intent);
-            } else if ((Long)LoginPreference.getValue(getApplicationContext(), "managerIdentified") == 3 || (Long)LoginPreference.getValue(getApplicationContext(), "managerIdentified") == 4) { // 페이지북(3), 구글(4) 로그인 했을때
+            } else if ((Long) LoginPreference.getValue(getApplicationContext(), "managerIdentified") == 3 || (Long) LoginPreference.getValue(getApplicationContext(), "managerIdentified") == 4) { // 페이지북(3), 구글(4) 로그인 했을때
                 Toast.makeText(this, "소셜로그인중...", Toast.LENGTH_SHORT).show();
             }
         } else if (id == R.id.nav_bookmark) {

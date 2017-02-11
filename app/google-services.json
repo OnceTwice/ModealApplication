@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "909125768226-dnd1kjq4pti8j5u1fdfvi8pgflokfe14.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ff.modealapplication",
+            "certificate_hash": "366861916C371540CB47FC872240672AED9C214A"
+          }
+        },
+        {
           "client_id": "909125768226-7obn4tsl88o5iejdgeti3qfbng5kldun.apps.googleusercontent.com",
           "client_type": 3
         },

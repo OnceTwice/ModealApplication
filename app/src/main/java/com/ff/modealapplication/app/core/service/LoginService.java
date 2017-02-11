@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 
 import java.io.Reader;
 import java.net.HttpURLConnection;
+import java.util.Map;
 
 /**
  * Created by BIT on 2017-01-31.
@@ -18,7 +19,7 @@ public class LoginService {
         String url = "http://192.168.0.17:8088/modeal/userapp"; // 집
 
     // 일반로그인 & 페이스북로그인 & 구글로그인
-    public UserVo login(UserVo userVo) {
+    public Map<String, Object> login(UserVo userVo) {
         HttpRequest httpRequest = HttpRequest.post(url +"/login");
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_JSON);
@@ -32,7 +33,7 @@ public class LoginService {
         if (responseCode != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("Http Response : " + responseCode);
         }
-        UserVo resultUser = fromJson(httpRequest, UserVo.class);
+        Map<String, Object> resultUser = fromJson(httpRequest, Map.class);
 
         return resultUser;
     }
