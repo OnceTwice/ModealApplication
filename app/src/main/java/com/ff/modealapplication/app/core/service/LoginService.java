@@ -14,8 +14,8 @@ import java.net.HttpURLConnection;
  */
 
 public class LoginService {
-        String url = "http://192.168.1.26:8088/modeal/userapp"; // 학원 로컬
-//        String url = "http://192.168.0.17:8088/modeal/userapp/login"; // 집
+//        String url = "http://192.168.1.26:8088/modeal/userapp"; // 학원 로컬
+        String url = "http://192.168.0.17:8088/modeal/userapp"; // 집
 
     // 일반로그인 & 페이스북로그인 & 구글로그인
     public UserVo login(UserVo userVo) {
