@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.MainService;
+import com.ff.modealapplication.app.core.util.GPSPreference;
 import com.ff.modealapplication.app.ui.item.ItemDetailActivity;
 
 import java.util.List;
@@ -28,7 +29,7 @@ import static android.R.id.list;
 
 public class MainListFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    private MainListArrayAdapter mainListArrayAdapter = null;
+    MainListArrayAdapter mainListArrayAdapter = null;
     ListView listView = null;
 
     public MainListFragment() {
@@ -37,12 +38,15 @@ public class MainListFragment extends Fragment implements AdapterView.OnItemClic
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.w("온크리에이트", "개자식들아");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.w("온크리에이트뷰", "씨발새끼들아");
         View mFragment = inflater.inflate(R.layout.fragment_main_list, container, false);
         mainListArrayAdapter = new MainListArrayAdapter(mFragment.getContext());
+        mainListArrayAdapter.notifyDataSetChanged();
         listView = (ListView) mFragment.findViewById(list);
         listView.setAdapter(mainListArrayAdapter);
         listView.setOnItemClickListener(this);
@@ -63,7 +67,7 @@ public class MainListFragment extends Fragment implements AdapterView.OnItemClic
         @Override
         public List<Map<String, Object>> call() throws Exception {
             MainService mainService = new MainService();
-            List<Map<String, Object>> list = mainService.MainItemList();
+            List<Map<String, Object>> list = mainService.MainItemList((String)GPSPreference.getValue(getContext(), "latitude"), (String)GPSPreference.getValue(getContext(), "longitude"), (int)GPSPreference.getValue(getContext(), "range")); // 위도, 경도, 반경
             return list;
         }
 

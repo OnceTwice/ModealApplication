@@ -43,7 +43,7 @@ public class SearchMapRangeActivity extends Activity implements View.OnClickList
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-                ((TextView) findViewById(R.id.textView_lange)).setText(progress * 10 + "m");
+                ((TextView) findViewById(R.id.textView_lange)).setText(progress * 30 + "m");
                 range = String.valueOf(progress * 10); // 반경 설정한 값 (미터단위)
             }
 

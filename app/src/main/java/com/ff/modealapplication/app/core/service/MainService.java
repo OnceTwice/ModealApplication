@@ -1,6 +1,8 @@
 package com.ff.modealapplication.app.core.service;
 
 
+import android.util.Log;
+
 import com.ff.modealapplication.andorid.network.JSONResult;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
@@ -12,20 +14,29 @@ import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.Map;
 
+import static android.R.string.no;
+
 /**
  * Created by BIT on 2017-01-19.
  */
 
 public class MainService {
-    public List<Map<String, Object>> MainItemList(){
-        String url="http://192.168.1.90:8088/modeal/mainapp/list";
+    // 앱 처음 켰을때는 모든 리스트를 최신순으로 띄움, GPS정보를 얻어서 쿠키에 저장
+    // 그 후로 켰을때는 저장되어있는 GPS정보와 반경을 토대로 리스트 띄움
+    public List<Map<String, Object>> MainItemList(String latitude, String longitude, int range){
+//        String url="http://192.168.1.90:8088/modeal/mainapp/list";
+        String url="http://192.168.1.18:8088/modeal/mainapp/list";
+
+        Log.w("-------------------", latitude + longitude + range);
 
         HttpRequest httpRequest = HttpRequest.post(url);
 
-        httpRequest.contentType(HttpRequest.CONTENT_TYPE_JSON);
+        httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
         httpRequest.accept(HttpRequest.CONTENT_TYPE_JSON);
         httpRequest.connectTimeout(5000);
         httpRequest.readTimeout(5000);
+
+        httpRequest.send("latitude=" + latitude + "&longitude=" + longitude +"&range=" + range);
 
         int responseCode=httpRequest.code();
         if(responseCode != HttpURLConnection.HTTP_OK){
@@ -38,6 +49,28 @@ public class MainService {
     }
 
     private class JSONResultMainList extends JSONResult<List<Map<String, Object>>>{
+    }
+
+    // 즐겨찾기
+    public Map<String, Object> bookmark(Long itemNo, Long userNo) {
+        String url="http://192.168.1.18:8088/modeal/mainapp/bookmark";
+        HttpRequest httpRequest = HttpRequest.post(url);
+
+        httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
+        httpRequest.accept(HttpRequest.CONTENT_TYPE_JSON);
+        httpRequest.connectTimeout(5000);
+        httpRequest.readTimeout(5000);
+
+        httpRequest.send("itemNo=" + itemNo + "&userNo=" + userNo);
+
+        int responseCode=httpRequest.code();
+        if(responseCode != HttpURLConnection.HTTP_OK){
+            throw new RuntimeException("HTTP RESPONSE :" + responseCode);
+        }
+
+        Map<String, Object> bookmark = fromJSON(httpRequest, Map.class);
+
+        return bookmark;
     }
     protected <V> V fromJSON(HttpRequest request, Class<V> target){
         V v = null;

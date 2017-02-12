@@ -11,6 +11,7 @@
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
@@ -41,13 +42,30 @@
 
         </android.support.design.widget.AppBarLayout>
 
-            <FrameLayout
-                android:id="@+id/activity_content"
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#E5E5E2"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <!-- layout_behavior는 액션바 밑에서부터 화면구성이 이루어지도록 하는것 -->
+
+            <!-- divider → list 행 간격 띄우기-->
+            <ListView
+                android:id="@android:id/list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-            <!-- layout_behavior는 액션바 밑에서부터 화면구성이 이루어지도록 하는것 -->
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="#fff"
+                android:divider="#E5E5E2"
+                android:dividerHeight="10dp" />
+        </FrameLayout>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
