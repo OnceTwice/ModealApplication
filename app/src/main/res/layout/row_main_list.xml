@@ -85,12 +85,14 @@
                 android:layout_weight="1.80"
                 android:text="TextView" />
 
-            <ImageView
+            <ToggleButton
                 android:id="@+id/bookmark_button"
                 android:layout_width="56dp"
                 android:layout_height="wrap_content"
                 android:background="#fff"
-                app:srcCompat="@drawable/heart2" />
+                android:textOff=""
+                android:textOn=""
+                android:button="@drawable/check" />
 
         </LinearLayout>
 

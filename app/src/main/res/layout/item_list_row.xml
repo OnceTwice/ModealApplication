@@ -125,7 +125,7 @@
                 android:layout_width="56dp"
                 android:layout_height="wrap_content"
                 android:background="#fff"
-                app:srcCompat="@drawable/heart2" />
+                app:srcCompat="@drawable/heart_empty" />
 
             <!-- <ImageButton
                 android:id="@+id/button_liked"

@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
@@ -61,6 +63,7 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
+        view.setTag();
         if (view == null) {
             view = layoutInflater.inflate(R.layout.row_main_list, parent, false);
         }
@@ -104,21 +107,30 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         textPriceView.setText(String.valueOf(((Double) itemVo.get("price")).longValue()));
         textShopSpaceView.setText(itemVo.get("shopName").toString());
 
+        final ToggleButton toggleButton; // 즐겨찾기 버튼
+
         // 로그인 정보 없을때 즐겨찾기 빈 하트로 하기
         if (LoginPreference.getValue(getContext(), "id") != null) {
-
+            new BookmarkSelect(position).execute();
         } else {
-            ((ImageView) view.findViewById(R.id.bookmark_button)).setImageResource(R.drawable.heart2);
+            ((ToggleButton) view.findViewById(R.id.bookmark_button)).setChecked(false);
         }
 
         // 즐겨찾기 (로그인했을때만 가능)
-        ((ImageView) view.findViewById(R.id.bookmark_button)).setOnClickListener(new View.OnClickListener() {
+        toggleButton = ((ToggleButton) view.findViewById(R.id.bookmark_button));
+        toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                if (LoginPreference.getValue(getContext(), "id") != null) {
-                    ((ImageView) v.findViewById(R.id.bookmark_button)).setImageResource(R.drawable.heart_full);
-                    new BookmarkAsyncTask(position).execute();
-                } else {
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isCheck) {
+                if (LoginPreference.getValue(getContext(), "id") != null) { // 로그인시 즐겨찾기 가능
+                    if (isCheck) {
+                        new BookmarkAdd(position).execute();
+                        toggleButton.setChecked(true);
+                    } else {
+                        new BookmarkDelete(position).execute();
+                        toggleButton.setChecked(false);
+                    }
+                } else { // 비회원시 즐겨찾기 불가능
+                    toggleButton.setChecked(false);
                     Toast.makeText(getContext(), "로그인을 하세요", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -137,23 +149,68 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         }
     }
 
-    private class BookmarkAsyncTask extends SafeAsyncTask<Map<String, Object>> {
+    // 즐겨찾기 추가
+    private class BookmarkAdd extends SafeAsyncTask<Void> {
         private int position;
 
-        public BookmarkAsyncTask(int position) {
+        public BookmarkAdd(int position) {
             this.position = position;
         }
+
         @Override
-        public Map<String, Object> call() throws Exception {
-//            if ();
+        public Void call() throws Exception {
             MainService mainService = new MainService();
-            mainService.bookmark(((Double)getItem(position).get("no")).longValue(), (Long)LoginPreference.getValue(getContext(), "no"));
+            mainService.bookmarkAdd(((Double) getItem(position).get("no")).longValue(), (Long) LoginPreference.getValue(getContext(), "no"));
             return null;
         }
 
         @Override
-        protected void onSuccess(Map<String, Object> list) throws Exception {
-            super.onSuccess(list);
+        protected void onException(Exception e) throws RuntimeException {
+            Log.d("*Main Exception error :", "" + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    // 즐겨찾기 삭제
+    private class BookmarkDelete extends SafeAsyncTask<Void> {
+        private int position;
+
+        public BookmarkDelete(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public Void call() throws Exception {
+            MainService mainService = new MainService();
+            mainService.bookmarkDelete(((Double) getItem(position).get("no")).longValue(), (Long) LoginPreference.getValue(getContext(), "no"));
+            return null;
+        }
+
+        @Override
+        protected void onException(Exception e) throws RuntimeException {
+            Log.d("*Main Exception error :", "" + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    // 즐겨찾기 검색
+    private class BookmarkSelect extends SafeAsyncTask<Long> {
+        private int position;
+
+        public BookmarkSelect(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public Long call() throws Exception {
+            MainService mainService = new MainService();
+            return mainService.bookmarkSelect(((Double) getItem(position).get("no")).longValue(), (Long) LoginPreference.getValue(getContext(), "no"));
+        }
+
+        @Override
+        protected void onSuccess(Long no) throws Exception {
+            getItem(position).
+            super.onSuccess(no);
         }
 
         @Override
