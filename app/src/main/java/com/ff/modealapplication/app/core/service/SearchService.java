@@ -59,8 +59,6 @@ public class SearchService {
         httpRequest.connectTimeout(3000);
         httpRequest.readTimeout(3000);
 
-        Log.w("!!!!", toJSON());
-
         httpRequest.send(toJSON());
         int responseCode=httpRequest.code();
         if(responseCode != HttpURLConnection.HTTP_OK){

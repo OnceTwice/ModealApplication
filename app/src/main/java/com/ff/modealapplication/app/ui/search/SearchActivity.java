@@ -69,7 +69,6 @@ public class SearchActivity extends AppCompatActivity {
 
         //검색 버튼 입력
         search_edit = (EditText) findViewById(R.id.search_button);
-        Log.d("size",""+search_edit.getTextSize()+"");
 
         if(search_edit==null || search_edit.getTextSize()==0){
           }else {

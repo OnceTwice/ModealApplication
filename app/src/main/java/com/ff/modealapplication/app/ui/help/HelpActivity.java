@@ -3,10 +3,18 @@ package com.ff.modealapplication.app.ui.help;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.ff.modealapplication.R;
+import com.ff.modealapplication.andorid.network.SafeAsyncTask;
+import com.ff.modealapplication.app.core.service.HelpService;
+import com.ff.modealapplication.app.core.util.LoginPreference;
+import com.ff.modealapplication.app.core.vo.HelpVo;
 
 public class HelpActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,11 +22,35 @@ public class HelpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_help);
 
         // 자체 제작 액션바
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_help); // 아이디인 툴바 로그인 부분은 내 아이디로 변경해줘야함
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_help);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 뒤로가기 화살표 표시
 
-    }
+        //문의 버튼 클릭시 발송 & Toast 띄우기
+       findViewById(R.id.help_button).setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               Toast.makeText(HelpActivity.this, "문의사항이 등록되었습니다.",Toast.LENGTH_SHORT).show();
+               new HelpasyncTask().execute();
+           }
+       });
 
+
+    }
+   public class  HelpasyncTask extends SafeAsyncTask<HelpVo>{
+
+       @Override
+       public HelpVo call() throws Exception {
+           EditText titleText=(EditText)findViewById(R.id.help_title_text);
+           String title=titleText.getText().toString();
+           EditText contentText=(EditText)findViewById(R.id.help_content_text);
+           String complain = contentText.getText().toString();
+           Long userNo = (Long) LoginPreference.getValue(getApplicationContext(),"no");
+
+           HelpService helpService = new HelpService();
+           helpService.HelpInsert(title, complain,userNo);
+           return null;
+       }
+   }
 }

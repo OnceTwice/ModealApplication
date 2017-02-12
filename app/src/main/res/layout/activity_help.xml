@@ -27,9 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/colorModeal">
-                <!-- 아이디인 툴바 로그인 부분은 내 아이디로 변경해줘야함 -->
 
-                <!-- text에 자신에게 맞는 이름 쓰기 -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -41,7 +39,6 @@
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.AppBarLayout>
-        <!-- layout_behavior를 사용해야 액션바 밑에서부터 출력 -->
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -49,9 +46,12 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <EditText
+                android:id="@+id/help_title_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
+                android:singleLine="true"
+                android:maxLines="1"
                 android:background="#fff"
                 android:padding="10dp"
                 android:layout_margin="10dp"
@@ -59,6 +59,7 @@
 
 
             <EditText
+                android:id="@+id/help_content_text"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
                 android:textSize="12dp"
@@ -78,13 +79,8 @@
                 android:background="@color/colorModeal"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:id="@+id/button2" />
-
+                android:id="@+id/help_button" />
         </LinearLayout>
-
-
-        <!-- TextView 대신 자신에게 맞는 뷰 넣기 -->
-
 
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>
