@@ -3,14 +3,13 @@ package com.ff.modealapplication.app.ui.help;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.HelpService;
-import com.ff.modealapplication.app.core.util.LoginPreference;
 import com.ff.modealapplication.app.core.vo.HelpVo;
 
 public class HelpActivity extends AppCompatActivity {
@@ -35,6 +34,7 @@ public class HelpActivity extends AppCompatActivity {
            public void onClick(View view) {
                Toast.makeText(HelpActivity.this, "문의사항이 등록되었습니다.",Toast.LENGTH_SHORT).show();
                new HelpasyncTask().execute();
+               finish();
            }
        });
 
@@ -61,4 +61,18 @@ public class HelpActivity extends AppCompatActivity {
            throw new RuntimeException("Help--->"+e);
        }
    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) { // 뒤로가기 클릭시 searchActivity 종료
+            this.finish();
+            return true;
+        } else if (id == R.id.action_button) {
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }
