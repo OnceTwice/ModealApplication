@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 public class OwnerModifyService {
     public UserVo fetchOwnerList(UserVo userVo, ShopVo shopVo) {
-        String url = "http://192.168.1.107:8088/modeal/user/app/ownerinput";
+        String url = "http://192.168.1.26:8088/modeal/user/app/ownermodify";
         HttpRequest httpRequest = HttpRequest.post(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_JSON);     // 전달 타입
@@ -22,7 +22,7 @@ public class OwnerModifyService {
         httpRequest.connectTimeout(15000);
         httpRequest.readTimeout(3000);
 
-        Log.d("=======================", "사업자 서비스 입갤");
+        Log.d("=======================", "사업자 회원정보수정 서비스 입갤");
         System.out.println("USERVO=====" + userVo);
         System.out.println("SHOPVO=====" + shopVo);
 
@@ -45,15 +45,8 @@ public class OwnerModifyService {
         map.put("shopIntroduce", shopVo.getIntroduce());                //
         map.put("shopLongitude", shopVo.getLongitude());                //
         map.put("shopLatitude", shopVo.getLatitude());                  //
-//        map.put("user", userVo);
-//        map.put("shop", shopVo);
-
-//        System.out.println(map);
 
         httpRequest.send(toJson(map));           // 에러 발생 지점
-
-//        System.out.println(userVo);
-//        System.out.println(toJson(userVo));
 
         int responseCode = httpRequest.code();
 
@@ -61,9 +54,6 @@ public class OwnerModifyService {
             throw new RuntimeException("Http Response : " + responseCode);
         }
 
-//        JSONResultOwner jsonResultOwner = fromJSON(httpRequest, JSONResultOwner.class);
-
-//        return (UserVo) jsonResultOwner.getData();
         return null;
     }
 

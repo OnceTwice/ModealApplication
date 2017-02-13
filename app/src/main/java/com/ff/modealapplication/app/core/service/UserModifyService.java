@@ -13,7 +13,7 @@ import java.util.List;
 
 public class UserModifyService  {
     public List<UserVo> fetchUserModify(Long no, String password, String gender, String location, String birth) {
-        String url = "http://192.168.1.107:8088/modeal/user/app/usermodify";
+        String url = "http://192.168.1.26:8088/modeal/user/app/usermodify";
         HttpRequest httpRequest = HttpRequest.get(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);     // 전달 타입

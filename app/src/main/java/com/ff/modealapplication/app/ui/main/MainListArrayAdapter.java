@@ -63,7 +63,6 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        view.setTag();
         if (view == null) {
             view = layoutInflater.inflate(R.layout.row_main_list, parent, false);
         }
@@ -209,7 +208,6 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
 
         @Override
         protected void onSuccess(Long no) throws Exception {
-            getItem(position).
             super.onSuccess(no);
         }
 

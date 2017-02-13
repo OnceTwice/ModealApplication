@@ -54,7 +54,7 @@ public class OwnerJoinFragment extends Fragment {
 
     private EditText etMarketPhoneNumber;
 
-    ImageView imageView;
+    private ImageView imageView;
 
     private EditText etMarketIntroduce;
 

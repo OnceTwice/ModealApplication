@@ -171,6 +171,7 @@ public class UserModifyActivity extends AppCompatActivity {
                     etPassword.requestFocus();
                     return;
                 }
+
                 new UserModifyAsyncTask().execute();
             }
         });
