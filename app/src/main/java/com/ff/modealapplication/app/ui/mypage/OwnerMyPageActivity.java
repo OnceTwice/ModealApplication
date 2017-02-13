@@ -48,6 +48,12 @@ public class OwnerMyPageActivity extends AppCompatActivity {
 
         btnModify = (Button) findViewById(R.id.btnOwnerInformModify);
 
+        // 자체 제작 액션바
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_owner_myPage); // 아이디인 툴바 로그인 부분은 내 아이디로 변경해줘야함
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 뒤로가기 화살표 표시
+
         tvID.setText((String) LoginPreference.getValue(getApplicationContext(), "id"));
         tvPassword.setText((String) LoginPreference.getValue(getApplicationContext(), "password"));
         tvGender.setText((String) LoginPreference.getValue(getApplicationContext(), "gender"));
@@ -59,12 +65,6 @@ public class OwnerMyPageActivity extends AppCompatActivity {
         tvMarketPhoneNumber.setText((String) LoginPreference.getValue(getApplicationContext(), "phone"));
         tvMarketIntroduce.setText((String) LoginPreference.getValue(getApplicationContext(), "introduce"));
         // 이미지 설정 해야함....
-
-        // 자체 제작 액션바
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_owner_myPage); // 아이디인 툴바 로그인 부분은 내 아이디로 변경해줘야함
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 뒤로가기 화살표 표시
 
         btnModify.setOnClickListener(new View.OnClickListener() {
             @Override

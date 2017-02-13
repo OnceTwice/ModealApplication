@@ -1,8 +1,11 @@
 package com.ff.modealapplication.app.ui.join;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +29,7 @@ public class UserJoinFragment extends Fragment {
     private UserJoinService userJoinService = new UserJoinService();
 
     private EditText etID;
+    private Button btnDuplicationID;
     private EditText etPassword;
     private EditText etPasswordConfirm;
 
@@ -105,6 +109,7 @@ public class UserJoinFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user_join, container, false);
 
         etID = (EditText) view.findViewById(R.id.etUserId);
+        btnDuplicationID = (Button) view.findViewById(R.id.btnUserIDDuplicationCheck);
         etPassword = (EditText) view.findViewById(R.id.etUserPassword);
         etPasswordConfirm = (EditText) view.findViewById(R.id.etUserPasswordConfirm);
 
@@ -122,6 +127,30 @@ public class UserJoinFragment extends Fragment {
 
         btnSubmit = (Button) view.findViewById(R.id.btnUserSubmit);
         btnCancel = (Button) view.findViewById(R.id.btnUserCancel);
+
+        btnDuplicationID.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("ID 중복 체크", "중복 체크해욤!!!");
+                etID.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        Log.d("onTextChanged call!!!", s.toString());
+                        new HttpTask().execute("http://192.168.0.15:8088/modeal");
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+            }
+        });
 
         /********  성별입력(최초선택)    ********/
         if(man.isChecked()) {
@@ -251,6 +280,24 @@ public class UserJoinFragment extends Fragment {
     public void onDetach() {            // Fragment가 Activity와 연결이 완전히 끊기기 직전에 호출
         Log.d("User===LifeCycle", "onDetach called!!!!!");
         super.onDetach();
+    }
+
+    private class HttpTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+            } catch ( Exception e) {
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Toast.makeText(UserJoinFragment.this.getActivity(), "불가능!!!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private class FetchUserListAsyncTask extends SafeAsyncTask<List<UserVo>> {

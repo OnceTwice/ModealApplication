@@ -11,9 +11,9 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.util.List;
 
-public class UserJoinService {
-    public List<UserVo> fetchUserList(String id, String password, String gender, String location, String birth) {
-        String url = "http://192.168.1.107:8088/modeal/user/app/userinput";
+public class UserModifyService  {
+    public List<UserVo> fetchUserModify(Long no, String password, String gender, String location, String birth) {
+        String url = "http://192.168.1.107:8088/modeal/user/app/usermodify";
         HttpRequest httpRequest = HttpRequest.get(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);     // 전달 타입
@@ -21,23 +21,18 @@ public class UserJoinService {
         httpRequest.connectTimeout(3000);
         httpRequest.readTimeout(3000);
 
-        Log.d("=======================", "사용자 서비스 입갤");
-        Log.d("서비스쪽 아이디 : ", id);
+        Log.d("=======================", "사용자 회원수정 서비스 입갤");
+        Log.d("서비스쪽 번호 : ", no+"abc");
         Log.d("서비스쪽 비밀번호 : ", password);
         Log.d("서비스쪽 성별 : ", gender);
         Log.d("서비스쪽 거주지역 : ", location);
         Log.d("서비스쪽 생일 : ", birth);
 
-        int responseCode = httpRequest.send("id="+id+ "&password="+password+ "&gender="+gender+"&location="+location + "&birth="+birth).code();     // 웹으로 데이터 전달
+        int responseCode = httpRequest.send("no="+no+"&password="+password+ "&gender="+gender+"&location="+location + "&birth="+birth).code();     // 웹으로 데이터 전달
 
         if(responseCode != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("HTTP Response : " + responseCode);
         }
-
-//        System.out.println(fromJSON(httpRequest, UserJoinService.JSONResultUserList.class).getClass().getName());
-//        Log.d("에러뜬당",""+fromJSON(httpRequest, UserJoinService.JSONResultUserList.class).getClass().getName());
-
-//        UserJoinService.JSONResultUserList jsonResult = fromJSON(httpRequest, UserJoinService.JSONResultUserList.class);            // 에러 뜸
 
         return null;
     }

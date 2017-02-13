@@ -12,7 +12,7 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.util.HashMap;
 
-public class OwnerJoinService {
+public class OwnerModifyService {
     public UserVo fetchOwnerList(UserVo userVo, ShopVo shopVo) {
         String url = "http://192.168.1.107:8088/modeal/user/app/ownerinput";
         HttpRequest httpRequest = HttpRequest.post(url);
