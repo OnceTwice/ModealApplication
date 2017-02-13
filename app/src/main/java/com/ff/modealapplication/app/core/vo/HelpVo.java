@@ -9,7 +9,7 @@ public class HelpVo {
     private String title;
     private String complain;
     private String regDate;
-    private long userNo;
+    private long usersNo;
 
     @Override
     public String toString() {
@@ -18,7 +18,7 @@ public class HelpVo {
                 ", title='" + title + '\'' +
                 ", complain='" + complain + '\'' +
                 ", regDate='" + regDate + '\'' +
-                ", userNo=" + userNo +
+                ", userNo=" + usersNo +
                 '}';
     }
 
@@ -55,10 +55,12 @@ public class HelpVo {
     }
 
     public long getUserNo() {
-        return userNo;
+        return usersNo;
     }
 
     public void setUserNo(long userNo) {
-        this.userNo = userNo;
+        this.usersNo = userNo;
     }
+
+
 }

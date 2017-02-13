@@ -15,6 +15,7 @@ import com.ff.modealapplication.app.core.vo.HelpVo;
 
 public class HelpActivity extends AppCompatActivity {
 
+    private  HelpService helpService = new HelpService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class HelpActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 뒤로가기 화살표 표시
 
+        helpService.init(this);
         //문의 버튼 클릭시 발송 & Toast 띄우기
        findViewById(R.id.help_button).setOnClickListener(new View.OnClickListener() {
            @Override
@@ -42,15 +44,21 @@ public class HelpActivity extends AppCompatActivity {
 
        @Override
        public HelpVo call() throws Exception {
-           EditText titleText=(EditText)findViewById(R.id.help_title_text);
-           String title=titleText.getText().toString();
-           EditText contentText=(EditText)findViewById(R.id.help_content_text);
-           String complain = contentText.getText().toString();
-           Long userNo = (Long) LoginPreference.getValue(getApplicationContext(),"no");
 
-           HelpService helpService = new HelpService();
-           helpService.HelpInsert(title, complain,userNo);
+
+           helpService.HelpInsert();
+
            return null;
+       }
+
+       @Override
+       protected void onSuccess(HelpVo helpVo) throws Exception {
+//           super.onSuccess(helpVo);
+       }
+
+       @Override
+       protected void onException(Exception e) throws RuntimeException {
+           throw new RuntimeException("Help--->"+e);
        }
    }
 }
