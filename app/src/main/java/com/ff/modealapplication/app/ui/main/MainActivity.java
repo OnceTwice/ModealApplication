@@ -41,6 +41,7 @@ import com.ff.modealapplication.app.ui.help.HelpActivity;
 import com.ff.modealapplication.app.ui.item.ItemActivity;
 import com.ff.modealapplication.app.ui.item.ItemDetailActivity;
 import com.ff.modealapplication.app.ui.join.JoinActivity;
+import com.ff.modealapplication.app.ui.join.JoinLeaveActivity;
 import com.ff.modealapplication.app.ui.login.LoginActivity;
 import com.ff.modealapplication.app.ui.map.SearchMapRangeActivity;
 import com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity;
@@ -440,7 +441,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(this, MarketDetailInformationActivity.class);
             startActivity(intent);
         } else if(id == R.id.nav_userWithdrawal) {
-            Toast.makeText(this, "회원탈퇴!!!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, JoinLeaveActivity.class);
+            startActivity(intent);
         }
 
         drawer.closeDrawer(GravityCompat.START);

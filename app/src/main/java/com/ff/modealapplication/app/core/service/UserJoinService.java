@@ -2,6 +2,7 @@ package com.ff.modealapplication.app.core.service;
 
 import android.util.Log;
 
+import com.ff.modealapplication.app.core.util.LoginPreference;
 import com.ff.modealapplication.app.core.vo.UserVo;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
@@ -10,6 +11,8 @@ import com.google.gson.GsonBuilder;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.util.List;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class UserJoinService {
     public List<UserVo> fetchUserList(String id, String password, String gender, String location, String birth) {
@@ -40,6 +43,26 @@ public class UserJoinService {
 //        UserJoinService.JSONResultUserList jsonResult = fromJSON(httpRequest, UserJoinService.JSONResultUserList.class);            // 에러 뜸
 
         return null;
+    }
+    //유저 탈퇴
+    public void UserLeave(){
+        String url="http://192.168.1.87:8888//modeal/user/app/userleave";
+
+        HttpRequest httpRequest = HttpRequest.post(url);
+
+        httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
+        httpRequest.accept(HttpRequest.CONTENT_TYPE_JSON);
+        httpRequest.connectTimeout(3000);
+        httpRequest.readTimeout(3000);
+
+        Long no = (Long) LoginPreference.getValue(getApplicationContext(),"no");
+        Log.d("dfndflsdndlfdnf",""+no);
+        int responseCode=httpRequest.send(
+                "no="+no).code();
+
+        if(responseCode != HttpURLConnection.HTTP_OK){
+            throw new RuntimeException("HTTP Response :" + responseCode);
+        }
     }
 
 //    public class JSONResultUserList extends JSONResult<List<UserVo>> {

@@ -129,6 +129,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".app.ui.join.JoinLeaveActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".app.ui.market.MarketDetailInformationActivity"
             android:screenOrientation="portrait" />
         <activity
