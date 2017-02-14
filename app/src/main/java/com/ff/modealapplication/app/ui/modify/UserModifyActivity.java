@@ -229,6 +229,18 @@ public class UserModifyActivity extends AppCompatActivity {
         @Override
         protected void onSuccess(List<UserVo> userVos) throws Exception {
 //            super.onSuccess(userVos);
+
+            System.out.println("userVos 출력합니다!====="+userVos);          // null 값 출력
+
+//            UserVo userVo = new UserVo();
+//            userVo.setNo(no);
+//            userVo.setPassword(password);
+//            userVo.setGender(gender);
+//            userVo.setLocation(city+gu+dong);
+//            userVo.setBirth(year+day+month);
+//
+//            LoginPreference.put(getApplicationContext(), userVo);
+
             finish();
         }
     }

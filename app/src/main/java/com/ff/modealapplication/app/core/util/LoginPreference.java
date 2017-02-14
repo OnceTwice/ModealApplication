@@ -15,7 +15,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class LoginPreference {
 
-    public static void put(Context context, UserVo userVo) {
+    public static void put(Context context, UserVo userVo) {            // 사용자일 때
         SharedPreferences pref = context.getSharedPreferences("loginInfo", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
 
@@ -26,13 +26,15 @@ public class LoginPreference {
         editor.putString("location", userVo.getLocation());
         editor.putString("birth", userVo.getBirth());
         editor.putLong("managerIdentified", userVo.getManagerIdentified());
+
         if (userVo.getShopNo() != null) {
             editor.putLong("shopNo", userVo.getShopNo());
         }
+
         editor.commit();
     }
 
-    public static void put(Context context, Map<String, Object> resultUser) {
+    public static void put(Context context, Map<String, Object> resultUser) {   // 사업자일 때
         SharedPreferences pref = context.getSharedPreferences("loginInfo", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
 
@@ -43,6 +45,7 @@ public class LoginPreference {
         editor.putString("location", (String)resultUser.get("location"));
         editor.putString("birth", (String)resultUser.get("birth"));
         editor.putLong("managerIdentified", ((Double)resultUser.get("managerIdentified")).longValue());
+
         if (resultUser.get("shopNo") != null) {
             editor.putLong("shopNo", ((Double)resultUser.get("shopNo")).longValue());
             editor.putString("address", (String)resultUser.get("address"));
@@ -52,6 +55,7 @@ public class LoginPreference {
             editor.putString("picture", (String)resultUser.get("picture"));
             editor.putString("introduce", (String)resultUser.get("introduce"));
         }
+
         editor.commit();
     }
 
