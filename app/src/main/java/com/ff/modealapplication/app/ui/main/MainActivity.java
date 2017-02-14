@@ -57,6 +57,8 @@ import static android.location.LocationManager.GPS_PROVIDER;
 import static android.location.LocationManager.NETWORK_PROVIDER;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, AdapterView.OnItemClickListener {
+    NavigationView navigationView;
+    boolean flag_withdraw = false;
 
     MainListArrayAdapter mainListArrayAdapter = null;
     ListView listView = null;
@@ -290,29 +292,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 // GPS정보 여기까지
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStart() {
+        super.onStart();
+
         if (LoginPreference.getValue(getApplicationContext(), "id") != null) {
             ((Button) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.login_button)).setText("로그아웃");
+            flag_withdraw = true;
         } else if (LoginPreference.getValue(getApplicationContext(), "id") == null) {
             ((Button) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.login_button)).setText("로그인");
+            flag_withdraw = false;
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (LoginPreference.getValue(getApplicationContext(), "id") != null) {
+            flag_withdraw = true;
+        } else if (LoginPreference.getValue(getApplicationContext(), "id") == null) {
+            flag_withdraw = false;
+        }
+
+        // 회원 탈퇴 보이기/보이지않기
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu nav_menu = navigationView.getMenu();
+        nav_menu.findItem(R.id.nav_userWithdrawal).setVisible(flag_withdraw);
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onPause() {
+        super.onPause();
+
         if (LoginPreference.getValue(getApplicationContext(), "id") != null) {
             ((Button) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.login_button)).setText("로그아웃");
         } else if (LoginPreference.getValue(getApplicationContext(), "id") == null) {
             ((Button) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.login_button)).setText("로그인");
         }
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    /*************************************** 생명주기 끝 ****************************************************/
 
     // 단순히 액션바부터 네비게이션 돋보기 추가하기 위해서는 여기서 부터~~~
     // 뒤로가기 버튼 누를때... (170123/상욱추가)
@@ -381,6 +410,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
         if (id == R.id.nav_myPage) {
             if ((Long) LoginPreference.getValue(getApplicationContext(), "managerIdentified") == -1) {       // 로그인 안했을때
                 Toast.makeText(this, "로그인하세요", Toast.LENGTH_SHORT).show();
@@ -409,6 +439,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_marketDetail) {
             Intent intent = new Intent(this, MarketDetailInformationActivity.class);
             startActivity(intent);
+        } else if(id == R.id.nav_userWithdrawal) {
+            Toast.makeText(this, "회원탈퇴!!!", Toast.LENGTH_SHORT).show();
         }
 
         drawer.closeDrawer(GravityCompat.START);
