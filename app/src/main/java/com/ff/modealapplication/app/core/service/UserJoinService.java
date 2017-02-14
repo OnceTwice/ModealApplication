@@ -16,7 +16,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class UserJoinService {
     public List<UserVo> fetchUserList(String id, String password, String gender, String location, String birth) {
-        String url = "http://192.168.1.93:8088/modeal/user/app/userinput";
+        String url = "http://192.168.1.26:8088/modeal/user/app/userinput";
         HttpRequest httpRequest = HttpRequest.get(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);     // 전달 타입
@@ -46,7 +46,7 @@ public class UserJoinService {
     }
     //유저 탈퇴
     public void UserLeave(){
-        String url="http://192.168.1.87:8888//modeal/user/app/userleave";
+        String url="http://192.168.1.26:8088//modeal/user/app/userleave";
 
         HttpRequest httpRequest = HttpRequest.post(url);
 
@@ -57,8 +57,7 @@ public class UserJoinService {
 
         Long no = (Long) LoginPreference.getValue(getApplicationContext(),"no");
         Log.d("dfndflsdndlfdnf",""+no);
-        int responseCode=httpRequest.send(
-                "no="+no).code();
+        int responseCode=httpRequest.send("no="+no).code();
 
         if(responseCode != HttpURLConnection.HTTP_OK){
             throw new RuntimeException("HTTP Response :" + responseCode);

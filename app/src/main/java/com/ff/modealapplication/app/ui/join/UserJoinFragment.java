@@ -1,11 +1,8 @@
 package com.ff.modealapplication.app.ui.join;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +17,7 @@ import android.widget.Toast;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
+import com.ff.modealapplication.app.core.service.EmailCheckService;
 import com.ff.modealapplication.app.core.service.UserJoinService;
 import com.ff.modealapplication.app.core.vo.UserVo;
 
@@ -27,6 +25,7 @@ import java.util.List;
 
 public class UserJoinFragment extends Fragment {
     private UserJoinService userJoinService = new UserJoinService();
+    private EmailCheckService emailCheckService = new EmailCheckService();
 
     private EditText etID;
     private Button btnDuplicationID;
@@ -59,6 +58,8 @@ public class UserJoinFragment extends Fragment {
     String year = "";
     String month = "";
     String day = "";
+
+    int flag = 1;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -131,24 +132,7 @@ public class UserJoinFragment extends Fragment {
         btnDuplicationID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("ID 중복 체크", "중복 체크해욤!!!");
-                etID.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        Log.d("onTextChanged call!!!", s.toString());
-                        new HttpTask().execute("http://192.168.0.15:8088/modeal");
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-
-                    }
-                });
+                new EmailDuplicationCheck().execute();              // 이메일 중복 체크 하기
             }
         });
 
@@ -238,6 +222,11 @@ public class UserJoinFragment extends Fragment {
                     return;
                 }
 
+                if( !(flag == 0) ) {
+                    Toast.makeText(UserJoinFragment.this.getActivity(), "중복검사를 진행해 주세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 new FetchUserListAsyncTask().execute();
             }
         });
@@ -282,21 +271,38 @@ public class UserJoinFragment extends Fragment {
         super.onDetach();
     }
 
-    private class HttpTask extends AsyncTask<String, Void, String> {
+    private class EmailDuplicationCheck extends  SafeAsyncTask<Integer> {
         @Override
-        protected String doInBackground(String... params) {
-            try {
+        public Integer call() throws Exception {
+            id = etID.getText().toString();
 
-            } catch ( Exception e) {
+            Integer check = emailCheckService.checkedEmail(id);
 
-            }
-            return null;
+            System.out.println("EmailDuplicationCheck : " + check);
+
+            return check;
         }
 
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            Toast.makeText(UserJoinFragment.this.getActivity(), "불가능!!!", Toast.LENGTH_SHORT).show();
+        protected void onException(Exception e) throws RuntimeException {
+//            super.onException(e);
+            Log.d("아이디 중복 체크", "서비스 에러뜸!!!"+e);
+            throw new RuntimeException(e);
+        }
+
+        @Override
+        protected void onSuccess(Integer check) throws Exception {
+            if((check == null) || (check == 0)) {
+                Toast.makeText(UserJoinFragment.this.getActivity(), "중복검사 완료 \n 회원가입을 진행하세요", Toast.LENGTH_SHORT).show();
+                flag = 0;
+            } else {
+                Toast.makeText(UserJoinFragment.this.getActivity(), "중복입니다!!!", Toast.LENGTH_SHORT).show();
+                etID.setText("");
+                etID.requestFocus();
+                flag = 1;
+            }
+
+            Log.d("아이디 중복 체크", "성공!!!!!");
         }
     }
 
