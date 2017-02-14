@@ -2,6 +2,6 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#E74B59</color> <!-- #FF4081 -->
     <color name="colorModeal">#E74B59</color> <!-- 170123/상욱추가 -->
 </resources>

@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class ItemService {
 
-    // 상품 목록 ----------------------------------------------------------------------------------- (참고해보기)
+    // 상품 목록 -----------------------------------------------------------------------------------
     public List<Map<String, Object>> itemList(Long shopNo) {
 
         String url = "http://192.168.1.90:8088/modeal/list/shopItemList";
@@ -45,17 +45,16 @@ public class ItemService {
     private class JSONResultItemList extends JSONResult<List<Map<String, Object>>> {
     }
 
-    // 상품 등록 ----------------------------------------------------------------------------------- (참고해보기)
+    // 상품 등록 -----------------------------------------------------------------------------------
     public void itemInsert(String item_name, Long ori_price, Long count, Long price, String exp_date, Long discount) {
 
         // 데이터를 가져올 url를 작성해줌
-        String url = "http://192.168.1.90:8088/modeal/list/itemInsert";     // http://192.168.1.13:8088/modeal/list?no=2  내url 연결 사이트를 이클립스에 프로젝트를 만들어줘야함
-        HttpRequest httpRequest = HttpRequest.post(url);               // post 방식으로 연결
-
-        httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);     // 전달 타입(클래스명.메서드명(파라미터))
-        httpRequest.accept(httpRequest.CONTENT_TYPE_JSON);          // 받을 타입
-        httpRequest.connectTimeout(10000);                              // 웹에서 응답이 없을때 3초 후 연결 종료
-        httpRequest.readTimeout(10000);                                 // 웹으로 요청이 없을때(값이 없을경우) 3초 후 연결 종료
+        String url = "http://192.168.1.90:8088/modeal/list/itemInsert";     // url(뒤에/list?no=2) 연결 사이트를 이클립스에 프로젝트를 만들어줘야함
+        HttpRequest httpRequest = HttpRequest.post(url);                            // post 방식으로 연결
+        httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);                 // 전달 타입(클래스명.메서드명(파라미터))
+        httpRequest.accept(httpRequest.CONTENT_TYPE_JSON);                      // 받을 타입
+        httpRequest.connectTimeout(10000);                                         // 웹에서 응답이 없을때 3초 후 연결 종료
+        httpRequest.readTimeout(10000);                                            // 웹으로 요청이 없을때(값이 없을경우) 3초 후 연결 종료
 
         // from 방식 (안드로이드에서 이클립스(서버)로 데이터를 전송시 사용)
         int responseCode = httpRequest.send( // 키값은 타입(vo)에 맞는 변수명으로 작성하고 밸류값은 내가 받아온 파라미터명을 작성해준다.
@@ -76,7 +75,7 @@ public class ItemService {
         // 데이터(스트링) 안에서 원하는 값을 추출하기 위해 <List<ItemVo>> 사용
     }
 
-    // 상품 수정 ----------------------------------------------------------------------------------- (집에서 해볼것!)
+    // 상품 수정 -----------------------------------------------------------------------------------
     public List<ItemVo> itemModify(String item_name, Long ori_price, Long count, Long price, String exp_date, Long discount) {
 
         String url = "http://192.168.1.90:8088/modeal/list";

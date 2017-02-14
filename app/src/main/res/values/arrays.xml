@@ -79,4 +79,14 @@
         <item>혜화동</item>
         <item>돈암동</item>
     </string-array>
+
+    <!-- 상품 카테고리 -->
+    <string-array name="item_category_list">
+        <item>생수/음료/커피</item>
+        <item>유제품/냉장ㆍ동</item>
+        <item>과자/초콜렛/빵</item>
+        <item>라면/통조림/장</item>
+        <item>과일/견과/채소</item>
+    </string-array>
+
 </resources>
