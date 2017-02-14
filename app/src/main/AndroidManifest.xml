@@ -189,6 +189,14 @@
             android:name=".app.ui.modify.OwnerModifyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".app.ui.notice.NoticeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" ></activity>
+        <activity
+            android:name=".app.ui.modify.OwnerModifyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".app.ui.bookmark.BookmarkActivity"
             android:screenOrientation="portrait"

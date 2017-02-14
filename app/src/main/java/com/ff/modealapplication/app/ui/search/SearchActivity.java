@@ -30,7 +30,7 @@ public class SearchActivity extends AppCompatActivity {
     SearchListArrayAdapter searchListArrayAdapter = null;
     private EditText search_edit;
     SearchDBArrayAdapter searchDBArrayAdapter = null;
-
+    SearchDBManager searchDBManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 //        new SearchListAsyncTask().execute();
 
-        final SearchDBManager searchDBManager = new SearchDBManager(getApplicationContext(), "SEARCH.db",null,1);
+        searchDBManager = new SearchDBManager(getApplicationContext(), "SEARCH.db",null,1);
 
 //        setListAdapter(searchListArrayAdapter);
 //        ListActivity 상속 받지 않고 setListAdapter를 쓰기 위한 다른 방도
@@ -137,6 +137,7 @@ public class SearchActivity extends AppCompatActivity {
         } else if (id == R.id.action_button) {
             final String SEARCH = search_edit.getText().toString();
             Intent intent = new Intent(SearchActivity.this, SearchResultActivity.class);
+            searchDBManager.insert("insert into SEARCH_LIST (name) values('" + SEARCH + "');");
             intent.putExtra("SEARCH", SEARCH);
             startActivity(intent);
         }

@@ -12,6 +12,8 @@ import com.ff.modealapplication.R;
 
 import java.util.List;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 /**
  * Created by BIT on 2017-02-09.
  */
@@ -28,8 +30,9 @@ public class SearchDBArrayAdapter extends ArrayAdapter<String> {
 
     @NonNull
     @Override
-    public View getView(final int position, View convertView, final ViewGroup parent) {
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
 //        return super.getView(position, convertView, parent);
+        final SearchDBManager searchDBManager = new SearchDBManager(getApplicationContext(), "SEARCH.db",null,1);
 
         View view = convertView;
         if(view == null){
@@ -38,7 +41,12 @@ public class SearchDBArrayAdapter extends ArrayAdapter<String> {
 
 
         ((TextView)view.findViewById(R.id.text_search_list)).setText(getItem(position));
-
+        view.findViewById(R.id.search_delete_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchDBManager.delete("delete from SEARCH_LIST where name = '"+getItem(position)+"';");
+            }
+        });
         return view;
     }
 

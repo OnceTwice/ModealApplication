@@ -49,6 +49,7 @@ import com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity;
 import com.ff.modealapplication.app.ui.message.MessagingActivity;
 import com.ff.modealapplication.app.ui.mypage.OwnerMyPageActivity;
 import com.ff.modealapplication.app.ui.mypage.UserMyPageActivity;
+import com.ff.modealapplication.app.ui.notice.NoticeActivity;
 import com.ff.modealapplication.app.ui.search.SearchActivity;
 
 import java.util.List;
@@ -83,6 +84,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         listView = (ListView) findViewById(R.id.main_list);
         listView.setAdapter(mainListArrayAdapter);
         listView.setOnItemClickListener(this);
+
+        //listview footer
+        View footer = getLayoutInflater().inflate(R.layout.list_footer,null,false);
+        listView.addFooterView(footer);
+        listView.setFooterDividersEnabled(false);
 
         new MainListAsyncTask().execute();
 
@@ -441,6 +447,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         } else if (id == R.id.nav_bookmark) {
             Intent intent = new Intent(this, BookmarkActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_notice) {
+            Intent intent = new Intent(this, NoticeActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_setup) {
             Intent intent = new Intent(this, MessagingActivity.class);
