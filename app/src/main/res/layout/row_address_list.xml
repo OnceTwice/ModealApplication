@@ -9,6 +9,7 @@
         android:id="@+id/textView_address"
         android:layout_width="0dp"
         android:layout_height="40dp"
+        android:layout_margin="7dp"
         android:padding="5dp"
         android:layout_weight="1"
         android:textSize="24dp"
@@ -18,11 +19,17 @@
         android:id="@+id/button_select"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="바로선택" />
+        android:background="@drawable/nav_button"
+        android:layout_margin="5dp"
+        android:text="바로선택"
+        android:textColor="#fff"/>
 
     <Button
         android:id="@+id/button_map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="지도로 선택" />
+        android:layout_margin="5dp"
+        android:background="@drawable/nav_button"
+        android:text="지도로 선택"
+        android:textColor="#fff"/>
 </LinearLayout>

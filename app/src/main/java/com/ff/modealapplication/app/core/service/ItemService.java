@@ -109,7 +109,7 @@ public class ItemService {
 
     // 상품 상세 목록 ------------------------------------------------------------------------------ (170209/상욱추가)
     public Map<String, Object> itemDetail(Long no) {
-        String url = "http://192.168.1.90:8088/modeal/list/itemDetail";
+        String url = "http://192.168.1.93:8088/modeal/list/itemDetail";
         HttpRequest httpRequest = HttpRequest.post(url);
 
         httpRequest.contentType(httpRequest.CONTENT_TYPE_FORM);

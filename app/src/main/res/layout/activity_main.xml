@@ -57,12 +57,9 @@
 
             <!-- divider → list 행 간격 띄우기-->
             <ListView
-                android:id="@android:id/list"
+                android:id="@+id/main_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:background="#fff"
                 android:divider="#E5E5E2"
                 android:dividerHeight="10dp" />
         </FrameLayout>

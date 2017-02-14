@@ -37,6 +37,7 @@ import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.MainService;
 import com.ff.modealapplication.app.core.util.GPSPreference;
 import com.ff.modealapplication.app.core.util.LoginPreference;
+import com.ff.modealapplication.app.ui.bookmark.BookmarkActivity;
 import com.ff.modealapplication.app.ui.help.HelpActivity;
 import com.ff.modealapplication.app.ui.item.ItemActivity;
 import com.ff.modealapplication.app.ui.item.ItemDetailActivity;
@@ -53,7 +54,6 @@ import com.ff.modealapplication.app.ui.search.SearchActivity;
 import java.util.List;
 import java.util.Map;
 
-import static android.R.id.list;
 import static android.location.LocationManager.GPS_PROVIDER;
 import static android.location.LocationManager.NETWORK_PROVIDER;
 
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // 프래그먼트에서 떼오고 없애버림
         mainListArrayAdapter = new MainListArrayAdapter(this);
-        listView = (ListView) findViewById(list);
+        listView = (ListView) findViewById(R.id.main_list);
         listView.setAdapter(mainListArrayAdapter);
         listView.setOnItemClickListener(this);
 
@@ -113,8 +113,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() { // 플로팅 버튼 클릭시
             @Override
             public void onClick(View view) {
+                findViewById(R.id.fab).setVisibility(View.INVISIBLE);
                 final Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator), "", Snackbar.LENGTH_INDEFINITE); // 스낵바 띄움
                 Snackbar.SnackbarLayout layout = (Snackbar.SnackbarLayout) snackbar.getView();
+                snackbar.getView().getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() { // 스낵바 켜졌을때 스크롤 돌릴때 스낵바 닫기
+                    @Override
+                    public void onScrollChanged() {
+                        snackbar.dismiss();
+                        findViewById(R.id.fab).setVisibility(View.VISIBLE);
+                    }
+                });
                 snackbar.getView().getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() { // 스낵바 스와이프(밀어서 끄는 기능) 막음... (시크바를 위해서...)
                     @Override
                     public boolean onPreDraw() {
@@ -168,10 +176,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 3, // 통지사이의 최소 변경거리 (m)
                                 locationListener);
                         snackbar.dismiss();
+                        findViewById(R.id.fab).setVisibility(View.VISIBLE);
                     }
                 });
                 layout.addView(snackView, 0); // 뭔지 모르겠음
-                snackbar.show(); // 스냅바 닫기
+                snackbar.show(); // 스냅바
             }
         });
 
@@ -208,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         public List<Map<String, Object>> call() throws Exception {
             MainService mainService = new MainService();
-            List<Map<String, Object>> list = mainService.MainItemList((String)GPSPreference.getValue(getApplicationContext(), "latitude"), (String)GPSPreference.getValue(getApplicationContext(), "longitude"), (int)GPSPreference.getValue(getApplicationContext(), "range")); // 위도, 경도, 반경
+            List<Map<String, Object>> list = mainService.MainItemList((String) GPSPreference.getValue(getApplicationContext(), "latitude"), (String) GPSPreference.getValue(getApplicationContext(), "longitude"), (int) GPSPreference.getValue(getApplicationContext(), "range")); // 위도, 경도, 반경
             return list;
         }
 
@@ -298,9 +307,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (LoginPreference.getValue(getApplicationContext(), "id") != null) {
             ((Button) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.login_button)).setText("로그아웃");
+            ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.register_button).setVisibility(View.GONE);
             flag_withdraw = true;
         } else if (LoginPreference.getValue(getApplicationContext(), "id") == null) {
             ((Button) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.login_button)).setText("로그인");
+            ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.register_button).setVisibility(View.VISIBLE);
             flag_withdraw = false;
         }
     }
@@ -327,8 +338,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (LoginPreference.getValue(getApplicationContext(), "id") != null) {
             ((Button) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.login_button)).setText("로그아웃");
+            ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.register_button).setVisibility(View.GONE);
         } else if (LoginPreference.getValue(getApplicationContext(), "id") == null) {
             ((Button) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.login_button)).setText("로그인");
+            ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.register_button).setVisibility(View.VISIBLE);
         }
     }
 
@@ -427,7 +440,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "소셜로그인중...", Toast.LENGTH_SHORT).show();
             }
         } else if (id == R.id.nav_bookmark) {
-
+            Intent intent = new Intent(this, BookmarkActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_setup) {
             Intent intent = new Intent(this, MessagingActivity.class);
             startActivity(intent);

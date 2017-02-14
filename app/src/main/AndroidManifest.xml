@@ -73,10 +73,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".app.ui.message.MessagingActivity" />
+        <activity
+            android:name=".app.ui.message.MessagingActivity"
+            android:screenOrientation="portrait" />
 
         <!-- 액티비티 추가할때마다 android:theme="@style/AppTheme.NoActionBar" 도 추가해줘야 자체제작액션바 사용가능 -->
-        <!-- 액티비티 추가할떄마다 android:name=".app.ui.message.WakeUpActivity" 도 추가해줘야 화면고정됨 -->
+        <!-- 액티비티 추가할떄마다 android:screenOrientation="portrait" 도 추가해줘야 화면고정됨 -->
         <activity
             android:name=".app.ui.login.LoginActivity"
             android:screenOrientation="portrait"
@@ -145,37 +147,52 @@
         <!-- 액티비티 추가할떄마다 android:name=".app.ui.message.WakeUpActivity" 도 추가해줘야 화면고정됨 -->
         <activity
             android:name=".app.ui.map.MainMapActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".app.ui.map.SearchMapRangeActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".app.ui.map.AddressListActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".app.ui.map.SearchToMapActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".app.ui.map.SearchShopToPointActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".app.ui.map.SearchToShopInMapActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- 마이페이지 -->
         <activity
             android:name=".app.ui.mypage.UserMyPageActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".app.ui.mypage.OwnerMyPageActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- 회원정보수정 -->
-        <activity android:name=".app.ui.modify.UserModifyActivity"
+        <activity
+            android:name=".app.ui.modify.UserModifyActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".app.ui.modify.OwnerModifyActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+        <activity
+            android:name=".app.ui.modify.OwnerModifyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".app.ui.bookmark.BookmarkActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

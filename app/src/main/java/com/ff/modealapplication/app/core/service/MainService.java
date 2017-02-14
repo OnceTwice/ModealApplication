@@ -44,59 +44,6 @@ public class MainService {
     private class JSONResultMainList extends JSONResult<List<Map<String, Object>>>{
     }
 
-    // 즐겨찾기 추가
-    public void bookmarkAdd(Long itemNo, Long userNo) {
-        HttpRequest httpRequest = HttpRequest.post(url + "addbookmark");
-
-        httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
-        httpRequest.accept(HttpRequest.CONTENT_TYPE_JSON);
-        httpRequest.connectTimeout(5000);
-        httpRequest.readTimeout(5000);
-
-        httpRequest.send("itemNo=" + itemNo + "&userNo=" + userNo);
-
-        int responseCode=httpRequest.code();
-        if(responseCode != HttpURLConnection.HTTP_OK){
-            throw new RuntimeException("HTTP RESPONSE :" + responseCode);
-        }
-    }
-
-    // 즐겨찾기 삭제
-    public void bookmarkDelete(Long itemNo, Long userNo) {
-        HttpRequest httpRequest = HttpRequest.post(url + "deletebookmark");
-
-        httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
-        httpRequest.accept(HttpRequest.CONTENT_TYPE_JSON);
-        httpRequest.connectTimeout(5000);
-        httpRequest.readTimeout(5000);
-
-        httpRequest.send("itemNo=" + itemNo + "&userNo=" + userNo);
-
-        int responseCode=httpRequest.code();
-        if(responseCode != HttpURLConnection.HTTP_OK){
-            throw new RuntimeException("HTTP RESPONSE :" + responseCode);
-        }
-    }
-
-    // 즐겨찾기 검색
-    public Long bookmarkSelect(Long itemNo, Long userNo) {
-        HttpRequest httpRequest = HttpRequest.post(url + "selectbookmark");
-
-        httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
-        httpRequest.accept(HttpRequest.CONTENT_TYPE_JSON);
-        httpRequest.connectTimeout(5000);
-        httpRequest.readTimeout(5000);
-
-        httpRequest.send("itemNo=" + itemNo + "&userNo=" + userNo);
-
-        int responseCode=httpRequest.code();
-        if(responseCode != HttpURLConnection.HTTP_OK){
-            throw new RuntimeException("HTTP RESPONSE :" + responseCode);
-        }
-
-        return fromJSON(httpRequest, Long.class);
-    }
-
     protected <V> V fromJSON(HttpRequest request, Class<V> target){
         V v = null;
         try{
