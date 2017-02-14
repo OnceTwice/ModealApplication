@@ -7,9 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
@@ -19,7 +19,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,45 +39,59 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
             .build();
 
     // 체크된 아이템들을 저장할 List
-    private ArrayList listItem; // 리스트뷰 중복 문제 해결을 위해서...
-    boolean isChecked;
+    boolean[] isChecked;
 
     public BookmarkItemList(Context context) {
         super(context, R.layout.activity_bookmark);
         layoutInflater = LayoutInflater.from(context);
-
-        listItem = new ArrayList(); // 리스트뷰 중복 문제 해결을 위해서...
     }
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (listItem != null && listItem.get(position) != null) {
-            convertView = (View) listItem.get(position);
-            if (convertView != null) {
-                return convertView;
-            }
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final BookHolder holder;
+        if (convertView == null) {
+            convertView = layoutInflater.inflate(R.layout.bookmark_item_row, null);
+            holder = new BookHolder();
+            holder.text = (TextView)convertView.findViewById(R.id.bookmark_item_text);
+            holder.delete = (ToggleButton) convertView.findViewById(R.id.bookmark_item_delete);
+            holder.imageView = (ImageView) convertView.findViewById(R.id.bookmark_item_image);
+            convertView.setTag(holder);
+        } else {
+            holder = (BookHolder)convertView.getTag();
         }
-        convertView = layoutInflater.inflate(R.layout.bookmark_item_row, null);
-        Button delete = (Button) convertView.findViewById(R.id.bookmark_item_delete);
-        TextView text = (TextView) convertView.findViewById(R.id.bookmark_item_text);
+        holder.text.setText(getItem(position).get("iname").toString());
 
-        final Map<String, Object> bookmark = getItem(position);
-        text.setText(bookmark.get("iname").toString());
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
-        ImageLoader.getInstance().displayImage("http://192.168.1.93:8088/modeal/shop/images/" + bookmark.get("picture"), (ImageView) convertView.findViewById(R.id.bookmark_image), displayImageOption);
+        ImageLoader.getInstance().displayImage("http://192.168.1.93:8088/modeal/shop/images/" + getItem(position).get("picture"), holder.imageView, displayImageOption);
 
-        listItem.add(position);
-
+        holder.delete.setChecked(false);
+        if (isChecked[position]) {
+            holder.delete.setChecked(true);
+        } else {
+            holder.delete.setChecked(false);
+        }
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.delete.isChecked()) {
+                    isChecked[position] = true;
+                } else {
+                    isChecked[position] = false;
+                }
+            }
+        });
         return convertView;
     }
 
-    public static class BookmarkHolder {
-        public Button delete;
+    public static class BookHolder {
+        public ToggleButton delete;
         public TextView text;
+        public ImageView imageView;
     }
 
     public void add(List<Map<String, Object>> list) {
+        isChecked = new boolean[list.size()];
         if (list == null || list.size() == 0) {
             return;
         }

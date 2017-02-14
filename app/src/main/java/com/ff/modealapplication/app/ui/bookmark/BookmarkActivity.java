@@ -5,21 +5,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.BookmarkService;
 import com.ff.modealapplication.app.core.util.LoginPreference;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class BookmarkActivity extends AppCompatActivity {
+public class BookmarkActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     private BookmarkItemList bookmarkItemList;
     private BookmarkShopList bookmarkShopList;
     private ListView listView_item;
     private ListView listView_shop;
+
+    ArrayList<String> checkedValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,18 @@ public class BookmarkActivity extends AppCompatActivity {
         new BookmarkListAsyncTask().execute();
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ToggleButton tb = (ToggleButton)view.findViewById(R.id.bookmark_item_delete);
+        TextView tv = (TextView)view.findViewById(R.id.bookmark_item_text);
+        tb.performClick();
+        if (tb.isChecked()) {
+            checkedValue.add(tv.getText().toString());
+        } else if (!tb.isChecked()) {
+            checkedValue.remove(tv.getText().toString());
+        }
+    }
+
     private class BookmarkListAsyncTask extends SafeAsyncTask<List<Map<String, Object>>> {
         @Override
         public List<Map<String, Object>> call() throws Exception {
@@ -66,6 +85,7 @@ public class BookmarkActivity extends AppCompatActivity {
 //            super.onException(e);
         }
     }
+
 
     // 뒤로가기 클릭시 & 돋보기 클릭시
     @Override
