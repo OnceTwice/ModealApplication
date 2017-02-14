@@ -1,7 +1,9 @@
 package com.ff.modealapplication.app.ui.item;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,12 +30,13 @@ import java.util.List;
 
 public class ItemModifyActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private ItemService itemService = new ItemService();
+    private int indexSingleChoiceSelected = 0;
+
     int Year, Month, Day, Hour, Minute;
     TextView dateText;
     TextView timeText;
     String expDate;
-
-    private ItemService itemService = new ItemService();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,8 +44,8 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.item_modify);
 
         // 유통기한 날짜ㆍ시간 텍스트뷰 연결
-        dateText = (TextView) findViewById(R.id.date_text);
-        timeText = (TextView) findViewById(R.id.time_text);
+        dateText = (TextView) findViewById(R.id.item_modify_date_text);
+        timeText = (TextView) findViewById(R.id.item_modify_time_text);
 
         // 현재 날짜와 시간을 가져오기 위한 calender 인스턴스 선언
         Calendar calendar = new GregorianCalendar();
@@ -55,10 +58,32 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
         UpdateNow();
 
         // 수정 버튼 클릭시
-        findViewById(R.id.button_modify).setOnClickListener(this);
+        findViewById(R.id.item_modify_button_modify).setOnClickListener(this);
 
         // 취소 버튼 클릭시
-        findViewById(R.id.button_cancel).setOnClickListener(this);
+        findViewById(R.id.item_modify_button_cancel).setOnClickListener(this);
+    }
+
+    // 상품 카테고리
+    public void dialogSingleChoice(View view) {
+        new AlertDialog.Builder(this).
+                setIcon(R.drawable.ic_choice).
+                setTitle("상품 카테고리").
+                setSingleChoiceItems(R.array.item_category_list, indexSingleChoiceSelected, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d("DialogSingleChoice", "" + which);
+
+                        ItemModifyActivity.this.indexSingleChoiceSelected = which;
+                        String[] category = getResources().getStringArray(R.array.item_category_list);
+                        String choice = category[which];
+                        ((TextView) findViewById(R.id.item_modify_category)).setText(choice);
+                    }
+                }).
+                setCancelable(true).
+                setPositiveButton("확인", null).
+                show();
     }
 
     @Override
@@ -66,20 +91,20 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
         switch (view.getId()) {
 
             // 날짜 버튼 클릭시 설정 화면 보여줌
-            case R.id.date_text: {
+            case R.id.item_modify_date_text: {
                 // 여기서 리스너도 등록함
                 new DatePickerDialog(ItemModifyActivity.this, DateSetListener, Year, Month, Day).show();
                 break;
             }
 
             // 시간 버튼 클릭시 설정 화면 보여줌
-            case R.id.time_text: {
+            case R.id.item_modify_time_text: {
                 new TimePickerDialog(ItemModifyActivity.this, TimeSetListener, Hour, Minute, false).show();
                 break;
             }
 
             // 수정 버튼 클릭시
-            case R.id.button_modify: {
+            case R.id.item_modify_button_modify: {
                 ItemListAsyncTask itemListAsyncTask = new ItemListAsyncTask();
                 itemListAsyncTask.execute();
 
@@ -90,7 +115,7 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
             }
 
             // 취소 버튼 클릭시
-            case R.id.button_cancel: {
+            case R.id.item_modify_button_cancel: {
                 finish();
                 break;
             }
@@ -124,42 +149,43 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
         dateText.setText(String.format("%d 년 %d 월 %d 일", Year, Month + 1, Day));
         timeText.setText(String.format("%d 시 %d 분 까지", Hour, Minute));
         String expDate = dateText.getText().toString() + " " + timeText.getText().toString();
+        Log.w("----------", expDate);
     }
 
-    private class ItemListAsyncTask extends SafeAsyncTask<List<ItemVo>> {
+    private class ItemListAsyncTask extends SafeAsyncTask <ItemVo> {
 
-        public List<ItemVo> call() throws Exception {
-            EditText nameModify = (EditText) findViewById(R.id.item_name);
+        public ItemVo call() throws Exception {
+            EditText nameModify = (EditText) findViewById(R.id.item_modify_name);
             Log.d("name : ", nameModify.getText().toString());
             String item_name = nameModify.getText().toString();
 
-            EditText oriModify = (EditText) findViewById(R.id.ori_price);
+            EditText oriModify = (EditText) findViewById(R.id.item_modify_ori_price);
             Log.d("ori_price : ", oriModify.getText().toString());
             Long ori_price = Long.parseLong(oriModify.getText().toString());
 
-            EditText countModify = (EditText) findViewById(R.id.count);
+            EditText countModify = (EditText) findViewById(R.id.item_modify_count);
             Log.d("count : ", countModify.getText().toString());
             Long count = Long.parseLong(countModify.getText().toString());
 
-            EditText priceModify = (EditText) findViewById(R.id.price);
+            EditText priceModify = (EditText) findViewById(R.id.item_modify_price);
             Log.d("price : ", priceModify.getText().toString());
             Long price = Long.parseLong(priceModify.getText().toString());
 
-            EditText discountModify = (EditText) findViewById(R.id.discount);
+            EditText discountModify = (EditText) findViewById(R.id.item_modify_discount);
             Log.d("discount : ", discountModify.getText().toString());
             Long discount = Long.parseLong(discountModify.getText().toString());
 
-            TextView dateText = (TextView) findViewById(R.id.date_text);
+            TextView dateText = (TextView) findViewById(R.id.item_modify_date_text);
             Log.d("exp_date : ", dateText.getText().toString());
             String exp_date = dateText.getText().toString();
 
-            TextView timeText = (TextView) findViewById(R.id.time_text);
+            TextView timeText = (TextView) findViewById(R.id.item_modify_time_text);
             Log.d("exp_date : ", timeText.getText().toString());
             String exp_time = timeText.getText().toString();
 
-            List<ItemVo> list = itemService.itemModify(item_name, ori_price, count, price, "abcde", discount);
+            itemService.itemModify(item_name, ori_price, count, price, exp_date + " " + exp_time, discount);
 
-            return list;
+            return null;
         }
 
         @Override
@@ -169,7 +195,7 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
         }
 
         @Override
-        protected void onSuccess(List<ItemVo> itemVos) throws Exception {
+        protected void onSuccess(ItemVo itemVos) throws Exception {
 //            super.onSuccess(itemVos);
         }
     }

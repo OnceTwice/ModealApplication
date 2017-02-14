@@ -1,7 +1,9 @@
 package com.ff.modealapplication.app.ui.item;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -21,10 +22,6 @@ import com.ff.modealapplication.app.core.vo.ItemVo;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
-
-import static android.R.attr.data;
-import static com.ff.modealapplication.R.id.item_name;
 
 /**
  * Created by bit-desktop on 2017-01-19.
@@ -32,13 +29,14 @@ import static com.ff.modealapplication.R.id.item_name;
 
 public class ItemInsertActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private ItemService itemService = new ItemService();
+    private int indexSingleChoiceSelected = 0;
+
     int Year, Month, Day, Hour, Minute;
     TextView dateText;
     TextView timeText;
 
     ItemListAsyncTask itemListAsyncTask;
-
-    private ItemService itemService = new ItemService();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,8 +44,8 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.item_insert); // ← 입력된 레이아웃의 대한 클래스
 
         // 유통기한 날짜ㆍ시간 텍스트뷰 연결
-        dateText = (TextView) findViewById(R.id.date_text);
-        timeText = (TextView) findViewById(R.id.time_text);
+        dateText = (TextView) findViewById(R.id.item_insert_date_text);
+        timeText = (TextView) findViewById(R.id.item_insert_time_text);
 
         // 현재 날짜와 시간을 가져오기 위한 calender 인스턴스 선언
         Calendar calendar = new GregorianCalendar();
@@ -60,32 +58,52 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         UpdateNow();
 
         // 등록 버튼 클릭시
-        findViewById(R.id.button_insert).setOnClickListener(this);
+        findViewById(R.id.item_insert_button_insert).setOnClickListener(this);
 
         // 취소 버튼 클릭시
-        findViewById(R.id.button_cancel).setOnClickListener(this);
+        findViewById(R.id.item_insert_button_cancel).setOnClickListener(this);
+    }
 
+    // 상품 카테고리
+    public void dialogSingleChoice(View view) {
+        new AlertDialog.Builder(this).
+                setIcon(R.drawable.ic_choice).
+                setTitle("상품 카테고리").
+                setSingleChoiceItems(R.array.item_category_list, indexSingleChoiceSelected, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d("DialogSingleChoice", "" + which);
+
+                        ItemInsertActivity.this.indexSingleChoiceSelected = which;
+                        String[] category = getResources().getStringArray(R.array.item_category_list);
+                        String choice = category[which];
+                        ((TextView) findViewById(R.id.item_insert_category)).setText(choice);
+                    }
+                }).
+                setCancelable(true).
+                setPositiveButton("확인", null).
+                show();
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
             // 날짜 버튼 클릭시 설정 화면 보여줌
-            case R.id.date_text: {
+            case R.id.item_insert_date_text: {
                 // 여기서 리스너도 등록함
                 new DatePickerDialog(ItemInsertActivity.this, DateSetListener, Year, Month, Day).show();
                 break;
             }
 
             // 시간 버튼 클릭시 설정 화면 보여줌
-            case R.id.time_text: {
+            case R.id.item_insert_time_text: {
                 new TimePickerDialog(ItemInsertActivity.this, TimeSetListener, Hour, Minute, false).show();
                 break;
             }
 
             // 등록 버튼 클릭시
-            case R.id.button_insert: {
+            case R.id.item_insert_button_insert: {
                 itemListAsyncTask = new ItemListAsyncTask();
                 itemListAsyncTask.execute();
 
@@ -96,7 +114,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
             }
 
             // 취소 버튼 클릭시
-            case R.id.button_cancel: {
+            case R.id.item_insert_button_cancel: {
                 Intent intent = new Intent(ItemInsertActivity.this, ItemActivity.class);
                 startActivity(intent);
                 finish();
@@ -105,7 +123,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    // 날짜 버튼 클릭시
+    // 날짜 클릭시
     DatePickerDialog.OnDateSetListener DateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfyear, int dayOfMonth) {
@@ -118,7 +136,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         }
     };
 
-    // 시간 버튼 클릭시
+    // 시간 클릭시
     TimePickerDialog.OnTimeSetListener TimeSetListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -129,8 +147,10 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
     };
 
     void UpdateNow() {
-        dateText.setText(String.format("%d/%d/%d", Year, Month + 1, Day));
-        timeText.setText(String.format("%d:%d", Hour, Minute));
+
+        dateText.setText(String.format("%d / %d / %d", Year, Month + 1, Day));
+        timeText.setText(String.format("%d : %d", Hour, Minute));
+
         String expDate = dateText.getText().toString() + " " + timeText.getText().toString();
         Log.w("----------", expDate);
     }
@@ -138,31 +158,31 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
     private class ItemListAsyncTask extends SafeAsyncTask<ItemVo> {
 
         public ItemVo call() throws Exception {
-            EditText nameInsert = (EditText) findViewById(item_name);
+            EditText nameInsert = (EditText) findViewById(R.id.item_insert_name);
             Log.d("name : ", nameInsert.getText().toString());
             String item_name = nameInsert.getText().toString();
 
-            EditText oriInsert = (EditText) findViewById(R.id.ori_price);
+            EditText oriInsert = (EditText) findViewById(R.id.item_insert_ori_price);
             Log.d("ori_price : ", oriInsert.getText().toString());
-            Long ori_price = Long.parseLong(oriInsert.getText().toString()); // 스트링을 롱으로 변경해줌
+            Long ori_price = Long.parseLong(oriInsert.getText().toString());
 
-            EditText countInsert = (EditText) findViewById(R.id.count);
+            EditText countInsert = (EditText) findViewById(R.id.item_insert_count);
             Log.d("count : ", countInsert.getText().toString());
             Long count = Long.parseLong(countInsert.getText().toString());
 
-            EditText priceInsert = (EditText) findViewById(R.id.price);
+            EditText priceInsert = (EditText) findViewById(R.id.item_insert_price);
             Log.d("price : ", priceInsert.getText().toString());
             Long price = Long.parseLong(priceInsert.getText().toString());
 
-            EditText discountInsert = (EditText) findViewById(R.id.discount);
+            EditText discountInsert = (EditText) findViewById(R.id.item_insert_discount);
             Log.d("discount : ", discountInsert.getText().toString());
             Long discount = Long.parseLong(discountInsert.getText().toString());
 
-            TextView dateText = (TextView) findViewById(R.id.date_text);
+            TextView dateText = (TextView) findViewById(R.id.item_insert_date_text);
             Log.d("exp_date : ", dateText.getText().toString());
             String exp_date = dateText.getText().toString();
 
-            TextView timeText = (TextView) findViewById(R.id.time_text);
+            TextView timeText = (TextView) findViewById(R.id.item_insert_time_text);
             Log.d("exp_date : ", timeText.getText().toString());
             String exp_time = timeText.getText().toString();
 

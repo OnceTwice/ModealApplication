@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:onClick="linearOnClick"
     android:orientation="vertical"
     android:weightSum="1">
 
@@ -59,10 +60,24 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="상품카테고리" />
+
+                    <TextView
+                        android:id="@+id/item_insert_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:hint=" 카테고리"
+                        android:onClick="dialogSingleChoice"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:text="상품명" />
 
                     <EditText
-                        android:id="@+id/item_name"
+                        android:id="@+id/item_insert_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -75,11 +90,13 @@
                         android:text="수량" />
 
                     <EditText
-                        android:id="@+id/count"
+                        android:id="@+id/item_insert_count"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="0123456789"
                         android:ems="10"
-                        android:inputType="textPersonName"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
                         android:text="" />
 
                     <TextView
@@ -88,11 +105,13 @@
                         android:text="원가" />
 
                     <EditText
-                        android:id="@+id/ori_price"
+                        android:id="@+id/item_insert_ori_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="0123456789"
                         android:ems="10"
-                        android:inputType="textPersonName"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
                         android:text="" />
                 </LinearLayout>
 
@@ -106,14 +125,14 @@
                     android:weightSum="1">
 
                     <ImageView
-                        android:id="@+id/image_view"
+                        android:id="@+id/item_insert_image_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.90"
                         app:srcCompat="@android:drawable/ic_menu_report_image" />
 
                     <Button
-                        android:id="@+id/button_upload"
+                        android:id="@+id/item_insert_button_upload"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#E74B59"
@@ -149,11 +168,13 @@
                             android:text="판매가" />
 
                         <EditText
-                            android:id="@+id/price"
+                            android:id="@+id/item_insert_price"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:digits="0123456789"
                             android:ems="10"
-                            android:inputType="textPersonName"
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
                             android:text="" />
                     </LinearLayout>
 
@@ -169,11 +190,13 @@
                             android:text="할인율" />
 
                         <EditText
-                            android:id="@+id/discount"
+                            android:id="@+id/item_insert_discount"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:digits="0123456789"
                             android:ems="10"
-                            android:inputType="textPersonName"
+                            android:imeOptions="actionGo"
+                            android:inputType="number"
                             android:text="" />
                     </LinearLayout>
                 </LinearLayout>
@@ -196,7 +219,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/date_text"
+                            android:id="@+id/item_insert_date_text"
                             android:layout_width="0dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
@@ -206,7 +229,7 @@
                             android:textSize="15dp" />
 
                         <TextView
-                            android:id="@+id/time_text"
+                            android:id="@+id/item_insert_time_text"
                             android:layout_width="0dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
@@ -214,7 +237,9 @@
                             android:hint="시간"
                             android:onClick="onClick"
                             android:textSize="15dp" />
+
                     </LinearLayout>
+
                 </LinearLayout>
 
                 <!-- 취소 / 등록 버튼-->
@@ -227,7 +252,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/button_cancel"
+                        android:id="@+id/item_insert_button_cancel"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:layout_marginLeft="5dp"
@@ -238,7 +263,7 @@
                         android:textSize="17dp" />
 
                     <Button
-                        android:id="@+id/button_insert"
+                        android:id="@+id/item_insert_button_insert"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:layout_marginLeft="5dp"
@@ -247,8 +272,13 @@
                         android:text="등록"
                         android:textColor="#fff"
                         android:textSize="17dp" />
+
                 </LinearLayout>
+
             </LinearLayout>
+
         </LinearLayout>
+
     </android.support.design.widget.CoordinatorLayout>
+
 </LinearLayout>

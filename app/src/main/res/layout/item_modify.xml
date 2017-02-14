@@ -7,7 +7,8 @@
     android:orientation="vertical"
     android:weightSum="1">
 
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -60,10 +61,24 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="상품카테고리" />
+
+                    <TextView
+                        android:id="@+id/item_modify_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:hint=" 카테고리"
+                        android:onClick="dialogSingleChoice"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:text="상품명" />
 
                     <EditText
-                        android:id="@+id/item_name"
+                        android:id="@+id/item_modify_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -76,7 +91,7 @@
                         android:text="수량" />
 
                     <EditText
-                        android:id="@+id/count"
+                        android:id="@+id/item_modify_count"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -89,7 +104,7 @@
                         android:text="원가" />
 
                     <EditText
-                        android:id="@+id/ori_price"
+                        android:id="@+id/item_modify_ori_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -107,14 +122,14 @@
                     android:weightSum="1">
 
                     <ImageView
-                        android:id="@+id/image_view"
+                        android:id="@+id/item_modify_image_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.90"
                         app:srcCompat="@android:drawable/ic_menu_report_image" />
 
                     <Button
-                        android:id="@+id/button_upload"
+                        android:id="@+id/item_modify_button_upload"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="#E74B59"
@@ -150,7 +165,7 @@
                             android:text="판매가" />
 
                         <EditText
-                            android:id="@+id/price"
+                            android:id="@+id/item_modify_price"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ems="10"
@@ -170,7 +185,7 @@
                             android:text="할인율" />
 
                         <EditText
-                            android:id="@+id/discount"
+                            android:id="@+id/item_modify_discount"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ems="10"
@@ -197,7 +212,7 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/date_text"
+                            android:id="@+id/item_modify_date_text"
                             android:layout_width="0dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
@@ -207,7 +222,7 @@
                             android:textSize="15dp" />
 
                         <TextView
-                            android:id="@+id/time_text"
+                            android:id="@+id/item_modify_time_text"
                             android:layout_width="0dp"
                             android:layout_height="50dp"
                             android:layout_weight="1"
@@ -228,7 +243,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/button_cancel"
+                        android:id="@+id/item_modify_button_cancel"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:layout_marginLeft="5dp"
@@ -239,7 +254,7 @@
                         android:textSize="17dp" />
 
                     <Button
-                        android:id="@+id/button_modify"
+                        android:id="@+id/item_modify_button_modify"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:layout_marginLeft="5dp"
