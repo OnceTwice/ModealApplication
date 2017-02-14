@@ -2,7 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- 네비게이션 내부 메뉴 변경 -->
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/nav_view"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_myPage"
             android:title="마이페이지" />
@@ -21,6 +22,10 @@
         <item
             android:id="@+id/nav_marketDetail"
             android:title="매장상세정보"/>
+        <item
+            android:visible="false"
+            android:id="@+id/nav_userWithdrawal"
+            android:title="회원탈퇴"/>
     </group>
 
 </menu>
