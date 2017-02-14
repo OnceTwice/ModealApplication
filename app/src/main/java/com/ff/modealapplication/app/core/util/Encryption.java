@@ -1,4 +1,4 @@
-package com.ff.modealapplication.app.core;
+package com.ff.modealapplication.app.core.util;
 
 import java.security.MessageDigest;
 

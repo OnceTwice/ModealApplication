@@ -3,6 +3,8 @@ package com.ff.modealapplication.app.ui.join;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -27,6 +29,11 @@ import com.ff.modealapplication.app.core.vo.ShopVo;
 import com.ff.modealapplication.app.core.vo.UserVo;
 import com.ff.modealapplication.app.ui.map.SearchShopToJoinActivity;
 import com.ff.modealapplication.app.ui.map.SearchToShopInMapActivity;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -55,6 +62,7 @@ public class OwnerJoinFragment extends Fragment {
     private EditText etMarketPhoneNumber;
 
     private ImageView imageView;
+    private Bitmap bitmap;
 
     private EditText etMarketIntroduce;
 
@@ -151,8 +159,47 @@ public class OwnerJoinFragment extends Fragment {
                 latitude = joinMapInfoVo.getLatitude();
 
                 Log.d("onActivityResult 이미지", imageURL);
-
 //                ImageLoader.getInstance().displayImage(imageURL, (ImageView)getView().findViewById(R.id.marketImage));        // 대안을 찾음
+
+                /////////////////////////////// 이미지 세팅 ////////////////////////////////////
+                //  안드로이드에서 네트워크 관련 작업을 할 때는
+                //  반드시 메인 스레드가 아닌 별도의 작업 스레드에서 작업해야 함
+                Thread mThread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            URL url = new URL(imageURL);    // URL 주소를 이용해서 URL 객체 생성
+
+                            //  아래 코드는 웹에서 이미지를 가져온 뒤
+                            //  이미지 뷰에 지정할 Bitmap을 생성하는 과정
+                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                            conn.setDoInput(true);
+                            conn.connect();
+
+                            InputStream is = conn.getInputStream();
+                            bitmap = BitmapFactory.decodeStream(is);
+                        } catch(IOException ex) {
+
+                        }
+                    }
+                };
+
+                mThread.start();        // 웹에서 이미지를 가져오는 작업 스레드 실행.
+
+                try {
+                    //  메인 스레드는 작업 스레드가 이미지 작업을 가져올 때까지
+                    //  대기해야 하므로 작업스레드의 join() 메소드를 호출해서
+                    //  메인 스레드가 작업 스레드가 종료될 까지 기다리도록 합니다.
+                    mThread.join();
+
+                    //  이제 작업 스레드에서 이미지를 불러오는 작업을 완료했기에
+                    //  UI 작업을 할 수 있는 메인스레드에서 이미지뷰에 이미지를 지정합니다.
+                    imageView.setImageBitmap(bitmap);
+                } catch(InterruptedException e) {
+
+                }
+                ////////////////////////////////////////////////////////////////////////////////////
+
             } else if(flag[0] == 1) {
                 longitude = data.getStringExtra("longitude");
                 latitude = data.getStringExtra("latitude");
