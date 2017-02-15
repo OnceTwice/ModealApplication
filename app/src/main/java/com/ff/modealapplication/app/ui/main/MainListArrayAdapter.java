@@ -97,7 +97,9 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         textOriPriceView.setText(String.valueOf(((Double) itemVo.get("oriPrice")).longValue()));
         textShopNameView.setText(String.valueOf(itemVo.get("shopName")));
         textPriceView.setText(String.valueOf(((Double) itemVo.get("price")).longValue()));
-        textShopSpaceView.setText(String.valueOf(((Double)itemVo.get("distance")).longValue()) + "m");
+        if (itemVo.get("distance") != null) {
+            textShopSpaceView.setText(String.valueOf(((Double) itemVo.get("distance")).longValue()) + "m");
+        }
 
         return view;
 //        return super.getView(position, convertView, parent);

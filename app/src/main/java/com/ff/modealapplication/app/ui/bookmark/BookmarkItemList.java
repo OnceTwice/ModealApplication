@@ -40,6 +40,7 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
 
     // 체크된 아이템들을 저장할 List
     boolean[] isChecked;
+    List<Map<String, Object>> list;
 
     public BookmarkItemList(Context context) {
         super(context, R.layout.activity_bookmark);
@@ -48,7 +49,8 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
 
     @NonNull
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
+        final int checkPosition = position;
         final BookHolder holder;
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.bookmark_item_row, null);
@@ -61,14 +63,17 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
         } else {
             holder = (BookHolder)convertView.getTag();
         }
-        holder.text.setText(getItem(position).get("iname").toString());
-        holder.send_no.setText(String.valueOf(((Double)getItem(position).get("no")).longValue()));
-
+        holder.text.setText(getItem(position).get("iname").toString()); // 상품명
+        holder.send_no.setText(getItem(position).get("itemNo").toString()); // 상품No
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
-        ImageLoader.getInstance().displayImage("http://192.168.1.93:8088/modeal/shop/images/" + getItem(position).get("ipicture"), holder.imageView, displayImageOption);
+        ImageLoader.getInstance().displayImage("http://192.168.1.93:8088/modeal/shop/images/" + getItem(position).get("ipicture"), holder.imageView, displayImageOption); // 상품이미지
 
         holder.delete.setChecked(false);
         if (isChecked[position]) {
+            new BookmarkDelete(((Double)getItem(position).get("itemNo")).intValue()).execute(); // DB에서 삭제
+            BookmarkItemList.this.remove(getItem(position)); // view에서 삭제
+            isChecked[position] = true;
+            BookmarkItemList.this.notifyDataSetChanged(); // 갱신
             holder.delete.setChecked(true);
         } else {
             holder.delete.setChecked(false);
@@ -97,10 +102,12 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
         if (list == null || list.size() == 0) {
             return;
         }
+        this.list = list;
         isChecked = new boolean[list.size()];
         for (Map<String, Object> map : list) {
             Log.d("List items : ", "" + map);
             add(map);
+
         }
     }
 
