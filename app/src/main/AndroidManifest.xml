@@ -134,9 +134,13 @@
             android:name=".app.ui.join.JoinLeaveActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <!-- 매장상세정보 -->
         <activity
             android:name=".app.ui.market.MarketDetailInformationActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".app.ui.login.FindPasswordActivity"
             android:screenOrientation="portrait"
@@ -190,11 +194,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".app.ui.notice.NoticeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" ></activity>
         <activity
-            android:name=".app.ui.modify.OwnerModifyActivity"
+            android:name=".app.ui.notice.NoticeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
