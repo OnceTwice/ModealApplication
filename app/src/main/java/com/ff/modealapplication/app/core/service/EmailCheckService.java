@@ -11,7 +11,7 @@ import java.net.HttpURLConnection;
 
 public class EmailCheckService {
     public Integer checkedEmail(String email) {
-        String url = "http://192.168.1.26:8088/modeal/user/app/check";
+        String url = "http://192.168.1.93:8088/modeal/user/app/check";
         HttpRequest httpRequest = HttpRequest.get(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);     // 전달 타입

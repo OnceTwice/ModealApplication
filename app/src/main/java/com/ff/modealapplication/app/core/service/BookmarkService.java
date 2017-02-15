@@ -20,7 +20,7 @@ public class BookmarkService {
     private String url = "http://192.168.1.93:8088/modeal/bookmarkapp/";
 
     // 즐겨찾기 추가
-    public void bookmarkAdd(Long itemNo, Long userNo) {
+    public void bookmarkAdd(Long itemNo, Long userNo, Long shopNo) {
         HttpRequest httpRequest = HttpRequest.post(url + "addbookmark");
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
@@ -28,7 +28,11 @@ public class BookmarkService {
         httpRequest.connectTimeout(5000);
         httpRequest.readTimeout(5000);
 
-        httpRequest.send("itemNo=" + itemNo + "&userNo=" + userNo);
+        if (shopNo == null) {
+            httpRequest.send("itemNo=" + itemNo + "&userNo=" + userNo);
+        } else if (itemNo == null) {
+            httpRequest.send("shopNo=" + shopNo + "&userNo=" + userNo);
+        }
 
         int responseCode = httpRequest.code();
         if (responseCode != HttpURLConnection.HTTP_OK) {
@@ -37,7 +41,7 @@ public class BookmarkService {
     }
 
     // 즐겨찾기 삭제
-    public void bookmarkDelete(Long itemNo, Long userNo) {
+    public void bookmarkDelete(Long itemNo, Long userNo, Long shopNo) {
         HttpRequest httpRequest = HttpRequest.post(url + "deletebookmark");
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
@@ -45,7 +49,11 @@ public class BookmarkService {
         httpRequest.connectTimeout(5000);
         httpRequest.readTimeout(5000);
 
-        httpRequest.send("itemNo=" + itemNo + "&userNo=" + userNo);
+        if (shopNo == null) {
+            httpRequest.send("itemNo=" + itemNo + "&userNo=" + userNo);
+        } else if (itemNo == null) {
+            httpRequest.send("shopNo=" + shopNo + "&userNo=" + userNo);
+        }
 
         int responseCode = httpRequest.code();
         if (responseCode != HttpURLConnection.HTTP_OK) {
@@ -54,7 +62,7 @@ public class BookmarkService {
     }
 
     // 즐겨찾기 검색
-    public Long bookmarkSelect(Long itemNo, Long userNo) {
+    public Long bookmarkSelect(Long itemNo, Long userNo, Long shopNo) {
         HttpRequest httpRequest = HttpRequest.post(url + "selectbookmark");
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
@@ -62,7 +70,11 @@ public class BookmarkService {
         httpRequest.connectTimeout(5000);
         httpRequest.readTimeout(5000);
 
-        httpRequest.send("itemNo=" + itemNo + "&userNo=" + userNo);
+        if (shopNo == null) {
+            httpRequest.send("itemNo=" + itemNo + "&userNo=" + userNo);
+        } else if (itemNo == null) {
+            httpRequest.send("shopNo=" + shopNo + "&userNo=" + userNo);
+        }
 
         int responseCode = httpRequest.code();
         if (responseCode != HttpURLConnection.HTTP_OK) {

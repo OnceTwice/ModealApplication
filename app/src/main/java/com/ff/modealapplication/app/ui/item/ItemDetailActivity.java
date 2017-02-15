@@ -171,7 +171,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         @Override
         public Void call() throws Exception {
             BookmarkService bookmarkService = new BookmarkService();
-            bookmarkService.bookmarkAdd((Double.valueOf(getIntent().getStringExtra("no"))).longValue(), (Long) LoginPreference.getValue(getApplicationContext(), "no"));
+            bookmarkService.bookmarkAdd((Double.valueOf(getIntent().getStringExtra("no"))).longValue(), (Long) LoginPreference.getValue(getApplicationContext(), "no"), null);
             return null;
         }
 
@@ -188,7 +188,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         @Override
         public Void call() throws Exception {
             BookmarkService bookmarkService = new BookmarkService();
-            bookmarkService.bookmarkDelete((Double.valueOf(getIntent().getStringExtra("no"))).longValue(), (Long) LoginPreference.getValue(getApplicationContext(), "no"));
+            bookmarkService.bookmarkDelete((Double.valueOf(getIntent().getStringExtra("no"))).longValue(), (Long) LoginPreference.getValue(getApplicationContext(), "no"), null);
             return null;
         }
 
@@ -205,7 +205,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         @Override
         public Long call() throws Exception {
             BookmarkService bookmarkService = new BookmarkService();
-            return bookmarkService.bookmarkSelect((Double.valueOf(getIntent().getStringExtra("no"))).longValue(), (Long) LoginPreference.getValue(getApplicationContext(), "no"));
+            return bookmarkService.bookmarkSelect((Double.valueOf(getIntent().getStringExtra("no"))).longValue(), (Long) LoginPreference.getValue(getApplicationContext(), "no"), null);
         }
 
         @Override

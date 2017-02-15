@@ -50,8 +50,8 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
     @NonNull
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
-        final int checkPosition = position;
         final BookHolder holder;
+
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.bookmark_item_row, null);
             holder = new BookHolder();
@@ -61,8 +61,9 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
             holder.send_no = (TextView) convertView.findViewById(R.id.send_no);
             convertView.setTag(holder);
         } else {
-            holder = (BookHolder)convertView.getTag();
+            holder = (BookHolder) convertView.getTag();
         }
+
         holder.text.setText(getItem(position).get("iname").toString()); // 상품명
         holder.send_no.setText(getItem(position).get("itemNo").toString()); // 상품No
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
@@ -70,10 +71,6 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
 
         holder.delete.setChecked(false);
         if (isChecked[position]) {
-            new BookmarkDelete(((Double)getItem(position).get("itemNo")).intValue()).execute(); // DB에서 삭제
-            BookmarkItemList.this.remove(getItem(position)); // view에서 삭제
-            isChecked[position] = true;
-            BookmarkItemList.this.notifyDataSetChanged(); // 갱신
             holder.delete.setChecked(true);
         } else {
             holder.delete.setChecked(false);
@@ -82,7 +79,9 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
             @Override
             public void onClick(View v) {
                 if (holder.delete.isChecked()) {
-                    isChecked[position] = true;
+                    new BookmarkDelete(((Double) getItem(position).get("itemNo")).intValue()).execute(); // DB에서 삭제
+                    BookmarkItemList.this.remove(getItem(position)); // view에서 삭제
+                    BookmarkItemList.this.notifyDataSetChanged(); // 갱신
                 } else {
                     isChecked[position] = false;
                 }
@@ -121,7 +120,7 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
         @Override
         public Void call() throws Exception {
             BookmarkService bookmarkService = new BookmarkService();
-            bookmarkService.bookmarkDelete((long) buttonPosition, (Long) LoginPreference.getValue(getApplicationContext(), "no"));
+            bookmarkService.bookmarkDelete((long) buttonPosition, (Long) LoginPreference.getValue(getApplicationContext(), "no"), null);
             return null;
         }
 
