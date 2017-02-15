@@ -11,5 +11,5 @@
         android:background="@color/colorModeal"
         android:textColor="#fff"
         android:gravity="center"
-        android:id="@+id/textView7" />
+        android:padding="3dp"/>
 </LinearLayout>

@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:descendantFocusability="blocksDescendants"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
-    android:descendantFocusability="blocksDescendants">
+    android:background="#E5E5E2">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="10dp"
+        android:background="#fff"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:weightSum="1">
 
         <ImageView
@@ -23,6 +27,7 @@
 
         <TextView
             android:id="@+id/main_time_textView"
+            android:textColor="#fff"
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:background="#E74B59"
