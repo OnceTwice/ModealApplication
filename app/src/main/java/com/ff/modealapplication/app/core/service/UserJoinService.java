@@ -44,8 +44,8 @@ public class UserJoinService {
 
         return null;
     }
-    //유저 탈퇴
-    public void UserLeave(){
+
+    public void UserLeave(){                    //유저 탈퇴
         String url="http://192.168.1.26:8088//modeal/user/app/userleave";
 
         HttpRequest httpRequest = HttpRequest.post(url);

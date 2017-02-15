@@ -10,8 +10,6 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 
 public class EmailCheckService {
-    int a;
-
     public Integer checkedEmail(String email) {
         String url = "http://192.168.1.26:8088/modeal/user/app/check";
         HttpRequest httpRequest = HttpRequest.get(url);

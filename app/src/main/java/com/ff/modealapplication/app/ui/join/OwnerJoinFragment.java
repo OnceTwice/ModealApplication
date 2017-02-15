@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
+import com.ff.modealapplication.app.core.service.EmailCheckService;
 import com.ff.modealapplication.app.core.service.OwnerJoinService;
 import com.ff.modealapplication.app.core.service.map.JoinMapInfoVo;
 import com.ff.modealapplication.app.core.vo.ShopVo;
@@ -38,7 +39,11 @@ import java.net.URL;
 import static android.app.Activity.RESULT_OK;
 
 public class OwnerJoinFragment extends Fragment {
+    private OwnerJoinService ownerJoinService = new OwnerJoinService();
+    private EmailCheckService emailCheckService = new EmailCheckService();
+
     private EditText etID;
+    private Button btnDuplicationID;
     private EditText etPassword;
     private EditText etPasswordConfirm;
 
@@ -91,6 +96,8 @@ public class OwnerJoinFragment extends Fragment {
     String latitude = "";
 
     final int[] flag = {0};
+
+    int emailFlag = 1;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -216,6 +223,7 @@ public class OwnerJoinFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_owner_join, container, false);
 
         etID = (EditText) view.findViewById(R.id.etOwnerID);
+        btnDuplicationID = (Button) view.findViewById(R.id.btnOwnerIDDuplicationCheck);
         etPassword = (EditText) view.findViewById(R.id.etOwnerPassword);
         etPasswordConfirm = (EditText) view.findViewById(R.id.etOwnerPasswordConfirm);
 
@@ -244,6 +252,13 @@ public class OwnerJoinFragment extends Fragment {
 
         btnSubmit = (Button) view.findViewById(R.id.btnOwnerSubmit);
         btnCancel = (Button) view.findViewById(R.id.btnOwnerCancel);
+
+        btnDuplicationID.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new EmailDuplicationCheck().execute();
+            }
+        });
 
         /********  성별입력(최초선택)    ********/
         if(man.isChecked()) {
@@ -376,6 +391,41 @@ public class OwnerJoinFragment extends Fragment {
         return view;
     }
 
+    private class EmailDuplicationCheck extends  SafeAsyncTask<Integer> {
+        @Override
+        public Integer call() throws Exception {
+            id = etID.getText().toString();
+
+            Integer check = emailCheckService.checkedEmail(id);
+
+            System.out.println("사업자 EmailDuplicationCheck : " + check);
+
+            return check;
+        }
+
+        @Override
+        protected void onException(Exception e) throws RuntimeException {
+//            super.onException(e);
+            Log.d("아이디 중복 체크", "사업자 서비스 에러뜸!!!"+e);
+            throw new RuntimeException(e);
+        }
+
+        @Override
+        protected void onSuccess(Integer check) throws Exception {
+            if((check == null) || (check == 0)) {
+                Toast.makeText(OwnerJoinFragment.this.getActivity(), "중복검사 완료 \n 회원가입을 진행하세요", Toast.LENGTH_SHORT).show();
+                emailFlag = 0;
+            } else {
+                Toast.makeText(OwnerJoinFragment.this.getActivity(), "중복입니다!!!", Toast.LENGTH_SHORT).show();
+                etID.setText("");
+                etID.requestFocus();
+                emailFlag = 1;
+            }
+
+            Log.d("아이디 중복 체크", "성공!!!!!");
+        }
+    }
+
     private class FetchOwnerListAsyncTask extends SafeAsyncTask<UserVo> {
         private UserVo userVo = new UserVo();
         private ShopVo shopVo = new ShopVo();
@@ -446,7 +496,7 @@ public class OwnerJoinFragment extends Fragment {
             Log.d("longitude===", longitude);
             Log.d("latitude===", latitude);
 
-            UserVo ownerVo = new OwnerJoinService().fetchOwnerList(userVo, shopVo);
+            UserVo ownerVo = ownerJoinService.fetchOwnerList(userVo, shopVo);
 
             return ownerVo;
         }

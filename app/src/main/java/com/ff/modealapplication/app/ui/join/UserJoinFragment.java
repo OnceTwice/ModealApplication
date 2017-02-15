@@ -278,7 +278,7 @@ public class UserJoinFragment extends Fragment {
 
             Integer check = emailCheckService.checkedEmail(id);
 
-            System.out.println("EmailDuplicationCheck : " + check);
+            System.out.println("사용자 EmailDuplicationCheck : " + check);
 
             return check;
         }
@@ -286,7 +286,7 @@ public class UserJoinFragment extends Fragment {
         @Override
         protected void onException(Exception e) throws RuntimeException {
 //            super.onException(e);
-            Log.d("아이디 중복 체크", "서비스 에러뜸!!!"+e);
+            Log.d("아이디 중복 체크", "사용자 서비스 에러뜸!!!"+e);
             throw new RuntimeException(e);
         }
 
