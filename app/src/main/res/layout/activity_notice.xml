@@ -43,11 +43,20 @@
         <!-- layout_behavior를 사용해야 액션바 밑에서부터 출력 -->
 
         <!-- TextView 대신 자신에게 맞는 뷰 넣기 -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello World!"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" /> <!-- 써줘야 액션바 밑에 생성 -->
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/list_notice"/>
+        </LinearLayout>
+
+
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>
 
