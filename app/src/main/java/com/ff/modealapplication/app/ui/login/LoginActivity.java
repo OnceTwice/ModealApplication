@@ -32,6 +32,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.app.core.service.LoginService;
+import com.ff.modealapplication.app.core.util.Encryption;
 import com.ff.modealapplication.app.core.util.LoginPreference;
 import com.ff.modealapplication.app.core.vo.UserVo;
 import com.ff.modealapplication.app.ui.join.JoinActivity;
@@ -341,7 +342,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         public UserLoginTask(String email, String password) {
             mEmail = email;
-            mPassword = password;
+            mPassword = Encryption.Sha256(password);            // 비밀번호 암호화
             userVo.setId(email);
             userVo.setPassword(password);
         }
