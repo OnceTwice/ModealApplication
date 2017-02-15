@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:descendantFocusability="blocksDescendants"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff">
+    android:background="#fff"
+    android:descendantFocusability="blocksDescendants">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,14 +18,16 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_weight="0.10"
+            android:padding="5dp"
             app:srcCompat="@android:color/background_light" />
 
         <TextView
             android:id="@+id/main_time_textView"
             android:layout_width="match_parent"
-            android:layout_height="31dp"
+            android:layout_height="25dp"
+            android:background="#E74B59"
             android:text="TextView"
-            android:textAlignment="center" />
+            android:gravity="center" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,10 +64,10 @@
                 android:text="TextView" />
 
             <TextView
+                android:id="@+id/send_no"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:visibility="gone"
-                android:id="@+id/send_no"/>
+                android:visibility="gone" />
 
         </LinearLayout>
 

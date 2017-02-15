@@ -53,17 +53,19 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.bookmark_item_row, null);
             holder = new BookHolder();
-            holder.text = (TextView)convertView.findViewById(R.id.bookmark_item_text);
+            holder.text = (TextView) convertView.findViewById(R.id.bookmark_item_text);
             holder.delete = (ToggleButton) convertView.findViewById(R.id.bookmark_item_delete);
             holder.imageView = (ImageView) convertView.findViewById(R.id.bookmark_item_image);
+            holder.send_no = (TextView) convertView.findViewById(R.id.send_no);
             convertView.setTag(holder);
         } else {
             holder = (BookHolder)convertView.getTag();
         }
         holder.text.setText(getItem(position).get("iname").toString());
+        holder.send_no.setText(String.valueOf(((Double)getItem(position).get("no")).longValue()));
 
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
-        ImageLoader.getInstance().displayImage("http://192.168.1.93:8088/modeal/shop/images/" + getItem(position).get("picture"), holder.imageView, displayImageOption);
+        ImageLoader.getInstance().displayImage("http://192.168.1.93:8088/modeal/shop/images/" + getItem(position).get("ipicture"), holder.imageView, displayImageOption);
 
         holder.delete.setChecked(false);
         if (isChecked[position]) {
@@ -88,13 +90,14 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
         public ToggleButton delete;
         public TextView text;
         public ImageView imageView;
+        public TextView send_no;
     }
 
     public void add(List<Map<String, Object>> list) {
-        isChecked = new boolean[list.size()];
         if (list == null || list.size() == 0) {
             return;
         }
+        isChecked = new boolean[list.size()];
         for (Map<String, Object> map : list) {
             Log.d("List items : ", "" + map);
             add(map);

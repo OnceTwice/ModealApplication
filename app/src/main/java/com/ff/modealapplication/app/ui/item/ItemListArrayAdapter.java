@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,7 +16,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +23,7 @@ import java.util.Map;
  * Created by bit-desktop on 2017-02-01.
  */
 
-public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> implements View.OnClickListener {
+public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
 
     private LayoutInflater layoutInflater;
     DisplayImageOptions displayImageOption = new DisplayImageOptions.Builder()
@@ -38,54 +36,15 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> impl
     public ItemListArrayAdapter(Context context) {
         super(context, R.layout.item_list);
         layoutInflater = LayoutInflater.from(context);
-//        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE); // 위와 같음
-    }
-
-    // 체크된 아이템들을 저장할 List
-    private ArrayList listItem;
-
-    @Override
-    public int getCount() {
-        return super.getCount();
     }
 
     @NonNull
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) { // 내부 많이 변경 (170207/상욱변경)
-        final int buttonPosition = position; // 리스너에서 사용할 변수
-        ItemViewHolder holder = new ItemViewHolder();
-        View view = convertView;
 
         if (convertView == null) {
-            view = layoutInflater.inflate(R.layout.item_list_row, parent, false);
-            holder.hide = (Button) view.findViewById(R.id.button_hiding_item);
-            holder.modify = (Button) view.findViewById(R.id.button_modify_item);
-            holder.delete = (Button) view.findViewById(R.id.button_delete_item);
-            view.setTag(holder);
-        } else {
-            holder = (ItemViewHolder) convertView.getTag();
+            convertView = layoutInflater.inflate(R.layout.item_list_row, parent, false);
         }
-
-        if (listItem.contains(position)) {
-            holder.hide.setText("숨기기");
-        } else {
-            holder.hide.setText("보이기");
-        }
-
-        holder.hide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listItem.contains(position)) {
-                    listItem.remove(position);
-                } else {
-                    listItem.add(position);
-                }
-            }
-        });
-
-//        holder.hide.setOnClickListener(this);
-        holder.modify.setOnClickListener(this);
-        holder.delete.setOnClickListener(this);
 
         Map<String, Object> map = getItem(position);
 //        ((TextView) convertView.findViewById(R.id.shop_name)).setText(map.get("shopName").toString());             // 해당 매장명
@@ -103,46 +62,15 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> impl
         ImageLoader.getInstance().displayImage("http://192.168.1.90:8088/modeal/shop/images/" + map.get("picture"),
                 (ImageView) convertView.findViewById(R.id.item_list_image), displayImageOption);                // 상품이미지
 
-        return view;
-    }
-
-    // row item의 버튼들 클릭시 (170207/상욱추가)
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-
-            case R.id.button_hiding_item: {
-//                LinearLayout show = (LinearLayout) view.findViewById(R.id.button_hiding_item);
-                if ( // 상품출력유무
-                        ((Button) view.findViewById(R.id.button_hiding_item)).getText() == "보이기") {
-                    ((Button) view.findViewById(R.id.button_hiding_item)).setText("숨기기");
-//                    show.setVisibility(view.INVISIBLE);
-
-                } else {
-                    ((Button) view.findViewById(R.id.button_hiding_item)).setText("보이기");
-//                    show.setVisibility(view.VISIBLE);
-                }
-                break;
-            }
-            case R.id.button_modify_item: {
+        convertView.findViewById(R.id.button_modify_item).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ItemModifyActivity.class);
+                intent.putExtra("no", ((TextView)v.findViewById(R.id.send_no)).getText().toString());
                 getContext().startActivity(intent);
-                break;
             }
-            case R.id.button_delete_item: {
-                Intent intent = new Intent(getContext(), ItemActivity.class);
-                getContext().startActivity(intent);
-                break;
-            }
-        }
-    }
-
-    // listview 내부의 row item 버튼 클릭하기 위해서... (170207/상욱추가)
-    // http://bellgori.tistory.com/entry/Android-pattern-01-ViewHolder-pattern ← ViewHolder 쓰는 이유
-    public static class ItemViewHolder {
-        public Button hide;
-        public Button modify;
-        public Button delete;
+        });
+        return convertView;
     }
 
     // 목록에 상품이 추가됨

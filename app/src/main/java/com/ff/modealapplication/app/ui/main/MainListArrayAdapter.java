@@ -95,9 +95,9 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         textItemView.setText(itemVo.get("name").toString());
         textOriPriceView.setPaintFlags(textOriPriceView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG); //가운데 줄긋기
         textOriPriceView.setText(String.valueOf(((Double) itemVo.get("oriPrice")).longValue()));
-        textShopNameView.setText(String.valueOf(itemVo.get("shopNo")));
+        textShopNameView.setText(String.valueOf(itemVo.get("shopName")));
         textPriceView.setText(String.valueOf(((Double) itemVo.get("price")).longValue()));
-        textShopSpaceView.setText(itemVo.get("shopName").toString());
+        textShopSpaceView.setText(String.valueOf(((Double)itemVo.get("distance")).longValue()) + "m");
 
         return view;
 //        return super.getView(position, convertView, parent);

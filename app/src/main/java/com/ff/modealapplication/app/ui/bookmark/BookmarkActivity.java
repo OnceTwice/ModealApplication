@@ -1,5 +1,6 @@
 package com.ff.modealapplication.app.ui.bookmark;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,14 +10,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.BookmarkService;
 import com.ff.modealapplication.app.core.util.LoginPreference;
+import com.ff.modealapplication.app.ui.item.ItemDetailActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +26,8 @@ public class BookmarkActivity extends AppCompatActivity implements AdapterView.O
     private ListView listView_item;
     private ListView listView_shop;
 
-    ArrayList<String> checkedValue;
+    // 리스트뷰 문제때문에 테스트하는 것...
+//    private ArrayList<String> checkedValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +54,18 @@ public class BookmarkActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ToggleButton tb = (ToggleButton)view.findViewById(R.id.bookmark_item_delete);
-        TextView tv = (TextView)view.findViewById(R.id.bookmark_item_text);
-        tb.performClick();
-        if (tb.isChecked()) {
-            checkedValue.add(tv.getText().toString());
-        } else if (!tb.isChecked()) {
-            checkedValue.remove(tv.getText().toString());
-        }
+        Intent intent = new Intent(this, ItemDetailActivity.class);
+        intent.putExtra("no", ((TextView) view.findViewById(R.id.send_no)).getText().toString());
+        startActivity(intent);
+        // 리스트뷰 문제때문에 테스트하는 것...
+//        ToggleButton tb = (ToggleButton)view.findViewById(R.id.bookmark_item_delete);
+//        TextView tv = (TextView)view.findViewById(R.id.bookmark_item_text);
+//        tb.performClick();
+//        if (tb.isChecked()) {
+//            checkedValue.add(tv.getText().toString());
+//        } else if (!tb.isChecked()) {
+//            checkedValue.remove(tv.getText().toString());
+//        }
     }
 
     private class BookmarkListAsyncTask extends SafeAsyncTask<List<Map<String, Object>>> {
