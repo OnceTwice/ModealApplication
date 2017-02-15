@@ -15,7 +15,7 @@ import java.util.Map;
  */
 
 public class LoginService {
-        String url = "http://192.168.1.26:8088/modeal/userapp"; // 학원 로컬
+        String url = "http://192.168.1.93:8088/modeal/userapp"; // 학원 로컬
 //        String url = "http://192.168.0.17:8088/modeal/userapp/login"; // 집
 
     // 일반로그인 & 페이스북로그인 & 구글로그인
@@ -39,7 +39,7 @@ public class LoginService {
     }
 
     // 소셜로그인 회원정보 저장
-    public void SocialJoin(UserVo userVo) {
+    public Map<String, Object> SocialJoin(UserVo userVo) {
         HttpRequest httpRequest = HttpRequest.post(url + "/social");
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_JSON);
@@ -53,6 +53,8 @@ public class LoginService {
         if (responseCode != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("Http Response : " + responseCode);
         }
+
+        return fromJson(httpRequest, Map.class);
     }
 
     // 비밀번호 찾기

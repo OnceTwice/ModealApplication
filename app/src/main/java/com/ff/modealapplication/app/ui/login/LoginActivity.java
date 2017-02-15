@@ -368,8 +368,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     if (resultUser != null) {
                         LoginPreference.put(getApplicationContext(), resultUser);
                     } else {
-                        new LoginService().SocialJoin(userVo);
-                        LoginPreference.put(getApplicationContext(), userVo);
+                        resultUser = new LoginService().SocialJoin(userVo);
+                        LoginPreference.put(getApplicationContext(), resultUser);
                     }
                     return 5;
                 } else if (userVo.getManagerIdentified() == 3L) { // 페이스북 로그인시
@@ -377,8 +377,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     if (resultUser != null) {
                         LoginPreference.put(getApplicationContext(), resultUser);
                     } else {
-                        new LoginService().SocialJoin(userVo);
-                        LoginPreference.put(getApplicationContext(), userVo);
+                        resultUser = new LoginService().SocialJoin(userVo);
+                        LoginPreference.put(getApplicationContext(), resultUser);
                     }
                     return 4;
                 }
