@@ -4,8 +4,8 @@ import android.util.Log;
 
 import com.ff.modealapplication.andorid.network.JSONResult;
 import com.ff.modealapplication.app.core.util.Base;
-import com.ff.modealapplication.app.core.vo.ShopVo;
-import com.ff.modealapplication.app.core.vo.daumvo.AddressVo;
+import com.ff.modealapplication.app.core.domain.ShopVo;
+import com.ff.modealapplication.app.core.domain.daumvo.AddressVo;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

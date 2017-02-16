@@ -12,8 +12,8 @@ import android.widget.ListView;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.MapsService;
-import com.ff.modealapplication.app.core.vo.daumvo.AddressVo;
-import com.ff.modealapplication.app.core.vo.daumvo.DaumItemVo;
+import com.ff.modealapplication.app.core.domain.daumvo.AddressVo;
+import com.ff.modealapplication.app.core.domain.daumvo.DaumItemVo;
 
 import java.util.ArrayList;
 import java.util.List;

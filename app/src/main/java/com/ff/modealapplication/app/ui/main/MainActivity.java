@@ -35,6 +35,7 @@ import com.facebook.login.LoginManager;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.MainService;
+import com.ff.modealapplication.app.core.util.BackPressCloseHandler;
 import com.ff.modealapplication.app.core.util.GPSPreference;
 import com.ff.modealapplication.app.core.util.LoginPreference;
 import com.ff.modealapplication.app.ui.bookmark.BookmarkActivity;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     MainListArrayAdapter mainListArrayAdapter = null;
     ListView listView = null;
 
+    private BackPressCloseHandler backPressCloseHandler;
     private DrawerLayout drawer = null;
 
     // 지도
@@ -78,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        backPressCloseHandler = new BackPressCloseHandler(this);
 
         // 프래그먼트에서 떼오고 없애버림
         mainListArrayAdapter = new MainListArrayAdapter(this);
@@ -372,7 +376,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+//            super.onBackPressed();
+            backPressCloseHandler.onBackPressed();
         }
     }
 

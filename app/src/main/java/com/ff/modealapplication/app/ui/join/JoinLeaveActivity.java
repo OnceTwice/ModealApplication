@@ -11,7 +11,7 @@ import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.UserJoinService;
 import com.ff.modealapplication.app.core.util.LoginPreference;
-import com.ff.modealapplication.app.core.vo.UserVo;
+import com.ff.modealapplication.app.core.domain.UserVo;
 
 /**
  * Created by BIT on 2017-02-14.

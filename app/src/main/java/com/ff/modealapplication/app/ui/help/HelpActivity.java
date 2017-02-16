@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.HelpService;
-import com.ff.modealapplication.app.core.vo.HelpVo;
+import com.ff.modealapplication.app.core.domain.HelpVo;
 
 public class HelpActivity extends AppCompatActivity {
 

@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.app.core.util.Base;
-import com.ff.modealapplication.app.core.vo.NoticeVo;
+import com.ff.modealapplication.app.core.domain.NoticeVo;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;

@@ -3,7 +3,6 @@ package com.ff.modealapplication.app.ui.item;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,11 +18,10 @@ import android.widget.TimePicker;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.ItemService;
-import com.ff.modealapplication.app.core.vo.ItemVo;
+import com.ff.modealapplication.app.core.domain.ItemVo;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 /**
  * Created by yeo on 2017-01-30.

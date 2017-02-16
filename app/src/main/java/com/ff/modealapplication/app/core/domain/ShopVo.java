@@ -1,4 +1,4 @@
-package com.ff.modealapplication.app.core.vo;
+package com.ff.modealapplication.app.core.domain;
 
 public class ShopVo {
     private long no;

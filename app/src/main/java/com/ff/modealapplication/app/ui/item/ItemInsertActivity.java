@@ -19,7 +19,7 @@ import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.ItemService;
 import com.ff.modealapplication.app.core.util.LoginPreference;
-import com.ff.modealapplication.app.core.vo.ItemVo;
+import com.ff.modealapplication.app.core.domain.ItemVo;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

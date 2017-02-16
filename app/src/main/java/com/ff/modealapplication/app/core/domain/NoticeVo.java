@@ -1,4 +1,4 @@
-package com.ff.modealapplication.app.core.vo;
+package com.ff.modealapplication.app.core.domain;
 
 /**
  * Created by BIT on 2017-02-15.

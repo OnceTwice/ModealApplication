@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.LoginService;
-import com.ff.modealapplication.app.core.vo.UserVo;
+import com.ff.modealapplication.app.core.domain.UserVo;
 
 public class FindPasswordActivity extends AppCompatActivity {
 

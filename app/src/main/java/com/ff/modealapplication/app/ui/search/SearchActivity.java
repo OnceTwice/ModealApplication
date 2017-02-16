@@ -20,7 +20,7 @@ import android.widget.Toast;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.SearchService;
-import com.ff.modealapplication.app.core.vo.ItemVo;
+import com.ff.modealapplication.app.core.domain.ItemVo;
 
 import java.util.List;
 

@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.ff.modealapplication.R;
-import com.ff.modealapplication.app.core.vo.ItemVo;
+import com.ff.modealapplication.app.core.domain.ItemVo;
 
 import java.util.List;
 

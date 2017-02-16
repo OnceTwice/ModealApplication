@@ -1,4 +1,4 @@
-package com.ff.modealapplication.app.core.vo.daumvo;
+package com.ff.modealapplication.app.core.domain.daumvo;
 
 import java.util.List;
 

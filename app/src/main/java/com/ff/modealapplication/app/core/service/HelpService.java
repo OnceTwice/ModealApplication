@@ -8,7 +8,7 @@ import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.JSONResult;
 import com.ff.modealapplication.app.core.util.Base;
 import com.ff.modealapplication.app.core.util.LoginPreference;
-import com.ff.modealapplication.app.core.vo.HelpVo;
+import com.ff.modealapplication.app.core.domain.HelpVo;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

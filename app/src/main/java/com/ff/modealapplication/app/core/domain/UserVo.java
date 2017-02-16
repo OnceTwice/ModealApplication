@@ -1,4 +1,4 @@
-package com.ff.modealapplication.app.core.vo;
+package com.ff.modealapplication.app.core.domain;
 
 /**
  * Created by cho on 2017-01-31.

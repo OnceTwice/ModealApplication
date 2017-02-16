@@ -3,7 +3,7 @@ package com.ff.modealapplication.app.core.service;
 import android.util.Log;
 
 import com.ff.modealapplication.app.core.util.Base;
-import com.ff.modealapplication.app.core.vo.UserVo;
+import com.ff.modealapplication.app.core.domain.UserVo;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ff.modealapplication.R;
-import com.ff.modealapplication.app.core.vo.daumvo.DaumItemVo;
+import com.ff.modealapplication.app.core.domain.daumvo.DaumItemVo;
 
 import java.util.List;
 

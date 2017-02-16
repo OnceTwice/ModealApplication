@@ -34,7 +34,7 @@ import com.ff.modealapplication.R;
 import com.ff.modealapplication.app.core.service.LoginService;
 import com.ff.modealapplication.app.core.util.Encryption;
 import com.ff.modealapplication.app.core.util.LoginPreference;
-import com.ff.modealapplication.app.core.vo.UserVo;
+import com.ff.modealapplication.app.core.domain.UserVo;
 import com.ff.modealapplication.app.ui.join.JoinActivity;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;

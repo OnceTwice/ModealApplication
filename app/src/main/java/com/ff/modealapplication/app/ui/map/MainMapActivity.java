@@ -19,7 +19,7 @@ import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.MapsService;
 import com.ff.modealapplication.app.core.service.map.MapApiConst;
-import com.ff.modealapplication.app.core.vo.ShopVo;
+import com.ff.modealapplication.app.core.domain.ShopVo;
 import com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity;
 
 import net.daum.mf.map.api.CalloutBalloonAdapter;

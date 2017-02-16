@@ -26,8 +26,8 @@ import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.EmailCheckService;
 import com.ff.modealapplication.app.core.service.OwnerJoinService;
 import com.ff.modealapplication.app.core.service.map.JoinMapInfoVo;
-import com.ff.modealapplication.app.core.vo.ShopVo;
-import com.ff.modealapplication.app.core.vo.UserVo;
+import com.ff.modealapplication.app.core.domain.ShopVo;
+import com.ff.modealapplication.app.core.domain.UserVo;
 import com.ff.modealapplication.app.ui.map.SearchShopToJoinActivity;
 import com.ff.modealapplication.app.ui.map.SearchToShopInMapActivity;
 

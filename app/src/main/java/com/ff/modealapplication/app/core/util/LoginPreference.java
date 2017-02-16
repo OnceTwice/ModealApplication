@@ -3,7 +3,7 @@ package com.ff.modealapplication.app.core.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.ff.modealapplication.app.core.vo.UserVo;
+import com.ff.modealapplication.app.core.domain.UserVo;
 
 import java.util.Map;
 

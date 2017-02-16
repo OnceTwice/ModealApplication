@@ -14,7 +14,7 @@ import android.widget.ListView;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.NoticeService;
-import com.ff.modealapplication.app.core.vo.NoticeVo;
+import com.ff.modealapplication.app.core.domain.NoticeVo;
 
 import java.util.List;
 
