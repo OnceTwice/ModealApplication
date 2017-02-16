@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ff.modealapplication.R;
+import com.ff.modealapplication.app.core.util.Base;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -59,7 +60,7 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         ((TextView) convertView.findViewById(R.id.send_no)).setText(String.valueOf(((Double) map.get("no")).longValue()));
 
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
-        ImageLoader.getInstance().displayImage("http://192.168.1.90:8088/modeal/shop/images/" + map.get("picture"),
+        ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + map.get("picture"),
                 (ImageView) convertView.findViewById(R.id.item_list_image), displayImageOption);                // 상품이미지
 
         convertView.findViewById(R.id.button_modify_item).setOnClickListener(new View.OnClickListener() {
