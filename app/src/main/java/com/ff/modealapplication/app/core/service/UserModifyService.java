@@ -2,6 +2,7 @@ package com.ff.modealapplication.app.core.service;
 
 import android.util.Log;
 
+import com.ff.modealapplication.app.core.util.Base;
 import com.ff.modealapplication.app.core.vo.UserVo;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class UserModifyService  {
     public List<UserVo> fetchUserModify(Long no, String password, String gender, String location, String birth) {
-        String url = "http://192.168.1.26:8088/modeal/user/app/usermodify";
+        String url = Base.url + "modeal/user/app/usermodify";
         HttpRequest httpRequest = HttpRequest.get(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);     // 전달 타입

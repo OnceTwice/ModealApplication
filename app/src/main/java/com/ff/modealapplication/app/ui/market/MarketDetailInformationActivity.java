@@ -7,6 +7,8 @@ import android.view.MenuItem;
 
 import com.ff.modealapplication.R;
 
+import static com.ff.modealapplication.app.core.util.Base.displayImageOptions;
+
 public class MarketDetailInformationActivity extends AppCompatActivity {
 
     @Override
@@ -19,7 +21,6 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 뒤로가기 화살표 표시
-
     }
 
     // 뒤로가기 클릭시 & 돋보기 클릭시

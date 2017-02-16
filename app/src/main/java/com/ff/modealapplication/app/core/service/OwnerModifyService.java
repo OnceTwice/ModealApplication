@@ -2,6 +2,7 @@ package com.ff.modealapplication.app.core.service;
 
 import android.util.Log;
 
+import com.ff.modealapplication.app.core.util.Base;
 import com.ff.modealapplication.app.core.vo.ShopVo;
 import com.ff.modealapplication.app.core.vo.UserVo;
 import com.github.kevinsawicki.http.HttpRequest;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 
 public class OwnerModifyService {
     public UserVo fetchOwnerList(UserVo userVo, ShopVo shopVo) {
-        String url = "http://192.168.1.26:8088/modeal/user/app/ownermodify";
+        String url = Base.url + "modeal/user/app/ownermodify";
         HttpRequest httpRequest = HttpRequest.post(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_JSON);     // 전달 타입

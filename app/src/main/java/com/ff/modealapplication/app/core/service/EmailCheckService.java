@@ -2,6 +2,7 @@ package com.ff.modealapplication.app.core.service;
 
 import android.util.Log;
 
+import com.ff.modealapplication.app.core.util.Base;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,7 +12,7 @@ import java.net.HttpURLConnection;
 
 public class EmailCheckService {
     public Integer checkedEmail(String email) {
-        String url = "http://192.168.1.93:8088/modeal/user/app/check";
+        String url = Base.url + "modeal/user/app/check";
         HttpRequest httpRequest = HttpRequest.get(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);     // 전달 타입

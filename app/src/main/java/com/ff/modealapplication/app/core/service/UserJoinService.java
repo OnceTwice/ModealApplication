@@ -2,6 +2,7 @@ package com.ff.modealapplication.app.core.service;
 
 import android.util.Log;
 
+import com.ff.modealapplication.app.core.util.Base;
 import com.ff.modealapplication.app.core.util.LoginPreference;
 import com.ff.modealapplication.app.core.vo.UserVo;
 import com.github.kevinsawicki.http.HttpRequest;
@@ -16,7 +17,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class UserJoinService {
     public List<UserVo> fetchUserList(String id, String password, String gender, String location, String birth) {
-        String url = "http://192.168.1.26:8088/modeal/user/app/userinput";
+        String url = Base.url + "modeal/user/app/userinput";
         HttpRequest httpRequest = HttpRequest.get(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);     // 전달 타입
