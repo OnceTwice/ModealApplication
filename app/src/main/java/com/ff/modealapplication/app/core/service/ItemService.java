@@ -198,6 +198,23 @@ public class ItemService {
     private class ItemMap extends JSONResult<Map<String, Object>> {
     }
 
+    // 상품 보이기 / 숨기기
+    public void itemView(Long no, Long check) {
+        String url = "http://192.168.1.93:8088/modeal/list/itemView";
+        HttpRequest httpRequest = HttpRequest.post(url);
+
+        httpRequest.contentType(httpRequest.CONTENT_TYPE_FORM);
+        httpRequest.accept(httpRequest.CONTENT_TYPE_JSON);
+        httpRequest.connectTimeout(10000);
+        httpRequest.readTimeout(10000);
+
+        httpRequest.send("no=" + no + "&check=" + check);
+        int responseCode = httpRequest.code();
+
+        if (responseCode != HttpURLConnection.HTTP_OK) {
+            throw new RuntimeException("HTTP Response :" + responseCode);
+        }
+    }
 
     // JSON 문자열을 자바 객체로 변환 --------------------------------------------------------------
     protected <V> V fromJSON(HttpRequest request, Class<V> target) {

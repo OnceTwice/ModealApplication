@@ -64,10 +64,11 @@ public class BookmarkActivity extends AppCompatActivity implements AdapterView.O
         bookmarkShopList.notifyDataSetChanged();
     }
 
+    // 즐겨찾기한 상품/매장으로 이동
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (view.getId()) {
-            case R.id.book_item: {
+            case R.id.book_item: { // 상품으로 이동
                 Log.i("이동할 아이템의 NO", ((TextView) view.findViewById(R.id.send_no)).getText().toString());
                 Intent intent = new Intent(this, ItemDetailActivity.class);
                 intent.putExtra("no", ((TextView) view.findViewById(R.id.send_no)).getText().toString());
@@ -75,7 +76,7 @@ public class BookmarkActivity extends AppCompatActivity implements AdapterView.O
                 onStop(); // 물품 클릭시 즐겨찾기 해제시 즐겨찾기 리스트 갱신을 위해서
                 break;
             }
-            case R.id.book_shop: {
+            case R.id.book_shop: { // 매장으로 이동
                 Log.i("이동할 아이템의 NO", ((TextView) view.findViewById(R.id.send_no)).getText().toString());
                 Intent intent = new Intent(this, MarketDetailInformationActivity.class);
                 intent.putExtra("no", ((TextView) view.findViewById(R.id.send_no)).getText().toString());
@@ -86,6 +87,7 @@ public class BookmarkActivity extends AppCompatActivity implements AdapterView.O
         }
     }
 
+    // 즐겨찾기 목록 띄우기
     private class BookmarkListAsyncTask extends SafeAsyncTask<List<Map<String, Object>>> {
         @Override
         public List<Map<String, Object>> call() throws Exception {
@@ -112,9 +114,8 @@ public class BookmarkActivity extends AppCompatActivity implements AdapterView.O
 
         @Override
         protected void onException(Exception e) throws RuntimeException {
-            Log.d("*Main Exception error :", "" + e);
+            Log.d("Exception error :", "" + e);
             throw new RuntimeException(e);
-//            super.onException(e);
         }
     }
 

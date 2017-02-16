@@ -17,6 +17,7 @@ public class MessagingActivity extends AppCompatActivity {
     private static final String TAG = "MessagingActivity";
     private String title = null;
     private String body = null;
+    private String topic = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +38,11 @@ public class MessagingActivity extends AppCompatActivity {
         });
     }
 
-    private void push() {
+    private void push() { // 테스트로 보낼때
         title = ((EditText) findViewById(R.id.push_title)).getText().toString();
         body = ((EditText) findViewById(R.id.push_body)).getText().toString();
-        MessagingService.send(title, body);
+        topic = ((EditText) findViewById(R.id.push_topic)).getText().toString();
+
+        MessagingService.send(title, body, topic);
     }
 }

@@ -46,7 +46,7 @@ import com.ff.modealapplication.app.ui.join.JoinLeaveActivity;
 import com.ff.modealapplication.app.ui.login.LoginActivity;
 import com.ff.modealapplication.app.ui.map.SearchMapRangeActivity;
 import com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity;
-import com.ff.modealapplication.app.ui.message.MessagingActivity;
+import com.ff.modealapplication.app.ui.message.AlarmActivity;
 import com.ff.modealapplication.app.ui.mypage.OwnerMyPageActivity;
 import com.ff.modealapplication.app.ui.mypage.UserMyPageActivity;
 import com.ff.modealapplication.app.ui.notice.NoticeActivity;
@@ -215,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(this, ItemDetailActivity.class);
         intent.putExtra("no", ((TextView) view.findViewById(R.id.send_no)).getText().toString());
+        intent.putExtra("shopNo", ((TextView) view.findViewById(R.id.send_shopNo)).getText().toString());
         startActivity(intent);
     }
 
@@ -452,7 +453,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(this, NoticeActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_setup) {
-            Intent intent = new Intent(this, MessagingActivity.class);
+            Intent intent = new Intent(this, AlarmActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_help) {
             Intent intent = new Intent(this, HelpActivity.class);

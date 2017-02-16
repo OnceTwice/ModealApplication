@@ -15,6 +15,7 @@ import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.BookmarkService;
 import com.ff.modealapplication.app.core.util.LoginPreference;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -80,6 +81,7 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
             public void onClick(View v) {
                 if (holder.delete.isChecked()) {
                     new BookmarkDelete(((Double) getItem(position).get("itemNo")).intValue()).execute(); // DB에서 삭제
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic("bi" + ((Double) getItem(position).get("itemNo")).intValue()); // 즐겨찾기 상품 알림 해제
                     BookmarkItemList.this.remove(getItem(position)); // view에서 삭제
                     BookmarkItemList.this.notifyDataSetChanged(); // 갱신
                 } else {
@@ -110,6 +112,7 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
         }
     }
 
+    // 즐겨찾기 삭제
     private class BookmarkDelete extends SafeAsyncTask<Void> {
         int buttonPosition;
 

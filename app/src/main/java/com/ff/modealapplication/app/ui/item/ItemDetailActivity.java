@@ -8,16 +8,22 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
+import android.widget.ViewFlipper;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.BookmarkService;
 import com.ff.modealapplication.app.core.service.ItemService;
 import com.ff.modealapplication.app.core.util.LoginPreference;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -31,8 +37,11 @@ import java.util.StringTokenizer;
 
 public class ItemDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private ItemService itemService = new ItemService();
-    private Button bookmark_button;
-    private boolean isChecked;
+    private BookmarkService bookmarkService = new BookmarkService();
+    private Button bookmark_button; // 즐겨찾기
+    private boolean isChecked; // 상품 보이기 / 숨기기
+    private Long shopNo; // 해당 상품 매장에만 메뉴 띄우기 위해서...
+    private ViewFlipper flipper; // 뷰플리퍼
 
     DisplayImageOptions displayImageOption = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.apple)
@@ -54,14 +63,29 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         new ItemDetailTask().execute();
 
-  /*      // 삭제 버튼 클릭시
-        findViewById(R.id.button_delete).setOnClickListener(this);
+        Toast.makeText(this, "로그인정보" + (Long)LoginPreference.getValue(getApplicationContext(), "shopNo") + "상품에서받아온정보" + (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue(), Toast.LENGTH_SHORT).show();
 
-        // 수정 버튼 클릭시
-        findViewById(R.id.button_modify).setOnClickListener(this);
+        // 해당 상품 매장아이디로 접속시 삭제/수정/보이기(숨기기)버튼 보임
+        if ((Long)LoginPreference.getValue(getApplicationContext(), "shopNo") == (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue()) {
+            // 삭제 버튼 클릭시
+            findViewById(R.id.button_delete_item).setOnClickListener(this);
 
-        // 숨기기 버튼 클릭시
-        findViewById(R.id.button_hiding).setOnClickListener(this);*/
+            // 수정 버튼 클릭시
+            findViewById(R.id.button_modify_item).setOnClickListener(this);
+
+            // 보이기/숨기기 버튼 클릭시
+            ((ToggleButton) findViewById(R.id.button_hiding_item)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) { // 숨기기
+                        new ItemView(0L).execute();
+                    } else { // 보이기
+                        new ItemView(1L).execute();
+                    }
+                }
+            });
+            findViewById(R.id.owner_menu).setVisibility(View.VISIBLE);
+        }
 
         // 즐겨찾기
         bookmark_button = (Button) findViewById(R.id.bookmark_button);
@@ -74,24 +98,41 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         bookmark_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((Long) LoginPreference.getValue(getApplicationContext(), "no") != -1) {
-                    if (isChecked == false) {
+                if ((Long) LoginPreference.getValue(getApplicationContext(), "no") != -1) { // 로그인시
+                    if (isChecked == false) { // 즐겨찾기 추가
                         Toast.makeText(getApplicationContext(), "즐겨찾기에 추가되었습니다", Toast.LENGTH_SHORT).show();
-                        bookmark_button.setBackground(getResources().getDrawable(R.drawable.heart_full));
-                        new BookmarkAdd().execute();
+                        Log.d("상품 topic 알림 등록", "bi" + (Double.valueOf(getIntent().getStringExtra("no"))).longValue());
+                        FirebaseMessaging.getInstance().subscribeToTopic("bi" + (Double.valueOf(getIntent().getStringExtra("no"))).longValue()); // 즐겨찾기 상품 알림 설정
+                        bookmark_button.setBackground(getResources().getDrawable(R.drawable.heart_full)); // 즐겨찾기 추가 이미지 변경
+                        new BookmarkAdd().execute(); // 서버에 즐겨찾기 정보 저장
                         isChecked = true;
-                    } else {
+                    } else { // 즐겨찾기 해제
                         Toast.makeText(getApplicationContext(), "즐겨찾기가 해제되었습니다", Toast.LENGTH_SHORT).show();
-                        bookmark_button.setBackground(getResources().getDrawable(R.drawable.heart_empty));
-                        new BookmarkDelete().execute();
+                        Log.d("상품 topic 알림 해제", "bi" + (Double.valueOf(getIntent().getStringExtra("no"))).longValue());
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic("bi" + (Double.valueOf(getIntent().getStringExtra("no"))).longValue()); // 즐겨찾기 상품 알림 해제
+                        bookmark_button.setBackground(getResources().getDrawable(R.drawable.heart_empty)); // 즐겨찾기 해제 이미지로 변경
+                        new BookmarkDelete().execute(); // 서버에서 즐겨찾기 정보 삭제
                         isChecked = false;
                     }
-                } else {
+                } else { // 비로그인시
                     Toast.makeText(getApplicationContext(), "로그인하세요", Toast.LENGTH_SHORT).show();
                     bookmark_button.setBackground(getResources().getDrawable(R.drawable.heart_empty));
                 }
             }
         });
+
+        // 뷰플리퍼
+        flipper = (ViewFlipper)findViewById(R.id.item_detail_flipper);
+        for (int i = 0; i < 10; i++) {
+            ImageView img = new ImageView(this);
+            img.setImageResource(R.drawable.apple);
+            flipper.addView(img);
+        }
+        Animation shownIn = AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left);
+        flipper.setInAnimation(shownIn);
+        flipper.setOutAnimation(this, android.R.anim.slide_out_right);
+        flipper.setFlipInterval(1000);
+        flipper.startFlipping();
     }
 
     // 뒤로가기 클릭시 & 돋보기 클릭시
@@ -108,24 +149,17 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button_delete_item: {
-//            ItemListAsyncTask itemListAsyncTask = new ItemListAsyncTask();
-//            itemListAsyncTask.execute();
-
                 Intent intent = new Intent(ItemDetailActivity.this, ItemActivity.class);
                 startActivity(intent);
                 finish();
-            }
-
-            case R.id.button_hiding_item: {
-                Intent intent = new Intent(ItemDetailActivity.this, ItemActivity.class);
-                startActivity(intent);
-                finish();
+                break;
             }
 
             case R.id.button_modify_item: {
                 Intent intent = new Intent(ItemDetailActivity.this, ItemActivity.class);
                 startActivity(intent);
                 finish();
+                break;
             }
         }
     }
@@ -139,7 +173,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         @Override // 에러나면 Exception 발생
         protected void onException(Exception e) throws RuntimeException {
-            Log.e("Error : ", e + "");
+            Log.e("Error : ", e + "!!!");
             super.onException(e);
         }
 
@@ -164,13 +198,11 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-
     // 즐겨찾기 추가
     private class BookmarkAdd extends SafeAsyncTask<Void> {
 
         @Override
         public Void call() throws Exception {
-            BookmarkService bookmarkService = new BookmarkService();
             bookmarkService.bookmarkAdd((Double.valueOf(getIntent().getStringExtra("no"))).longValue(), (Long) LoginPreference.getValue(getApplicationContext(), "no"), null);
             return null;
         }
@@ -187,7 +219,6 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         @Override
         public Void call() throws Exception {
-            BookmarkService bookmarkService = new BookmarkService();
             bookmarkService.bookmarkDelete((Double.valueOf(getIntent().getStringExtra("no"))).longValue(), (Long) LoginPreference.getValue(getApplicationContext(), "no"), null);
             return null;
         }
@@ -204,7 +235,6 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         @Override
         public Long call() throws Exception {
-            BookmarkService bookmarkService = new BookmarkService();
             return bookmarkService.bookmarkSelect((Double.valueOf(getIntent().getStringExtra("no"))).longValue(), (Long) LoginPreference.getValue(getApplicationContext(), "no"), null);
         }
 
@@ -223,6 +253,27 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         @Override
         protected void onException(Exception e) throws RuntimeException {
             Log.d("*Main Exception error :", "" + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    // 상품 보이기 / 숨기기
+    private class ItemView extends SafeAsyncTask<Void> {
+        private Long check;
+
+        public ItemView(Long check) {
+            this.check = check;
+        }
+
+        @Override
+        public Void call() throws Exception {
+            itemService.itemView((Double.valueOf(getIntent().getStringExtra("no"))).longValue(), check);
+            return null;
+        }
+
+        @Override
+        protected void onException(Exception e) throws RuntimeException {
+            Log.d("*View Exception error :", "" + e);
             throw new RuntimeException(e);
         }
     }

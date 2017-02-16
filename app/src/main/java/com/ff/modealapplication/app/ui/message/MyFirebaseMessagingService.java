@@ -24,7 +24,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
+    public void onMessageReceived(RemoteMessage remoteMessage) { // 메시지가 날라올때
 
         Log.d(TAG, "From : " + remoteMessage.getFrom());
 
@@ -46,9 +46,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private void sendNotification(String title, String body) {
+    private void sendNotification(String title, String body) { // 메세지 날라온거 띄울때
 
-        // test 중....
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //        getApplicationContext().startActivity(intent);
@@ -69,6 +68,5 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify((int) (Math.random() * 100000), notificationBuilder.build());
-
     }
 }

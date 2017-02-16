@@ -15,6 +15,7 @@ import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.BookmarkService;
 import com.ff.modealapplication.app.core.util.LoginPreference;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -65,10 +66,10 @@ public class BookmarkShopList extends ArrayAdapter<Map<String, Object>> {
             holder = (BookHolder) convertView.getTag();
         }
 
-        holder.text.setText(getItem(position).get("sname").toString()); // 상품명
-        holder.send_no.setText(getItem(position).get("shopNo").toString()); // 상품No
+        holder.text.setText(getItem(position).get("sname").toString()); // 매장명
+        holder.send_no.setText(getItem(position).get("shopNo").toString()); // 매장No
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
-        ImageLoader.getInstance().displayImage("http://192.168.1.93:8088/modeal/shop/images/" + getItem(position).get("spicture"), holder.imageView, displayImageOption); // 상품이미지
+        ImageLoader.getInstance().displayImage("http://192.168.1.93:8088/modeal/shop/images/" + getItem(position).get("spicture"), holder.imageView, displayImageOption); // 매장이미지
 
         holder.delete.setChecked(false);
         if (isChecked[position]) {
@@ -81,6 +82,7 @@ public class BookmarkShopList extends ArrayAdapter<Map<String, Object>> {
             public void onClick(View v) {
                 if (holder.delete.isChecked()) {
                     new BookmarkDelete(((Double) getItem(position).get("shopNo")).intValue()).execute(); // DB에서 삭제
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic("bs" + ((Double) getItem(position).get("shopNo")).intValue()); // 즐겨찾기 매장 알림 해제
                     BookmarkShopList.this.remove(getItem(position)); // view에서 삭제
                     BookmarkShopList.this.notifyDataSetChanged(); // 갱신
                 } else {
@@ -111,6 +113,7 @@ public class BookmarkShopList extends ArrayAdapter<Map<String, Object>> {
         }
     }
 
+    // 즐겨찾기 삭제
     private class BookmarkDelete extends SafeAsyncTask<Void> {
         int buttonPosition;
 

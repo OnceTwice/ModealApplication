@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e5e5e2"
@@ -163,9 +162,9 @@
 
                     <Button
                         android:id="@+id/bookmark_button"
-                        android:layout_marginLeft="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
                         android:background="@drawable/heart_empty" />
                 </LinearLayout>
             </LinearLayout>
@@ -174,23 +173,27 @@
 
             <!-- 숨기기 / 수정 / 삭제 버튼-->
             <LinearLayout
+                android:id="@+id/owner_menu"
+                android:layout_margin="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:paddingRight="10dp"
+                android:visibility="invisible">
 
-                <Button
+                <ToggleButton
                     android:id="@+id/button_hiding_item"
                     android:layout_width="80dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:background="#E74B59"
-                    android:text="숨기기"
                     android:textColor="#fff"
+                    android:textOff="숨기기"
+                    android:textOn="보이기"
                     android:textSize="14dp" />
 
                 <Button
@@ -216,59 +219,13 @@
                     android:textSize="14dp" />
             </LinearLayout>
 
-            <!-- 해당 매장의 또다른 상품 목록 : 리스트를 만들어 띄워야함 ㅜㅜ -->
-            <LinearLayout
+            <ViewFlipper
+                android:layout_marginTop="80dp"
+                android:id="@+id/item_detail_flipper"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#fff"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_height="100dp">
 
-                <ImageButton
-                    android:id="@+id/aroow_left"
-                    android:layout_width="20dp"
-                    android:layout_height="match_parent"
-                    android:background="#fff"
-                    app:srcCompat="@drawable/arrow_left" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageButton
-                        android:id="@+id/other_item_image"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:background="#fff"
-                        app:srcCompat="@drawable/apple" />
-
-                    <TextView
-                        android:id="@+id/other_item_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="사과"
-                        android:textSize="10dp" />
-
-                    <TextView
-                        android:id="@+id/other_item_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="10,000 원"
-                        android:textSize="12dp" />
-
-                </LinearLayout>
-
-                <ImageButton
-                    android:id="@+id/arrow_right"
-                    android:layout_width="20dp"
-                    android:layout_height="match_parent"
-                    android:background="#fff"
-                    app:srcCompat="@drawable/arrow_right" />
-
-            </LinearLayout>
+            </ViewFlipper>
         </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

@@ -77,7 +77,8 @@ public class MainListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         TextView textShopSpaceView = (TextView) view.findViewById(R.id.main_shop_space);
 
         // 액티비티로 데이터 보내기 위해서...
-        ((TextView) view.findViewById(R.id.send_no)).setText(String.valueOf(itemVo.get("no")));
+        ((TextView) view.findViewById(R.id.send_no)).setText(String.valueOf(itemVo.get("no"))); // 상품 no
+        ((TextView) view.findViewById(R.id.send_shopNo)).setText(String.valueOf(itemVo.get("shopNo"))); // 매장 no
 
         StringTokenizer tokens = new StringTokenizer(itemVo.get("expDate").toString(), "/:- ");
         String year = tokens.nextToken();

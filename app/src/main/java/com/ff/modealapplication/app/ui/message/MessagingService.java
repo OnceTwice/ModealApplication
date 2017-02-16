@@ -10,12 +10,12 @@ import java.net.URL;
  * Created by BIT on 2017-02-06.
  */
 
-public class MessagingService {
+public class MessagingService { // 알림 보내기 위한것 그자체
 
     public static final String FCM_URL = "https://fcm.googleapis.com/fcm/send";
     public static final String FCM_SERVER_API_KEY = "AIzaSyDf1ekCTEBiFu049x5spOd0rZu4gSsQV4A";
 
-    public static void send(String title, String body) {
+    public static void send(String title, String body, String topic) {
         try {
             URL url = new URL(FCM_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -27,7 +27,7 @@ public class MessagingService {
             conn.setRequestProperty("Authorization", "key=" + FCM_SERVER_API_KEY);
 
             JSONObject json = new JSONObject();
-            json.put("to", "/topics/notice");
+            json.put("to", "/topics/" + topic);
             JSONObject noti = new JSONObject();
             noti.put("title", title);
             noti.put("body", body);
