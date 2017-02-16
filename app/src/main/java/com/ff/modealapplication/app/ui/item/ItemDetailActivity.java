@@ -23,6 +23,7 @@ import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.BookmarkService;
 import com.ff.modealapplication.app.core.service.ItemService;
 import com.ff.modealapplication.app.core.util.LoginPreference;
+import com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -30,10 +31,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.Map;
 import java.util.StringTokenizer;
-
-/**
- * Created by bit-desktop on 2017-01-25.
- */
 
 public class ItemDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private ItemService itemService = new ItemService();
@@ -86,6 +83,16 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
             });
             findViewById(R.id.owner_menu).setVisibility(View.VISIBLE);
         }
+
+        findViewById(R.id.item_detail_shop_name).setOnClickListener(new View.OnClickListener() {                // 매장이름 클릭 시 매장상세페이지로 이동
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ItemDetailActivity.this, MarketDetailInformationActivity.class);
+                intent.putExtra("ShopNo", (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue());              // MarketDetailInformationActivity 클래스로 ShopNo 값을 넘김
+                Toast.makeText(getApplicationContext(), ((Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue())+"", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            }
+        });
 
         // 즐겨찾기
         bookmark_button = (Button) findViewById(R.id.bookmark_button);

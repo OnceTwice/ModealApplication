@@ -4,10 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.ff.modealapplication.R;
-
-import static com.ff.modealapplication.app.core.util.Base.displayImageOptions;
 
 public class MarketDetailInformationActivity extends AppCompatActivity {
 
@@ -21,6 +20,8 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 뒤로가기 화살표 표시
+
+        Toast.makeText(getApplicationContext(), "MarketDetailInformationActivity : "+getIntent().getLongExtra("ShopNo", 0), Toast.LENGTH_SHORT).show();
     }
 
     // 뒤로가기 클릭시 & 돋보기 클릭시
