@@ -121,7 +121,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
             }
         });
 
-        // 뷰플리퍼
+        // 뷰플리퍼 !!!!
         flipper = (ViewFlipper)findViewById(R.id.item_detail_flipper);
         for (int i = 0; i < 10; i++) {
             ImageView img = new ImageView(this);
