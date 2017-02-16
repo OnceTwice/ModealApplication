@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ff.modealapplication.R;
+import com.ff.modealapplication.app.core.util.Base;
 import com.ff.modealapplication.app.core.vo.NoticeVo;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -24,6 +25,7 @@ import java.util.List;
 public class NoticeListArrayAdapter extends ArrayAdapter<NoticeVo> {
     private LayoutInflater layoutInflater;
         //통신 중 오류시 error 이미지 보여주기
+
         DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
                 // .showImageOnLoading( R.drawable.ic_default_profile )// resource or drawable
                 .showImageForEmptyUri(R.drawable.background_tab)// resource or drawable
@@ -61,7 +63,7 @@ public class NoticeListArrayAdapter extends ArrayAdapter<NoticeVo> {
             //이미지 저장 [ 연결된 ip로 upload ] 위치에 내용이 있어야 한다.
             ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
 //        ImageLoader.getInstance().displayImage("http://192.168.1.90:8088/modeal/shop/images/" + itemVo.get("picture"), (ImageView) view.findViewById(R.id.main_image_item), displayImageOptions);
-            ImageLoader.getInstance().displayImage("http://192.168.1.87:8088/modeal/shop/images/" + noticeVo.getSaveFileName(), (ImageView) view.findViewById(R.id.notice_image), displayImageOptions);
+            ImageLoader.getInstance().displayImage(Base.url+"modeal/shop/images/" + noticeVo.getSaveFileName(), (ImageView) view.findViewById(R.id.notice_image), displayImageOptions);
 
         ((TextView)view.findViewById(R.id.notice_title)).setText(noticeVo.getTitle());
         ((TextView)view.findViewById(R.id.notice_time)).setText(noticeVo.getRegDate());

@@ -6,6 +6,7 @@ import android.widget.EditText;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.JSONResult;
+import com.ff.modealapplication.app.core.util.Base;
 import com.ff.modealapplication.app.core.util.LoginPreference;
 import com.ff.modealapplication.app.core.vo.HelpVo;
 import com.github.kevinsawicki.http.HttpRequest;
@@ -29,7 +30,7 @@ public class HelpService {
 
 
     public void HelpInsert(){
-        String url="http://192.168.1.87:8888/modeal/helpapp/insert";
+        String url= Base.url+"modeal/helpapp/insert";
 
         HttpRequest httpRequest = HttpRequest.post(url);
 

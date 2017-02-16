@@ -2,11 +2,11 @@ package com.ff.modealapplication.app.core.service;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.JSONResult;
+import com.ff.modealapplication.app.core.util.Base;
 import com.ff.modealapplication.app.core.vo.ItemVo;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
@@ -30,7 +30,7 @@ public class SearchService {
     }
 
     public List<ItemVo> searchList(){
-        String url="http://192.168.1.87:8088/modeal/list/search";
+        String url= Base.url+"modeal/list/search";
 
         HttpRequest httpRequest = HttpRequest.post(url);
 
@@ -50,7 +50,7 @@ public class SearchService {
     }
 
     public List<Map<String, Object>> resultList(){
-        String url = "http://192.168.1.87:8088/modeal/list/resultsearch";
+        String url = Base.url+"modeal/list/resultsearch";
 
         HttpRequest httpRequest = HttpRequest.post(url);
 
