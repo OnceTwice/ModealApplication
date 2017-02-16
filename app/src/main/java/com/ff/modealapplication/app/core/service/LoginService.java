@@ -1,6 +1,7 @@
 package com.ff.modealapplication.app.core.service;
 
 import com.ff.modealapplication.andorid.network.JSONResult;
+import com.ff.modealapplication.app.core.util.Base;
 import com.ff.modealapplication.app.core.vo.UserVo;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
@@ -15,7 +16,7 @@ import java.util.Map;
  */
 
 public class LoginService {
-        String url = "http://192.168.1.93:8088/modeal/userapp"; // 학원 로컬
+        String url = Base.url + "modeal/userapp"; // 학원 로컬
 //        String url = "http://192.168.0.17:8088/modeal/userapp/login"; // 집
 
     // 일반로그인 & 페이스북로그인 & 구글로그인

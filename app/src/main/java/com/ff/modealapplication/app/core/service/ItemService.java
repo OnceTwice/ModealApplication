@@ -200,7 +200,7 @@ public class ItemService {
 
     // 상품 보이기 / 숨기기
     public void itemView(Long no, Long check) {
-        String url = "http://192.168.1.93:8088/modeal/list/itemView";
+        String url = Base.url + "modeal/list/itemView";
         HttpRequest httpRequest = HttpRequest.post(url);
 
         httpRequest.contentType(httpRequest.CONTENT_TYPE_FORM);

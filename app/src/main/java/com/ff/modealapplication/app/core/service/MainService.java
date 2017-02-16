@@ -2,6 +2,7 @@ package com.ff.modealapplication.app.core.service;
 
 
 import com.ff.modealapplication.andorid.network.JSONResult;
+import com.ff.modealapplication.app.core.util.Base;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -17,7 +18,7 @@ import java.util.Map;
  */
 
 public class MainService {
-    private String url = "http://192.168.1.93:8088/modeal/mainapp/";
+    private String url = Base.url + "modeal/mainapp/";
 
     // 앱 처음 켰을때는 모든 리스트를 최신순으로 띄움, GPS정보를 얻어서 쿠키에 저장
     // 그 후로 켰을때는 저장되어있는 GPS정보와 반경을 토대로 리스트 띄움

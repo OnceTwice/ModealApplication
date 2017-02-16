@@ -3,6 +3,7 @@ package com.ff.modealapplication.app.core.service;
 import android.util.Log;
 
 import com.ff.modealapplication.andorid.network.JSONResult;
+import com.ff.modealapplication.app.core.util.Base;
 import com.ff.modealapplication.app.core.vo.ShopVo;
 import com.ff.modealapplication.app.core.vo.daumvo.AddressVo;
 import com.github.kevinsawicki.http.HttpRequest;
@@ -18,12 +19,13 @@ import java.util.List;
  */
 
 public class MapsService { // 단순한 서비스
+    String url = Base.url + "modeal/map/";
 
     public List<ShopVo> fetchShopList(String range, String longitude, String latitude) {
 
 //        String url = "http://163.44.171.41:8080/modeal/map/list?range="+range+"&longitude="+longitude+"&latitude="+latitude; // 제발 로컬에서 테스트 하지 말자...
-        String url = "http://192.168.1.93:8088/modeal/map/list?range="+range+"&longitude="+longitude+"&latitude="+latitude;
-        HttpRequest httpRequest = HttpRequest.get(url);
+//        String url = "http://192.168.1.93:8088/modeal/map/list?range="+range+"&longitude="+longitude+"&latitude="+latitude;
+        HttpRequest httpRequest = HttpRequest.get(url + "list?range="+range+"&longitude="+longitude+"&latitude="+latitude);
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
         httpRequest.accept(HttpRequest.CONTENT_TYPE_JSON);
         httpRequest.connectTimeout(3000);
@@ -43,8 +45,8 @@ public class MapsService { // 단순한 서비스
 
     public AddressVo fetchAddress(String addr) {
 //        String url = "http://163.44.171.41:8080/modeal/map/addresstopoint";
-        String url = "http://192.168.1.93:8088/modeal/map/addresstopoint";
-        HttpRequest httpRequest = HttpRequest.get(url);
+//        String url = "http://192.168.1.93:8088/modeal/map/addresstopoint";
+        HttpRequest httpRequest = HttpRequest.get(url + "addresstopoint");
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
         httpRequest.accept(HttpRequest.CONTENT_TYPE_JSON);
         httpRequest.connectTimeout(3000);

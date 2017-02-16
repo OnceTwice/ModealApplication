@@ -174,10 +174,10 @@
             <!-- 숨기기 / 수정 / 삭제 버튼-->
             <LinearLayout
                 android:id="@+id/owner_menu"
-                android:layout_margin="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_margin="20dp"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp"
@@ -220,10 +220,10 @@
             </LinearLayout>
 
             <ViewFlipper
-                android:layout_marginTop="80dp"
                 android:id="@+id/item_detail_flipper"
                 android:layout_width="match_parent"
-                android:layout_height="100dp">
+                android:layout_height="100dp"
+                android:layout_marginTop="80dp">
 
             </ViewFlipper>
         </LinearLayout>
