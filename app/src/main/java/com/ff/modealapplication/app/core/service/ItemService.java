@@ -49,15 +49,15 @@ public class ItemService {
     public void itemInsert(String item_name, Long ori_price, Long count, Long price, String exp_date, Long discount) {
 
         // 데이터를 가져올 url를 작성해줌
-        String url = "http://192.168.1.90:8088/modeal/list/itemInsert";     // url(뒤에/list?no=2) 연결 사이트를 이클립스에 프로젝트를 만들어줘야함
-        HttpRequest httpRequest = HttpRequest.post(url);                            // post 방식으로 연결
+        String url = "http://192.168.1.90:8088/modeal/list/itemInsert";    // url(뒤에/list?no=2) 연결 사이트를 이클립스에 프로젝트를 만들어줘야함
+        HttpRequest httpRequest = HttpRequest.post(url);                           // post 방식으로 연결
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);                 // 전달 타입(클래스명.메서드명(파라미터))
         httpRequest.accept(httpRequest.CONTENT_TYPE_JSON);                      // 받을 타입
         httpRequest.connectTimeout(10000);                                         // 웹에서 응답이 없을때 3초 후 연결 종료
         httpRequest.readTimeout(10000);                                            // 웹으로 요청이 없을때(값이 없을경우) 3초 후 연결 종료
 
         // from 방식 (안드로이드에서 이클립스(서버)로 데이터를 전송시 사용)
-        int responseCode = httpRequest.send( // 키값은 타입(vo)에 맞는 변수명으로 작성하고 밸류값은 내가 받아온 파라미터명을 작성해준다.
+        int responseCode = httpRequest.send(                                      // 키값은 타입(vo)에 맞는 변수명으로 작성하고 밸류값은 내가 받아온 파라미터명을 작성해준다.
                 "name=" + item_name +
                         "&oriPrice=" + ori_price +
                         "&count=" + count +
@@ -66,7 +66,7 @@ public class ItemService {
                         "&discount=" + discount).code();
 
         if (responseCode != HttpURLConnection.HTTP_OK) {                        // http_ok : 접속성공 코드번호 : 200
-            throw new RuntimeException("HTTP Response : " + responseCode); // if문 조건식이 참이면 RuntimeException(에러)나고
+            throw new RuntimeException("HTTP Response : " + responseCode);   // if문 조건식이 참이면 RuntimeException(에러)나고
         }
     }
 
@@ -75,10 +75,11 @@ public class ItemService {
         // 데이터(스트링) 안에서 원하는 값을 추출하기 위해 <List<ItemVo>> 사용
     }
 
-    // 상품 수정 -----------------------------------------------------------------------------------
-    public List<ItemVo> itemModify(String item_name, Long ori_price, Long count, Long price, String exp_date, Long discount) {
+    // 상품 수정 - 수정페이지 출력  ----------------------------------------------------------------
+    public ItemVo itemModify(Long shopNo) {
 
-        String url = "http://192.168.1.90:8088/modeal/list";
+        // 데이터를 가져올 url를 작성해줌
+        String url = "http://192.168.1.90:8088/modeal/list/itemModify";
         HttpRequest httpRequest = HttpRequest.post(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
@@ -86,26 +87,58 @@ public class ItemService {
         httpRequest.connectTimeout(10000);
         httpRequest.readTimeout(10000);
 
-        int responseCode = httpRequest.send(
-                "name=" + item_name +
-                        "&oriPrice=" + ori_price +
-                        "&count=" + count +
-                        "&price=" + price +
-                        "&expDate=" + exp_date +
-                        "&discount=" + discount).code();
+
+        // 안드로이드에서 이클립스로 데이터를 보내기
+        int responseCode = httpRequest.send("no=" + shopNo).code();
 
         if (responseCode != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("HTTP Response : " + responseCode);
         }
-
+        // 이클립스에서 안드로이드로 데이터를 받기
         ItemService.JSONResultItemModify jsonResult = fromJSON(httpRequest, ItemService.JSONResultItemModify.class);
+
         return jsonResult.getData();
     }
 
-    private class JSONResultItemModify extends JSONResult<List<ItemVo>> {
+    private class JSONResultItemModify extends JSONResult<ItemVo> {
         // ↑ String 에서 원하는 데이터를 추출하기 위해 JSONResult 사용,
         // 데이터(스트링) 안에서 원하는 값을 추출하기 위해 <List<ItemVo>> 사용
     }
+
+    // 상품 수정 - 업데이트 ------------------------------------------------------------------------
+//    public Map<String, Object> itemModify(String item_name, Long ori_price, Long count, Long price, String exp_date, Long discount) {
+//
+//        // 데이터를 가져올 url를 작성해줌
+//        String url = "http://192.168.1.90:8088/modeal/list/itemModify";
+//        HttpRequest httpRequest = HttpRequest.post(url);
+//
+//        httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
+//        httpRequest.accept(httpRequest.CONTENT_TYPE_JSON);
+//        httpRequest.connectTimeout(10000);
+//        httpRequest.readTimeout(10000);
+//
+//        // from 방식 (안드로이드에서 이클립스(서버)로 데이터를 전송시 사용)
+//        int responseCode = httpRequest.send( // 키값은 타입(vo)에 맞는 변수명으로 작성하고 밸류값은 내가 받아온 파라미터명을 작성해준다.
+//                "name=" + item_name +
+//                        "&oriPrice=" + ori_price +
+//                        "&count=" + count +
+//                        "&price=" + price +
+//                        "&expDate=" + exp_date +
+//                        "&discount=" + discount).code();
+//
+//        if (responseCode != HttpURLConnection.HTTP_OK) {
+//            throw new RuntimeException("HTTP Response : " + responseCode);
+//        }
+//
+//        // 이클립스에서 안드로이드로 데이터를 받기
+//        ItemService.JSONResultItemModify jsonResult = fromJSON(httpRequest, ItemService.JSONResultItemModify.class);
+//        return jsonResult.getData();
+//    }
+//
+//    private class JSONResultItemModify extends JSONResult<Map<String, Object>> {
+//        // ↑ String 에서 원하는 데이터를 추출하기 위해 JSONResult 사용,
+//        // 데이터(스트링) 안에서 원하는 값을 추출하기 위해 <List<ItemVo>> 사용
+//    }
 
     // 상품 상세 목록 ------------------------------------------------------------------------------ (170209/상욱추가)
     public Map<String, Object> itemDetail(Long no) {

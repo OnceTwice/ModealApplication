@@ -3,6 +3,7 @@ package com.ff.modealapplication.app.ui.item;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,12 +37,13 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
     int Year, Month, Day, Hour, Minute;
     TextView dateText;
     TextView timeText;
-    String expDate;
+
+    ItemModifyActivity.ItemListAsyncTask itemListAsyncTask;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.item_modify);
+        setContentView(R.layout.item_modify); // ← 입력된 레이아웃의 대한 클래스
 
         // 유통기한 날짜ㆍ시간 텍스트뷰 연결
         dateText = (TextView) findViewById(R.id.item_modify_date_text);
@@ -54,7 +56,6 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
         Day = calendar.get(Calendar.DAY_OF_MONTH);
         Hour = calendar.get(Calendar.HOUR_OF_DAY);
         Minute = calendar.get(Calendar.MINUTE);
-
         UpdateNow();
 
         // 수정 버튼 클릭시
@@ -105,17 +106,19 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
 
             // 수정 버튼 클릭시
             case R.id.item_modify_button_modify: {
-                ItemListAsyncTask itemListAsyncTask = new ItemListAsyncTask();
+                itemListAsyncTask = new ItemListAsyncTask();
                 itemListAsyncTask.execute();
 
-                Intent intent = new Intent(ItemModifyActivity.this, ItemActivity.class);
-                startActivity(intent);
-                finish();
+                Intent intent = new Intent(ItemModifyActivity.this, ItemActivity.class); // 경로 설정해주고
+                startActivity(intent); // 여기서 이동
+                finish(); // 이 액티비티를 종료해줌
                 break;
             }
 
             // 취소 버튼 클릭시
             case R.id.item_modify_button_cancel: {
+                Intent intent = new Intent(ItemModifyActivity.this, ItemActivity.class);
+                startActivity(intent);
                 finish();
                 break;
             }
@@ -152,7 +155,7 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
         Log.w("----------", expDate);
     }
 
-    private class ItemListAsyncTask extends SafeAsyncTask <ItemVo> {
+    private class ItemListAsyncTask extends SafeAsyncTask<ItemVo> {
 
         public ItemVo call() throws Exception {
             EditText nameModify = (EditText) findViewById(R.id.item_modify_name);
@@ -182,8 +185,6 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
             TextView timeText = (TextView) findViewById(R.id.item_modify_time_text);
             Log.d("exp_date : ", timeText.getText().toString());
             String exp_time = timeText.getText().toString();
-
-            itemService.itemModify(item_name, ori_price, count, price, exp_date + " " + exp_time, discount);
 
             return null;
         }

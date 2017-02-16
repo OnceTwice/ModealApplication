@@ -135,7 +135,6 @@
                         android:background="#E74B59"
                         android:text="업로드"
                         android:textColor="#fff" />
-
                 </LinearLayout>
             </LinearLayout>
 

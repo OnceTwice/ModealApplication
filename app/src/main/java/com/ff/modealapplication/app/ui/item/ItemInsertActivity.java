@@ -54,7 +54,6 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         Day = calendar.get(Calendar.DAY_OF_MONTH);
         Hour = calendar.get(Calendar.HOUR_OF_DAY);
         Minute = calendar.get(Calendar.MINUTE);
-
         UpdateNow();
 
         // 등록 버튼 클릭시
@@ -148,8 +147,8 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
 
     void UpdateNow() {
 
-        dateText.setText(String.format("%d / %d / %d", Year, Month + 1, Day));
-        timeText.setText(String.format("%d : %d", Hour, Minute));
+        dateText.setText(String.format("%d/%d/%d", Year, Month + 1, Day));
+        timeText.setText(String.format("%d:%d", Hour, Minute));
 
         String expDate = dateText.getText().toString() + " " + timeText.getText().toString();
         Log.w("----------", expDate);

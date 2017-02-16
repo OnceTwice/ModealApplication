@@ -29,7 +29,8 @@ public class MainService {
         httpRequest.connectTimeout(5000);
         httpRequest.readTimeout(5000);
 
-        httpRequest.send("latitude=" + latitude + "&longitude=" + longitude +"&range=" + range);
+        httpRequest.send("latitude=" +
+                latitude + "&longitude=" + longitude +"&range=" + range);
 
         int responseCode=httpRequest.code();
         if(responseCode != HttpURLConnection.HTTP_OK){
