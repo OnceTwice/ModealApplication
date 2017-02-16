@@ -63,7 +63,6 @@ public class NoticeListArrayAdapter extends ArrayAdapter<NoticeVo> {
 //        ImageLoader.getInstance().displayImage("http://192.168.1.90:8088/modeal/shop/images/" + itemVo.get("picture"), (ImageView) view.findViewById(R.id.main_image_item), displayImageOptions);
             ImageLoader.getInstance().displayImage("http://192.168.1.87:8088/modeal/shop/images/" + noticeVo.getSaveFileName(), (ImageView) view.findViewById(R.id.notice_image), displayImageOptions);
 
-
         ((TextView)view.findViewById(R.id.notice_title)).setText(noticeVo.getTitle());
         ((TextView)view.findViewById(R.id.notice_time)).setText(noticeVo.getRegDate());
         ((TextView)view.findViewById(R.id.notice_content)).setText(noticeVo.getContent());
