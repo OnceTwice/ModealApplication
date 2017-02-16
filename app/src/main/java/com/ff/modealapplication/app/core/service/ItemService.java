@@ -22,7 +22,7 @@ public class ItemService {
     // 상품 목록 -----------------------------------------------------------------------------------
     public List<Map<String, Object>> itemList(Long shopNo) {
 
-        String url = "http://192.168.1.90:8088/modeal/list/shopItemList";
+        String url = "http://192.168.1.87:8088/modeal/list/shopItemList";
         HttpRequest httpRequest = HttpRequest.post(url);
 
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
@@ -46,10 +46,10 @@ public class ItemService {
     }
 
     // 상품 등록 -----------------------------------------------------------------------------------
-    public void itemInsert(String item_name, Long ori_price, Long count, Long price, String exp_date, Long discount) {
+    public void itemInsert(String item_name, Long ori_price, Long count, Long price, String exp_date, Long discount,Long shopNo, Long itemCategoryNo) {
 
         // 데이터를 가져올 url를 작성해줌
-        String url = "http://192.168.1.90:8088/modeal/list/itemInsert";    // url(뒤에/list?no=2) 연결 사이트를 이클립스에 프로젝트를 만들어줘야함
+        String url = "http://192.168.1.87:8088/modeal/list/itemInsert";    // url(뒤에/list?no=2) 연결 사이트를 이클립스에 프로젝트를 만들어줘야함
         HttpRequest httpRequest = HttpRequest.post(url);                           // post 방식으로 연결
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);                 // 전달 타입(클래스명.메서드명(파라미터))
         httpRequest.accept(httpRequest.CONTENT_TYPE_JSON);                      // 받을 타입
@@ -60,6 +60,8 @@ public class ItemService {
         int responseCode = httpRequest.send(                                      // 키값은 타입(vo)에 맞는 변수명으로 작성하고 밸류값은 내가 받아온 파라미터명을 작성해준다.
                 "name=" + item_name +
                         "&oriPrice=" + ori_price +
+                        "&shopNo=" + shopNo +
+                        "&itemCategoryNo="+itemCategoryNo+
                         "&count=" + count +
                         "&price=" + price +
                         "&expDate=" + exp_date +

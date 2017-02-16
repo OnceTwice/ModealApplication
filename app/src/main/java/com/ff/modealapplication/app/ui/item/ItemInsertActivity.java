@@ -18,6 +18,7 @@ import android.widget.TimePicker;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.ItemService;
+import com.ff.modealapplication.app.core.util.LoginPreference;
 import com.ff.modealapplication.app.core.vo.ItemVo;
 
 import java.util.Calendar;
@@ -31,6 +32,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
 
     private ItemService itemService = new ItemService();
     private int indexSingleChoiceSelected = 0;
+    private Long categoryNo;
 
     int Year, Month, Day, Hour, Minute;
     TextView dateText;
@@ -73,6 +75,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.d("DialogSingleChoice", "" + which);
+                        categoryNo = Long.valueOf(which);
 
                         ItemInsertActivity.this.indexSingleChoiceSelected = which;
                         String[] category = getResources().getStringArray(R.array.item_category_list);
@@ -158,34 +161,31 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
 
         public ItemVo call() throws Exception {
             EditText nameInsert = (EditText) findViewById(R.id.item_insert_name);
-            Log.d("name : ", nameInsert.getText().toString());
             String item_name = nameInsert.getText().toString();
 
             EditText oriInsert = (EditText) findViewById(R.id.item_insert_ori_price);
-            Log.d("ori_price : ", oriInsert.getText().toString());
             Long ori_price = Long.parseLong(oriInsert.getText().toString());
 
             EditText countInsert = (EditText) findViewById(R.id.item_insert_count);
-            Log.d("count : ", countInsert.getText().toString());
             Long count = Long.parseLong(countInsert.getText().toString());
 
             EditText priceInsert = (EditText) findViewById(R.id.item_insert_price);
-            Log.d("price : ", priceInsert.getText().toString());
             Long price = Long.parseLong(priceInsert.getText().toString());
 
             EditText discountInsert = (EditText) findViewById(R.id.item_insert_discount);
-            Log.d("discount : ", discountInsert.getText().toString());
             Long discount = Long.parseLong(discountInsert.getText().toString());
 
             TextView dateText = (TextView) findViewById(R.id.item_insert_date_text);
-            Log.d("exp_date : ", dateText.getText().toString());
             String exp_date = dateText.getText().toString();
 
             TextView timeText = (TextView) findViewById(R.id.item_insert_time_text);
-            Log.d("exp_date : ", timeText.getText().toString());
             String exp_time = timeText.getText().toString();
 
-            itemService.itemInsert(item_name, ori_price, count, price, exp_date + " " + exp_time, discount);
+            Long shopNo = (Long) LoginPreference.getValue(getApplicationContext(),"shopNo");
+
+            Long itemCategoryNo = categoryNo+1;
+
+            itemService.itemInsert(item_name, ori_price, count, price, exp_date + " " + exp_time, discount ,shopNo ,itemCategoryNo);
 
             return null;
         }
