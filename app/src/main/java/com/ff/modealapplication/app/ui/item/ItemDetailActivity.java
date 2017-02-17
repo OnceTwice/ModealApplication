@@ -159,6 +159,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                     linearLayout.setOrientation(LinearLayout.VERTICAL);
 
                     ImageView img = new ImageView(getApplicationContext());
+                    img.setScaleType(ImageView.ScaleType.CENTER);
                     ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
                     ImageLoader.getInstance().displayImage("http://192.168.1.93:8088/modeal/shop/images/" + itemList.get(i).get("picture"), img, displayImageOption);
 
@@ -176,14 +177,26 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                         }
                     });
                 }
-                Animation shownIn = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_in_left);
+                Animation shownIn = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
                 flipper.setInAnimation(shownIn);
-                flipper.setOutAnimation(getApplicationContext(), android.R.anim.slide_out_right);
-                flipper.setOutAnimation(getApplicationContext(), android.R.anim.slide_out_right);
+                flipper.setOutAnimation(getApplicationContext(), android.R.anim.fade_out);
                 flipper.setFlipInterval(2000);
                 flipper.startFlipping();
             }
         }, 1000);
+
+        findViewById(R.id.flipper_left).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flipper.showNext();
+            }
+        });
+        findViewById(R.id.flipper_right).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flipper.showPrevious();
+            }
+        });
     }
 
     // 뒤로가기 클릭시 & 돋보기 클릭시
