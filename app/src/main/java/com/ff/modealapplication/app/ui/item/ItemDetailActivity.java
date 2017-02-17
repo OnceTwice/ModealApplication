@@ -68,6 +68,8 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         new ItemDetailTask().execute();
 
+        Toast.makeText(this, "로그인정보 : " + (Long)LoginPreference.getValue(getApplicationContext(), "shopNo") + "\n상품에서받아온정보 : " + (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue(), Toast.LENGTH_SHORT).show();
+
         // 해당 상품 매장아이디로 접속시 삭제/수정/보이기(숨기기)버튼 보임
         if ((Long) LoginPreference.getValue(getApplicationContext(), "shopNo") == getIntent().getLongExtra("shopNo", -1)) {
             // 삭제 버튼 클릭시
@@ -100,8 +102,10 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         findViewById(R.id.item_detail_shop_name).setOnClickListener(new View.OnClickListener() {                // 매장이름 클릭 시 매장상세페이지로 이동
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {                                       // 매장상세정보로 페이지 이동
                 Intent intent = new Intent(ItemDetailActivity.this, MarketDetailInformationActivity.class);
+                intent.putExtra("ShopNo", (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue());              // MarketDetailInformationActivity 클래스로 ShopNo 값을 넘김
+                Toast.makeText(getApplicationContext(), "ItemDetailActivity.java 에서의 shopNo : "+((Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue()), Toast.LENGTH_SHORT).show();
                 intent.putExtra("ShopNo", getIntent().getLongExtra("shopNo", -1));              // MarketDetailInformationActivity 클래스로 ShopNo 값을 넘김
                 Toast.makeText(getApplicationContext(), getIntent().getLongExtra("shopNo", -1) + "", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
@@ -116,6 +120,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         } else { // 비로그인시
             isChecked = false;
         }
+
         bookmark_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

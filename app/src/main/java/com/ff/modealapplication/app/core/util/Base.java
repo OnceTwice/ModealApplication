@@ -1,7 +1,12 @@
 package com.ff.modealapplication.app.core.util;
 
 import com.ff.modealapplication.R;
+import com.github.kevinsawicki.http.HttpRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+
+import java.io.Reader;
 
 public class Base {
     public static final String url = "http://192.168.1.90:8088/";       // 자신의 ip주소
@@ -24,4 +29,20 @@ public class Base {
             //.displayer( new SimpleBitmapDisplayer() ) // default
             //.handler( new Handler() )     // default
             .build();
+
+    public static <V> V fromJSON(HttpRequest request, Class<V> target ) {        // JSON 문자열을 자바 객체로 변환
+        V v = null;
+
+        try {
+            Gson gson = new GsonBuilder().create();         // GSON 인스턴스 생성
+
+            Reader reader = request.bufferedReader();
+            v = gson.fromJson(reader, target);              // JSONResultUserList 클래스 객체로 변환
+            reader.close();
+        } catch(Exception ex) {
+            throw new RuntimeException(ex);
+        }
+
+        return v;
+    }
 }
