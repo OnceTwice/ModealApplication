@@ -1,7 +1,11 @@
 package com.ff.modealapplication.app.core.service;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.util.Log;
+import android.view.View;
 
+import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.JSONResult;
 import com.ff.modealapplication.app.core.util.Base;
 import com.ff.modealapplication.app.core.domain.ItemVo;
@@ -46,6 +50,7 @@ public class ItemService {
     private class JSONResultItemList extends JSONResult<List<Map<String, Object>>> {
     }
 
+
     // 상품 등록 -----------------------------------------------------------------------------------
     public void itemInsert(String item_name, Long ori_price, Long count, Long price, String exp_date, Long discount,Long shopNo, Long itemCategoryNo) {
 
@@ -62,7 +67,7 @@ public class ItemService {
                 "name=" + item_name +
                         "&oriPrice=" + ori_price +
                         "&shopNo=" + shopNo +
-                        "&itemCategoryNo="+itemCategoryNo+
+                        "&itemCategoryNo=" + itemCategoryNo +
                         "&count=" + count +
                         "&price=" + price +
                         "&expDate=" + exp_date +
@@ -77,6 +82,7 @@ public class ItemService {
         // ↑ String 에서 원하는 데이터를 추출하기 위해 JSONResult 사용,
         // 데이터(스트링) 안에서 원하는 값을 추출하기 위해 <List<ItemVo>> 사용
     }
+
 
     // 상품 수정 - 수정페이지 출력  ----------------------------------------------------------------
     public ItemVo itemModify(Long shopNo) {
@@ -143,8 +149,9 @@ public class ItemService {
 //        // 데이터(스트링) 안에서 원하는 값을 추출하기 위해 <List<ItemVo>> 사용
 //    }
 
-    // 상품 삭제
-    public void itemDelete(String item_name, Long ori_price, Long count, Long price, String exp_date, Long discount) {
+
+    // 상품 삭제 -----------------------------------------------------------------------------------
+    public void itemDelete(Long no) {
 
         // 데이터를 가져올 url를 작성해줌
         String url = Base.url + "modeal/list/itemDelete";
@@ -156,12 +163,7 @@ public class ItemService {
 
         // from 방식 (안드로이드에서 이클립스(서버)로 데이터를 전송시 사용)
         int responseCode = httpRequest.send(
-                "name=" + item_name +
-                        "&oriPrice=" + ori_price +
-                        "&count=" + count +
-                        "&price=" + price +
-                        "&expDate=" + exp_date +
-                        "&discount=" + discount).code();
+                "no=" + no ).code();
 
         if (responseCode != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("HTTP Response : " + responseCode);
@@ -172,6 +174,7 @@ public class ItemService {
         // ↑ String 에서 원하는 데이터를 추출하기 위해 JSONResult 사용,
         // 데이터(스트링) 안에서 원하는 값을 추출하기 위해 <List<ItemVo>> 사용
     }
+
 
     // 상품 상세 목록 ------------------------------------------------------------------------------ (170209/상욱추가)
     public Map<String, Object> itemDetail(Long no) {

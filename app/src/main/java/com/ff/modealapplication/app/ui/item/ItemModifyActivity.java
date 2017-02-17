@@ -41,7 +41,7 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.item_modify); // ← 입력된 레이아웃의 대한 클래스
+        setContentView(R.layout.item_modify);
 
         // 유통기한 날짜ㆍ시간 텍스트뷰 연결
         dateText = (TextView) findViewById(R.id.item_modify_date_text);
@@ -56,14 +56,12 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
         Minute = calendar.get(Calendar.MINUTE);
         UpdateNow();
 
-        // 수정 버튼 클릭시
+        // 버튼(취소 / 수정) 클릭시
         findViewById(R.id.item_modify_button_modify).setOnClickListener(this);
-
-        // 취소 버튼 클릭시
         findViewById(R.id.item_modify_button_cancel).setOnClickListener(this);
     }
 
-    // 상품 카테고리
+    // 상품 카테고리 다이얼로그 --------------------------------------------------------------------
     public void dialogSingleChoice(View view) {
         new AlertDialog.Builder(this).
                 setIcon(R.drawable.ic_choice).
@@ -89,14 +87,13 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
 
-            // 날짜 버튼 클릭시 설정 화면 보여줌
+            // 날짜 버튼 클릭시 설정 화면 보여줌 (여기서 리스너도 등록함)
             case R.id.item_modify_date_text: {
-                // 여기서 리스너도 등록함
                 new DatePickerDialog(ItemModifyActivity.this, DateSetListener, Year, Month, Day).show();
                 break;
             }
 
-            // 시간 버튼 클릭시 설정 화면 보여줌
+            // 시간 버튼 클릭시 설정 화면 보여줌 (여기서 리스너도 등록함)
             case R.id.item_modify_time_text: {
                 new TimePickerDialog(ItemModifyActivity.this, TimeSetListener, Hour, Minute, false).show();
                 break;

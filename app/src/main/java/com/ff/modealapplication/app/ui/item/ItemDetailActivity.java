@@ -25,6 +25,7 @@ import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.BookmarkService;
 import com.ff.modealapplication.app.core.service.ItemService;
+import com.ff.modealapplication.app.core.util.Base;
 import com.ff.modealapplication.app.core.util.LoginPreference;
 import com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity;
 import com.ff.modealapplication.app.ui.message.MessagingService;
@@ -67,12 +68,8 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         new ItemDetailTask().execute();
 
-        Log.w("!!!!!!!!!!!!!!!! NO", (Double.valueOf(getIntent().getStringExtra("no"))).longValue() + "<<<<<<<<<<<");
-        Log.w("!!!!!!!!!!!!!!!! SHOPNO", (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue() + "<<<<<<<<<<<");
-//        Toast.makeText(this, "로그인정보" + (Long) LoginPreference.getValue(getApplicationContext(), "shopNo") + "상품에서받아온정보" + (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue(), Toast.LENGTH_SHORT).show();
-
         // 해당 상품 매장아이디로 접속시 삭제/수정/보이기(숨기기)버튼 보임
-        if ((Long) LoginPreference.getValue(getApplicationContext(), "shopNo") == (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue()) {
+        if ((Long) LoginPreference.getValue(getApplicationContext(), "shopNo") == getIntent().getLongExtra("shopNo", -1)) {
             // 삭제 버튼 클릭시
             findViewById(R.id.button_delete_item).setOnClickListener(this);
 
@@ -92,7 +89,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                             public void run() {
                                 MessagingService.send(((TextView) findViewById(R.id.item_detail_name)).getText().toString() + " 상품이 등록되었습니다.", // 제목
                                         ((TextView) findViewById(R.id.item_detail_shop_name)).getText().toString() + " 매장의 " + ((TextView) findViewById(R.id.item_detail_name)).getText().toString() + " 상품이 등록되었습니다.", // 내용
-                                        "bi" + (Double.valueOf(getIntent().getStringExtra("no"))).longValue()); // 알림 번호
+                                        "bi" + getIntent().getLongExtra("no", -1)); // 알림 번호
                             }
                         }.start();
                     }
@@ -105,8 +102,8 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ItemDetailActivity.this, MarketDetailInformationActivity.class);
-                intent.putExtra("ShopNo", (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue());              // MarketDetailInformationActivity 클래스로 ShopNo 값을 넘김
-                Toast.makeText(getApplicationContext(), ((Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue()) + "", Toast.LENGTH_SHORT).show();
+                intent.putExtra("ShopNo", getIntent().getLongExtra("shopNo", -1));              // MarketDetailInformationActivity 클래스로 ShopNo 값을 넘김
+                Toast.makeText(getApplicationContext(), getIntent().getLongExtra("shopNo", -1) + "", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         });
@@ -125,15 +122,15 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                 if ((Long) LoginPreference.getValue(getApplicationContext(), "no") != -1) { // 로그인시
                     if (isChecked == false) { // 즐겨찾기 추가
                         Toast.makeText(getApplicationContext(), "즐겨찾기에 추가되었습니다", Toast.LENGTH_SHORT).show();
-                        Log.d("상품 topic 알림 등록", "bi" + (Double.valueOf(getIntent().getStringExtra("no"))).longValue());
-                        FirebaseMessaging.getInstance().subscribeToTopic("bi" + (Double.valueOf(getIntent().getStringExtra("no"))).longValue()); // 즐겨찾기 상품 알림 설정
+                        Log.d("상품 topic 알림 등록", "bi" + getIntent().getLongExtra("no", -1));
+                        FirebaseMessaging.getInstance().subscribeToTopic("bi" + getIntent().getLongExtra("no", -1)); // 즐겨찾기 상품 알림 설정
                         bookmark_button.setBackground(getResources().getDrawable(R.drawable.heart_full)); // 즐겨찾기 추가 이미지 변경
                         new BookmarkAdd().execute(); // 서버에 즐겨찾기 정보 저장
                         isChecked = true;
                     } else { // 즐겨찾기 해제
                         Toast.makeText(getApplicationContext(), "즐겨찾기가 해제되었습니다", Toast.LENGTH_SHORT).show();
-                        Log.d("상품 topic 알림 해제", "bi" + (Double.valueOf(getIntent().getStringExtra("no"))).longValue());
-                        FirebaseMessaging.getInstance().unsubscribeFromTopic("bi" + (Double.valueOf(getIntent().getStringExtra("no"))).longValue()); // 즐겨찾기 상품 알림 해제
+                        Log.d("상품 topic 알림 해제", "bi" + getIntent().getLongExtra("shopNo", -1));
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic("bi" + getIntent().getLongExtra("shopNo", -1)); // 즐겨찾기 상품 알림 해제
                         bookmark_button.setBackground(getResources().getDrawable(R.drawable.heart_empty)); // 즐겨찾기 해제 이미지로 변경
                         new BookmarkDelete().execute(); // 서버에서 즐겨찾기 정보 삭제
                         isChecked = false;
@@ -225,7 +222,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         @Override
         public Map<String, Object> call() throws Exception {
             // getIntent().getStringExtra("no") ← 이전 액티비티에서 no값 받아옴 (이걸로 서버에 접근해서 해당 정보 가져오기 위해서...)
-            return itemService.itemDetail((Double.valueOf(getIntent().getStringExtra("no"))).longValue());
+            return itemService.itemDetail(getIntent().getLongExtra("no", -1));
         }
 
         @Override // 에러나면 Exception 발생
@@ -250,7 +247,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
             ((TextView) findViewById(R.id.item_detail_shop_name)).setText(itemMap.get("shopName").toString());
 
             ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
-            ImageLoader.getInstance().displayImage("http://192.168.1.93:8088/modeal/shop/images/" + itemMap.get("picture"),
+            ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + itemMap.get("picture"),
                     (ImageView) findViewById(R.id.item_detail_image), displayImageOption);                // 상품이미지
         }
     }
@@ -260,7 +257,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         @Override
         public Void call() throws Exception {
-            bookmarkService.bookmarkAdd((Double.valueOf(getIntent().getStringExtra("no"))).longValue(), (Long) LoginPreference.getValue(getApplicationContext(), "no"), null);
+            bookmarkService.bookmarkAdd(getIntent().getLongExtra("no", -1), (Long) LoginPreference.getValue(getApplicationContext(), "no"), null);
             return null;
         }
 
@@ -276,7 +273,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         @Override
         public Void call() throws Exception {
-            bookmarkService.bookmarkDelete((Double.valueOf(getIntent().getStringExtra("no"))).longValue(), (Long) LoginPreference.getValue(getApplicationContext(), "no"), null);
+            bookmarkService.bookmarkDelete(getIntent().getLongExtra("no", -1), (Long) LoginPreference.getValue(getApplicationContext(), "no"), null);
             return null;
         }
 
@@ -292,7 +289,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         @Override
         public Long call() throws Exception {
-            return bookmarkService.bookmarkSelect((Double.valueOf(getIntent().getStringExtra("no"))).longValue(), (Long) LoginPreference.getValue(getApplicationContext(), "no"), null);
+            return bookmarkService.bookmarkSelect(getIntent().getLongExtra("no", -1), (Long) LoginPreference.getValue(getApplicationContext(), "no"), null);
         }
 
         @Override
@@ -324,7 +321,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         @Override
         public Void call() throws Exception {
-            itemService.itemView((Double.valueOf(getIntent().getStringExtra("no"))).longValue(), check);
+            itemService.itemView(getIntent().getLongExtra("no", -1), check);
             return null;
         }
 
@@ -340,7 +337,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         @Override
         public List<Map<String, Object>> call() throws Exception {
-            return itemService.itemList((Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue());
+            return itemService.itemList(getIntent().getLongExtra("shopNo", -1));
         }
 
         @Override

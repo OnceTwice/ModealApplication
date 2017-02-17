@@ -218,8 +218,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(this, ItemDetailActivity.class);
-        intent.putExtra("no", ((TextView) view.findViewById(R.id.send_no)).getText().toString());
-        intent.putExtra("shopNo", ((TextView) view.findViewById(R.id.send_shopNo)).getText().toString());
+        intent.putExtra("no", (Double.valueOf(((TextView) view.findViewById(R.id.send_no)).getText().toString())).longValue());
+        intent.putExtra("shopNo", (Double.valueOf(((TextView) view.findViewById(R.id.send_shopNo)).getText().toString())).longValue());
         startActivity(intent);
         onPause();
     }
@@ -469,6 +469,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         } else if (id == R.id.nav_manage) {
             Intent intent = new Intent(this, ItemActivity.class);
+            intent.putExtra("shopNo", (Long)LoginPreference.getValue(getApplicationContext(), "shopNo"));
             startActivity(intent);
         } else if (id == R.id.nav_marketDetail) {
             Intent intent = new Intent(this, MarketDetailInformationActivity.class);

@@ -34,10 +34,9 @@
             android:id="@+id/item_list_clock"
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:background="#E74B59"
             android:gravity="center"
             android:text="TextView"
-            android:textColor="#fff"
+            android:textColor="#E74B59"
             android:textSize="14dp" />
 
         <!-- 상품명 / 원가 / 판매가 -->
@@ -179,6 +178,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:background="#E74B59"
+            android:onClick="dialogDelete"
             android:text="삭제"
             android:textColor="#fff"
             android:textSize="14dp" />

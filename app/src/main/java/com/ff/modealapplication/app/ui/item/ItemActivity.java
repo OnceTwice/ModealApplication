@@ -1,5 +1,8 @@
 package com.ff.modealapplication.app.ui.item;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -50,10 +53,12 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
         new ItemListTask().execute(); // 아래 ItemListTask 클래스 실행
     }
 
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
         intent.putExtra("no", ((TextView)view.findViewById(R.id.send_no)).getText().toString());
+        intent.putExtra("shopNo", getIntent().getLongExtra("shopNo", -1));
 
         startActivity(intent);
     }
@@ -80,7 +85,7 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
     private class ItemListTask extends SafeAsyncTask<List<Map<String, Object>>> {
         @Override
         public List<Map<String, Object>> call() throws Exception {
-            return new ItemService().itemList(1L);
+            return new ItemService().itemList(getIntent().getLongExtra("shopNo", -1));
         }
 
         @Override // 에러나면 Exception 발생

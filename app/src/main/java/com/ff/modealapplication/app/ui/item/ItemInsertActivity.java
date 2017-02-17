@@ -31,9 +31,10 @@ import java.util.GregorianCalendar;
 public class ItemInsertActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ItemService itemService = new ItemService();
-    private int indexSingleChoiceSelected = 0;
+    private int indexSingleChoiceSelected = 0;  // 상품 카테고리 다이얼로그
     private Long categoryNo;
 
+    // 유통기한 날짜 및 시간
     int Year, Month, Day, Hour, Minute;
     TextView dateText;
     TextView timeText;
@@ -106,8 +107,8 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
 
             // 등록 버튼 클릭시
             case R.id.item_insert_button_insert: {
-                itemListAsyncTask = new ItemListAsyncTask();
-                itemListAsyncTask.execute();
+                itemListAsyncTask = new ItemListAsyncTask(); // 생성
+                itemListAsyncTask.execute(); // 실행
 
                 Intent intent = new Intent(ItemInsertActivity.this, ItemActivity.class); // 경로 설정해주고
                 startActivity(intent); // 여기서 이동하고
@@ -187,7 +188,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
 
             itemService.itemInsert(item_name, ori_price, count, price, exp_date + " " + exp_time, discount ,shopNo ,itemCategoryNo);
 
-            return null;
+            return null;    // 상품 등록이라서 리턴할 값 없음
         }
 
         @Override

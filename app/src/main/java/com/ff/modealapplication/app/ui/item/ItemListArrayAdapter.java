@@ -1,6 +1,8 @@
 package com.ff.modealapplication.app.ui.item;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -26,6 +28,7 @@ import java.util.Map;
 
 public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
 
+    // 리스트에 기본 이미지 출력
     private LayoutInflater layoutInflater;
     DisplayImageOptions displayImageOption = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.apple)
@@ -63,18 +66,45 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + map.get("picture"),
                 (ImageView) convertView.findViewById(R.id.item_list_image), displayImageOption);                // 상품이미지
 
+
+        // 수정 버튼 클릭시 ------------------------------------------------------------------------
         convertView.findViewById(R.id.button_modify_item).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ItemModifyActivity.class);
-                intent.putExtra("no", ((TextView)v.findViewById(R.id.send_no)).getText().toString());
+                intent.putExtra("no", ((TextView) v.findViewById(R.id.send_no)).getText().toString());
                 getContext().startActivity(intent);
+            }
+        });
+
+        // 삭제 버튼 클릭시 ------------------------------------------------------------------------
+        convertView.findViewById(R.id.button_delete_item).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                new AlertDialog.Builder(getContext()).
+                        setTitle("삭제").
+                        setIcon(R.drawable.delete).
+                        setMessage("해당 상품을\n삭제하시겠습니까?\n").
+
+                        setPositiveButton("예", new DialogInterface.OnClickListener() { // setPositiveButton 긍정
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+//                                a.remove(index); // 해당 인덱스 위치의 요소 삭제
+                                Log.d("setPositiveButton", "" + which);
+                            }
+                        }).
+                        setNegativeButton("아니요", new DialogInterface.OnClickListener() { //etNegativeButton 부정
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).
+                        show();
             }
         });
         return convertView;
     }
 
-    // 목록에 상품이 추가됨
+    // 목록에 상품이 추가됨 ------------------------------------------------------------------------
     public void add(List<Map<String, Object>> list) {
         if (list == null) {
             return;
