@@ -219,13 +219,33 @@
                     android:textSize="14dp" />
             </LinearLayout>
 
-            <ViewFlipper
-                android:id="@+id/item_detail_flipper"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="80dp">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center">
 
-            </ViewFlipper>
+                <Button
+                    android:id="@+id/flipper_left"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/arrow_left" />
+
+                <ViewFlipper
+                    android:id="@+id/item_detail_flipper"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp" />
+
+                <Button
+                    android:id="@+id/flipper_right"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/arrow_right" />
+
+            </LinearLayout>
         </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

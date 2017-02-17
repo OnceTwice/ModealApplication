@@ -221,6 +221,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         intent.putExtra("no", ((TextView) view.findViewById(R.id.send_no)).getText().toString());
         intent.putExtra("shopNo", ((TextView) view.findViewById(R.id.send_shopNo)).getText().toString());
         startActivity(intent);
+        onPause();
     }
 
     // 리스트 띄우는 AsyncTask
@@ -285,8 +286,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(getApplicationContext(), GPSPreference.getValue(getApplicationContext(), "latitude") + " : " + GPSPreference.getValue(getApplicationContext(), "longitude") + " : " + GPSPreference.getValue(getApplicationContext(), "range"), Toast.LENGTH_SHORT).show();
             lm.removeUpdates(this); // GPS 정지
             new MainListAsyncTask().execute();
-            mainListArrayAdapter.clear();
-            mainListArrayAdapter.notifyDataSetChanged();
+            mainListArrayAdapter.clear(); // 리스트 갱신을 위한 다 지우기
+            mainListArrayAdapter.notifyDataSetChanged(); // 리스트 갱신을 위한 값 변경시 알려주기?
         }
 
         @Override
@@ -362,8 +363,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    protected void onRestart() {
+    protected void onRestart() { // 액티비티가 전면에 보일때
         super.onRestart();
+        new MainListAsyncTask().execute(); // 3개가 한세트 (리스트 다시불러오기)
+        mainListArrayAdapter.clear(); // 3개가 한세트 (리스트 어댑터 지우기)
+        mainListArrayAdapter.notifyDataSetChanged(); // 3개가 한세트 (리스트 어댑터 다시 갱신)
     }
 
     /*************************************** 생명주기 끝 ****************************************************/

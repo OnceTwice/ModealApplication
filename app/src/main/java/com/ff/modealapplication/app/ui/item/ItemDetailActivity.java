@@ -1,7 +1,9 @@
 package com.ff.modealapplication.app.ui.item;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -24,21 +27,25 @@ import com.ff.modealapplication.app.core.service.BookmarkService;
 import com.ff.modealapplication.app.core.service.ItemService;
 import com.ff.modealapplication.app.core.util.LoginPreference;
 import com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity;
+import com.ff.modealapplication.app.ui.message.MessagingService;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
 public class ItemDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private ItemService itemService = new ItemService();
     private BookmarkService bookmarkService = new BookmarkService();
+
     private Button bookmark_button; // 즐겨찾기
     private boolean isChecked; // 상품 보이기 / 숨기기
     private Long shopNo; // 해당 상품 매장에만 메뉴 띄우기 위해서...
     private ViewFlipper flipper; // 뷰플리퍼
+    private List<Map<String, Object>> itemList; // 뷰플리퍼를 위한 상품리스트
 
     DisplayImageOptions displayImageOption = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.apple)
@@ -60,10 +67,12 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         new ItemDetailTask().execute();
 
-        Toast.makeText(this, "로그인정보" + (Long)LoginPreference.getValue(getApplicationContext(), "shopNo") + "상품에서받아온정보" + (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue(), Toast.LENGTH_SHORT).show();
+        Log.w("!!!!!!!!!!!!!!!! NO", (Double.valueOf(getIntent().getStringExtra("no"))).longValue() + "<<<<<<<<<<<");
+        Log.w("!!!!!!!!!!!!!!!! SHOPNO", (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue() + "<<<<<<<<<<<");
+//        Toast.makeText(this, "로그인정보" + (Long) LoginPreference.getValue(getApplicationContext(), "shopNo") + "상품에서받아온정보" + (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue(), Toast.LENGTH_SHORT).show();
 
         // 해당 상품 매장아이디로 접속시 삭제/수정/보이기(숨기기)버튼 보임
-        if ((Long)LoginPreference.getValue(getApplicationContext(), "shopNo") == (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue()) {
+        if ((Long) LoginPreference.getValue(getApplicationContext(), "shopNo") == (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue()) {
             // 삭제 버튼 클릭시
             findViewById(R.id.button_delete_item).setOnClickListener(this);
 
@@ -78,6 +87,14 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                         new ItemView(0L).execute();
                     } else { // 보이기
                         new ItemView(1L).execute();
+                        // 보이기 누르면 해당 알림 구독한 사용자들에게 알림 전송
+                        new Thread() {
+                            public void run() {
+                                MessagingService.send(((TextView) findViewById(R.id.item_detail_name)).getText().toString() + " 상품이 등록되었습니다.", // 제목
+                                        ((TextView) findViewById(R.id.item_detail_shop_name)).getText().toString() + " 매장의 " + ((TextView) findViewById(R.id.item_detail_name)).getText().toString() + " 상품이 등록되었습니다.", // 내용
+                                        "bi" + (Double.valueOf(getIntent().getStringExtra("no"))).longValue()); // 알림 번호
+                            }
+                        }.start();
                     }
                 }
             });
@@ -89,7 +106,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
             public void onClick(View v) {
                 Intent intent = new Intent(ItemDetailActivity.this, MarketDetailInformationActivity.class);
                 intent.putExtra("ShopNo", (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue());              // MarketDetailInformationActivity 클래스로 ShopNo 값을 넘김
-                Toast.makeText(getApplicationContext(), ((Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue())+"", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), ((Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue()) + "", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         });
@@ -128,18 +145,50 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
             }
         });
 
-        // 뷰플리퍼
-        flipper = (ViewFlipper)findViewById(R.id.item_detail_flipper);
-        for (int i = 0; i < 10; i++) {
-            ImageView img = new ImageView(this);
-            img.setImageResource(R.drawable.apple);
-            flipper.addView(img);
-        }
-        Animation shownIn = AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left);
-        flipper.setInAnimation(shownIn);
-        flipper.setOutAnimation(this, android.R.anim.slide_out_right);
-        flipper.setFlipInterval(1000);
-        flipper.startFlipping();
+        new ItemList().execute();
+
+        // 뷰플리퍼 (자동 슬라이드 되는 동일 매장 상품 이미지)
+        flipper = (ViewFlipper) findViewById(R.id.item_detail_flipper);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < itemList.size(); i++) {
+                    LinearLayout linearLayout = new LinearLayout(getApplicationContext());
+                    linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+                    ImageView img = new ImageView(getApplicationContext());
+                    ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
+                    ImageLoader.getInstance().displayImage("http://192.168.1.93:8088/modeal/shop/images/" + itemList.get(i).get("picture"), img, displayImageOption);
+
+                    TextView tv = new TextView(getApplicationContext());
+                    tv.setTextColor(Color.parseColor("#ff0000"));
+                    tv.setText(itemList.get(i).get("name").toString());
+                    tv.setGravity(View.SCROLL_AXIS_HORIZONTAL);
+                    tv.setVisibility(View.GONE);
+
+                    linearLayout.addView(img);
+                    linearLayout.addView(tv);
+                    flipper.addView(linearLayout);
+                    flipper.setDisplayedChild(i);
+                    flipper.setOnClickListener(new View.OnClickListener() { // 클릭시 해당 상품 상세페이지로 이동
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
+                            intent.putExtra("no", String.valueOf(itemList.get(flipper.getDisplayedChild()).get("no")));
+                            intent.putExtra("shopNo", String.valueOf(itemList.get(flipper.getDisplayedChild()).get("shopNo")));
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                }
+                Animation shownIn = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.slide_in_left);
+                flipper.setInAnimation(shownIn);
+                flipper.setOutAnimation(getApplicationContext(), android.R.anim.slide_out_right);
+                flipper.setOutAnimation(getApplicationContext(), android.R.anim.slide_out_right);
+                flipper.setFlipInterval(1000);
+                flipper.startFlipping();
+            }
+        }, 1000);
     }
 
     // 뒤로가기 클릭시 & 돋보기 클릭시
@@ -171,6 +220,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
+    // 상품 상세 목록
     private class ItemDetailTask extends SafeAsyncTask<Map<String, Object>> {
         @Override
         public Map<String, Object> call() throws Exception {
@@ -281,6 +331,27 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         @Override
         protected void onException(Exception e) throws RuntimeException {
             Log.d("*View Exception error :", "" + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    // 동일 매장 상품 가져오기
+    private class ItemList extends SafeAsyncTask<List<Map<String, Object>>> {
+
+        @Override
+        public List<Map<String, Object>> call() throws Exception {
+            return itemService.itemList((Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue());
+        }
+
+        @Override
+        protected void onSuccess(List<Map<String, Object>> list) throws Exception {
+            itemList = list;
+            super.onSuccess(list);
+        }
+
+        @Override
+        protected void onException(Exception e) throws RuntimeException {
+            Log.d("*Main Exception error :", "" + e);
             throw new RuntimeException(e);
         }
     }
