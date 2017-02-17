@@ -12,8 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ff.modealapplication.R;
+import com.ff.modealapplication.andorid.network.SafeAsyncTask;
+import com.ff.modealapplication.app.core.service.ItemService;
 import com.ff.modealapplication.app.core.util.Base;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -27,6 +30,8 @@ import java.util.Map;
  */
 
 public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
+
+    ItemService itemService = new ItemService();
 
     // 리스트에 기본 이미지 출력
     private LayoutInflater layoutInflater;
@@ -50,7 +55,7 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
             convertView = layoutInflater.inflate(R.layout.item_list_row, parent, false);
         }
 
-        Map<String, Object> map = getItem(position);
+        final Map<String, Object> map = getItem(position);
 //        ((TextView) convertView.findViewById(R.id.shop_name)).setText(map.get("shopName").toString());             // 해당 매장명
         ((TextView) convertView.findViewById(R.id.item_list_clock)).setText(map.get("expDate").toString());        // 유통기한
         ((TextView) convertView.findViewById(R.id.item_list_name)).setText(map.get("name").toString());            // 상품명
@@ -68,14 +73,14 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
 
 
         // 수정 버튼 클릭시 ------------------------------------------------------------------------
-        convertView.findViewById(R.id.button_modify_item).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ItemModifyActivity.class);
-                intent.putExtra("no", ((TextView) v.findViewById(R.id.send_no)).getText().toString());
-                getContext().startActivity(intent);
-            }
-        });
+//        convertView.findViewById(R.id.button_modify_item).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getContext(), ItemModifyActivity.class);
+//                intent.putExtra("no", ((TextView) v.findViewById(R.id.send_no)).getText().toString());
+//                getContext().startActivity(intent);
+//            }
+//        });
 
         // 삭제 버튼 클릭시 ------------------------------------------------------------------------
         convertView.findViewById(R.id.button_delete_item).setOnClickListener(new View.OnClickListener() {
@@ -89,6 +94,7 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
                         setPositiveButton("예", new DialogInterface.OnClickListener() { // setPositiveButton 긍정
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                new ItemDelete(((Double)map.get("no")).longValue()).execute();
 //                                a.remove(index); // 해당 인덱스 위치의 요소 삭제
                                 Log.d("setPositiveButton", "" + which);
                             }
@@ -103,6 +109,32 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         });
         return convertView;
     }
+
+    // 삭제되는 동안 다른 작업이 실행되기 위해서 사용
+    private class ItemDelete extends SafeAsyncTask<Void> {
+        Long no;
+        public ItemDelete(Long no) {
+            this.no = no;
+        }
+
+        @Override
+        public Void call() throws Exception {
+            itemService.itemDelete(no);
+            return null;
+        }
+
+        @Override // 에러나면 Exception 발생
+        protected void onException(Exception e) throws RuntimeException {
+            Log.d("!!!!!!!!!!!!!", "" + e);
+            super.onException(e);
+        }
+
+        @Override // 성공하면 해당 매장명과 상품목록 출력
+        protected void onSuccess(Void Void) throws Exception {
+            Toast.makeText(getContext(), "해당 상품이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     // 목록에 상품이 추가됨 ------------------------------------------------------------------------
     public void add(List<Map<String, Object>> list) {

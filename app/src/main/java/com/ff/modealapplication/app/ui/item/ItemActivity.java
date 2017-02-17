@@ -53,7 +53,6 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
         new ItemListTask().execute(); // 아래 ItemListTask 클래스 실행
     }
 
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
@@ -82,6 +81,7 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
         return super.onOptionsItemSelected(item); // return true와 동일
     }
 
+    // SafeAsyncTask 안드로이드에서 서버로 접근시마다 써줘야함
     private class ItemListTask extends SafeAsyncTask<List<Map<String, Object>>> {
         @Override
         public List<Map<String, Object>> call() throws Exception {
