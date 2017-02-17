@@ -15,7 +15,7 @@
             android:title="즐겨찾기" />
         <item
             android:id="@+id/nav_setup"
-            android:title="설정" />
+            android:title="알림설정" />
         <item
             android:id="@+id/nav_help"
             android:title="고객센터" />

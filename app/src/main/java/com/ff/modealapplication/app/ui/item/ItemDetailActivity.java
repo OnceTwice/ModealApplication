@@ -1,7 +1,6 @@
 package com.ff.modealapplication.app.ui.item;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -16,6 +15,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -157,14 +157,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                     ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
                     ImageLoader.getInstance().displayImage("http://192.168.1.93:8088/modeal/shop/images/" + itemList.get(i).get("picture"), img, displayImageOption);
 
-                    TextView tv = new TextView(getApplicationContext());
-                    tv.setTextColor(Color.parseColor("#ff0000"));
-                    tv.setText(itemList.get(i).get("name").toString());
-                    tv.setGravity(View.SCROLL_AXIS_HORIZONTAL);
-                    tv.setVisibility(View.GONE);
-
                     linearLayout.addView(img);
-                    linearLayout.addView(tv);
                     flipper.addView(linearLayout);
                     flipper.setDisplayedChild(i);
                     flipper.setOnClickListener(new View.OnClickListener() { // 클릭시 해당 상품 상세페이지로 이동
@@ -182,7 +175,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                 flipper.setInAnimation(shownIn);
                 flipper.setOutAnimation(getApplicationContext(), android.R.anim.slide_out_right);
                 flipper.setOutAnimation(getApplicationContext(), android.R.anim.slide_out_right);
-                flipper.setFlipInterval(1000);
+                flipper.setFlipInterval(2000);
                 flipper.startFlipping();
             }
         }, 1000);
@@ -245,6 +238,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
             ((TextView) findViewById(R.id.item_detail_ori_price)).setText(((Double) itemMap.get("oriPrice")).longValue() + "");
             ((TextView) findViewById(R.id.item_detail_price)).setText(((Double) itemMap.get("price")).longValue() + "");
             ((TextView) findViewById(R.id.item_detail_shop_name)).setText(itemMap.get("shopName").toString());
+            ((RatingBar)findViewById(R.id.item_detail_ratingBar)).setRating(((Double)itemMap.get("grade")).floatValue());
 
             ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
             ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + itemMap.get("picture"),
