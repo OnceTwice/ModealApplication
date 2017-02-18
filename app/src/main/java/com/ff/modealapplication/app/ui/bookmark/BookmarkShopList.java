@@ -14,6 +14,7 @@ import android.widget.ToggleButton;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.BookmarkService;
+import com.ff.modealapplication.app.core.util.Base;
 import com.ff.modealapplication.app.core.util.LoginPreference;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -69,7 +70,7 @@ public class BookmarkShopList extends ArrayAdapter<Map<String, Object>> {
         holder.text.setText(getItem(position).get("sname").toString()); // 매장명
         holder.send_no.setText(getItem(position).get("shopNo").toString()); // 매장No
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
-        ImageLoader.getInstance().displayImage("http://192.168.1.93:8088/modeal/shop/images/" + getItem(position).get("spicture"), holder.imageView, displayImageOption); // 매장이미지
+        ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + getItem(position).get("spicture"), holder.imageView, displayImageOption); // 매장이미지
 
         holder.delete.setChecked(false);
         if (isChecked[position]) {

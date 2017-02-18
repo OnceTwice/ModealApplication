@@ -68,7 +68,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         new ItemDetailTask().execute();
 
-        Toast.makeText(this, "로그인정보 : " + (Long)LoginPreference.getValue(getApplicationContext(), "shopNo") + "\n상품에서받아온정보 : " + (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "로그인정보 : " + (Long)LoginPreference.getValue(getApplicationContext(), "shopNo") + "\n상품에서받아온정보 : " + (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue(), Toast.LENGTH_SHORT).show();
 
         // 해당 상품 매장아이디로 접속시 삭제/수정/보이기(숨기기)버튼 보임
         if ((Long) LoginPreference.getValue(getApplicationContext(), "shopNo") == getIntent().getLongExtra("shopNo", -1)) {
@@ -105,7 +105,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
             public void onClick(View v) {                                       // 매장상세정보로 페이지 이동
                 Intent intent = new Intent(ItemDetailActivity.this, MarketDetailInformationActivity.class);
                 intent.putExtra("ShopNo", (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue());              // MarketDetailInformationActivity 클래스로 ShopNo 값을 넘김
-                Toast.makeText(getApplicationContext(), "ItemDetailActivity.java 에서의 shopNo : "+((Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue()), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "ItemDetailActivity.java 에서의 shopNo : " + ((Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue()), Toast.LENGTH_SHORT).show();
                 intent.putExtra("ShopNo", getIntent().getLongExtra("shopNo", -1));              // MarketDetailInformationActivity 클래스로 ShopNo 값을 넘김
                 Toast.makeText(getApplicationContext(), getIntent().getLongExtra("shopNo", -1) + "", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
@@ -134,8 +134,8 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                         isChecked = true;
                     } else { // 즐겨찾기 해제
                         Toast.makeText(getApplicationContext(), "즐겨찾기가 해제되었습니다", Toast.LENGTH_SHORT).show();
-                        Log.d("상품 topic 알림 해제", "bi" + getIntent().getLongExtra("shopNo", -1));
-                        FirebaseMessaging.getInstance().unsubscribeFromTopic("bi" + getIntent().getLongExtra("shopNo", -1)); // 즐겨찾기 상품 알림 해제
+                        Log.d("상품 topic 알림 해제", "bi" + getIntent().getLongExtra("no", -1));
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic("bi" + getIntent().getLongExtra("no", -1)); // 즐겨찾기 상품 알림 해제
                         bookmark_button.setBackground(getResources().getDrawable(R.drawable.heart_empty)); // 즐겨찾기 해제 이미지로 변경
                         new BookmarkDelete().execute(); // 서버에서 즐겨찾기 정보 삭제
                         isChecked = false;
@@ -161,7 +161,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                     ImageView img = new ImageView(getApplicationContext());
                     img.setScaleType(ImageView.ScaleType.CENTER);
                     ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
-                    ImageLoader.getInstance().displayImage("http://192.168.1.93:8088/modeal/shop/images/" + itemList.get(i).get("picture"), img, displayImageOption);
+                    ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + itemList.get(i).get("picture"), img, displayImageOption);
 
                     linearLayout.addView(img);
                     flipper.addView(linearLayout);
@@ -170,8 +170,8 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
-                            intent.putExtra("no", String.valueOf(itemList.get(flipper.getDisplayedChild()).get("no")));
-                            intent.putExtra("shopNo", String.valueOf(itemList.get(flipper.getDisplayedChild()).get("shopNo")));
+                            intent.putExtra("no", ((Double)itemList.get(flipper.getDisplayedChild()).get("no")).longValue());
+                            intent.putExtra("shopNo", ((Double)itemList.get(flipper.getDisplayedChild()).get("shopNo")).longValue());
                             startActivity(intent);
                             finish();
                         }
@@ -256,11 +256,11 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
             ((TextView) findViewById(R.id.item_detail_ori_price)).setText(((Double) itemMap.get("oriPrice")).longValue() + "");
             ((TextView) findViewById(R.id.item_detail_price)).setText(((Double) itemMap.get("price")).longValue() + "");
             ((TextView) findViewById(R.id.item_detail_shop_name)).setText(itemMap.get("shopName").toString());
-            ((RatingBar)findViewById(R.id.item_detail_ratingBar)).setRating(((Double)itemMap.get("grade")).floatValue());
+            if (itemMap.get("grade") != null) {
+                ((RatingBar) findViewById(R.id.item_detail_ratingBar)).setRating(((Double) itemMap.get("grade")).floatValue());
+            }
 
-            ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
-            ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + itemMap.get("picture"),
-                    (ImageView) findViewById(R.id.item_detail_image), displayImageOption);                // 상품이미지
+            ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + itemMap.get("picture"), (ImageView) findViewById(R.id.item_detail_image), displayImageOption); // 상품이미지
         }
     }
 
