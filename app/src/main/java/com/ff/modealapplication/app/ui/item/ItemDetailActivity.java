@@ -68,7 +68,8 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         new ItemDetailTask().execute();
 
-//        Toast.makeText(this, "로그인정보 : " + (Long)LoginPreference.getValue(getApplicationContext(), "shopNo") + "\n상품에서받아온정보 : " + (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "로그인정보(자신의 매장정보) : " + LoginPreference.getValue(getApplicationContext(), "shopNo"), Toast.LENGTH_SHORT).show();        // 자기 매장의 no값 출력(일반사용자는 -1;매장이없기때문)
+//        Toast.makeText(this, "상품에서받아온정보 : " + (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue(), Toast.LENGTH_SHORT).show();
 
         // 해당 상품 매장아이디로 접속시 삭제/수정/보이기(숨기기)버튼 보임
         if ((Long) LoginPreference.getValue(getApplicationContext(), "shopNo") == getIntent().getLongExtra("shopNo", -1)) {
@@ -104,10 +105,10 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onClick(View v) {                                       // 매장상세정보로 페이지 이동
                 Intent intent = new Intent(ItemDetailActivity.this, MarketDetailInformationActivity.class);
-                intent.putExtra("ShopNo", (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue());              // MarketDetailInformationActivity 클래스로 ShopNo 값을 넘김
-                Toast.makeText(getApplicationContext(), "ItemDetailActivity.java 에서의 shopNo : " + ((Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue()), Toast.LENGTH_SHORT).show();
+
                 intent.putExtra("ShopNo", getIntent().getLongExtra("shopNo", -1));              // MarketDetailInformationActivity 클래스로 ShopNo 값을 넘김
                 Toast.makeText(getApplicationContext(), getIntent().getLongExtra("shopNo", -1) + "", Toast.LENGTH_SHORT).show();
+
                 startActivity(intent);
             }
         });

@@ -4,12 +4,12 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="모딜 (Mobility Deal)\nCopyright ⓒ 5Factorial All Rights Reserved"
-        android:textSize="13dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorModeal"
-        android:textColor="#fff"
         android:gravity="center"
-        android:padding="3dp"/>
+        android:padding="3dp"
+        android:text="모딜 (Mobility Deal)\nⓒ 5Factorial All Rights Reserved"
+        android:textColor="#fff"
+        android:textSize="13dp" />
 </LinearLayout>

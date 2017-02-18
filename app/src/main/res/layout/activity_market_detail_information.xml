@@ -180,10 +180,11 @@
 
                 <RatingBar
                     android:id="@+id/rbInput"
-                    android:numStars="5"
-                    android:stepSize="1"
+                    style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:stepSize="1" />
 
                 <EditText
                     android:id="@+id/etMarketDetailInformationComment"
