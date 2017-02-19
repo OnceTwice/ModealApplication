@@ -191,7 +191,7 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
             ((TextView) findViewById(R.id.item_modify_date_text)).setText(year + "년 " + month + "월 " + day + "일 ");
             ((TextView) findViewById(R.id.item_modify_time_text)).setText(hour + "시 " + minute + "분");
             ((EditText) findViewById(R.id.item_modify_name)).setText(itemVo.getName().toString());
-//            ((EditText) findViewById(R.id.item_modify_ori_price)).setText(itemVo.getOriPrice().longValue() + "");
+//            ((EditText) findViewById(R.id.item_modify_ori_price)).setText(itemVo.getOriPrice().longValue() + "");             // 여기 두줄 빨간줄떳음 다시 해보기
 //            ((EditText) findViewById(R.id.item_modify_price)).setText((itemVo.getPrice()).longValue() + "");
 
             ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + itemVo.getPicture(),
