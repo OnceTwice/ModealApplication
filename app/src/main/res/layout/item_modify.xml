@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -33,7 +34,6 @@
                     android:text="상품 수정"
                     android:textColor="#fff"
                     android:textSize="18dp" />
-
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
 
@@ -138,7 +138,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- 하단 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -193,7 +192,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- 유통기한 -->
+                <!-- 유통기한 (날짜ㆍ시간) -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

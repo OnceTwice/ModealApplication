@@ -31,10 +31,10 @@ import java.util.GregorianCalendar;
 public class ItemInsertActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ItemService itemService = new ItemService();
-    private int indexSingleChoiceSelected = 0;  // 상품 카테고리 다이얼로그
+    private int indexSingleChoiceSelected = 0;                                                // 상품 카테고리 다이얼로그
     private Long categoryNo;
 
-    // 유통기한 날짜 및 시간
+    // 유통기한 (날짜/시간)
     int Year, Month, Day, Hour, Minute;
     TextView dateText;
     TextView timeText;
@@ -44,7 +44,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.item_insert); // ← 입력된 레이아웃의 대한 클래스
+        setContentView(R.layout.item_insert);                                                     // 입력된 레이아웃의 대한 클래스
 
         // 유통기한 날짜ㆍ시간 텍스트뷰 연결
         dateText = (TextView) findViewById(R.id.item_insert_date_text);
@@ -92,14 +92,13 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            // 날짜 버튼 클릭시 설정 화면 보여줌
+            // 날짜 버튼 클릭시 설정 화면 보여줌 (여기서 리스너도 등록)
             case R.id.item_insert_date_text: {
-                // 여기서 리스너도 등록함
                 new DatePickerDialog(ItemInsertActivity.this, DateSetListener, Year, Month, Day).show();
                 break;
             }
 
-            // 시간 버튼 클릭시 설정 화면 보여줌
+            // 시간 버튼 클릭시 설정 화면 보여줌 (여기서 리스너도 등록)
             case R.id.item_insert_time_text: {
                 new TimePickerDialog(ItemInsertActivity.this, TimeSetListener, Hour, Minute, false).show();
                 break;
@@ -107,12 +106,12 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
 
             // 등록 버튼 클릭시
             case R.id.item_insert_button_insert: {
-                itemListAsyncTask = new ItemListAsyncTask(); // 생성
-                itemListAsyncTask.execute(); // 실행
+                itemListAsyncTask = new ItemListAsyncTask();                                     // 생성
+                itemListAsyncTask.execute();                                                     // 실행
 
-                Intent intent = new Intent(ItemInsertActivity.this, ItemActivity.class); // 경로 설정해주고
-                startActivity(intent); // 여기서 이동하고
-                finish(); // 이 액티비티를 종료해줌
+                Intent intent = new Intent(ItemInsertActivity.this, ItemActivity.class);          // 경로 설정해주고
+                startActivity(intent);                                                              // 여기서 이동하고
+                finish();                                                                           // 액티비티를 종료
                 break;
             }
 
@@ -129,18 +128,17 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
     // 날짜 클릭시
     DatePickerDialog.OnDateSetListener DateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
-        public void onDateSet(DatePicker view, int year, int monthOfyear, int dayOfMonth) {
-            // 사용자가 입력한 값을 가져온뒤
+        public void onDateSet(DatePicker view, int year, int monthOfyear, int dayOfMonth) {      // 사용자가 입력한 값을 가져온뒤
             Year = year;
             Month = monthOfyear;
             Day = dayOfMonth;
-            // 텍스트뷰의 값을 업데이트함
-            UpdateNow();
+            UpdateNow();                                                                            // 텍스트뷰의 값을 업데이트함
         }
     };
 
     // 시간 클릭시
     TimePickerDialog.OnTimeSetListener TimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             Hour = hourOfDay;
@@ -184,11 +182,11 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
 
             Long shopNo = (Long) LoginPreference.getValue(getApplicationContext(),"shopNo");
 
-            Long itemCategoryNo = categoryNo+1;
+            Long itemCategoryNo = categoryNo + 1;                                                 // 카테고리가 0 부터라서 +1 추가
 
             itemService.itemInsert(item_name, ori_price, count, price, exp_date + " " + exp_time, discount ,shopNo ,itemCategoryNo);
 
-            return null;    // 상품 등록이라서 리턴할 값 없음
+            return null;                                                                          // 상품 등록이라서 리턴할 값 없음
         }
 
         @Override

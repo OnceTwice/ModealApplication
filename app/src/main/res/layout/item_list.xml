@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -35,7 +36,6 @@
                     android:text="상품목록(점주용)"
                     android:textColor="#fff"
                     android:textSize="18dp" />
-
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
 
@@ -66,8 +66,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:divider="#E5E5E2"
-                android:dividerHeight="10dp" /> <!-- Item1과 Item2 사이 간격 -->
+                android:dividerHeight="10dp" />                                                 <!-- dividerHeight = Item1과 Item2 사이 간격 -->
         </LinearLayout>
-
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

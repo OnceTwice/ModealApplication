@@ -49,11 +49,11 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
 
         // 현재 날짜와 시간을 가져오기 위한 calender 인스턴스 선언
         Calendar calendar = new GregorianCalendar();
-        Year = calendar.get(Calendar.YEAR);
-        Month = calendar.get(Calendar.MONTH);
-        Day = calendar.get(Calendar.DAY_OF_MONTH);
-        Hour = calendar.get(Calendar.HOUR_OF_DAY);
-        Minute = calendar.get(Calendar.MINUTE);
+            Year = calendar.get(Calendar.YEAR);
+            Month = calendar.get(Calendar.MONTH);
+            Day = calendar.get(Calendar.DAY_OF_MONTH);
+            Hour = calendar.get(Calendar.HOUR_OF_DAY);
+            Minute = calendar.get(Calendar.MINUTE);
         UpdateNow();
 
         // 버튼(취소 / 수정) 클릭시
@@ -61,7 +61,7 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
         findViewById(R.id.item_modify_button_cancel).setOnClickListener(this);
     }
 
-    // 상품 카테고리 다이얼로그 --------------------------------------------------------------------
+    // 상품 카테고리 -------------------------------------------------------------------------------
     public void dialogSingleChoice(View view) {
         new AlertDialog.Builder(this).
                 setIcon(R.drawable.ic_choice).
@@ -87,13 +87,13 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
 
-            // 날짜 버튼 클릭시 설정 화면 보여줌 (여기서 리스너도 등록함)
+            // 날짜 버튼 클릭시 설정 화면 출력 (여기서 리스너도 등록)
             case R.id.item_modify_date_text: {
                 new DatePickerDialog(ItemModifyActivity.this, DateSetListener, Year, Month, Day).show();
                 break;
             }
 
-            // 시간 버튼 클릭시 설정 화면 보여줌 (여기서 리스너도 등록함)
+            // 시간 버튼 클릭시 설정 화면 출력 (여기서 리스너도 등록)
             case R.id.item_modify_time_text: {
                 new TimePickerDialog(ItemModifyActivity.this, TimeSetListener, Hour, Minute, false).show();
                 break;
@@ -104,9 +104,9 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
                 itemListAsyncTask = new ItemListAsyncTask();
                 itemListAsyncTask.execute();
 
-                Intent intent = new Intent(ItemModifyActivity.this, ItemActivity.class); // 경로 설정해주고
-                startActivity(intent); // 여기서 이동
-                finish(); // 이 액티비티를 종료해줌
+                Intent intent = new Intent(ItemModifyActivity.this, ItemActivity.class);          // 경로 설정해주고
+                startActivity(intent);                                                              // 여기서 이동
+                finish();                                                                           // 이 액티비티를 종료해줌
                 break;
             }
 
@@ -122,23 +122,24 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
 
     // 날짜 버튼 클릭시
     DatePickerDialog.OnDateSetListener DateSetListener = new DatePickerDialog.OnDateSetListener() {
+
         @Override
-        public void onDateSet(DatePicker view, int year, int monthOfyear, int dayOfMonth) {
-            // 사용자가 입력한 값을 가져온뒤
+        public void onDateSet(DatePicker view, int year, int monthOfyear, int dayOfMonth) {      // 사용자가 입력한 값(날짜)을 가져온뒤
             Year = year;
             Month = monthOfyear;
             Day = dayOfMonth;
-            // 텍스트뷰의 값을 업데이트함
-            UpdateNow();
+            UpdateNow();                                                                            // 텍스트뷰의 값을 업데이트함
         }
     };
 
     // 시간 버튼 클릭시
     TimePickerDialog.OnTimeSetListener TimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             Hour = hourOfDay;
             Minute = minute;
+
             UpdateNow();
         }
     };

@@ -33,24 +33,24 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override //
     protected void onCreate(/*@Nullable*/ Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.item_list); // 첫화면인 item_list.xml을 출력
+        setContentView(R.layout.item_list);                                                        // 첫화면인 item_list.xml을 출력
 
-        // 헤더부분 ( 아래 4줄은 세트로 입력해줘야함)
+        // 헤더부분 ( 아래 4줄 toolbar 세트로 입력해줘야함)
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_item_list);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // ← 표시 (뒤로가기 id는 home)
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);                                      // ← 표시 (뒤로가기 id는 home)
 
         // ListView 생성
-        itemListArrayAdapter = new ItemListArrayAdapter(this);
+        itemListArrayAdapter = new ItemListArrayAdapter(ItemActivity.this);
         listView = (ListView) findViewById(R.id.item_list);
 //        LinearLayout linearLayout = (LinearLayout) View.inflate(this,R.layout.item_list_row ,null);
         listView.setAdapter(itemListArrayAdapter);
 
         // 리스트뷰 아이템 클릭 이벤트 처리
-        listView.setOnItemClickListener(this);
+        listView.setOnItemClickListener(ItemActivity.this);
 
-        new ItemListTask().execute(); // 아래 ItemListTask 클래스 실행
+        new ItemListTask().execute();                                                               // 아래 ItemListTask 클래스 실행
     }
 
     @Override
@@ -73,31 +73,31 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.plus_button) {
-            Intent intent = new Intent(ItemActivity.this, ItemInsertActivity.class); // ItemInsertActivity 클래스를 실행
-            startActivity(intent); // 이동
-        } else if (item.getItemId() == android.R.id.home) { // 뒤로가기 버튼 실행
+            Intent intent = new Intent(ItemActivity.this, ItemInsertActivity.class);              // ItemInsertActivity 클래스를 실행
+            startActivity(intent);                                                                  // 이동
+        } else if (item.getItemId() == android.R.id.home) {                                       // 뒤로가기 버튼 실행
             finish();
         }
-        return super.onOptionsItemSelected(item); // return true와 동일
+        return super.onOptionsItemSelected(item);                                                 // return true와 동일
     }
 
-    // SafeAsyncTask 안드로이드에서 서버로 접근시마다 써줘야함
+    // SafeAsyncTask는 안드로이드에서 이클립스(서버)로 접근할때마다 써줘야함
     private class ItemListTask extends SafeAsyncTask<List<Map<String, Object>>> {
         @Override
         public List<Map<String, Object>> call() throws Exception {
             return new ItemService().itemList(getIntent().getLongExtra("shopNo", -1));
         }
 
-        @Override // 에러나면 Exception 발생
-        protected void onException(Exception e) throws RuntimeException {
+        @Override
+        protected void onException(Exception e) throws RuntimeException {                        // 에러나면 Exception 발생
             Log.d("!!!!!!!!!!!!!", "" + e);
             super.onException(e);
         }
 
-        @Override // 성공하면 해당 매장명과 상품목록 출력
-        protected void onSuccess(List<Map<String, Object>> itemList) throws Exception {
+        @Override
+        protected void onSuccess(List<Map<String, Object>> itemList) throws Exception {          // 성공하면 해당 매장명과 상품목록 출력
             ((TextView) findViewById(R.id.shop_name)).setText(itemList.get(0).get("shopName").toString());
-            itemListArrayAdapter.add(itemList);
+            itemListArrayAdapter.add(itemList);                                                  // 목록에 상품 추가
         }
     }
 }

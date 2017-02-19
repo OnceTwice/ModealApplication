@@ -33,7 +33,7 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
 
     ItemService itemService = new ItemService();
 
-    // 리스트에 기본 이미지 출력
+    // 상품 목록에 기본 이미지 출력
     private LayoutInflater layoutInflater;
     DisplayImageOptions displayImageOption = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.apple)
@@ -56,21 +56,22 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         }
 
         final Map<String, Object> map = getItem(position);
-//        ((TextView) convertView.findViewById(R.id.shop_name)).setText(map.get("shopName").toString());             // 해당 매장명
-        ((TextView) convertView.findViewById(R.id.item_list_clock)).setText(map.get("expDate").toString());        // 유통기한
-        ((TextView) convertView.findViewById(R.id.item_list_name)).setText(map.get("name").toString());            // 상품명
-        ((TextView) convertView.findViewById(R.id.item_list_ori_price)).setText((map.get("oriPrice")).toString());   // 원가
-        ((TextView) convertView.findViewById(R.id.item_list_price)).setText(map.get("price").toString());          // 판매가
-        ((TextView) convertView.findViewById(R.id.item_list_shop_name)).setText(map.get("shopName").toString());   // 매장명
-//        ((TextView) convertView.findViewById(R.id.item_list_distance)).setText(map.get(""));                          // 거리(반경)
+        // 유통기한/ 상품명/ 원가/ 판매가/ 매장명/ 거리(반경)
+        ((TextView) convertView.findViewById(R.id.item_list_clock)).setText(map.get("expDate").toString());
+        ((TextView) convertView.findViewById(R.id.item_list_name)).setText(map.get("name").toString());
+        ((TextView) convertView.findViewById(R.id.item_list_ori_price)).setText((map.get("oriPrice")).toString());
+        ((TextView) convertView.findViewById(R.id.item_list_price)).setText(map.get("price").toString());
+        ((TextView) convertView.findViewById(R.id.item_list_shop_name)).setText(map.get("shopName").toString());
+//        ((TextView) convertView.findViewById(R.id.item_list_distance)).setText(map.get(""));
 
         // 액티비티로 데이터 보내기 위해서...
-        ((TextView) convertView.findViewById(R.id.send_no)).setText(String.valueOf(((Double) map.get("no")).longValue()));
+        ((TextView) convertView.findViewById(R.id.send_no)).
+                setText(String.valueOf(((Double) map.get("no")).longValue()));
 
+        // 상품 이미지
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
         ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + map.get("picture"),
-                (ImageView) convertView.findViewById(R.id.item_list_image), displayImageOption);                // 상품이미지
-
+                (ImageView) convertView.findViewById(R.id.item_list_image), displayImageOption);
 
         // 수정 버튼 클릭시 ------------------------------------------------------------------------
 //        convertView.findViewById(R.id.button_modify_item).setOnClickListener(new View.OnClickListener() {
@@ -84,22 +85,26 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
 
         // 삭제 버튼 클릭시 ------------------------------------------------------------------------
         convertView.findViewById(R.id.button_delete_item).setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(final View view) {
+
                 new AlertDialog.Builder(getContext()).
                         setTitle("삭제").
                         setIcon(R.drawable.delete).
                         setMessage("해당 상품을\n삭제하시겠습니까?\n").
 
-                        setPositiveButton("예", new DialogInterface.OnClickListener() { // setPositiveButton 긍정
+                        setPositiveButton("예", new DialogInterface.OnClickListener() {
+
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                new ItemDelete(((Double)map.get("no")).longValue()).execute();
-//                                a.remove(index); // 해당 인덱스 위치의 요소 삭제
+                                new ItemDelete(((Double) map.get("no")).longValue()).execute();
                                 Log.d("setPositiveButton", "" + which);
                             }
                         }).
-                        setNegativeButton("아니요", new DialogInterface.OnClickListener() { //etNegativeButton 부정
+
+                        setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                             }
@@ -110,9 +115,10 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         return convertView;
     }
 
-    // 삭제되는 동안 다른 작업이 실행되기 위해서 사용
+    // 상품 삭제되는 동안 다른 작업이 실행되기 위해서 사용 (=쓰레드?)
     private class ItemDelete extends SafeAsyncTask<Void> {
         Long no;
+
         public ItemDelete(Long no) {
             this.no = no;
         }
@@ -129,12 +135,11 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
             super.onException(e);
         }
 
-        @Override // 성공하면 해당 매장명과 상품목록 출력
+        @Override // 성공하면 해당 상품이 삭제된 상품목록 출력
         protected void onSuccess(Void Void) throws Exception {
             Toast.makeText(getContext(), "해당 상품이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     // 목록에 상품이 추가됨 ------------------------------------------------------------------------
     public void add(List<Map<String, Object>> list) {
