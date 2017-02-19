@@ -61,8 +61,6 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         ((TextView) convertView.findViewById(R.id.item_list_name)).setText(map.get("name").toString());
         ((TextView) convertView.findViewById(R.id.item_list_ori_price)).setText((map.get("oriPrice")).toString());
         ((TextView) convertView.findViewById(R.id.item_list_price)).setText(map.get("price").toString());
-        ((TextView) convertView.findViewById(R.id.item_list_shop_name)).setText(map.get("shopName").toString());
-//        ((TextView) convertView.findViewById(R.id.item_list_distance)).setText(map.get(""));
 
         // 액티비티로 데이터 보내기 위해서...
         ((TextView) convertView.findViewById(R.id.send_no)).

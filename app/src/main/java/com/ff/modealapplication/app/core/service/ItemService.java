@@ -39,7 +39,7 @@ public class ItemService {
         // 안드로이드에서 이클립스로 데이터를 보내기
         int responseCode = httpRequest.send("no=" + shopNo).code();                                // no 값만 전달
 
-        if (responseCode != HttpURLConnection.HTTP_OK) {                                           // HTTP_OK : 접속성공 코드번호 : 200
+        if (responseCode != HttpURLConnection.HTTP_OK) {                                           // http_ok : 접속성공 코드번호 : 200
             throw new RuntimeException("HTTP Response : " + responseCode);                      // if문 조건식이 참이면 RuntimeException(에러)
         }
         // 이클립스에서 안드로이드로 데이터를 받기
@@ -75,7 +75,7 @@ public class ItemService {
                 "&expDate=" + exp_date +
                 "&discount=" + discount).code();
 
-        if (responseCode != HttpURLConnection.HTTP_OK) {                                           // HTTP_OK : 접속성공 코드번호 : 200
+        if (responseCode != HttpURLConnection.HTTP_OK) {                                           // http_ok : 접속성공 코드번호 : 200
             throw new RuntimeException("HTTP Response : " + responseCode);                      // if문 조건식이 참이면 RuntimeException(에러)
         }
     }
@@ -87,7 +87,7 @@ public class ItemService {
 
 
     // 상품 수정 - 수정페이지 출력  ----------------------------------------------------------------
-    public ItemVo itemModify(Long shopNo) {
+    public ItemVo itemModify(Long no) {
 
         // 데이터를 가져올 URL 작성
         String url = Base.url + "modeal/list/itemModify";
@@ -98,8 +98,8 @@ public class ItemService {
         httpRequest.connectTimeout(10000);
         httpRequest.readTimeout(10000);
 
-        // 안드로이드에서 이클립스로 데이터를 보내기
-        int responseCode = httpRequest.send("no=" + shopNo).code();
+        // Form 방식 : 안드로이드에서 이클립스로 데이터를 보내기
+        int responseCode = httpRequest.send("no=" + no).code();
 
         if (responseCode != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("HTTP Response : " + responseCode);

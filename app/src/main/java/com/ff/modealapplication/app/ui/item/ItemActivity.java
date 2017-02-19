@@ -81,7 +81,7 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
         return super.onOptionsItemSelected(item);                                                 // return true와 동일
     }
 
-    // SafeAsyncTask는 안드로이드에서 이클립스(서버)로 접근할때마다 써줘야함
+    // SafeAsyncTask는 안드로이드에서 이클립스(서버)로 접근마다 써줘야함
     private class ItemListTask extends SafeAsyncTask<List<Map<String, Object>>> {
         @Override
         public List<Map<String, Object>> call() throws Exception {
