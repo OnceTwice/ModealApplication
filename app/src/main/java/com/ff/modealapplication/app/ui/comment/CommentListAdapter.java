@@ -2,7 +2,6 @@ package com.ff.modealapplication.app.ui.comment;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,8 @@ import android.widget.TextView;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.app.core.domain.CommentVo;
+
+import java.util.List;
 
 public class CommentListAdapter extends ArrayAdapter<CommentVo> {
     private LayoutInflater layoutInflater;
@@ -30,10 +31,8 @@ public class CommentListAdapter extends ArrayAdapter<CommentVo> {
             view = layoutInflater.inflate(R.layout.row_comment_list, parent, false);
         }
 
-        Log.d("포지션은 : ", position+";;");
         // 내부에서 해당 포지션의 CommentVo 객체를 받아옴
         CommentVo commentVo = getItem(position);
-        Log.d("아오아오", commentVo+";;");
 
         // 별점 세팅
         RatingBar ratingBar = (RatingBar) view.findViewById(R.id.rbList);
@@ -41,8 +40,20 @@ public class CommentListAdapter extends ArrayAdapter<CommentVo> {
 
         // 댓글 세팅
         TextView textView = (TextView) view.findViewById(R.id.tvCommentList);
-        textView.setText("tq");
+        textView.setText(commentVo.getContent());
 
         return view;
+    }
+
+    public void add(List<CommentVo> commentVos) {
+        if(commentVos == null || commentVos.size()==0) {
+            return;
+        }
+
+        for(CommentVo commentVo : commentVos) {
+            add(commentVo);
+        }
+
+        // notifyDataSetChanged();
     }
 }

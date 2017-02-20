@@ -54,7 +54,7 @@
                 <ImageView
                     android:id="@+id/imgVMarketDetailInformationImg"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="100dp"
                     android:layout_gravity="center"
                     android:src="@drawable/market" />
 
@@ -161,11 +161,22 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="#153"
+                    android:textSize="20dp"
+                    android:text="=== 매장 댓글 ==="/>
 
                 <ListView
                     android:id="@+id/commentList"
                     android:layout_width="wrap_content"
+                    android:dividerHeight="2dp"
+                    android:divider="#999999"
                     android:layout_height="200dp"
                     android:layout_gravity="center">
 

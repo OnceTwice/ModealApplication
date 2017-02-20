@@ -60,13 +60,10 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         }
 
         final Map<String, Object> map = getItem(position);
-//        ((TextView) convertView.findViewById(R.id.shop_name)).setText(map.get("shopName").toString());             // 해당 매장명
         ((TextView) convertView.findViewById(R.id.item_list_clock)).setText(map.get("expDate").toString());        // 유통기한
         ((TextView) convertView.findViewById(R.id.item_list_name)).setText(map.get("name").toString());            // 상품명
         ((TextView) convertView.findViewById(R.id.item_list_ori_price)).setText((map.get("oriPrice")).toString());   // 원가
         ((TextView) convertView.findViewById(R.id.item_list_price)).setText(map.get("price").toString());          // 판매가
-        ((TextView) convertView.findViewById(R.id.item_list_shop_name)).setText(map.get("shopName").toString());   // 매장명
-//        ((TextView) convertView.findViewById(R.id.item_list_distance)).setText(map.get(""));                          // 거리(반경)
 
         // 액티비티로 데이터 보내기 위해서...
         ((TextView) convertView.findViewById(R.id.send_no)).setText(String.valueOf(((Double) map.get("no")).longValue()));

@@ -33,8 +33,8 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
     private MarketService marketService = new MarketService();
     private CommentService commentService = new CommentService();
 
-    CommentListAdapter commentListAdapter = null;
-    ListView listView = null;
+    private CommentListAdapter commentListAdapter = null;
+    private ListView listView = null;
 
     private ImageView imageView;
     private Bitmap bitmap;
@@ -78,7 +78,7 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
         listView.setAdapter(commentListAdapter);
 
         new MarketInformationAsyncTask().execute();
-//        new FetchCommentListAsyncTask().execute();
+        new FetchCommentListAsyncTask().execute();
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,24 +165,29 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
     }
 
     private class FetchCommentListAsyncTask extends SafeAsyncTask<List<CommentVo>> {
-        CommentVo commentVo = new CommentVo();
-
         @Override
         public List<CommentVo> call() throws Exception {
             Log.d("FetchCommentListAsy : ", "입갤");
-            commentService.commentInform(null);
 
-            return null;
+            Log.d("끄으으으읕", commentService.commentInform() + "");
+
+            return commentService.commentInform();
         }
 
         @Override
         protected void onException(Exception e) throws RuntimeException {
-            super.onException(e);
+//            super.onException(e);
+            Log.d("매장상세페이지", "서비스 에러뜸!!!" + e);
+            throw new RuntimeException(e);
         }
 
         @Override
         protected void onSuccess(List<CommentVo> commentVos) throws Exception {
+            Log.d("석세스석세스", commentVos + "");
+
+            commentListAdapter.add(commentVos);
             super.onSuccess(commentVos);
+            Log.d("FetchCommentListAsy : ", "성공!!!");
         }
     }
 }
