@@ -25,8 +25,6 @@ import com.ff.modealapplication.app.ui.item.ItemDetailActivity;
 import java.util.List;
 import java.util.Map;
 
-import static android.R.id.list;
-
 public class MainListFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     MainListArrayAdapter mainListArrayAdapter = null;
@@ -38,18 +36,16 @@ public class MainListFragment extends Fragment implements AdapterView.OnItemClic
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.w("온크리에이트", "개자식들아");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.w("온크리에이트뷰", "씨발새끼들아");
         View mFragment = inflater.inflate(R.layout.fragment_main_list, container, false);
-        mainListArrayAdapter = new MainListArrayAdapter(mFragment.getContext());
-        mainListArrayAdapter.notifyDataSetChanged();
-        listView = (ListView) mFragment.findViewById(list);
-        listView.setAdapter(mainListArrayAdapter);
-        listView.setOnItemClickListener(this);
+//        mainListArrayAdapter = new MainListArrayAdapter(mFragment.getContext());
+//        mainListArrayAdapter.notifyDataSetChanged();
+//        listView = (ListView) mFragment.findViewById(list);
+//        listView.setAdapter(mainListArrayAdapter);
+//        listView.setOnItemClickListener(this);
 
         new MainListAsyncTask().execute(); // 뒤로가기해도 뜨기 위해선 onCreate가 아닌 onCreateView에 넣어야함
         // onCreateView가 뷰가 만들어질때마다 이루어지는 것 같으므로... 뒤로가기해서 이 프래그먼트로 돌아올때 뷰를 다시 만드므로...?

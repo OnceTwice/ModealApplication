@@ -17,6 +17,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,7 +28,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ import com.ff.modealapplication.app.core.service.MainService;
 import com.ff.modealapplication.app.core.util.BackPressCloseHandler;
 import com.ff.modealapplication.app.core.util.GPSPreference;
 import com.ff.modealapplication.app.core.util.LoginPreference;
+import com.ff.modealapplication.app.core.util.RecyclerItemClickListener;
 import com.ff.modealapplication.app.ui.bookmark.BookmarkActivity;
 import com.ff.modealapplication.app.ui.help.HelpActivity;
 import com.ff.modealapplication.app.ui.item.ItemActivity;
@@ -65,8 +67,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     boolean flag_withdraw = false;
 
+    //    ListView listView = null;
     MainListArrayAdapter mainListArrayAdapter = null;
-    ListView listView = null;
+
+    RecyclerView recyclerView;
+    List<Map<String, Object>> mainList;
 
     private BackPressCloseHandler backPressCloseHandler;
     private DrawerLayout drawer = null;
@@ -86,15 +91,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         backPressCloseHandler = new BackPressCloseHandler(this);
 
         // 프래그먼트에서 떼오고 없애버림
-        mainListArrayAdapter = new MainListArrayAdapter(this);
-        listView = (ListView) findViewById(R.id.main_list);
-        listView.setAdapter(mainListArrayAdapter);
-        listView.setOnItemClickListener(this);
+//        mainListArrayAdapter = new MainListArrayAdapter(this);
+//        listView = (ListView) findViewById(R.id.main_list);
+//        listView.setAdapter(mainListArrayAdapter);
+//        listView.setOnItemClickListener(this);
+
+        // 리스트뷰 대신 리사이클러뷰 사용...
+        recyclerView = (RecyclerView) findViewById(R.id.main_list);
+        mainListArrayAdapter = new MainListArrayAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(mainListArrayAdapter);
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, recyclerView, new RecyclerItemClickListener.OnItemClickListener() { // by.Jacob Tabak 엄청나다...
+            @Override
+            public void onItemClick(View view, int position) {
+                // do whatever
+                Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
+                intent.putExtra("no", (Double.valueOf(((TextView) view.findViewById(R.id.send_no)).getText().toString())).longValue());
+                intent.putExtra("shopNo", (Double.valueOf(((TextView) view.findViewById(R.id.send_shopNo)).getText().toString())).longValue());
+                startActivity(intent);
+                onPause();
+            }
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+                // do whatever
+            }
+        }));
 
         //listview footer
         View footer = getLayoutInflater().inflate(R.layout.list_footer, null, false);
-        listView.addFooterView(footer);
-        listView.setFooterDividersEnabled(false);
+//        listView.addFooterView(footer);
+//        listView.setFooterDividersEnabled(false);
 
         new MainListAsyncTask().execute();
 
@@ -237,6 +264,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         protected void onSuccess(List<Map<String, Object>> list) throws Exception {
+            mainList = list;
             mainListArrayAdapter.add(list);
             super.onSuccess(list);
         }
@@ -245,7 +273,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         protected void onException(Exception e) throws RuntimeException {
             Log.d("*Main Exception error :", "" + e);
             throw new RuntimeException(e);
-//            super.onException(e);
         }
     }
 
@@ -288,7 +315,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(getApplicationContext(), GPSPreference.getValue(getApplicationContext(), "latitude") + " : " + GPSPreference.getValue(getApplicationContext(), "longitude") + " : " + GPSPreference.getValue(getApplicationContext(), "range"), Toast.LENGTH_SHORT).show();
             lm.removeUpdates(this); // GPS 정지
             new MainListAsyncTask().execute();
-            mainListArrayAdapter.clear(); // 리스트 갱신을 위한 다 지우기
+//            mainListArrayAdapter.swap(mainList);
+//            mainListArrayAdapter.notifyItemRangeRemoved(0, mainList.size()); // 리스트 갱신을 위한 다 지우기 (리사이클러뷰)
+//            mainListArrayAdapter.clear(); // 리스트 갱신을 위한 다 지우기 (리스트뷰)
             mainListArrayAdapter.notifyDataSetChanged(); // 리스트 갱신을 위한 값 변경시 알려주기?
         }
 
@@ -323,7 +352,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (LoginPreference.getValue(getApplicationContext(), "id") != null) {
             ((Button) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.login_button)).setText("로그아웃");
             ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.register_button).setVisibility(View.GONE);
-            if ((Long)LoginPreference.getValue(getApplicationContext(), "shopNo") != -1) { // 사업자 로그인시 보임
+            if ((Long) LoginPreference.getValue(getApplicationContext(), "shopNo") != -1) { // 사업자 로그인시 보임
                 ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_manage).setVisible(true);
                 ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_marketDetail).setVisible(true);
             } else { // 일반 사용자 로그인시
@@ -364,7 +393,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (LoginPreference.getValue(getApplicationContext(), "id") != null) {
             ((Button) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.login_button)).setText("로그아웃");
             ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.register_button).setVisibility(View.GONE);
-            if ((Long)LoginPreference.getValue(getApplicationContext(), "shopNo") != -1) { // 사업자 로그인시 보임
+            if ((Long) LoginPreference.getValue(getApplicationContext(), "shopNo") != -1) { // 사업자 로그인시 보임
                 ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_manage).setVisible(true);
                 ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_marketDetail).setVisible(true);
             } else { // 일반 사용자 로그인시
@@ -388,8 +417,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onRestart() { // 액티비티가 전면에 보일때
         super.onRestart();
         new MainListAsyncTask().execute(); // 3개가 한세트 (리스트 다시불러오기)
-        mainListArrayAdapter.clear(); // 3개가 한세트 (리스트 어댑터 지우기)
-        mainListArrayAdapter.notifyDataSetChanged(); // 3개가 한세트 (리스트 어댑터 다시 갱신)
+//        mainListArrayAdapter.swap(mainList);
+//        mainListArrayAdapter.notifyItemRangeRemoved(0, mainList.size()); // 리스트 갱신을 위한 다 지우기 (리사이클러뷰)
+//                mainListArrayAdapter.clear(); // 리스트 갱신을 위한 다 지우기 (리스트뷰)
+        mainListArrayAdapter.notifyDataSetChanged(); // 리스트 갱신을 위한 값 변경시 알려주기?
     }
 
     /***************************************
@@ -424,8 +455,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     onPause();
                     onResume();
                     new MainListAsyncTask().execute(); // 로그아웃 후 즐겨찾기 표시 없애기 위해서 리스트를 다시 갱신시켜줌...
-                    mainListArrayAdapter.clear();
-                    mainListArrayAdapter.notifyDataSetChanged();
+//                    mainListArrayAdapter.swap(mainList);
+//                mainListArrayAdapter.notifyItemRangeRemoved(0, mainList.size()); // 리스트 갱신을 위한 다 지우기 (리사이클러뷰)
+//                mainListArrayAdapter.clear(); // 리스트 갱신을 위한 다 지우기 (리스트뷰)
+                mainListArrayAdapter.notifyDataSetChanged(); // 리스트 갱신을 위한 값 변경시 알려주기?
                     break;
                 }
             case R.id.register_button:
@@ -505,7 +538,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         } else if (id == nav_manage) { // 상품관리
             Intent intent = new Intent(this, ItemActivity.class);
-            intent.putExtra("shopNo", (Long)LoginPreference.getValue(getApplicationContext(), "shopNo"));
+            intent.putExtra("shopNo", (Long) LoginPreference.getValue(getApplicationContext(), "shopNo"));
             startActivity(intent);
         } else if (id == nav_marketDetail) { // 매장상세정보
             Intent intent = new Intent(this, MarketDetailInformationActivity.class);

@@ -66,11 +66,12 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
             convertView = layoutInflater.inflate(R.layout.item_list_row, parent, false);
         }
 
+        final Map<String, Object> map = getItem(position);
         ((TextView) convertView.findViewById(R.id.item_list_clock)).setText(map.get("expDate").toString());        // 유통기한
         ((TextView) convertView.findViewById(R.id.item_list_name)).setText(map.get("name").toString());            // 상품명
 //        textOriPriceView.setPaintFlags(textOriPriceView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);         //가운데 줄긋기
-        ((TextView) convertView.findViewById(R.id.item_list_ori_price)).setText((map.get("oriPrice")).toString());   // 원가
-        ((TextView) convertView.findViewById(R.id.item_list_price)).setText(map.get("price").toString());          // 판매가
+        ((TextView) convertView.findViewById(R.id.item_list_ori_price)).setText(((Double)map.get("oriPrice")).longValue() + "");   // 원가
+        ((TextView) convertView.findViewById(R.id.item_list_price)).setText(((Double)map.get("price")).longValue() + "");          // 판매가
 
         // 액티비티로 데이터 보내기 위해서...
         ((TextView) convertView.findViewById(R.id.send_no)).setText(String.valueOf(((Double) map.get("no")).longValue()));
@@ -90,10 +91,8 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
 //        }
         if (isChecked[position] || ((Double) map.get("showItem")).longValue() == 0L) {
             hideButton.setChecked(true);
-            isChecked[position] = true;
-        } else if (!isChecked[position] || ((Double) map.get("showItem")).longValue() == 1L){
+        } else if (!isChecked[position] || ((Double) map.get("showItem")).longValue() == 1L) {
             hideButton.setChecked(false);
-            isChecked[position] = false;
         }
         hideButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,9 +100,11 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
                 if (hideButton.isChecked()) {
                     isChecked[position] = true;
                     new ItemView(((Double) map.get("no")).longValue(), 0L).execute();
+                    map.put("showItem", 0.0);
                 } else {
                     isChecked[position] = false;
                     new ItemView(((Double) map.get("no")).longValue(), 1L).execute();
+                    map.put("showItem", 1.0);
                     // 보이기 누르면 해당 알림 구독한 사용자들에게 알림 전송
                     new Thread() {
                         public void run() {

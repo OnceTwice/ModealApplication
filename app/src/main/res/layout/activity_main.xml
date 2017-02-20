@@ -52,14 +52,20 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
             <!-- layout_behavior는 액션바 밑에서부터 화면구성이 이루어지도록 하는것 -->
 
-            <!-- divider → list 행 간격 띄우기-->
-            <ListView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/main_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="#E5E5E2"
-                android:dividerHeight="10dp"
-                />
+                android:scrollbars="vertical" />
+
+            <!-- divider → list 행 간격 띄우기-->
+            <!--<ListView-->
+            <!--android:id="@+id/main_list"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:divider="#E5E5E2"-->
+            <!--android:dividerHeight="10dp"-->
+            <!--/>-->
         </FrameLayout>
 
         <android.support.design.widget.FloatingActionButton
