@@ -1,14 +1,10 @@
 package com.ff.modealapplication.app.core.service;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.util.Log;
-import android.view.View;
 
-import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.JSONResult;
-import com.ff.modealapplication.app.core.util.Base;
 import com.ff.modealapplication.app.core.domain.ItemVo;
+import com.ff.modealapplication.app.core.util.Base;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -179,7 +175,7 @@ public class ItemService {
 
 
     // 상품 상세 목록 ------------------------------------------------------------------------------ (170209/상욱추가)
-    public Map<String, Object> itemDetail(Long no) {
+    public Map<String, Object> itemDetail(String latitude, String longitude, Long no) {
         String url = Base.url + "modeal/list/itemDetail";
         HttpRequest httpRequest = HttpRequest.post(url);
 
@@ -188,7 +184,7 @@ public class ItemService {
         httpRequest.connectTimeout(10000);
         httpRequest.readTimeout(10000);
 
-        httpRequest.send("no=" + no);
+        httpRequest.send("latitude=" + latitude + "&longitude=" + longitude + "&no=" + no);
         int responseCode = httpRequest.code();
 
         if (responseCode != HttpURLConnection.HTTP_OK) {

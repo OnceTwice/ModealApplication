@@ -17,7 +17,6 @@ import java.util.Map;
 
 public class LoginService {
         String url = Base.url + "modeal/userapp"; // 학원 로컬
-//        String url = "http://192.168.0.17:8088/modeal/userapp/login"; // 집
 
     // 일반로그인 & 페이스북로그인 & 구글로그인
     public Map<String, Object> login(UserVo userVo) {

@@ -42,7 +42,7 @@ public class BookmarkShopList extends ArrayAdapter<Map<String, Object>> {
 
     // 체크된 아이템들을 저장할 List
     boolean[] isChecked;
-    List<Map<String, Object>> list;
+//    List<Map<String, Object>> list;
 
     public BookmarkShopList(Context context) {
         super(context, R.layout.activity_bookmark);
@@ -105,7 +105,7 @@ public class BookmarkShopList extends ArrayAdapter<Map<String, Object>> {
         if (list == null || list.size() == 0) {
             return;
         }
-        this.list = list;
+//        this.list = list;
         isChecked = new boolean[list.size()];
         for (Map<String, Object> map : list) {
             Log.d("List shops : ", "" + map);

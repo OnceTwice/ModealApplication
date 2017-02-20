@@ -9,8 +9,7 @@
     android:orientation="vertical">
     <!-- android:background="#E5E5E2" -->
 
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
@@ -227,20 +226,25 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/flipper_left"
+                    android:id="@+id/image_left"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/arrow_left" />
 
-                <ViewFlipper
-                    android:id="@+id/item_detail_flipper"
+                <!--<ViewFlipper-->
+                <!--android:id="@+id/item_detail_flipper"-->
+                <!--android:layout_width="200dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="0dp" />-->
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/view_pager"
                     android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp" />
+                    android:layout_height="100dp" />
 
                 <Button
-                    android:id="@+id/flipper_right"
+                    android:id="@+id/image_right"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="10dp"

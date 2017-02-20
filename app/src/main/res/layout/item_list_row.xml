@@ -93,14 +93,15 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
-        <Button
+        <ToggleButton
             android:id="@+id/button_hiding_item"
             android:layout_width="80dp"
             android:layout_height="30dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:background="#E74B59"
-            android:text="숨기기"
+            android:textOff="숨기기"
+            android:textOn="보이기"
             android:textColor="#fff"
             android:textSize="14dp" />
 

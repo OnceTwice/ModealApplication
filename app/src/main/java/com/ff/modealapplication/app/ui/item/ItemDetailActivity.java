@@ -1,31 +1,32 @@
 package com.ff.modealapplication.app.ui.item;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import android.widget.ViewFlipper;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.BookmarkService;
 import com.ff.modealapplication.app.core.service.ItemService;
 import com.ff.modealapplication.app.core.util.Base;
+import com.ff.modealapplication.app.core.util.GPSPreference;
 import com.ff.modealapplication.app.core.util.LoginPreference;
 import com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity;
 import com.ff.modealapplication.app.ui.message.MessagingService;
@@ -34,6 +35,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -45,8 +47,8 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
     private Button bookmark_button; // 즐겨찾기
     private boolean isChecked; // 상품 보이기 / 숨기기
     private Long shopNo; // 해당 상품 매장에만 메뉴 띄우기 위해서...
-    private ViewFlipper flipper; // 뷰플리퍼
-    private List<Map<String, Object>> itemList; // 뷰플리퍼를 위한 상품리스트
+    //    private ViewFlipper flipper; // 뷰플리퍼
+    private List<Map<String, Object>> itemList; // 동일매장 상품리스트
 
     DisplayImageOptions displayImageOption = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.apple)
@@ -150,54 +152,136 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         new ItemList().execute();
 
-        // 뷰플리퍼 (자동 슬라이드 되는 동일 매장 상품 이미지)
-        flipper = (ViewFlipper) findViewById(R.id.item_detail_flipper);
+        // 뷰페이저
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i < itemList.size(); i++) {
-                    LinearLayout linearLayout = new LinearLayout(getApplicationContext());
-                    linearLayout.setOrientation(LinearLayout.VERTICAL);
-
-                    ImageView img = new ImageView(getApplicationContext());
-                    img.setScaleType(ImageView.ScaleType.CENTER);
-                    ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
-                    ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + itemList.get(i).get("picture"), img, displayImageOption);
-
-                    linearLayout.addView(img);
-                    flipper.addView(linearLayout);
-                    flipper.setDisplayedChild(i);
-                    flipper.setOnClickListener(new View.OnClickListener() { // 클릭시 해당 상품 상세페이지로 이동
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
-                            intent.putExtra("no", ((Double)itemList.get(flipper.getDisplayedChild()).get("no")).longValue());
-                            intent.putExtra("shopNo", ((Double)itemList.get(flipper.getDisplayedChild()).get("shopNo")).longValue());
-                            startActivity(intent);
-                            finish();
-                        }
-                    });
-                }
-                Animation shownIn = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
-                flipper.setInAnimation(shownIn);
-                flipper.setOutAnimation(getApplicationContext(), android.R.anim.fade_out);
-                flipper.setFlipInterval(2000);
-                flipper.startFlipping();
+                ImageAdapter adapter = new ImageAdapter(getApplicationContext());
+                viewPager.setAdapter(adapter);
+                viewPager.setPageMargin(getResources().getDisplayMetrics().widthPixels / -4);
+                viewPager.setOffscreenPageLimit(2);
+                viewPager.setCurrentItem(1);
             }
         }, 1000);
+        findViewById(R.id.image_left).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int cur = viewPager.getCurrentItem();    //현재 아이템 포지션
+                if (cur > 0)                //첫 페이지가 아니면
+                    viewPager.setCurrentItem(cur - 1, true);    //이전 페이지로 이동
+                else                        //첫 페이지 이면
+                    Toast.makeText(getApplicationContext(), "맨 처음 페이지 입니다.",
+                            Toast.LENGTH_SHORT).show();
+            }
+        });
+        findViewById(R.id.image_right).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int cur = viewPager.getCurrentItem();    //현재 아이템 포지션
+                if (cur < itemList.size() - 1)        //마지막 페이지가 아니면
+                    viewPager.setCurrentItem(cur + 1, true);    //다음 페이지로 이동
+                else                        //마지막 페이지 이면
+                    Toast.makeText(getApplicationContext(), "맨 마지막 페이지 입니다.",
+                            Toast.LENGTH_SHORT).show();    //메시지 출력
+            }
+        });
 
-        findViewById(R.id.flipper_left).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                flipper.showNext();
-            }
-        });
-        findViewById(R.id.flipper_right).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                flipper.showPrevious();
-            }
-        });
+//        // 뷰플리퍼 (자동 슬라이드 되는 동일 매장 상품 이미지)
+//        flipper = (ViewFlipper) findViewById(R.id.item_detail_flipper);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                for (int i = 0; i < itemList.size(); i++) {
+//                    LinearLayout linearLayout = new LinearLayout(getApplicationContext());
+//                    linearLayout.setOrientation(LinearLayout.VERTICAL);
+//
+//                    ImageView img = new ImageView(getApplicationContext());
+//                    img.setScaleType(ImageView.ScaleType.CENTER);
+//                    ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
+//                    ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + itemList.get(i).get("picture"), img, displayImageOption);
+//
+//                    linearLayout.addView(img);
+//                    flipper.addView(linearLayout);
+//                    flipper.setDisplayedChild(i);
+//                    flipper.setOnClickListener(new View.OnClickListener() { // 클릭시 해당 상품 상세페이지로 이동
+//                        @Override
+//                        public void onClick(View v) {
+//                            Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
+//                            intent.putExtra("no", ((Double) itemList.get(flipper.getDisplayedChild()).get("no")).longValue());
+//                            intent.putExtra("shopNo", ((Double) itemList.get(flipper.getDisplayedChild()).get("shopNo")).longValue());
+//                            startActivity(intent);
+//                            finish();
+//                        }
+//                    });
+//                }
+//                Animation shownIn = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
+//                flipper.setInAnimation(shownIn);
+//                flipper.setOutAnimation(getApplicationContext(), android.R.anim.fade_out);
+//                flipper.setFlipInterval(2000);
+//                flipper.startFlipping();
+//            }
+//        }, 1000);
+//
+//        findViewById(R.id.image_left).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                flipper.showNext();
+//            }
+//        });
+//        findViewById(R.id.image_right).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                flipper.showPrevious();
+//            }
+//        });
+    }
+
+    // 뷰페이저를 쓰기 위한 어댑터
+    public class ImageAdapter extends PagerAdapter {
+        Context context;
+
+        ImageAdapter(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public int getCount() {
+            return itemList.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == ((ImageView) object);
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, final int position) {
+            ImageView imageView = new ImageView(context);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+
+            ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
+            ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + itemList.get(position).get("picture"), imageView, displayImageOption);
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
+                    intent.putExtra("no", ((Double) itemList.get(position).get("no")).longValue());
+                    intent.putExtra("shopNo", ((Double) itemList.get(position).get("shopNo")).longValue());
+                    startActivity(intent);
+                    finish();
+                }
+            });
+
+            ((ViewPager) container).addView(imageView, 0);
+            return imageView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            ((ViewPager) container).removeView((ImageView) object);
+        }
     }
 
     // 뒤로가기 클릭시 & 돋보기 클릭시
@@ -234,7 +318,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         @Override
         public Map<String, Object> call() throws Exception {
             // getIntent().getStringExtra("no") ← 이전 액티비티에서 no값 받아옴 (이걸로 서버에 접근해서 해당 정보 가져오기 위해서...)
-            return itemService.itemDetail(getIntent().getLongExtra("no", -1));
+            return itemService.itemDetail((String) GPSPreference.getValue(getApplicationContext(), "latitude"), (String) GPSPreference.getValue(getApplicationContext(), "longitude"), getIntent().getLongExtra("no", -1L));
         }
 
         @Override // 에러나면 Exception 발생
@@ -259,6 +343,12 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
             ((TextView) findViewById(R.id.item_detail_shop_name)).setText(itemMap.get("shopName").toString());
             if (itemMap.get("grade") != null) {
                 ((RatingBar) findViewById(R.id.item_detail_ratingBar)).setRating(((Double) itemMap.get("grade")).floatValue());
+            }
+            if (itemMap.get("distance") != null) {
+                ((TextView) findViewById(R.id.item_detail_distance)).setText(((Double) itemMap.get("distance")).longValue() + "m");
+            }
+            if (((Double)itemMap.get("showItem")).longValue() == 0L) {
+                ((ToggleButton) findViewById(R.id.button_hiding_item)).setChecked(true);
             }
 
             ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + itemMap.get("picture"), (ImageView) findViewById(R.id.item_detail_image), displayImageOption); // 상품이미지
@@ -350,7 +440,14 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         @Override
         public List<Map<String, Object>> call() throws Exception {
-            return itemService.itemList(getIntent().getLongExtra("shopNo", -1));
+            List<Map<String, Object>> list = itemService.itemList(getIntent().getLongExtra("shopNo", -1));
+            List<Map<String, Object>> list_show = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                if (((Double) list.get(i).get("showItem")).longValue() == 1) {
+                    list_show.add(list.get(i));
+                }
+            }
+            return list_show;
         }
 
         @Override

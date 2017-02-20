@@ -1,8 +1,5 @@
 package com.ff.modealapplication.app.ui.item;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -54,9 +51,17 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        new ItemListTask().execute();
+        itemListArrayAdapter.clear();
+        itemListArrayAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
-        intent.putExtra("no", ((TextView)view.findViewById(R.id.send_no)).getText().toString());
+        intent.putExtra("no", Long.valueOf(((TextView)view.findViewById(R.id.send_no)).getText().toString()));
         intent.putExtra("shopNo", getIntent().getLongExtra("shopNo", -1));
 
         startActivity(intent);
