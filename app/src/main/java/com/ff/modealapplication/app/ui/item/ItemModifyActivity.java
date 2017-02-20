@@ -38,7 +38,7 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
 
     private ItemService itemService = new ItemService();
     private int indexSingleChoiceSelected = 0;
-    private Long categoryNo;
+//    private Long itemCatagoryNo;
 
     int Year, Month, Day, Hour, Minute;
     TextView dateText;
@@ -104,18 +104,6 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
 
-            // 날짜 버튼 클릭시 설정 화면 출력 (여기서 리스너도 등록)
-            case R.id.item_modify_date_text: {
-                new DatePickerDialog(ItemModifyActivity.this, DateSetListener, Year, Month, Day).show();
-                break;
-            }
-
-            // 시간 버튼 클릭시 설정 화면 출력 (여기서 리스너도 등록)
-            case R.id.item_modify_time_text: {
-                new TimePickerDialog(ItemModifyActivity.this, TimeSetListener, Hour, Minute, false).show();
-                break;
-            }
-
             // 수정 버튼 클릭시
             case R.id.item_modify_button_modify: {
                 itemModifyTask = new ItemModifyTask();
@@ -132,6 +120,18 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
                 Intent intent = new Intent(ItemModifyActivity.this, ItemActivity.class);
                 startActivity(intent);
                 finish();
+                break;
+            }
+
+            // 날짜 버튼 클릭시 설정 화면 출력 (여기서 리스너도 등록)
+            case R.id.item_modify_date_text: {
+                new DatePickerDialog(ItemModifyActivity.this, DateSetListener, Year, Month, Day).show();
+                break;
+            }
+
+            // 시간 버튼 클릭시 설정 화면 출력 (여기서 리스너도 등록)
+            case R.id.item_modify_time_text: {
+                new TimePickerDialog(ItemModifyActivity.this, TimeSetListener, Hour, Minute, false).show();
                 break;
             }
         }
@@ -171,7 +171,10 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
     // 상품 수정
     private class ItemModifyTask extends SafeAsyncTask<ItemVo> {
         @Override
-        public ItemVo call() throws Exception {                                                   // call 부분이 서버에서 가져온 값
+        public ItemVo call() throws Exception {
+             getIntent().getStringExtra("no");  // 이전 액티비티에서 no값 받아옴 (이걸로 서버에 접근해서 해당 정보 가져오기 위해서...)
+
+            // call 부분이 서버에서 가져온 값
             return itemService.itemModify(getIntent().getLongExtra("no", -1));
         }
         @Override
@@ -188,17 +191,19 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
             String hour = tokens.nextToken();
             String minute = tokens.nextToken();
 
-            ((TextView) findViewById(R.id.item_modify_date_text)).setText(year + "년 " + month + "월 " + day + "일 ");
-            ((TextView) findViewById(R.id.item_modify_time_text)).setText(hour + "시 " + minute + "분");
-            ((EditText) findViewById(R.id.item_modify_name)).setText(itemVo.getName().toString());
-//            ((EditText) findViewById(R.id.item_modify_ori_price)).setText(itemVo.getOriPrice().longValue() + "");             // 여기 두줄 빨간줄떳음 다시 해보기
-//            ((EditText) findViewById(R.id.item_modify_price)).setText((itemVo.getPrice()).longValue() + "");
-
+            ((TextView) findViewById(R.id.item_modify_category)).setText(itemVo.getItemCategoryNo() + "");  // 카테고리
+            ((EditText) findViewById(R.id.item_modify_name)).setText(itemVo.getName().toString());           // 상품명
+            ((EditText) findViewById(R.id.item_modify_count)).setText(itemVo.getCount() + "");              // 수량
+            ((EditText) findViewById(R.id.item_modify_ori_price)).setText((itemVo.getOriPrice()) + "");     // 원가
+            ((EditText) findViewById(R.id.item_modify_price)).setText((itemVo.getPrice()) + "");            // 판매가
+            ((EditText) findViewById(R.id.item_modify_discount)).setText(itemVo.getDiscount() + "");        // 할인율
+            ((TextView) findViewById(R.id.item_modify_date_text)).setText(year + "/" + month + "/" + day);  // 날짜
+            ((TextView) findViewById(R.id.item_modify_time_text)).setText(hour + ":" + minute);             // 시간
             ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + itemVo.getPicture(),
-                    (ImageView) findViewById(R.id.item_modify_image_view), displayImageOption); // 상품이미지
+                    (ImageView) findViewById(R.id.item_modify_image_view), displayImageOption);         // 상품이미지
         }
 
-        //        public ItemVo call() throws Exception {
+//        public ItemVo call() throws Exception {
 //            EditText nameModify = (EditText) findViewById(R.id.item_modify_name);
 //            Log.d("name : ", nameModify.getText().toString());
 //            String item_name = nameModify.getText().toString();

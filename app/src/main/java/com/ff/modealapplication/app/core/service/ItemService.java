@@ -103,7 +103,6 @@ public class ItemService {
 
         // 이클립스에서 안드로이드로 데이터를 받기
         ItemService.JSONResultItemModify jsonResult = fromJSON(httpRequest, ItemService.JSONResultItemModify.class);
-
         return jsonResult.getData();
     }
 
@@ -147,7 +146,6 @@ public class ItemService {
 //        // 데이터(스트링) 안에서 원하는 값을 추출하기 위해 <List<ItemVo>> 사용
 //    }
 
-
     // 상품 삭제 -----------------------------------------------------------------------------------
     public void itemDelete(Long no) {
 
@@ -172,7 +170,6 @@ public class ItemService {
         // ↑ String 에서 원하는 데이터를 추출하기 위해 JSONResult 사용,
         // 데이터(스트링) 안에서 원하는 값을 추출하기 위해 <ItemVo> 사용
     }
-
 
     // 상품 상세 목록 ------------------------------------------------------------------------------ (170209/상욱추가)
     public Map<String, Object> itemDetail(String latitude, String longitude, Long no) {

@@ -76,13 +76,13 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         // 해당 상품 매장아이디로 접속시 삭제/수정/보이기(숨기기)버튼 보임
         if ((Long) LoginPreference.getValue(getApplicationContext(), "shopNo") == getIntent().getLongExtra("shopNo", -1)) {
             // 삭제 버튼 클릭시
-            findViewById(R.id.button_delete_item).setOnClickListener(this);
+            findViewById(R.id.item_detail_button_delete).setOnClickListener(this);
 
             // 수정 버튼 클릭시
-            findViewById(R.id.button_modify_item).setOnClickListener(this);
+            findViewById(R.id.item_detail_button_modify).setOnClickListener(this);
 
             // 보이기/숨기기 버튼 클릭시
-            ((ToggleButton) findViewById(R.id.button_hiding_item)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            ((ToggleButton) findViewById(R.id.item_detail_button_hiding)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) { // 숨기기
@@ -297,14 +297,14 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.button_delete_item: {
+            case R.id.item_detail_button_delete: {
                 Intent intent = new Intent(ItemDetailActivity.this, ItemActivity.class);
                 startActivity(intent);
                 finish();
                 break;
             }
 
-            case R.id.button_modify_item: {
+            case R.id.item_detail_button_modify: {
                 Intent intent = new Intent(ItemDetailActivity.this, ItemActivity.class);
                 startActivity(intent);
                 finish();
@@ -348,7 +348,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                 ((TextView) findViewById(R.id.item_detail_distance)).setText(((Double) itemMap.get("distance")).longValue() + "m");
             }
             if (((Double)itemMap.get("showItem")).longValue() == 0L) {
-                ((ToggleButton) findViewById(R.id.button_hiding_item)).setChecked(true);
+                ((ToggleButton) findViewById(R.id.item_detail_button_hiding)).setChecked(true);
             }
 
             ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + itemMap.get("picture"), (ImageView) findViewById(R.id.item_detail_image), displayImageOption); // 상품이미지

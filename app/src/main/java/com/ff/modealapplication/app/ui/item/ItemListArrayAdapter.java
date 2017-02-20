@@ -3,6 +3,8 @@ package com.ff.modealapplication.app.ui.item;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,7 +34,10 @@ import java.util.Map;
 
 public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
 
+    private Long no;
     ItemService itemService = new ItemService();
+    Context context;
+
 
     // 상품 목록에 기본 이미지 출력
     private LayoutInflater layoutInflater;
@@ -48,20 +53,22 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
 
     public ItemListArrayAdapter(Context context) {
         super(context, R.layout.item_list);
+        this.context = context;
         layoutInflater = LayoutInflater.from(context);
     }
 
     @NonNull
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) { // 내부 많이 변경 (170207/상욱변경)
-
+        View view = convertView;
+        final Map<String, Object> map = getItem(position);
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.item_list_row, parent, false);
         }
 
-        final Map<String, Object> map = getItem(position);
         ((TextView) convertView.findViewById(R.id.item_list_clock)).setText(map.get("expDate").toString());        // 유통기한
         ((TextView) convertView.findViewById(R.id.item_list_name)).setText(map.get("name").toString());            // 상품명
+//        textOriPriceView.setPaintFlags(textOriPriceView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);         //가운데 줄긋기
         ((TextView) convertView.findViewById(R.id.item_list_ori_price)).setText((map.get("oriPrice")).toString());   // 원가
         ((TextView) convertView.findViewById(R.id.item_list_price)).setText(map.get("price").toString());          // 판매가
 
@@ -74,7 +81,7 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
                 (ImageView) convertView.findViewById(R.id.item_list_image), displayImageOption);                // 상품이미지
 
         // 보이기/숨기기 버튼 클릭시
-        final ToggleButton hideButton = (ToggleButton) convertView.findViewById(R.id.button_hiding_item);
+        final ToggleButton hideButton = (ToggleButton) convertView.findViewById(R.id.item_list_button_hiding);
 //        hideButton.setChecked(false);
 //        if (((Double) map.get("showItem")).longValue() == 1L) {
 //            isChecked[position] = false;
@@ -109,19 +116,19 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
             }
         });
 
-
-        // 수정 버튼 클릭시 ------------------------------------------------------------------------
-//        convertView.findViewById(R.id.button_modify_item).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getContext(), ItemModifyActivity.class);
+         // 수정 버튼 클릭시 -----------------------------------------------------------------------
+        convertView.findViewById(R.id.item_list_button_modify).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ItemModifyActivity.class);
 //                intent.putExtra("no", ((TextView) v.findViewById(R.id.send_no)).getText().toString());
-//                getContext().startActivity(intent);
-//            }
-//        });
+//                intent.putExtra("no", (TextView) v.findViewById(R.id.send_no)).getLongExtra("no", -1L);
+                getContext().startActivity(intent);
+            }
+        });
 
         // 삭제 버튼 클릭시 ------------------------------------------------------------------------
-        convertView.findViewById(R.id.button_delete_item).setOnClickListener(new View.OnClickListener() {
+        convertView.findViewById(R.id.item_list_button_delete).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(final View view) {

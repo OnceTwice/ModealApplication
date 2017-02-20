@@ -185,7 +185,7 @@
                 android:visibility="invisible">
 
                 <ToggleButton
-                    android:id="@+id/button_hiding_item"
+                    android:id="@+id/item_detail_button_hiding"
                     android:layout_width="80dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="5dp"
@@ -197,7 +197,7 @@
                     android:textSize="14dp" />
 
                 <Button
-                    android:id="@+id/button_modify_item"
+                    android:id="@+id/item_detail_button_modify"
                     android:layout_width="80dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="5dp"
@@ -208,7 +208,7 @@
                     android:textSize="14dp" />
 
                 <Button
-                    android:id="@+id/button_delete_item"
+                    android:id="@+id/item_detail_button_delete"
                     android:layout_width="80dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="5dp"
