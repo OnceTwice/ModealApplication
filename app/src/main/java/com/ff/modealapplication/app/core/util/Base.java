@@ -9,7 +9,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import java.io.Reader;
 
 public class Base {
-    public static final String url = "http://192.168.0.35:8088/";       // 자신의 ip주소
+    public static final String url = "http://192.168.1.26:8088/";       // 자신의 ip주소
 
     public static DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
             // .showImageOnLoading( R.drawable.ic_default_profile ) // resource or drawable
@@ -44,5 +44,20 @@ public class Base {
         }
 
         return v;
+    }
+
+    // 타입에 해당하는 OBJECT → JSON
+    public static String toJson(Object o) {
+
+        String json = "";
+
+        try {
+            Gson gson = new GsonBuilder().create();
+            json = gson.toJson(o);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return json;
     }
 }

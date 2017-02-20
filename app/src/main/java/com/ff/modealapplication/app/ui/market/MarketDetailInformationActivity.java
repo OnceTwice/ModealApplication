@@ -7,32 +7,46 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
+import com.ff.modealapplication.app.core.domain.CommentVo;
+import com.ff.modealapplication.app.core.service.CommentService;
 import com.ff.modealapplication.app.core.service.MarketService;
+import com.ff.modealapplication.app.ui.comment.CommentListAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 
 public class MarketDetailInformationActivity extends AppCompatActivity {
     private MarketService marketService = new MarketService();
+    private CommentService commentService = new CommentService();
+
+    CommentListAdapter commentListAdapter = null;
+    ListView listView = null;
 
     private ImageView imageView;
+    private Bitmap bitmap;
     private TextView tvName;
-    private TextView tvRatingBar;
-    private RatingBar ratingBar;
+    private RatingBar outputRatingBar;
     private TextView tvAddress;
     private TextView tvIntroduce;
 
-    private Bitmap bitmap;
+    private RatingBar inputRatingBar;
+    private TextView tvComment;
+
+    private Button btnSubmit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +55,14 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
 
         imageView = (ImageView) findViewById(R.id.imgVMarketDetailInformationImg);
         tvName = (TextView) findViewById(R.id.tvMarketDetailInformationName);
-        ratingBar = (RatingBar) findViewById(R.id.rbOutput);
-        tvRatingBar = (TextView) findViewById(R.id.tvRatingBar);
+        outputRatingBar = (RatingBar) findViewById(R.id.rbOutput);
         tvAddress = (TextView) findViewById(R.id.tvMarketDetailInformationAddress);
         tvIntroduce = (TextView) findViewById(R.id.tvMarketDetailInformationIntroduce);
+
+        inputRatingBar = (RatingBar) findViewById(R.id.rbInput);
+        tvComment = (TextView) findViewById(R.id.etMarketDetailInformationComment);
+
+        btnSubmit = (Button) findViewById(R.id.btnMarketDetailInformationSubmit);
 
         // 자체 제작 액션바
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_marketDetail); // 아이디인 툴바 로그인 부분은 내 아이디로 변경해줘야함
@@ -54,14 +72,20 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), "MarketDetailInformationActivity.java 에서의 ShopNo : "+getIntent().getLongExtra("ShopNo", 0), Toast.LENGTH_SHORT).show();
 
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                tvRatingBar.setText("rating : " + rating);
-            }
-        });
+        // 댓글 리스트(출력)
+        commentListAdapter = new CommentListAdapter(this);
+        listView = (ListView) findViewById(R.id.commentList);
+        listView.setAdapter(commentListAdapter);
 
         new MarketInformationAsyncTask().execute();
+//        new FetchCommentListAsyncTask().execute();
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                new FetchCommentListAsyncTask().execute();
+            }
+        });
     }
 
     // 뒤로가기 클릭시 & 돋보기 클릭시
@@ -137,6 +161,28 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
             tvAddress.setText(shopInformMap.get("address").toString());
             tvIntroduce.setText(shopInformMap.get("introduce").toString());
 
+        }
+    }
+
+    private class FetchCommentListAsyncTask extends SafeAsyncTask<List<CommentVo>> {
+        CommentVo commentVo = new CommentVo();
+
+        @Override
+        public List<CommentVo> call() throws Exception {
+            Log.d("FetchCommentListAsy : ", "입갤");
+            commentService.commentInform(null);
+
+            return null;
+        }
+
+        @Override
+        protected void onException(Exception e) throws RuntimeException {
+            super.onException(e);
+        }
+
+        @Override
+        protected void onSuccess(List<CommentVo> commentVos) throws Exception {
+            super.onSuccess(commentVos);
         }
     }
 }
