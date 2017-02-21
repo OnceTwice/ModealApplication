@@ -91,12 +91,14 @@
                         android:id="@+id/tvRatingBar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:text="평균평점 : " />
 
                     <RatingBar
                         android:id="@+id/rbOutput"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:isIndicator="true"/>
 
                 </LinearLayout>
 
@@ -129,9 +131,16 @@
 
                     <TextView
                         android:id="@+id/tvMarketDetailInformationIntroduce"
-                        android:layout_width="wrap_content"
+                        android:layout_width="250dp"
                         android:layout_height="wrap_content" />
 
+                    <Button
+                        android:id="@+id/btnBookmarkMarket"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/heart_empty" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -177,7 +186,7 @@
                     android:layout_width="wrap_content"
                     android:dividerHeight="2dp"
                     android:divider="#999999"
-                    android:layout_height="200dp"
+                    android:layout_height="180dp"
                     android:layout_gravity="center">
 
                 </ListView>
@@ -194,12 +203,13 @@
                     style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:numStars="5"
                     android:stepSize="1" />
 
                 <EditText
                     android:id="@+id/etMarketDetailInformationComment"
-                    android:layout_width="wrap_content"
+                    android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:background="@android:drawable/editbox_background"
                     android:hint="내용(30자 이내)"

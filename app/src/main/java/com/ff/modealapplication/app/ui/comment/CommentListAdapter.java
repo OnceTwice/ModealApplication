@@ -36,7 +36,7 @@ public class CommentListAdapter extends ArrayAdapter<CommentVo> {
 
         // 별점 세팅
         RatingBar ratingBar = (RatingBar) view.findViewById(R.id.rbList);
-//        ratingBar.setRating(Float.parseFloat(String.valueOf(commentVo.getGrade())));
+        ratingBar.setRating(Float.parseFloat(String.valueOf(commentVo.getGrade())));
 
         // 댓글 세팅
         TextView textView = (TextView) view.findViewById(R.id.tvCommentList);

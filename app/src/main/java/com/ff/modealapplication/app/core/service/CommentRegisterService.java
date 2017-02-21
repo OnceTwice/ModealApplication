@@ -8,18 +8,18 @@ import com.github.kevinsawicki.http.HttpRequest;
 import java.net.HttpURLConnection;
 import java.util.List;
 
-public class CommentService {
-    public List<CommentVo> commentInform(Long shopNo) {
-        String url = Base.url + "modeal/commentapp/list";
+public class CommentRegisterService {
+    public List<CommentVo> commentRegister(CommentVo commentVo) {
+        String url = Base.url + "modeal/commentapp/add";
         HttpRequest httpRequest = HttpRequest.post(url);
 
-        httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);     // 전달 타입
+        httpRequest.contentType(HttpRequest.CONTENT_TYPE_JSON);     // 전달 타입
         httpRequest.accept(HttpRequest.CONTENT_TYPE_JSON);          // 받을 타입
         httpRequest.connectTimeout(15000);
         httpRequest.readTimeout(3000);
 
-//        // 안드로이드에서 이클립스로 데이터 보내기
-        httpRequest.send("shopNo="+shopNo);
+        // 안드로이드에서 이클립스로 데이터 보내기
+        httpRequest.send(Base.toJson(commentVo));
 
         int responseCode = httpRequest.code();
 
@@ -28,11 +28,11 @@ public class CommentService {
         }
 
         // 이클립스에서 안드로이드로 데이터 받기
-        CommentInformation commentInformation = Base.fromJSON(httpRequest, CommentInformation.class);
+        CommentRegisterInformation commentRegisterInformation = Base.fromJSON(httpRequest, CommentRegisterInformation.class);
 
-        return commentInformation.getData();
+        return commentRegisterInformation.getData();
     }
 
-    public class CommentInformation extends JSONResult<List<CommentVo>> {
+    public class CommentRegisterInformation extends JSONResult<List<CommentVo>> {
     }
 }
