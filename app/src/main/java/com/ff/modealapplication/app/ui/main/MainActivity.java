@@ -67,11 +67,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     boolean flag_withdraw = false;
 
-    //    ListView listView = null;
+    //    ListView listView = null; // 리사이클러뷰 쓰면서 제거
     MainListArrayAdapter mainListArrayAdapter = null;
 
     RecyclerView recyclerView;
-    List<Map<String, Object>> mainList;
+//    List<Map<String, Object>> mainList; // 갱신을 async안에 넣으면서 필요하지 않아짐
 
     private BackPressCloseHandler backPressCloseHandler;
     private DrawerLayout drawer = null;
@@ -118,8 +118,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }));
 
-        //listview footer
-        View footer = getLayoutInflater().inflate(R.layout.list_footer, null, false);
+        //listview footer // 리사이클러뷰 푸터를 달다가는 다른코드 다터질것 같아서... 보류...
+//        View footer = getLayoutInflater().inflate(R.layout.list_footer, null, false);
 //        listView.addFooterView(footer);
 //        listView.setFooterDividersEnabled(false);
 
@@ -264,7 +264,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         protected void onSuccess(List<Map<String, Object>> list) throws Exception {
-            mainList = list;
+            mainListArrayAdapter.swap(list); // 갱신을 안에 넣으면서 문제가 해결된듯...
+//            mainList = list;
             mainListArrayAdapter.add(list);
             super.onSuccess(list);
         }
@@ -318,7 +319,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            mainListArrayAdapter.swap(mainList);
 //            mainListArrayAdapter.notifyItemRangeRemoved(0, mainList.size()); // 리스트 갱신을 위한 다 지우기 (리사이클러뷰)
 //            mainListArrayAdapter.clear(); // 리스트 갱신을 위한 다 지우기 (리스트뷰)
-            mainListArrayAdapter.notifyDataSetChanged(); // 리스트 갱신을 위한 값 변경시 알려주기?
+//            mainListArrayAdapter.notifyDataSetChanged(); // 리스트 갱신을 위한 값 변경시 알려주기?
         }
 
         @Override
@@ -420,7 +421,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        mainListArrayAdapter.swap(mainList);
 //        mainListArrayAdapter.notifyItemRangeRemoved(0, mainList.size()); // 리스트 갱신을 위한 다 지우기 (리사이클러뷰)
 //                mainListArrayAdapter.clear(); // 리스트 갱신을 위한 다 지우기 (리스트뷰)
-        mainListArrayAdapter.notifyDataSetChanged(); // 리스트 갱신을 위한 값 변경시 알려주기?
+//        mainListArrayAdapter.notifyDataSetChanged(); // 리스트 갱신을 위한 값 변경시 알려주기?
     }
 
     /***************************************
@@ -458,7 +459,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    mainListArrayAdapter.swap(mainList);
 //                mainListArrayAdapter.notifyItemRangeRemoved(0, mainList.size()); // 리스트 갱신을 위한 다 지우기 (리사이클러뷰)
 //                mainListArrayAdapter.clear(); // 리스트 갱신을 위한 다 지우기 (리스트뷰)
-                mainListArrayAdapter.notifyDataSetChanged(); // 리스트 갱신을 위한 값 변경시 알려주기?
+//                mainListArrayAdapter.notifyDataSetChanged(); // 리스트 갱신을 위한 값 변경시 알려주기?
                     break;
                 }
             case R.id.register_button:

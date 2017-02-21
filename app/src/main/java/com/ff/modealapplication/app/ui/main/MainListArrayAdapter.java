@@ -31,6 +31,7 @@ public class MainListArrayAdapter extends RecyclerView.Adapter<MainListArrayAdap
     private long diff;
     private List<Map<String, Object>> list;
 
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_main_list, parent, false);
@@ -45,7 +46,6 @@ public class MainListArrayAdapter extends RecyclerView.Adapter<MainListArrayAdap
 //        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(new MainActivity()));
         ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + item.get("picture"), holder.itemImage, displayImageOptions);
 
-        holder.mainTime.setText(item.get("expDate").toString());
         holder.itemName.setText(item.get("name").toString());
         // ((Double)itemVo.get("discount")).longValue() [Double형 → Long형]
         holder.itemPrice.setText(String.valueOf(((Double) item.get("price")).longValue()));
@@ -75,53 +75,62 @@ public class MainListArrayAdapter extends RecyclerView.Adapter<MainListArrayAdap
             public void onTick(long millisUntilFinished) {
                 int seconds = (int) (millisUntilFinished / 1000) % 60;
                 int minutes = (int) ((millisUntilFinished / (1000 * 60)) % 60);
-                int hours = (int) (millisUntilFinished / (1000 * 60 * 60));
-                String newtime = hours + ":" + minutes + ":" + seconds;
+                int hours = (int) ((millisUntilFinished / (1000 * 60 * 60)) % 24);
+                int days = (int) (millisUntilFinished / (1000 * 60 * 60 * 24));
+                String newtime = days + ":" + hours + ":" + minutes + ":" + seconds;
 
-                if (newtime.equals("0:0:0")) {
-                    holder.countdown.setText("판매종료");
+                if (newtime.equals("0:0:0:0")) {
                     holder.mainTime.setText("판매종료");
-                } else if ((String.valueOf(hours).length() == 1) && (String.valueOf(minutes).length() == 1) && (String.valueOf(seconds).length() == 1)) {
-                    holder.countdown.setText("0" + hours + ":0" + minutes + ":0" + seconds);
-                } else if ((String.valueOf(hours).length() == 1) && (String.valueOf(minutes).length() == 1)) {
-                    holder.countdown.setText("0" + hours + ":0" + minutes + ":" + seconds);
-                } else if ((String.valueOf(hours).length() == 1) && (String.valueOf(seconds).length() == 1)) {
-                    holder.countdown.setText("0" + hours + ":" + minutes + ":0" + seconds);
-                } else if ((String.valueOf(minutes).length() == 1) && (String.valueOf(seconds).length() == 1)) {
-                    holder.countdown.setText(hours + ":0" + minutes + ":0" + seconds);
-                } else if (String.valueOf(hours).length() == 1) {
-                    holder.countdown.setText("0" + hours + ":" + minutes + ":" + seconds);
-                } else if (String.valueOf(minutes).length() == 1) {
-                    holder.countdown.setText(hours + ":0" + minutes + ":" + seconds);
-                } else if (String.valueOf(seconds).length() == 1) {
-                    holder.countdown.setText(hours + ":" + minutes + ":0" + seconds);
+                } else if (days == 0 && hours != 0) {
+                    holder.mainTime.setText(hours + "시간  " + minutes + "분  " + seconds + "초 남음");
+                } else if (days == 0 && hours == 0) {
+                    holder.mainTime.setText(minutes + "분  " + seconds + "초 남음");
                 } else {
-                    holder.countdown.setText(hours + ":" + minutes + ":" + seconds);
+                    holder.mainTime.setText(days + "일  " + hours + "시간  " + minutes + "분  " + seconds + "초 남음");
                 }
+//                if (newtime.equals("0:0:0")) {
+//                    holder.mainTime.setText("판매종료");
+//                } else if ((String.valueOf(hours).length() == 1) && (String.valueOf(minutes).length() == 1) && (String.valueOf(seconds).length() == 1)) {
+//                    holder.mainTime.setText("0" + hours + ":0" + minutes + ":0" + seconds);
+//                } else if ((String.valueOf(hours).length() == 1) && (String.valueOf(minutes).length() == 1)) {
+//                    holder.mainTime.setText("0" + hours + ":0" + minutes + ":" + seconds);
+//                } else if ((String.valueOf(hours).length() == 1) && (String.valueOf(seconds).length() == 1)) {
+//                    holder.mainTime.setText("0" + hours + ":" + minutes + ":0" + seconds);
+//                } else if ((String.valueOf(minutes).length() == 1) && (String.valueOf(seconds).length() == 1)) {
+//                    holder.mainTime.setText(hours + ":0" + minutes + ":0" + seconds);
+//                } else if (String.valueOf(hours).length() == 1) {
+//                    holder.mainTime.setText("0" + hours + ":" + minutes + ":" + seconds);
+//                } else if (String.valueOf(minutes).length() == 1) {
+//                    holder.mainTime.setText(hours + ":0" + minutes + ":" + seconds);
+//                } else if (String.valueOf(seconds).length() == 1) {
+//                    holder.mainTime.setText(hours + ":" + minutes + ":0" + seconds);
+//                } else {
+//                    holder.mainTime.setText(hours + ":" + minutes + ":" + seconds);
+//                }
             }
 
             public void onFinish() {
-                holder.countdown.setText("판매종료");
                 holder.mainTime.setText("판매종료");
             }
         }.start();
     }
 
-    @Override
     public int getItemCount() {
-        if (list == null)
+        if (list == null) {
             return 0;
-        else
-            return list.size();
+        }
+        return list.size();
     }
-    // 안되는데...
-//    public void swap(List<Map<String, Object>> datas) {
-//        if (!list.isEmpty()) {
-//            list.clear();
-//        }
-//        list.addAll(datas);
-//        notifyDataSetChanged();
-//    }
+
+    // MainActivity의 MainListAsyncTask에 넣으면서 갱신문제 해결...!
+    public void swap(List<Map<String, Object>> datas) {
+        if (!(list == null)) {
+
+            list.clear();
+            list.addAll(datas);
+            notifyDataSetChanged();
+        }
+    }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
     public void add(List<Map<String, Object>> list) {
@@ -143,7 +152,6 @@ public class MainListArrayAdapter extends RecyclerView.Adapter<MainListArrayAdap
         public TextView sendNo;
         public TextView sendShopNo;
         public ImageView itemImage;
-        public TextView countdown;
         CountDownTimer timer;
 
 
@@ -164,7 +172,6 @@ public class MainListArrayAdapter extends RecyclerView.Adapter<MainListArrayAdap
             sendNo = (TextView) itemView.findViewById(R.id.send_no);
             sendShopNo = (TextView) itemView.findViewById(R.id.send_shopNo);
             itemImage = (ImageView) itemView.findViewById(R.id.main_image_item);
-            countdown = (TextView) itemView.findViewById(R.id.count_down);
         }
     }
 }

@@ -31,15 +31,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
-            <TextView
-                android:id="@+id/count_down"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:background="#f00"
-                android:layout_margin="3dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
         </RelativeLayout>
 
         <TextView

@@ -247,6 +247,9 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         @Override
         public int getCount() {
+            if (itemList == null) {
+                return 0;
+            }
             return itemList.size();
         }
 
