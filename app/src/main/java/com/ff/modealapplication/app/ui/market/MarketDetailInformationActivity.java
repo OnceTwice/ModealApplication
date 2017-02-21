@@ -167,11 +167,7 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
     private class FetchCommentListAsyncTask extends SafeAsyncTask<List<CommentVo>> {
         @Override
         public List<CommentVo> call() throws Exception {
-            Log.d("FetchCommentListAsy : ", "입갤");
-
-            Log.d("끄으으으읕", commentService.commentInform() + "");
-
-            return commentService.commentInform();
+            return commentService.commentInform(getIntent().getLongExtra("ShopNo", 0));
         }
 
         @Override
@@ -183,8 +179,6 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
 
         @Override
         protected void onSuccess(List<CommentVo> commentVos) throws Exception {
-            Log.d("석세스석세스", commentVos + "");
-
             commentListAdapter.add(commentVos);
             super.onSuccess(commentVos);
             Log.d("FetchCommentListAsy : ", "성공!!!");

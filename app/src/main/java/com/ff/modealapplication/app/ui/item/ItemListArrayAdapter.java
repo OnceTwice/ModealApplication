@@ -66,7 +66,7 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
             convertView = layoutInflater.inflate(R.layout.item_list_row, parent, false);
         }
 
-        final Map<String, Object> map = getItem(position);
+//        final Map<String, Object> map = getItem(position);
         ((TextView) convertView.findViewById(R.id.item_list_clock)).setText(map.get("expDate").toString());        // 유통기한
         ((TextView) convertView.findViewById(R.id.item_list_name)).setText(map.get("name").toString());            // 상품명
 //        textOriPriceView.setPaintFlags(textOriPriceView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);         //가운데 줄긋기
