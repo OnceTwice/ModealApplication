@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     tools:context="com.ff.modealapplication.app.ui.mypage.UserMyPageActivity">
 
-    <android.support.design.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -82,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="numberPassword"
-                    android:text=""/>
+                    android:text="" />
             </LinearLayout>
 
             <LinearLayout
@@ -141,10 +140,13 @@
 
             <Button
                 android:id="@+id/btnUserInformModify"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:text="회원정보수정" />
+                android:layout_marginLeft="10dp"
+                android:background="@color/colorModeal"
+                android:text="회원정보수정"
+                android:textColor="#fff" />
 
         </LinearLayout>
 

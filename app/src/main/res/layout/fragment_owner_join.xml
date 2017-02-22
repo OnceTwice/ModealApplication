@@ -28,13 +28,16 @@
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/editbox_background"
                 android:hint="이메일 형식"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress" />
 
             <Button
                 android:id="@+id/btnOwnerIDDuplicationCheck"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="중복체크" />
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:background="@color/colorModeal"
+                android:text="중복체크"
+                android:textColor="#fff" />
         </LinearLayout>
 
         <LinearLayout
@@ -55,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/editbox_background"
                 android:hint="password"
-                android:inputType="text" />
+                android:inputType="textPassword" />
         </LinearLayout>
 
         <LinearLayout
@@ -76,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/editbox_background"
                 android:hint="password"
-                android:inputType="text" />
+                android:inputType="textPassword" />
         </LinearLayout>
 
         <LinearLayout
@@ -219,9 +222,12 @@
 
             <Button
                 android:id="@+id/btnOwnerAddressSearch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="매장찾기" />
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dp"
+                android:background="@color/colorModeal"
+                android:text="매장찾기"
+                android:textColor="#fff" />
         </LinearLayout>
 
         <LinearLayout
@@ -257,9 +263,9 @@
                 android:id="@+id/etOwnerMarketPhoneNumber"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:inputType="number"
                 android:background="@android:drawable/editbox_background"
-                android:hint="매장전화번호" />
+                android:hint="매장전화번호"
+                android:inputType="number" />
         </LinearLayout>
 
         <LinearLayout
@@ -274,10 +280,11 @@
 
             <ImageView
                 android:id="@+id/marketImage"
-                android:src="@drawable/market"
                 android:layout_width="180dp"
                 android:layout_height="80dp"
-                android:background="#F2F2F2"/>
+                android:layout_marginLeft="30dp"
+                android:background="#F2F2F2"
+                android:src="@drawable/market" />
         </LinearLayout>
 
         <LinearLayout
@@ -306,15 +313,20 @@
 
             <Button
                 android:id="@+id/btnOwnerCancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="취소" />
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:background="@color/colorModeal"
+                android:text="취소"
+                android:textColor="#fff" />
 
             <Button
                 android:id="@+id/btnOwnerSubmit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="보내기" />
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:background="@color/colorModeal"
+                android:text="보내기"
+                android:textColor="#fff" />
         </LinearLayout>
 
     </LinearLayout>

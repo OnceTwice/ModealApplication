@@ -27,14 +27,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/editbox_background"
+                android:maxLength="18"
                 android:hint="이메일 형식"
                 android:inputType="textEmailAddress" />
 
             <Button
                 android:id="@+id/btnUserIDDuplicationCheck"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="중복체크" />
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:background="@color/colorModeal"
+                android:text="중복체크"
+                android:textColor="#fff" />
         </LinearLayout>
 
         <LinearLayout
@@ -55,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/editbox_background"
                 android:hint="password"
-                android:inputType="text" />
+                android:inputType="textPassword" />
         </LinearLayout>
 
         <LinearLayout
@@ -76,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:drawable/editbox_background"
                 android:hint="password"
-                android:inputType="text" />
+                android:inputType="textPassword" />
         </LinearLayout>
 
         <LinearLayout
@@ -126,7 +130,9 @@
                 android:id="@+id/etUserCity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:drawable/editbox_background" />
+                android:background="@android:drawable/editbox_background"
+                android:maxLength="3" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -136,7 +142,9 @@
                 android:id="@+id/etUserGu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:drawable/editbox_background" />
+                android:background="@android:drawable/editbox_background"
+                android:maxLength="3" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -153,7 +161,9 @@
                 android:id="@+id/etUserDong"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:drawable/editbox_background" />
+                android:background="@android:drawable/editbox_background"
+                android:maxLength="3" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -204,15 +214,20 @@
 
             <Button
                 android:id="@+id/btnUserCancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="취소" />
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:background="@color/colorModeal"
+                android:text="취소"
+                android:textColor="#fff" />
 
             <Button
                 android:id="@+id/btnUserSubmit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="보내기" />
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:background="@color/colorModeal"
+                android:text="보내기"
+                android:textColor="#fff" />
         </LinearLayout>
 
     </LinearLayout>

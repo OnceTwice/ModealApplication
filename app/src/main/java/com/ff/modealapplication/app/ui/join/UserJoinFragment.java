@@ -170,7 +170,7 @@ public class UserJoinFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 month = (String)adapterView.getItemAtPosition(position);
-//                Log.d("=========month", month);
+                Log.d("=========month", month);
             }
 
             @Override
@@ -182,50 +182,7 @@ public class UserJoinFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Log.d("보내기 버튼 클릭!!!", "클릭함!!!!!!");
-
-                // 아이디 입력 확인
-                if (TextUtils.isEmpty(etID.getText().toString())) {
-                    etID.setError("이메일을 입력하세요");
-                    etID.requestFocus();
-                    return;
-                } else if (!isEmailValid(etID.getText().toString())) {
-                    etID.setError("이메일 형식이 아닙니다");
-                    etID.requestFocus();
-                    return;
-                }
-
-                // 비밀번호 입력 확인
-                if (TextUtils.isEmpty(etPassword.getText().toString())) {
-                    etPassword.setError("비밀번호를 입력하세요");
-                    etPassword.requestFocus();
-                    return;
-                } else if (!isPasswordValid(etPassword.getText().toString())) {
-                    etPassword.setError("비밀번호가 너무 짧아요");
-                    etPassword.requestFocus();
-                    return;
-                }
-
-                // 비밀번호 확인 입력 확인
-                if (TextUtils.isEmpty(etPasswordConfirm.getText().toString())) {
-                    etPasswordConfirm.setError("비밀번호를 입력하세요");
-                    etPasswordConfirm.requestFocus();
-                    return;
-                }
-
-                // 비밀번호 일치 확인
-                if( !etPassword.getText().toString().equals(etPasswordConfirm.getText().toString()) ) {
-                    Toast.makeText(UserJoinFragment.this.getActivity(), "사용자 비밀번호가 일치하지 않습니다!", Toast.LENGTH_SHORT).show();
-                    etPassword.setText("");
-                    etPasswordConfirm.setText("");
-                    etPassword.requestFocus();
-                    return;
-                }
-
-                if( !(flag == 0) ) {
-                    Toast.makeText(UserJoinFragment.this.getActivity(), "중복검사를 진행해 주세요", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                isCheckedJoin();            // 회원가입 체크 메소드 호출
 
                 new FetchUserListAsyncTask().execute();
             }
@@ -241,6 +198,98 @@ public class UserJoinFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    private void isCheckedJoin() {      // 회원가입 체크 메소드
+        // 아이디 입력 확인
+        if (TextUtils.isEmpty(etID.getText().toString())) {
+            etID.setError("이메일을 입력하세요");
+            etID.requestFocus();
+            return;
+        } else if (!isEmailValid(etID.getText().toString())) {
+            etID.setError("이메일 형식이 아닙니다");
+            etID.requestFocus();
+            return;
+        }
+
+        // 비밀번호 입력 확인
+        if (TextUtils.isEmpty(etPassword.getText().toString())) {
+            etPassword.setError("비밀번호를 입력하세요");
+            etPassword.requestFocus();
+            return;
+        } else if (!isPasswordValid(etPassword.getText().toString())) {
+            etPassword.setError("비밀번호가 너무 짧아요");
+            etPassword.requestFocus();
+            return;
+        }
+
+        // 비밀번호 확인 입력 확인
+        if (TextUtils.isEmpty(etPasswordConfirm.getText().toString())) {
+            etPasswordConfirm.setError("비밀번호를 입력하세요");
+            etPasswordConfirm.requestFocus();
+            return;
+        }
+
+        // 비밀번호 일치 확인
+        if( !etPassword.getText().toString().equals(etPasswordConfirm.getText().toString()) ) {
+            Toast.makeText(UserJoinFragment.this.getActivity(), "사용자 비밀번호가 일치하지 않습니다!", Toast.LENGTH_SHORT).show();
+            etPassword.setText("");
+            etPasswordConfirm.setText("");
+            etPassword.requestFocus();
+            return;
+        }
+
+        if( !(flag == 0) ) {
+            Toast.makeText(UserJoinFragment.this.getActivity(), "중복검사를 진행해 주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(TextUtils.isEmpty(etCity.getText().toString())) {
+            etCity.setError("시(도)를 입력하세요");
+            etCity.requestFocus();
+            return;
+        }
+
+        if(TextUtils.isEmpty(etGu.getText().toString())) {
+            etGu.setError("구(군)을 입력하세요");
+            etGu.requestFocus();
+            return;
+        }
+
+        if(TextUtils.isEmpty(etDong.getText().toString())) {
+            etDong.setError("동(읍/면/리)를 입력하세요");
+            etDong.requestFocus();
+            return;
+        }
+
+        if(TextUtils.isEmpty(etYear.getText().toString())) {
+            etYear.setError("년도를 입력하세요");
+            etYear.requestFocus();
+            return;
+        }
+
+        if(( (Integer.parseInt((etYear.getText().toString()))) / 1000) == 0) {
+            etYear.setError("태어난 년도 4자리를 정확하게 입력하세요.");
+            etYear.requestFocus();
+            return;
+        }
+
+        if( (Integer.parseInt((etYear.getText().toString()))) >= 2017 ) {
+            etYear.setError("미래에서 오셨군요^^");
+            etYear.requestFocus();
+            return;
+        }
+
+        if(spinnerMonth.getSelectedItem().toString().equals("월")) {
+            Toast.makeText(UserJoinFragment.this.getActivity(), "월을 선택하세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(TextUtils.isEmpty(etDay.getText().toString())) {
+            etDay.setError("일을 입력하세요");
+            etDay.requestFocus();
+            return;
+        }
     }
 
     private boolean isEmailValid(String email) {
@@ -334,7 +383,7 @@ public class UserJoinFragment extends Fragment {
             Log.d("month======", month);
             Log.d("day======", day);
 
-            List<UserVo> list = userJoinService.fetchUserList(id, password, gender, city+gu+dong, year+month+day);
+            List<UserVo> list = userJoinService.fetchUserList(id, password, gender, city+gu+dong, year+"."+month+"."+day);
 
             System.out.println("사용자 출력=====" + list);
 
