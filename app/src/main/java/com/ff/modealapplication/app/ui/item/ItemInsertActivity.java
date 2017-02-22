@@ -148,9 +148,9 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
 
             // 업로드 버튼 클릭시
             case R.id.item_insert_button_upload: {
-                Intent intent = new Intent();
+                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(intent.createChooser(intent, "Select Image"), 1);
                 final_bitmap = null;
             }
@@ -258,7 +258,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
             new Thread() {
                 public void run() {
                     MessagingService.send(((TextView) findViewById(R.id.item_insert_name)).getText().toString() + " 상품이 등록되었습니다.", // 제목
-                            ((TextView) findViewById(R.id.item_insert_name)).getText().toString() + " 매장의 " + ((TextView) findViewById(R.id.item_insert_name)).getText().toString() + " 상품이 등록되었습니다.", // 내용
+                            LoginPreference.getValue(getApplicationContext(), "name") + " 매장의 " + ((TextView) findViewById(R.id.item_insert_name)).getText().toString() + " 상품이 등록되었습니다.", // 내용
                             "bs" + (Long) LoginPreference.getValue(getApplicationContext(), "shopNo")); // 알림 매장번호
                 }
             }.start();
