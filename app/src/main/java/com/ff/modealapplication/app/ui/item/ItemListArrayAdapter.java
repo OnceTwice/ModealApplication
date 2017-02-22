@@ -44,7 +44,7 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
             .showImageOnFail(R.drawable.apple)
             .delayBeforeLoading(0)
             .cacheOnDisc(true)
-            .build();
+    .build();
 
     // 체크된 아이템들을 저장할 List
     boolean[] isChecked;

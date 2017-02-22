@@ -249,12 +249,12 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
             if (progressDialog != null) {
                 progressDialog.dismiss();
             }
-            itemListAsyncTask = new ItemListAsyncTask();                                     // 생성
-            itemListAsyncTask.execute();                                                     // 실행
+            itemListAsyncTask = new ItemListAsyncTask();                                         // 생성
+            itemListAsyncTask.execute();                                                         // 실행
 
 //            Intent intent = new Intent(ItemInsertActivity.this, ItemActivity.class);          // 경로 설정해주고
 //            startActivity(intent);                                                              // 여기서 이동하고
-            finish();                                                                           // 액티비티를 종료
+            finish();                                                                               // 액티비티를 종료
             new Thread() {
                 public void run() {
                     MessagingService.send(((TextView) findViewById(R.id.item_insert_name)).getText().toString() + " 상품이 등록되었습니다.", // 제목
@@ -312,8 +312,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
             EditText priceInsert = (EditText) findViewById(R.id.item_insert_price);
             Long price = Long.parseLong(priceInsert.getText().toString());
 
-            EditText discountInsert = (EditText) findViewById(R.id.item_insert_discount);
-            Long discount = Long.parseLong(discountInsert.getText().toString());
+            Long discount = price / ori_price *100;
 
             TextView dateText = (TextView) findViewById(R.id.item_insert_date_text);
             String exp_date = dateText.getText().toString();
