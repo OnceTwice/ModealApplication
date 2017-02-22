@@ -105,9 +105,8 @@
 
         <activity
             android:name=".app.ui.join.JoinActivity"
-            android:label="@string/Login"
             android:screenOrientation="portrait"
-            android:theme="@style/App_Simple" />
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- 아이템 액티비티 -->
         <activity

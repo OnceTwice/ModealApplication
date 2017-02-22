@@ -75,9 +75,9 @@ public class JoinFragment extends Fragment {
         tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
         tabs.setViewPager(pager);
 
-        // Title 설정
+        /*// Title 설정
         getActivity().setTitle("회원가입");
-
+*/
         // Inflate the layout for this fragment
         return view;
     }
