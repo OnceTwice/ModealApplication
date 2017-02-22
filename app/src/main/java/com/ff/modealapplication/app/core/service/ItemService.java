@@ -49,7 +49,7 @@ public class ItemService {
 
 
     // 상품 등록 -----------------------------------------------------------------------------------
-    public void itemInsert(String item_name, Long ori_price, Long count, Long price, String exp_date, Long discount, Long shopNo, Long itemCategoryNo) {
+    public void itemInsert(String item_name, Long ori_price, Long count, Long price, String exp_date, Long discount, Long shopNo, Long itemCategoryNo, String picture) {
 
         // 데이터를 가져올 url를 작성
         String url = Base.url + "modeal/list/itemInsert";                                       // url로 연결할 사이트(itemInsert)를 클래스를 생성해줘야함
@@ -69,7 +69,8 @@ public class ItemService {
                 "&count=" + count +
                 "&price=" + price +
                 "&expDate=" + exp_date +
-                "&discount=" + discount).code();
+                "&discount=" + discount +
+                "&picture=" + picture).code();
 
         if (responseCode != HttpURLConnection.HTTP_OK) {                                           // http_ok : 접속성공 코드번호 : 200
             throw new RuntimeException("HTTP Response : " + responseCode);                      // if문 조건식이 참이면 RuntimeException(에러)

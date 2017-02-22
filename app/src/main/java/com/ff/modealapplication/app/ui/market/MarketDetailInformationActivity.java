@@ -33,7 +33,6 @@ import com.ff.modealapplication.app.core.service.CommentRegisterService;
 import com.ff.modealapplication.app.core.service.CommentService;
 import com.ff.modealapplication.app.core.service.ItemService;
 import com.ff.modealapplication.app.core.service.MarketService;
-import com.ff.modealapplication.app.core.util.Base;
 import com.ff.modealapplication.app.core.util.LoginPreference;
 import com.ff.modealapplication.app.ui.comment.CommentListAdapter;
 import com.ff.modealapplication.app.ui.item.ItemDetailActivity;
@@ -251,7 +250,7 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
             imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
             ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
-            ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + itemList.get(position).get("picture"), imageView, displayImageOption);
+            ImageLoader.getInstance().displayImage(itemList.get(position).get("picture").toString(), imageView, displayImageOption);
 
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override

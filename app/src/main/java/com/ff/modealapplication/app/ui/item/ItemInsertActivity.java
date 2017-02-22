@@ -2,27 +2,47 @@ package com.ff.modealapplication.app.ui.item;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
+import com.ff.modealapplication.app.core.domain.ItemVo;
 import com.ff.modealapplication.app.core.service.ItemService;
 import com.ff.modealapplication.app.core.util.LoginPreference;
-import com.ff.modealapplication.app.core.domain.ItemVo;
+import com.ff.modealapplication.app.ui.message.MessagingService;
 
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by bit-desktop on 2017-01-19.
@@ -40,6 +60,11 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
     TextView timeText;
 
     ItemListAsyncTask itemListAsyncTask;
+
+    // 이미지 업로드
+    private Uri uri;
+    private Bitmap bitmap;
+    private Bitmap final_bitmap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +89,9 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
 
         // 취소 버튼 클릭시
         findViewById(R.id.item_insert_button_cancel).setOnClickListener(this);
+
+        // 업로드 버튼 클릭시
+        findViewById(R.id.item_insert_button_upload).setOnClickListener(this);
     }
 
     // 상품 카테고리 다이얼로그
@@ -106,12 +134,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
 
             // 등록 버튼 클릭시
             case R.id.item_insert_button_insert: {
-                itemListAsyncTask = new ItemListAsyncTask();                                     // 생성
-                itemListAsyncTask.execute();                                                     // 실행
-
-                Intent intent = new Intent(ItemInsertActivity.this, ItemActivity.class);          // 경로 설정해주고
-                startActivity(intent);                                                              // 여기서 이동하고
-                finish();                                                                           // 액티비티를 종료
+                new ImageUpload().execute();                                                        // 사진을 imgur에 업로드
                 break;
             }
 
@@ -122,6 +145,124 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
                 finish();
                 break;
             }
+
+            // 업로드 버튼 클릭시
+            case R.id.item_insert_button_upload: {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent.createChooser(intent, "Select Image"), 1);
+                final_bitmap = null;
+            }
+        }
+    }
+
+    // 업로드
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            uri = data.getData();
+            // 같은듯...
+            bitmap = BitmapFactory.decodeFile(getPath(uri));
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+            int width = bitmap.getWidth();
+            int height = bitmap.getHeight();
+            if (width > 1000 || height > 1000) {
+                width = width / 4;
+                height = height / 4;
+            }
+            bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
+            ((ImageView) findViewById(R.id.item_insert_image_view)).setImageBitmap(bitmap);
+            Log.w("path?", uri.getPath() + " << uri.getPath(), " + uri + " << uri, " + getPath(uri) + " << getPath(uri)");
+        }
+    }
+
+    // 업로드용(사진의 절대 경로 구하기)
+    public String getPath(Uri uri) {
+        Cursor cursor = getContentResolver().query(Uri.parse(uri.toString()), null, null, null, null);
+        cursor.moveToNext();
+        return cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
+        // 역시 위아래 같은듯...
+//        String[] projection = {MediaStore.Images.Media.DATA};
+//        Cursor cursor = managedQuery(uri, projection, null, null, null);
+//        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//        cursor.moveToFirst();
+//        return cursor.getString(column_index);
+    }
+
+    // imgur에 사진 업로드
+    private static final String IMGUR_CLIENT_ID = "39c074c1942156b";
+    private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
+    private JSONObject imgur;
+    private String url; // DB에 저장해야함
+
+    private final OkHttpClient client = new OkHttpClient();
+
+    public void run() throws Exception {
+        // Use the imgur image upload API as documented at https://api.imgur.com/endpoints/image
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("title", "Square Logo")
+                .addFormDataPart("image", "logo-square.png",
+                        RequestBody.create(MEDIA_TYPE_PNG, new File(getPath(uri))))
+                .build();
+
+        Request request = new Request.Builder()
+                .header("Authorization", "Client-ID " + IMGUR_CLIENT_ID)
+                .url("https://api.imgur.com/3/image")
+                .post(requestBody)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+        imgur = new JSONObject(response.body().string());
+        imgur = new JSONObject(String.valueOf(imgur.get("data")));
+        url = imgur.getString("link");
+
+    }
+
+    // run()을 비동기로 돌리기 위한 AsyncTask
+    public class ImageUpload extends AsyncTask<Void, Integer, Boolean> {
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(ItemInsertActivity.this);
+            progressDialog.setMessage("Upload...");
+            progressDialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                run();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+            }
+            itemListAsyncTask = new ItemListAsyncTask();                                     // 생성
+            itemListAsyncTask.execute();                                                     // 실행
+
+//            Intent intent = new Intent(ItemInsertActivity.this, ItemActivity.class);          // 경로 설정해주고
+//            startActivity(intent);                                                              // 여기서 이동하고
+            finish();                                                                           // 액티비티를 종료
+            new Thread() {
+                public void run() {
+                    MessagingService.send(((TextView) findViewById(R.id.item_insert_name)).getText().toString() + " 상품이 등록되었습니다.", // 제목
+                            ((TextView) findViewById(R.id.item_insert_name)).getText().toString() + " 매장의 " + ((TextView) findViewById(R.id.item_insert_name)).getText().toString() + " 상품이 등록되었습니다.", // 내용
+                            "bs" + (Long) LoginPreference.getValue(getApplicationContext(), "shopNo")); // 알림 매장번호
+                }
+            }.start();
+
         }
     }
 
@@ -180,11 +321,11 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
             TextView timeText = (TextView) findViewById(R.id.item_insert_time_text);
             String exp_time = timeText.getText().toString();
 
-            Long shopNo = (Long) LoginPreference.getValue(getApplicationContext(),"shopNo");
+            Long shopNo = (Long) LoginPreference.getValue(getApplicationContext(), "shopNo");
 
             Long itemCategoryNo = categoryNo + 1;                                                 // 카테고리가 0 부터라서 +1 추가
 
-            itemService.itemInsert(item_name, ori_price, count, price, exp_date + " " + exp_time, discount ,shopNo ,itemCategoryNo);
+            itemService.itemInsert(item_name, ori_price, count, price, exp_date + " " + exp_time, discount, shopNo, itemCategoryNo, url);
 
             return null;                                                                          // 상품 등록이라서 리턴할 값 없음
         }

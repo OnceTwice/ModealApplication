@@ -63,6 +63,7 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
         Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
         intent.putExtra("no", Long.valueOf(((TextView)view.findViewById(R.id.send_no)).getText().toString()));
         intent.putExtra("shopNo", getIntent().getLongExtra("shopNo", -1));
+//        intent.putExtra("shopName". get)
 
         startActivity(intent);
     }

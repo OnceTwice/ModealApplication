@@ -18,7 +18,6 @@ import android.widget.ToggleButton;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.ItemService;
-import com.ff.modealapplication.app.core.util.Base;
 import com.ff.modealapplication.app.ui.message.MessagingService;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -75,7 +74,7 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
 
         // 상품 이미지
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
-        ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + map.get("picture"),
+        ImageLoader.getInstance().displayImage(map.get("picture").toString(),
                 (ImageView) convertView.findViewById(R.id.item_list_image), displayImageOption);                // 상품이미지
 
         // 보이기/숨기기 버튼 클릭시

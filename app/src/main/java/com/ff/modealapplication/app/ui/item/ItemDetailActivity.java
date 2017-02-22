@@ -28,7 +28,6 @@ import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.BookmarkService;
 import com.ff.modealapplication.app.core.service.ItemService;
-import com.ff.modealapplication.app.core.util.Base;
 import com.ff.modealapplication.app.core.util.GPSPreference;
 import com.ff.modealapplication.app.core.util.LoginPreference;
 import com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity;
@@ -166,7 +165,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                 viewPager.setOffscreenPageLimit(2);
                 viewPager.setCurrentItem(1);
             }
-        }, 1000);
+        }, 2000);
         findViewById(R.id.image_left).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -267,7 +266,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
             imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
             ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
-            ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + itemList.get(position).get("picture"), imageView, displayImageOption);
+            ImageLoader.getInstance().displayImage(itemList.get(position).get("picture").toString(), imageView, displayImageOption);
 
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -404,7 +403,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                 ((ToggleButton) findViewById(R.id.item_detail_button_hiding)).setChecked(true);
             }
 
-            ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + itemMap.get("picture"), (ImageView) findViewById(R.id.item_detail_image), displayImageOption); // 상품이미지
+            ImageLoader.getInstance().displayImage(itemMap.get("picture").toString(), (ImageView) findViewById(R.id.item_detail_image), displayImageOption); // 상품이미지
         }
     }
 

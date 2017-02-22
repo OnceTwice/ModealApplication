@@ -42,6 +42,7 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.+'         // facebook
     compile 'com.google.android.gms:play-services-auth:10.0.1'      // 구글 로그인
     compile 'com.google.firebase:firebase-messaging:10.0.1'         // 구글 클라우드 메시징(알림)
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'                       // 이미지업로드용...
 
     testCompile 'junit:junit:4.12'
 }

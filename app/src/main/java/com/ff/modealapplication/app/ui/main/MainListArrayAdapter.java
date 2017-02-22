@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ff.modealapplication.R;
-import com.ff.modealapplication.app.core.util.Base;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -44,7 +43,7 @@ public class MainListArrayAdapter extends RecyclerView.Adapter<MainListArrayAdap
 
         //이미지 저장 [ 연결된 ip로 upload ] 위치에 내용이 있어야 한다.
 //        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(new MainActivity()));
-        ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + item.get("picture"), holder.itemImage, displayImageOptions);
+        ImageLoader.getInstance().displayImage(item.get("picture").toString(), holder.itemImage, displayImageOptions);
 
         holder.itemName.setText(item.get("name").toString());
         // ((Double)itemVo.get("discount")).longValue() [Double형 → Long형]
