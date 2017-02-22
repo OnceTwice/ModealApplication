@@ -82,7 +82,7 @@ public class ItemService {
     }
 
 
-    // 상품 수정 - 수정페이지 출력  ----------------------------------------------------------------
+    // 상품 수정 - 입력된 정보 출력 ----------------------------------------------------------------
     public ItemVo itemModify(Long no) {
 
         // 데이터를 가져올 URL 작성
@@ -111,40 +111,36 @@ public class ItemService {
         // 데이터(스트링) 안에서 원하는 값을 추출하기 위해 ItemVo> 사용
     }
 
-    // 상품 수정 - 업데이트 ------------------------------------------------------------------------
-//    public Map<String, Object> itemModify(String item_name, Long ori_price, Long count, Long price, String exp_date, Long discount) {
-//
-//        // 데이터를 가져올 url를 작성해줌
-//        String url = Base.url + "modeal/list/itemModify";
-//        HttpRequest httpRequest = HttpRequest.post(url);
-//
-//        httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
-//        httpRequest.accept(httpRequest.CONTENT_TYPE_JSON);
-//        httpRequest.connectTimeout(10000);
-//        httpRequest.readTimeout(10000);
-//
-//        // from 방식 (안드로이드에서 이클립스(서버)로 데이터를 전송시 사용)
-//        int responseCode = httpRequest.send(                                                      // "키값"은 타입(vo)에 맞는 변수명으로 작성, 밸류값은 내가 받아온 파라미터명 작성
-//                "name=" + item_name +
-//                        "&oriPrice=" + ori_price +
-//                        "&count=" + count +
-//                        "&price=" + price +
-//                        "&expDate=" + exp_date +
-//                        "&discount=" + discount).code();
-//
-//        if (responseCode != HttpURLConnection.HTTP_OK) {
-//            throw new RuntimeException("HTTP Response : " + responseCode);
-//        }
-//
-//        // 이클립스에서 안드로이드로 데이터를 받기
-//        ItemService.JSONResultItemModify jsonResult = fromJSON(httpRequest, ItemService.JSONResultItemModify.class);
-//        return jsonResult.getData();
-//    }
-//
-//    private class JSONResultItemModify extends JSONResult<Map<String, Object>> {
-//        // ↑ String 에서 원하는 데이터를 추출하기 위해 JSONResult 사용,
-//        // 데이터(스트링) 안에서 원하는 값을 추출하기 위해 <List<ItemVo>> 사용
-//    }
+    // 상품 수정 - 업데이트(갱신) ------------------------------------------------------------------------
+    public void itemModifyUpdate(Long no, String item_name, Long ori_price, Long count,
+                                 Long price, String exp_date, Long discount, Long itemCategoryNo) {
+
+        // 데이터를 가져올 url를 작성해줌
+        String url = Base.url + "modeal/list/itemModifyUpdate";
+        HttpRequest httpRequest = HttpRequest.post(url);
+
+        httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
+        httpRequest.accept(httpRequest.CONTENT_TYPE_JSON);
+        httpRequest.connectTimeout(10000);
+        httpRequest.readTimeout(10000);
+
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + item_name + ori_price + count + price + exp_date + discount);
+
+        // from 방식 (안드로이드에서 이클립스(서버)로 데이터를 전송시 사용)
+        int responseCode = httpRequest.send(    // "키값"은 타입(vo)에 맞는 변수명으로 작성, 밸류값은 내가 받아온 파라미터명 작성
+                "name=" + item_name +
+                        "&no=" + no +
+                        "&oriPrice=" + ori_price +
+                        "&count=" + count +
+                        "&price=" + price +
+                        "&expDate=" + exp_date +
+                        "&itemCategoryNo=" + itemCategoryNo +
+                        "&discount=" + discount).code();
+
+        if (responseCode != HttpURLConnection.HTTP_OK) {
+            throw new RuntimeException("HTTP Response : " + responseCode);
+        }
+    }
 
     // 상품 삭제 -----------------------------------------------------------------------------------
     public void itemDelete(Long no) {

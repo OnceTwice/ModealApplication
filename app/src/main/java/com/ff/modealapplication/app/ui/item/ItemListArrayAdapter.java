@@ -59,18 +59,16 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
     @NonNull
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) { // 내부 많이 변경 (170207/상욱변경)
-        View view = convertView;
-        final Map<String, Object> map = getItem(position);
         if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.item_list_row, parent, false);
         }
 
-//        final Map<String, Object> map = getItem(position);
-        ((TextView) convertView.findViewById(R.id.item_list_clock)).setText(map.get("expDate").toString());        // 유통기한
-        ((TextView) convertView.findViewById(R.id.item_list_name)).setText(map.get("name").toString());            // 상품명
-//        textOriPriceView.setPaintFlags(textOriPriceView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);         //가운데 줄긋기
+        final Map<String, Object> map = getItem(position);
+        ((TextView) convertView.findViewById(R.id.item_list_clock)).setText(map.get("expDate").toString());                           // 유통기한
+        ((TextView) convertView.findViewById(R.id.item_list_name)).setText(map.get("name").toString());                               // 상품명
+//        textOriPriceView.setPaintFlags(textOriPriceView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);                                //가운데 줄긋기
         ((TextView) convertView.findViewById(R.id.item_list_ori_price)).setText(((Double)map.get("oriPrice")).longValue() + "");   // 원가
-        ((TextView) convertView.findViewById(R.id.item_list_price)).setText(((Double)map.get("price")).longValue() + "");          // 판매가
+        ((TextView) convertView.findViewById(R.id.item_list_price)).setText(((Double)map.get("price")).longValue() + "");           // 판매가
 
         // 액티비티로 데이터 보내기 위해서...
         ((TextView) convertView.findViewById(R.id.send_no)).setText(String.valueOf(((Double) map.get("no")).longValue()));
@@ -118,12 +116,12 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
 
          // 수정 버튼 클릭시 -----------------------------------------------------------------------
         convertView.findViewById(R.id.item_list_button_modify).setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ItemModifyActivity.class);
-//                intent.putExtra("no", ((TextView) v.findViewById(R.id.send_no)).getText().toString());
-//                intent.putExtra("no", (TextView) v.findViewById(R.id.send_no)).getLongExtra("no", -1L);
-                getContext().startActivity(intent);
+                Intent intent = new Intent(getContext(), ItemModifyActivity.class);                // 이동
+                intent.putExtra("no", ((Double)map.get("no")).longValue());                        // 해당상품의 no값 받기
+                getContext().startActivity(intent);                                                 // 실행
             }
         });
 
@@ -132,13 +130,11 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
 
             @Override
             public void onClick(final View view) {
-
                 new AlertDialog.Builder(getContext()).
-                        setTitle("삭제").
-                        setIcon(R.drawable.delete).
-                        setMessage("해당 상품을\n삭제하시겠습니까?\n").
-
-                        setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        setTitle("삭제").                                                          // 다이얼로그 타이틀명
+                        setIcon(R.drawable.delete).                                                // 다이얼로그 이미지위치.이미지명
+                        setMessage("해당 상품을\n삭제하시겠습니까?\n").                         // 다이얼로그 글
+                        setPositiveButton("예", new DialogInterface.OnClickListener() {            // 긍정버튼
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -146,8 +142,7 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
                                 Log.d("setPositiveButton", "" + which);
                             }
                         }).
-
-                        setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                        setNegativeButton("아니요", new DialogInterface.OnClickListener() {        // 부정버튼
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -208,7 +203,7 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         }
     }
 
-    // 목록에 상품이 추가됨 ------------------------------------------------------------------------
+    // 목록에 상품 추가 ----------------------------------------------------------------------------
     public void add(List<Map<String, Object>> list) {
         if (list == null) {
             return;

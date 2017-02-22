@@ -34,7 +34,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
     private int indexSingleChoiceSelected = 0;                                                // 상품 카테고리 다이얼로그
     private Long categoryNo;
 
-    // 유통기한 (날짜/시간)
+    // 유통기한 (날짜ㆍ시간)
     int Year, Month, Day, Hour, Minute;
     TextView dateText;
     TextView timeText;
@@ -66,7 +66,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         findViewById(R.id.item_insert_button_cancel).setOnClickListener(this);
     }
 
-    // 상품 카테고리
+    // 상품 카테고리 다이얼로그
     public void dialogSingleChoice(View view) {
         new AlertDialog.Builder(this).
                 setIcon(R.drawable.ic_choice).

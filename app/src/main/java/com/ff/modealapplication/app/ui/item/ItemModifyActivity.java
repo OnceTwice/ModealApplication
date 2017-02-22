@@ -28,6 +28,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 /**
@@ -38,13 +39,14 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
 
     private ItemService itemService = new ItemService();
     private int indexSingleChoiceSelected = 0;
-//    private Long itemCatagoryNo;
+    private Long categoryNo;
 
     int Year, Month, Day, Hour, Minute;
     TextView dateText;
     TextView timeText;
 
     ItemModifyActivity.ItemModifyTask itemModifyTask;
+    ItemModifyActivity.ItemModifyUpdateTask itemModifyUpdateTask;
 
     DisplayImageOptions displayImageOption = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.apple)
@@ -64,18 +66,21 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
 
         // 현재 날짜와 시간을 가져오기 위한 calender 인스턴스 선언
         Calendar calendar = new GregorianCalendar();
-            Year = calendar.get(Calendar.YEAR);
-            Month = calendar.get(Calendar.MONTH);
-            Day = calendar.get(Calendar.DAY_OF_MONTH);
-            Hour = calendar.get(Calendar.HOUR_OF_DAY);
-            Minute = calendar.get(Calendar.MINUTE);
+        Year = calendar.get(Calendar.YEAR);
+        Month = calendar.get(Calendar.MONTH);
+        Day = calendar.get(Calendar.DAY_OF_MONTH);
+        Hour = calendar.get(Calendar.HOUR_OF_DAY);
+        Minute = calendar.get(Calendar.MINUTE);
         UpdateNow();
 
         // 버튼(취소 / 수정) 클릭시
         findViewById(R.id.item_modify_button_modify).setOnClickListener(this);
         findViewById(R.id.item_modify_button_cancel).setOnClickListener(this);
 
-        new ItemModifyTask().execute();
+        itemModifyTask = new ItemModifyTask();
+        itemModifyTask.execute();
+
+
     }
 
     // 상품 카테고리 -------------------------------------------------------------------------------
@@ -88,6 +93,7 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.d("DialogSingleChoice", "" + which);
+                        categoryNo = Long.valueOf(which);
 
                         ItemModifyActivity.this.indexSingleChoiceSelected = which;
                         String[] category = getResources().getStringArray(R.array.item_category_list);
@@ -106,19 +112,19 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
 
             // 수정 버튼 클릭시
             case R.id.item_modify_button_modify: {
-                itemModifyTask = new ItemModifyTask();
-                itemModifyTask.execute();
+                itemModifyUpdateTask = new ItemModifyUpdateTask();
+                itemModifyUpdateTask.execute();
 
-                Intent intent = new Intent(ItemModifyActivity.this, ItemActivity.class);          // 경로 설정해주고
-                startActivity(intent);                                                              // 여기서 이동
-                finish();                                                                           // 이 액티비티를 종료해줌
+//                Intent intent = new Intent(ItemModifyActivity.this, ItemActivity.class);          // 경로 설정해주고
+//                startActivity(intent);                                                              // 여기서 이동
+//                finish();
                 break;
             }
 
             // 취소 버튼 클릭시
             case R.id.item_modify_button_cancel: {
-                Intent intent = new Intent(ItemModifyActivity.this, ItemActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(ItemModifyActivity.this, ItemActivity.class);
+//                startActivity(intent);
                 finish();
                 break;
             }
@@ -139,7 +145,6 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
 
     // 날짜 버튼 클릭시
     DatePickerDialog.OnDateSetListener DateSetListener = new DatePickerDialog.OnDateSetListener() {
-
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfyear, int dayOfMonth) {      // 사용자가 입력한 값(날짜)을 가져온뒤
             Year = year;
@@ -151,12 +156,10 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
 
     // 시간 버튼 클릭시
     TimePickerDialog.OnTimeSetListener TimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             Hour = hourOfDay;
             Minute = minute;
-
             UpdateNow();
         }
     };
@@ -165,23 +168,22 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
         dateText.setText(String.format("%d 년 %d 월 %d 일", Year, Month + 1, Day));
         timeText.setText(String.format("%d 시 %d 분 까지", Hour, Minute));
         String expDate = dateText.getText().toString() + " " + timeText.getText().toString();
-        Log.w("----------", expDate);
     }
 
-    // 상품 수정
+    // 상품 수정 - 기존에 입력한 정보 출력 ---------------------------------------------------------
     private class ItemModifyTask extends SafeAsyncTask<ItemVo> {
-        @Override
-        public ItemVo call() throws Exception {
-             getIntent().getStringExtra("no");  // 이전 액티비티에서 no값 받아옴 (이걸로 서버에 접근해서 해당 정보 가져오기 위해서...)
 
-            // call 부분이 서버에서 가져온 값
+        @Override
+        public ItemVo call() throws Exception {                                                   // call 부분이 서버에서 가져온 값
             return itemService.itemModify(getIntent().getLongExtra("no", -1));
         }
+
         @Override
         protected void onException(Exception e) throws RuntimeException {
             Log.d("Error : ", e + "!!!");
             super.onException(e);
         }
+
         @Override
         protected void onSuccess(ItemVo itemVo) throws Exception {                               // 성공하면 여기로
             StringTokenizer tokens = new StringTokenizer(itemVo.getExpDate().toString(), "-/: ");
@@ -191,7 +193,11 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
             String hour = tokens.nextToken();
             String minute = tokens.nextToken();
 
-            ((TextView) findViewById(R.id.item_modify_category)).setText(itemVo.getItemCategoryNo() + "");  // 카테고리
+            String[] category = getResources().getStringArray(R.array.item_category_list);       // 상품 카테고리 숫자→한글로 출력
+            String choice = category[((int)itemVo.getItemCategoryNo()) - 1 ];
+            categoryNo = (itemVo.getItemCategoryNo()) - 1 ;                                       // 상품 화면 출력시 해당 categoryNo 값 기본 세팅
+
+            ((TextView) findViewById(R.id.item_modify_category)).setText(choice);                           // 카테고리
             ((EditText) findViewById(R.id.item_modify_name)).setText(itemVo.getName().toString());           // 상품명
             ((EditText) findViewById(R.id.item_modify_count)).setText(itemVo.getCount() + "");              // 수량
             ((EditText) findViewById(R.id.item_modify_ori_price)).setText((itemVo.getOriPrice()) + "");     // 원가
@@ -202,48 +208,53 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
             ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + itemVo.getPicture(),
                     (ImageView) findViewById(R.id.item_modify_image_view), displayImageOption);         // 상품이미지
         }
+    }
 
-//        public ItemVo call() throws Exception {
-//            EditText nameModify = (EditText) findViewById(R.id.item_modify_name);
-//            Log.d("name : ", nameModify.getText().toString());
-//            String item_name = nameModify.getText().toString();
-//
-//            EditText oriModify = (EditText) findViewById(R.id.item_modify_ori_price);
-//            Log.d("ori_price : ", oriModify.getText().toString());
-//            Long ori_price = Long.parseLong(oriModify.getText().toString());
-//
-//            EditText countModify = (EditText) findViewById(R.id.item_modify_count);
-//            Log.d("count : ", countModify.getText().toString());
-//            Long count = Long.parseLong(countModify.getText().toString());
-//
-//            EditText priceModify = (EditText) findViewById(R.id.item_modify_price);
-//            Log.d("price : ", priceModify.getText().toString());
-//            Long price = Long.parseLong(priceModify.getText().toString());
-//
-//            EditText discountModify = (EditText) findViewById(R.id.item_modify_discount);
-//            Log.d("discount : ", discountModify.getText().toString());
-//            Long discount = Long.parseLong(discountModify.getText().toString());
-//
-//            TextView dateText = (TextView) findViewById(R.id.item_modify_date_text);
-//            Log.d("exp_date : ", dateText.getText().toString());
-//            String exp_date = dateText.getText().toString();
-//
-//            TextView timeText = (TextView) findViewById(R.id.item_modify_time_text);
-//            Log.d("exp_date : ", timeText.getText().toString());
-//            String exp_time = timeText.getText().toString();
-//
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onException(Exception e) throws RuntimeException {
-////            super.onException(e);
-//            throw new RuntimeException(e);
-//        }
-//
-//        @Override
-//        protected void onSuccess(ItemVo itemVo) throws Exception {
-////            super.onSuccess(itemVos);
-//        }
+    // 상품 수정 - 업데이트(갱신) ------------------------------------------------------------------
+    public class ItemModifyUpdateTask extends SafeAsyncTask <ItemVo> {
+
+        public ItemVo call() throws Exception {
+
+            Long no = getIntent().getLongExtra("no", -1);
+
+            EditText nameModify = (EditText) findViewById(R.id.item_modify_name);
+            String item_name = nameModify.getText().toString();
+
+            EditText oriModify = (EditText) findViewById(R.id.item_modify_ori_price);
+            Long ori_price = Long.parseLong(oriModify.getText().toString());
+
+            EditText countModify = (EditText) findViewById(R.id.item_modify_count);
+            Long count = Long.parseLong(countModify.getText().toString());
+
+            EditText priceModify = (EditText) findViewById(R.id.item_modify_price);
+            Long price = Long.parseLong(priceModify.getText().toString());
+
+            EditText discountModify = (EditText) findViewById(R.id.item_modify_discount);
+            Long discount = Long.parseLong(discountModify.getText().toString());
+
+            TextView dateText = (TextView) findViewById(R.id.item_modify_date_text);
+            String exp_date = dateText.getText().toString();
+
+            TextView timeText = (TextView) findViewById(R.id.item_modify_time_text);
+            String exp_time = timeText.getText().toString();
+
+            Long itemCategoryNo =  categoryNo + 1;
+
+            itemService.itemModifyUpdate(no, item_name, ori_price, count, price, exp_date + " " + exp_time, discount, itemCategoryNo);
+
+            return null;
+        }
+
+        @Override
+        protected void onException(Exception e) throws RuntimeException {
+//            super.onException(e);
+            Log.d("errr","ee"+e);
+            throw new RuntimeException(e);
+        }
+
+        @Override
+        protected void onSuccess(ItemVo itemVo) throws Exception {
+//            super.onSuccess(itemVos);
+        }
     }
 }

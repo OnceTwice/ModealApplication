@@ -96,7 +96,7 @@
         <ToggleButton
             android:id="@+id/item_list_button_hiding"
             android:layout_width="80dp"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:background="#E74B59"
@@ -108,7 +108,7 @@
         <Button
             android:id="@+id/item_list_button_modify"
             android:layout_width="80dp"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:background="#E74B59"
@@ -119,7 +119,7 @@
         <Button
             android:id="@+id/item_list_button_delete"
             android:layout_width="80dp"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:background="#E74B59"

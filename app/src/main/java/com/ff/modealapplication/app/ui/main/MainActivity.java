@@ -61,7 +61,6 @@ import java.util.Map;
 import static android.location.LocationManager.GPS_PROVIDER;
 import static android.location.LocationManager.NETWORK_PROVIDER;
 import static com.ff.modealapplication.R.id.nav_manage;
-import static com.ff.modealapplication.R.id.nav_marketDetail;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, AdapterView.OnItemClickListener {
     NavigationView navigationView;
@@ -355,17 +354,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.register_button).setVisibility(View.GONE);
             if ((Long) LoginPreference.getValue(getApplicationContext(), "shopNo") != -1) { // 사업자 로그인시 보임
                 ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_manage).setVisible(true);
-                ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_marketDetail).setVisible(true);
             } else { // 일반 사용자 로그인시
                 ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_manage).setVisible(false);
-                ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_marketDetail).setVisible(false);
             }
             flag_withdraw = true;
         } else if (LoginPreference.getValue(getApplicationContext(), "id") == null) { // 비로그인시
             ((Button) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.login_button)).setText("로그인");
             ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.register_button).setVisibility(View.VISIBLE);
             ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_manage).setVisible(false);
-            ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_marketDetail).setVisible(false);
             flag_withdraw = false;
         }
     }
@@ -396,16 +392,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.register_button).setVisibility(View.GONE);
             if ((Long) LoginPreference.getValue(getApplicationContext(), "shopNo") != -1) { // 사업자 로그인시 보임
                 ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_manage).setVisible(true);
-                ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_marketDetail).setVisible(true);
             } else { // 일반 사용자 로그인시
                 ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_manage).setVisible(false);
-                ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_marketDetail).setVisible(false);
             }
         } else if (LoginPreference.getValue(getApplicationContext(), "id") == null) { // 비로그인시
             ((Button) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.login_button)).setText("로그인");
             ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.register_button).setVisibility(View.VISIBLE);
             ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_manage).setVisible(false);
-            ((NavigationView) findViewById(R.id.nav_view)).getMenu().findItem(R.id.nav_marketDetail).setVisible(false);
         }
     }
 
@@ -540,9 +533,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == nav_manage) { // 상품관리
             Intent intent = new Intent(this, ItemActivity.class);
             intent.putExtra("shopNo", (Long) LoginPreference.getValue(getApplicationContext(), "shopNo"));
-            startActivity(intent);
-        } else if (id == nav_marketDetail) { // 매장상세정보
-            Intent intent = new Intent(this, MarketDetailInformationActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_userWithdrawal) { // 회원탈퇴
             Intent intent = new Intent(this, JoinLeaveActivity.class);

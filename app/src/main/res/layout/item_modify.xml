@@ -81,6 +81,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
+                        android:imeOptions="actionNext"
                         android:inputType="textPersonName"
                         android:text="" />
 
@@ -93,8 +94,10 @@
                         android:id="@+id/item_modify_count"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="0123456789"
                         android:ems="10"
-                        android:inputType="textPersonName"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
                         android:text="" />
 
                     <TextView
@@ -107,7 +110,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:inputType="textPersonName"
+                        android:digits="0123456789"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
                         android:text="" />
                 </LinearLayout>
 
@@ -166,7 +171,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:inputType="textPersonName"
+                            android:digits="0123456789"
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
                             android:text="" />
                     </LinearLayout>
 

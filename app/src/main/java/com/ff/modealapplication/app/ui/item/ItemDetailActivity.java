@@ -1,6 +1,8 @@
 package com.ff.modealapplication.app.ui.item;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -302,14 +304,31 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.item_detail_button_delete: {
-                Intent intent = new Intent(ItemDetailActivity.this, ItemActivity.class);
-                startActivity(intent);
-                finish();
+                new AlertDialog.Builder(this).
+                        setTitle("삭제").                                                          // 다이얼로그 타이틀명
+                        setIcon(R.drawable.delete).                                                // 다이얼로그 이미지위치.이미지명
+                        setMessage("해당 상품을\n삭제하시겠습니까?\n").                         // 다이얼로그 글
+                        setPositiveButton("예", new DialogInterface.OnClickListener() {            // 긍정버튼
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new ItemDelete(getIntent().getLongExtra("no", -1)).execute();
+                        Log.d("setPositiveButton", "" + which);
+                    }
+                }).
+                        setNegativeButton("아니요", new DialogInterface.OnClickListener() {        // 부정버튼
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).
+                        show();
                 break;
             }
 
             case R.id.item_detail_button_modify: {
-                Intent intent = new Intent(ItemDetailActivity.this, ItemActivity.class);
+                Intent intent = new Intent(ItemDetailActivity.this, ItemModifyActivity.class);
+                intent.putExtra("no", getIntent().getLongExtra("no", -1));
                 startActivity(intent);
                 finish();
                 break;
@@ -322,7 +341,8 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         @Override
         public Map<String, Object> call() throws Exception {
             // getIntent().getStringExtra("no") ← 이전 액티비티에서 no값 받아옴 (이걸로 서버에 접근해서 해당 정보 가져오기 위해서...)
-            return itemService.itemDetail((String) GPSPreference.getValue(getApplicationContext(), "latitude"), (String) GPSPreference.getValue(getApplicationContext(), "longitude"), getIntent().getLongExtra("no", -1L));
+            return itemService.itemDetail((String) GPSPreference.getValue(getApplicationContext(), "latitude"),
+                    (String) GPSPreference.getValue(getApplicationContext(), "longitude"), getIntent().getLongExtra("no", -1L));
         }
 
         @Override // 에러나면 Exception 발생
@@ -495,4 +515,31 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
             throw new RuntimeException(e);
         }
     }
+    private class ItemDelete extends SafeAsyncTask<Void> {
+        Long no;
+
+        public ItemDelete(Long no) {
+            this.no = no;
+        }
+
+        @Override
+        public Void call() throws Exception {
+            itemService.itemDelete(no);
+            return null;
+        }
+
+        @Override // 에러나면 Exception 발생
+        protected void onException(Exception e) throws RuntimeException {
+            Log.d("!!!!!!!!!!!!!", "" + e);
+            super.onException(e);
+        }
+
+        @Override // 성공하면 해당 상품이 삭제된 상품목록 출력
+        protected void onSuccess(Void Void) throws Exception {
+
+            Toast.makeText(getApplicationContext(), "해당 상품이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    }
+
 }
