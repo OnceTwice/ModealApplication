@@ -41,10 +41,6 @@ public class JoinActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             finish();
         }
-        // 돋보기 클릭시
-        else if (item.getItemId() == R.id.action_button) {
-            // 돋보기 클릭시 수행할 작업
-        }
         return true;
     }
 
