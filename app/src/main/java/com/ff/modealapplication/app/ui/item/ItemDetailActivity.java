@@ -72,7 +72,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         new ItemDetailTask().execute();
 
-        Toast.makeText(this, "로그인정보(자신의 매장정보) : " + LoginPreference.getValue(getApplicationContext(), "shopNo"), Toast.LENGTH_SHORT).show();        // 자기 매장의 no값 출력(일반사용자는 -1;매장이없기때문)
+        Toast.makeText(this, "로그인정보(자신의 매장정보) : " + LoginPreference.getValue(getApplicationContext(), "shopNo") + " 상점NO : " + getIntent().getLongExtra("shopNo", -1) , Toast.LENGTH_SHORT).show();        // 자기 매장의 no값 출력(일반사용자는 -1;매장이없기때문)
 //        Toast.makeText(this, "상품에서받아온정보 : " + (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue(), Toast.LENGTH_SHORT).show();
 
         // 해당 상품 매장아이디로 접속시 삭제/수정/보이기(숨기기)버튼 보임
@@ -393,7 +393,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         @Override
         public Void call() throws Exception {
-            bookmarkService.bookmarkAdd(getIntent().getLongExtra("no", -1), (Long) LoginPreference.getValue(getApplicationContext(), "no"), null);
+            bookmarkService.bookmarkAdd(getIntent().getLongExtra("no", -1), (Long) LoginPreference.getValue(getApplicationContext(), "no"), getIntent().getLongExtra("shopNo", -1));
             return null;
         }
 
@@ -409,7 +409,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         @Override
         public Void call() throws Exception {
-            bookmarkService.bookmarkDelete(getIntent().getLongExtra("no", -1), (Long) LoginPreference.getValue(getApplicationContext(), "no"), null);
+            bookmarkService.bookmarkDelete(getIntent().getLongExtra("no", -1), (Long) LoginPreference.getValue(getApplicationContext(), "no"), getIntent().getLongExtra("shopNo", -1));
             return null;
         }
 
@@ -425,7 +425,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         @Override
         public Long call() throws Exception {
-            return bookmarkService.bookmarkSelect(getIntent().getLongExtra("no", -1), (Long) LoginPreference.getValue(getApplicationContext(), "no"), null);
+            return bookmarkService.bookmarkSelect(getIntent().getLongExtra("no", -1), (Long) LoginPreference.getValue(getApplicationContext(), "no"), getIntent().getLongExtra("shopNo", -1));
         }
 
         @Override

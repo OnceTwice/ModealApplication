@@ -29,10 +29,10 @@ public class BookmarkService {
         httpRequest.connectTimeout(5000);
         httpRequest.readTimeout(5000);
 
-        if (shopNo == null) {
-            httpRequest.send("itemNo=" + itemNo + "&userNo=" + userNo);
-        } else if (itemNo == null) {
+        if (itemNo == null) {
             httpRequest.send("shopNo=" + shopNo + "&userNo=" + userNo);
+        } else {
+            httpRequest.send("itemNo=" + itemNo + "&userNo=" + userNo + "&shopNo=" + shopNo);
         }
 
         int responseCode = httpRequest.code();
@@ -50,10 +50,10 @@ public class BookmarkService {
         httpRequest.connectTimeout(5000);
         httpRequest.readTimeout(5000);
 
-        if (shopNo == null) {
-            httpRequest.send("itemNo=" + itemNo + "&userNo=" + userNo);
-        } else if (itemNo == null) {
+        if (itemNo == null) {
             httpRequest.send("shopNo=" + shopNo + "&userNo=" + userNo);
+        } else {
+            httpRequest.send("itemNo=" + itemNo + "&userNo=" + userNo + "&shopNo=" + shopNo);
         }
 
         int responseCode = httpRequest.code();
@@ -71,10 +71,10 @@ public class BookmarkService {
         httpRequest.connectTimeout(5000);
         httpRequest.readTimeout(5000);
 
-        if (shopNo == null) {
-            httpRequest.send("itemNo=" + itemNo + "&userNo=" + userNo);
-        } else if (itemNo == null) {
+        if (itemNo == null) {
             httpRequest.send("shopNo=" + shopNo + "&userNo=" + userNo);
+        } else {
+            httpRequest.send("itemNo=" + itemNo + "&userNo=" + userNo + "&shopNo=" + shopNo);
         }
 
         int responseCode = httpRequest.code();

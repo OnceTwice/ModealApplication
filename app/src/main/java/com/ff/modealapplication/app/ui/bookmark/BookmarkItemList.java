@@ -42,7 +42,8 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
 
     // 체크된 아이템들을 저장할 List
     boolean[] isChecked;
-//    List<Map<String, Object>> list;
+    //    List<Map<String, Object>> list;
+    Long shop_no;
 
     public BookmarkItemList(Context context) {
         super(context, R.layout.activity_bookmark);
@@ -67,10 +68,9 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
             holder = (BookHolder) convertView.getTag();
         }
 
-        Log.w("!!!!!!!!!1", getItem(position) + "!");
+        holder.send_no_item_shop.setText(getItem(position).get("shopNo").toString()); // 매장No
         holder.text.setText(getItem(position).get("iname").toString()); // 상품명
         holder.send_no_item.setText(getItem(position).get("itemNo").toString()); // 상품No
-//        holder.send_no_item_shop.setText(getItem(position).get("")); // 매장No가 없다...
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
         ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + getItem(position).get("ipicture"), holder.imageView, displayImageOption); // 상품이미지
 
@@ -84,7 +84,7 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
             @Override
             public void onClick(View v) {
                 if (holder.delete.isChecked()) {
-                    new BookmarkDelete(((Double) getItem(position).get("itemNo")).intValue()).execute(); // DB에서 삭제
+                    new BookmarkDelete(((Double) getItem(position).get("itemNo")).longValue(), ((Double) getItem(position).get("shopNo")).longValue()).execute(); // DB에서 삭제
                     FirebaseMessaging.getInstance().unsubscribeFromTopic("bi" + ((Double) getItem(position).get("itemNo")).intValue()); // 즐겨찾기 상품 알림 해제
                     BookmarkItemList.this.remove(getItem(position)); // view에서 삭제
                     BookmarkItemList.this.notifyDataSetChanged(); // 갱신
@@ -119,16 +119,18 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
 
     // 즐겨찾기 삭제
     private class BookmarkDelete extends SafeAsyncTask<Void> {
-        int buttonPosition;
+        Long itemNo;
+        Long shopNo;
 
-        public BookmarkDelete(int buttonPosition) {
-            this.buttonPosition = buttonPosition;
+        public BookmarkDelete(Long itemNo, Long shopNo) {
+            this.itemNo = itemNo;
+            this.shopNo = shopNo;
         }
 
         @Override
         public Void call() throws Exception {
             BookmarkService bookmarkService = new BookmarkService();
-            bookmarkService.bookmarkDelete((long) buttonPosition, (Long) LoginPreference.getValue(getApplicationContext(), "no"), null);
+            bookmarkService.bookmarkDelete(itemNo, (Long) LoginPreference.getValue(getApplicationContext(), "no"), shopNo);
             return null;
         }
 

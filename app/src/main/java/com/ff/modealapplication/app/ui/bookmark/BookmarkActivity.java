@@ -72,7 +72,7 @@ public class BookmarkActivity extends AppCompatActivity implements AdapterView.O
                 Log.i("이동할 아이템의 NO", ((TextView) view.findViewById(R.id.send_no_item)).getText().toString());
                 Intent intent = new Intent(this, ItemDetailActivity.class);
                 intent.putExtra("no", (Double.valueOf(((TextView) view.findViewById(R.id.send_no_item)).getText().toString())).longValue());
-                intent.putExtra("shopNo", (Double.valueOf(((TextView) view.findViewById(R.id.send_no_shop)).getText().toString())).longValue());
+                intent.putExtra("shopNo", (Double.valueOf(((TextView)view.findViewById(R.id.send_no_item_shopNo)).getText().toString())).longValue());
                 startActivity(intent);
                 onStop(); // 물품 클릭시 즐겨찾기 해제시 즐겨찾기 리스트 갱신을 위해서
                 break;
