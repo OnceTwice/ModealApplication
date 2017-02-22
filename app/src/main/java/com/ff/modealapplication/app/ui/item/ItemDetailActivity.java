@@ -3,6 +3,7 @@ package com.ff.modealapplication.app.ui.item;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -35,10 +36,11 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 public class ItemDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private ItemService itemService = new ItemService();
@@ -112,6 +114,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                 Toast.makeText(getApplicationContext(), getIntent().getLongExtra("shopNo", -1) + "", Toast.LENGTH_SHORT).show();
 
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -123,7 +126,6 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         } else { // 비로그인시
             isChecked = false;
         }
-
         bookmark_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,15 +146,14 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                         isChecked = false;
                     }
                 } else { // 비로그인시
-                    Toast.makeText(getApplicationContext(), "로그인하세요", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "즐겨찾기 서비스를 이용하려면 로그인하세요", Toast.LENGTH_SHORT).show();
                     bookmark_button.setBackground(getResources().getDrawable(R.drawable.heart_empty));
                 }
             }
         });
 
-        new ItemList().execute();
-
         // 뷰페이저
+        new ItemList().execute();
         final ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -332,14 +333,43 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         @Override // 성공하면 해당 매장명과 상품목록 출력
         protected void onSuccess(Map<String, Object> itemMap) throws Exception {
-            StringTokenizer tokens = new StringTokenizer(itemMap.get("expDate").toString(), "-/: ");
-            String year = tokens.nextToken();
-            String month = tokens.nextToken();
-            String day = tokens.nextToken();
-            String hour = tokens.nextToken();
-            String minute = tokens.nextToken();
+//            StringTokenizer tokens = new StringTokenizer(itemMap.get("expDate").toString(), "-/: ");
+//            String year = tokens.nextToken();
+//            String month = tokens.nextToken();
+//            String day = tokens.nextToken();
+//            String hour = tokens.nextToken();
+//            String minute = tokens.nextToken();
 
-            ((TextView) findViewById(R.id.item_detail_clock)).setText(year + "년 " + month + "월 " + day + "일 " + hour + "시 " + minute + "분");
+            final TextView clock = ((TextView) findViewById(R.id.item_detail_clock));
+            SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+            Date date = format.parse(itemMap.get("expDate").toString());
+            Date currentDate = new Date();
+            long diff = date.getTime() -  currentDate.getTime();
+            CountDownTimer timer = new CountDownTimer(diff, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    int seconds = (int) (millisUntilFinished / 1000) % 60;
+                    int minutes = (int) ((millisUntilFinished / (1000 * 60)) % 60);
+                    int hours = (int) ((millisUntilFinished / (1000 * 60 * 60)) % 24);
+                    int days = (int) (millisUntilFinished / (1000 * 60 * 60 * 24));
+                    String newtime = days + ":" + hours + ":" + minutes + ":" + seconds;
+
+                    if (newtime.equals("0:0:0:0")) {
+                        clock.setText("판매종료");
+                    } else if (days == 0 && hours != 0) {
+                        clock.setText(hours + "시간  " + minutes + "분  " + seconds + "초 남음");
+                    } else if (days == 0 && hours == 0) {
+                        clock.setText(minutes + "분  " + seconds + "초 남음");
+                    } else {
+                        clock.setText(days + "일  " + hours + "시간  " + minutes + "분  " + seconds + "초 남음");
+                    }
+                }
+
+                @Override
+                public void onFinish() {
+                    clock.setText("판매종료");
+                }
+            }.start();
             ((TextView) findViewById(R.id.item_detail_name)).setText(itemMap.get("name").toString());
             ((TextView) findViewById(R.id.item_detail_ori_price)).setText(((Double) itemMap.get("oriPrice")).longValue() + "");
             ((TextView) findViewById(R.id.item_detail_price)).setText(((Double) itemMap.get("price")).longValue() + "");
@@ -350,7 +380,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
             if (itemMap.get("distance") != null) {
                 ((TextView) findViewById(R.id.item_detail_distance)).setText(((Double) itemMap.get("distance")).longValue() + "m");
             }
-            if (((Double)itemMap.get("showItem")).longValue() == 0L) {
+            if (((Double) itemMap.get("showItem")).longValue() == 0L) {
                 ((ToggleButton) findViewById(R.id.item_detail_button_hiding)).setChecked(true);
             }
 

@@ -1,10 +1,15 @@
 package com.ff.modealapplication.app.ui.market;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +17,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -22,23 +28,41 @@ import android.widget.Toast;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.domain.CommentVo;
+import com.ff.modealapplication.app.core.service.BookmarkService;
 import com.ff.modealapplication.app.core.service.CommentRegisterService;
 import com.ff.modealapplication.app.core.service.CommentService;
+import com.ff.modealapplication.app.core.service.ItemService;
 import com.ff.modealapplication.app.core.service.MarketService;
+import com.ff.modealapplication.app.core.util.Base;
 import com.ff.modealapplication.app.core.util.LoginPreference;
 import com.ff.modealapplication.app.ui.comment.CommentListAdapter;
+import com.ff.modealapplication.app.ui.item.ItemDetailActivity;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.ff.modealapplication.R.id.rbOutput;
 
 public class MarketDetailInformationActivity extends AppCompatActivity {
     private MarketService marketService = new MarketService();
     private CommentService commentService = new CommentService();
     private CommentRegisterService commentRegisterService = new CommentRegisterService();
+
+    // 즐겨찾기용
+    private BookmarkService bookmarkService = new BookmarkService();
+
+    // 동일매장상품(뷰페이저)
+    private ItemService itemService = new ItemService();
+    private List<Map<String, Object>> itemList; // 동일매장 상품리스트
 
     private CommentListAdapter commentListAdapter = null;
     private ListView listView = null;
@@ -56,7 +80,14 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
 
     private Button btnSubmit;
     private int marketScore=0;
-    private boolean isChecked = false; // 상품 보이기 / 숨기기
+    private boolean isChecked; // 상품 보이기 / 숨기기
+
+    DisplayImageOptions displayImageOption = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.drawable.apple)
+            .showImageOnFail(R.drawable.apple)
+            .delayBeforeLoading(0)
+            .cacheOnDisc(true)
+            .build();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +96,7 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
 
         imageView = (ImageView) findViewById(R.id.imgVMarketDetailInformationImg);
         tvName = (TextView) findViewById(R.id.tvMarketDetailInformationName);
-        outputRatingBar = (RatingBar) findViewById(R.id.rbOutput);
+        outputRatingBar = (RatingBar) findViewById(rbOutput);
         tvAddress = (TextView) findViewById(R.id.tvMarketDetailInformationAddress);
         tvIntroduce = (TextView) findViewById(R.id.tvMarketDetailInformationIntroduce);
         btnBookmark = (Button) findViewById(R.id.btnBookmarkMarket);
@@ -91,23 +122,71 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
         new MarketInformationAsyncTask().execute();
         new FetchCommentListAsyncTask().execute();
 
+        // 즐겨찾기
+        if ((Long) LoginPreference.getValue(getApplicationContext(), "no") != -1) { // 로그인시 서버에서 즐겨찾기를 가져옴
+            new BookmarkSelect().execute();
+        } else { // 비로그인시
+            isChecked = false;
+        }
         btnBookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if((Long) LoginPreference.getValue(getApplicationContext(), "no") != -1) {
                     if(isChecked == false) {        // 즐겨찾기 추가
-                        Toast.makeText(getApplicationContext(), "북마크에 추가되었습니다", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "즐겨찾기에 추가되었습니다", Toast.LENGTH_SHORT).show();
+                        Log.d("매장 topic 알림 등록", "bs" + getIntent().getLongExtra("ShopNo", 0));
+                        FirebaseMessaging.getInstance().subscribeToTopic("bs" + getIntent().getLongExtra("ShopNo", 0)); // 즐겨찾기 상품 알림 설정
                         btnBookmark.setBackground(ContextCompat.getDrawable(MarketDetailInformationActivity.this, R.drawable.heart_full));
+                        new BookmarkAdd().execute(); // 서버에 즐겨찾기 정보 저장
                         isChecked = true;
                     } else {                        // 즐겨찾기 해제
-                        Toast.makeText(getApplicationContext(), "북마크에 삭제되었습니다", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "즐겨찾기가 해제되었습니다", Toast.LENGTH_SHORT).show();
+                        Log.d("매장 topic 알림 해제", "bs" + getIntent().getLongExtra("ShopNo", 0));
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic("bs" + getIntent().getLongExtra("ShopNo", 0)); // 즐겨찾기 상품 알림 해제
                         btnBookmark.setBackground(ContextCompat.getDrawable(MarketDetailInformationActivity.this, R.drawable.heart_empty));
+                        new BookmarkDelete().execute(); // 서버에서 즐겨찾기 정보 삭제
                         isChecked = false;
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "즐겨찾기 서비스를 이용하려면 로그인하세요", Toast.LENGTH_SHORT).show();
                     btnBookmark.setBackground(ContextCompat.getDrawable(MarketDetailInformationActivity.this, R.drawable.heart_empty));
                 }
+            }
+        });
+
+        // 뷰페이저
+        new ItemList().execute();
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager_shop);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ImageAdapter adapter = new ImageAdapter(getApplicationContext());
+                viewPager.setAdapter(adapter);
+                viewPager.setPageMargin(getResources().getDisplayMetrics().widthPixels / -4);
+                viewPager.setOffscreenPageLimit(2);
+                viewPager.setCurrentItem(1);
+            }
+        }, 1000);
+        findViewById(R.id.image_left_shop).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int cur = viewPager.getCurrentItem();    //현재 아이템 포지션
+                if (cur > 0)                //첫 페이지가 아니면
+                    viewPager.setCurrentItem(cur - 1, true);    //이전 페이지로 이동
+                else                        //첫 페이지 이면
+                    Toast.makeText(getApplicationContext(), "맨 처음 페이지 입니다.",
+                            Toast.LENGTH_SHORT).show();
+            }
+        });
+        findViewById(R.id.image_right_shop).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int cur = viewPager.getCurrentItem();    //현재 아이템 포지션
+                if (cur < itemList.size() - 1)        //마지막 페이지가 아니면
+                    viewPager.setCurrentItem(cur + 1, true);    //다음 페이지로 이동
+                else                        //마지막 페이지 이면
+                    Toast.makeText(getApplicationContext(), "맨 마지막 페이지 입니다.",
+                            Toast.LENGTH_SHORT).show();    //메시지 출력
             }
         });
 
@@ -127,6 +206,7 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
                 if((Long)LoginPreference.getValue(getApplicationContext(), "no") == -1) {
                     Toast.makeText(getApplicationContext(), "로그인 유저만 사용 가능합니다", Toast.LENGTH_SHORT).show();
                     return;
+
                 }
 
                 if(marketScore == 0) {
@@ -142,6 +222,56 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
                 new RegisterCommentAsyncTask().execute();
             }
         });
+    }
+
+    // 뷰페이저를 쓰기 위한 어댑터
+    public class ImageAdapter extends PagerAdapter {
+        Context context;
+
+        ImageAdapter(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public int getCount() {
+            if (itemList == null) {
+                return 0;
+            }
+            return itemList.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == ((ImageView) object);
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, final int position) {
+            ImageView imageView = new ImageView(context);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+
+            ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
+            ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + itemList.get(position).get("picture"), imageView, displayImageOption);
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
+                    intent.putExtra("no", ((Double) itemList.get(position).get("no")).longValue());
+                    intent.putExtra("shopNo", ((Double) itemList.get(position).get("shopNo")).longValue());
+                    startActivity(intent);
+                    finish();
+                }
+            });
+
+            ((ViewPager) container).addView(imageView, 0);
+            return imageView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            ((ViewPager) container).removeView((ImageView) object);
+        }
     }
 
     public void standardDialog() {
@@ -234,6 +364,11 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
         protected void onSuccess(final Map<String, Object> shopInformMap) throws Exception {
             super.onSuccess(shopInformMap);
             Log.d("MarketInfncTask : ", "성공!!!");
+
+            // 평점
+            if (shopInformMap.get("grade") != null) {
+                ((RatingBar) findViewById(R.id.rbOutput)).setRating(((Double) shopInformMap.get("grade")).floatValue());
+            }
 
             /////////////////////////////// 이미지 세팅(URL로 가지고 올 때) ////////////////////////////////////
             //  안드로이드에서 네트워크 관련 작업을 할 때는
@@ -335,5 +470,90 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
         }
     }
 
+    // 즐겨찾기 검색
+    private class BookmarkSelect extends SafeAsyncTask<Long> {
 
+        @Override
+        public Long call() throws Exception {
+            return bookmarkService.bookmarkSelect(null, (Long) LoginPreference.getValue(getApplicationContext(), "no"), getIntent().getLongExtra("ShopNo", 0));
+        }
+
+        @Override
+        protected void onSuccess(Long no) throws Exception {
+            super.onSuccess(no);
+            if (no != null) {
+                btnBookmark.setBackground(getResources().getDrawable(R.drawable.heart_full));
+                isChecked = true;
+            } else {
+                btnBookmark.setBackground(getResources().getDrawable(R.drawable.heart_empty));
+                isChecked = false;
+            }
+        }
+
+        @Override
+        protected void onException(Exception e) throws RuntimeException {
+            Log.d("*Main Exception error :", "" + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    // 즐겨찾기 추가
+    private class BookmarkAdd extends SafeAsyncTask<Void> {
+
+        @Override
+        public Void call() throws Exception {
+            bookmarkService.bookmarkAdd(null, (Long) LoginPreference.getValue(getApplicationContext(), "no"), getIntent().getLongExtra("ShopNo", 0));
+            return null;
+        }
+
+        @Override
+        protected void onException(Exception e) throws RuntimeException {
+            Log.d("*Main Exception error :", "" + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    // 즐겨찾기 삭제
+    private class BookmarkDelete extends SafeAsyncTask<Void> {
+
+        @Override
+        public Void call() throws Exception {
+            bookmarkService.bookmarkDelete(null, (Long) LoginPreference.getValue(getApplicationContext(), "no"), getIntent().getLongExtra("ShopNo", 0));
+            return null;
+        }
+
+        @Override
+        protected void onException(Exception e) throws RuntimeException {
+            Log.d("*Main Exception error :", "" + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    // 동일 매장 상품 가져오기
+    private class ItemList extends SafeAsyncTask<List<Map<String, Object>>> {
+
+        @Override
+        public List<Map<String, Object>> call() throws Exception {
+            List<Map<String, Object>> list = itemService.itemList(getIntent().getLongExtra("ShopNo", 0));
+            List<Map<String, Object>> list_show = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                if (((Double) list.get(i).get("showItem")).longValue() == 1) {
+                    list_show.add(list.get(i));
+                }
+            }
+            return list_show;
+        }
+
+        @Override
+        protected void onSuccess(List<Map<String, Object>> list) throws Exception {
+            itemList = list;
+            super.onSuccess(list);
+        }
+
+        @Override
+        protected void onException(Exception e) throws RuntimeException {
+            Log.d("*Main Exception error :", "" + e);
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -69,17 +69,18 @@ public class BookmarkActivity extends AppCompatActivity implements AdapterView.O
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (view.getId()) {
             case R.id.book_item: { // 상품으로 이동
-                Log.i("이동할 아이템의 NO", ((TextView) view.findViewById(R.id.send_no)).getText().toString());
+                Log.i("이동할 아이템의 NO", ((TextView) view.findViewById(R.id.send_no_item)).getText().toString());
                 Intent intent = new Intent(this, ItemDetailActivity.class);
-                intent.putExtra("no", ((TextView) view.findViewById(R.id.send_no)).getText().toString());
+                intent.putExtra("no", (Double.valueOf(((TextView) view.findViewById(R.id.send_no_item)).getText().toString())).longValue());
+                intent.putExtra("shopNo", (Double.valueOf(((TextView) view.findViewById(R.id.send_no_shop)).getText().toString())).longValue());
                 startActivity(intent);
                 onStop(); // 물품 클릭시 즐겨찾기 해제시 즐겨찾기 리스트 갱신을 위해서
                 break;
             }
             case R.id.book_shop: { // 매장으로 이동
-                Log.i("이동할 아이템의 NO", ((TextView) view.findViewById(R.id.send_no)).getText().toString());
+                Log.i("이동할 매장의 NO", ((TextView) view.findViewById(R.id.send_no_shop)).getText().toString());
                 Intent intent = new Intent(this, MarketDetailInformationActivity.class);
-                intent.putExtra("no", ((TextView) view.findViewById(R.id.send_no)).getText().toString());
+                intent.putExtra("ShopNo", (Double.valueOf(((TextView) view.findViewById(R.id.send_no_shop)).getText().toString())).longValue());
                 startActivity(intent);
                 onStop(); // 물품 클릭시 즐겨찾기 해제시 즐겨찾기 리스트 갱신을 위해서
                 break;

@@ -2,6 +2,7 @@ package com.ff.modealapplication.app.core.service;
 
 import com.ff.modealapplication.andorid.network.JSONResult;
 import com.ff.modealapplication.app.core.domain.NoticeVo;
+import com.ff.modealapplication.app.core.util.Base;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,7 +19,7 @@ import java.util.List;
 public class NoticeService {
 
     public List<NoticeVo> getNoticeList(){
-        String url="http://192.168.1.87:8088/modeal/noticeapp";
+        String url= Base.url + "modeal/noticeapp";
 
         HttpRequest httpRequest = HttpRequest.post(url);
 

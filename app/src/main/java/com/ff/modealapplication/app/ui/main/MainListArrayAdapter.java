@@ -154,7 +154,6 @@ public class MainListArrayAdapter extends RecyclerView.Adapter<MainListArrayAdap
         public ImageView itemImage;
         CountDownTimer timer;
 
-
         public ViewHolder(View itemView) {
             super(itemView);
 

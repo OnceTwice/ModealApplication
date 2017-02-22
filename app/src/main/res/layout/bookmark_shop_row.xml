@@ -37,7 +37,7 @@
             android:textOn="" />
 
         <TextView
-            android:id="@+id/send_no"
+            android:id="@+id/send_no_shop"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="gone" />

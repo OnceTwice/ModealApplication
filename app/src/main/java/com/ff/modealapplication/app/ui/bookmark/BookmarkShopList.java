@@ -61,14 +61,14 @@ public class BookmarkShopList extends ArrayAdapter<Map<String, Object>> {
             holder.text = (TextView) convertView.findViewById(R.id.bookmark_shop_text);
             holder.delete = (ToggleButton) convertView.findViewById(R.id.bookmark_shop_delete);
             holder.imageView = (ImageView) convertView.findViewById(R.id.bookmark_shop_image);
-            holder.send_no = (TextView) convertView.findViewById(R.id.send_no);
+            holder.send_no_shop = (TextView) convertView.findViewById(R.id.send_no_shop);
             convertView.setTag(holder);
         } else {
             holder = (BookHolder) convertView.getTag();
         }
 
         holder.text.setText(getItem(position).get("sname").toString()); // 매장명
-        holder.send_no.setText(getItem(position).get("shopNo").toString()); // 매장No
+        holder.send_no_shop.setText(getItem(position).get("shopNo").toString()); // 매장No
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
         ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + getItem(position).get("spicture"), holder.imageView, displayImageOption); // 매장이미지
 
@@ -98,7 +98,7 @@ public class BookmarkShopList extends ArrayAdapter<Map<String, Object>> {
         public ToggleButton delete;
         public TextView text;
         public ImageView imageView;
-        public TextView send_no;
+        public TextView send_no_shop;
     }
 
     public void add(List<Map<String, Object>> list) {

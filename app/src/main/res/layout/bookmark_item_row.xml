@@ -37,7 +37,13 @@
             android:textOn="" />
 
         <TextView
-            android:id="@+id/send_no"
+            android:id="@+id/send_no_item"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/send_no_item_shopNo"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="gone" />

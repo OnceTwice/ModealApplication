@@ -60,14 +60,17 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
             holder.text = (TextView) convertView.findViewById(R.id.bookmark_item_text);
             holder.delete = (ToggleButton) convertView.findViewById(R.id.bookmark_item_delete);
             holder.imageView = (ImageView) convertView.findViewById(R.id.bookmark_item_image);
-            holder.send_no = (TextView) convertView.findViewById(R.id.send_no);
+            holder.send_no_item = (TextView) convertView.findViewById(R.id.send_no_item);
+            holder.send_no_item_shop = (TextView) convertView.findViewById(R.id.send_no_item_shopNo);
             convertView.setTag(holder);
         } else {
             holder = (BookHolder) convertView.getTag();
         }
 
+        Log.w("!!!!!!!!!1", getItem(position) + "!");
         holder.text.setText(getItem(position).get("iname").toString()); // 상품명
-        holder.send_no.setText(getItem(position).get("itemNo").toString()); // 상품No
+        holder.send_no_item.setText(getItem(position).get("itemNo").toString()); // 상품No
+//        holder.send_no_item_shop.setText(getItem(position).get("")); // 매장No가 없다...
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getContext()));
         ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + getItem(position).get("ipicture"), holder.imageView, displayImageOption); // 상품이미지
 
@@ -97,7 +100,8 @@ public class BookmarkItemList extends ArrayAdapter<Map<String, Object>> {
         public ToggleButton delete;
         public TextView text;
         public ImageView imageView;
-        public TextView send_no;
+        public TextView send_no_item;
+        public TextView send_no_item_shop;
     }
 
     public void add(List<Map<String, Object>> list) {
