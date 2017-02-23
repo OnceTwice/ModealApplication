@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
         backPressCloseHandler = new BackPressCloseHandler(this);
 
         // 프래그먼트에서 떼오고 없애버림
