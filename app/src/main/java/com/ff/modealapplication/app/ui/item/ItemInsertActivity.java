@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -89,6 +90,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         Minute = calendar.get(Calendar.MINUTE);
         UpdateNow();
 
+        // 상품 이미지 뷰
         item_insert_image_view = (ImageView) findViewById(R.id.item_insert_image_view);
 
         // 등록 버튼 클릭시
@@ -101,7 +103,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         findViewById(R.id.item_insert_button_upload).setOnClickListener(this);
     }
 
-    // 상품 카테고리 다이얼로그
+    // 상품 카테고리
     public void dialogSingleChoice(View view) {
         new AlertDialog.Builder(this).
                 setIcon(R.drawable.ic_choice).
@@ -127,6 +129,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
             // 날짜 버튼 클릭시 설정 화면 보여줌 (여기서 리스너도 등록)
             case R.id.item_insert_date_text: {
                 new DatePickerDialog(ItemInsertActivity.this, DateSetListener, Year, Month, Day).show();
@@ -147,8 +150,6 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
 
             // 취소 버튼 클릭시
             case R.id.item_insert_button_cancel: {
-                Intent intent = new Intent(ItemInsertActivity.this, ItemActivity.class);
-                startActivity(intent);
                 finish();
                 break;
             }
@@ -171,7 +172,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    // 업로드
+    // 이미지 업로드
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -286,14 +287,13 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
                             "bs" + (Long) LoginPreference.getValue(getApplicationContext(), "shopNo")); // 알림 매장번호
                 }
             }.start();
-
         }
     }
 
     // 날짜 클릭시
     DatePickerDialog.OnDateSetListener DateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
-        public void onDateSet(DatePicker view, int year, int monthOfyear, int dayOfMonth) {      // 사용자가 입력한 값을 가져온뒤
+        public void onDateSet(DatePicker view, int year, int monthOfyear, int dayOfMonth) {      // 사용자가 입력한 값(날짜)을 가져온뒤
             Year = year;
             Month = monthOfyear;
             Day = dayOfMonth;
@@ -337,7 +337,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
             EditText priceInsert = (EditText) findViewById(R.id.item_insert_price);
             Long price = Long.parseLong(priceInsert.getText().toString());
 
-            Long discount = price / ori_price * 100;
+            Long discount = (long)(Math.ceil((price.doubleValue() / ori_price) * 100));             // 할인율 계산
 
             TextView dateText = (TextView) findViewById(R.id.item_insert_date_text);
             String exp_date = dateText.getText().toString();

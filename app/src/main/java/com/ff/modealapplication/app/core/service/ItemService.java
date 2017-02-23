@@ -113,29 +113,31 @@ public class ItemService {
 
     // 상품 수정 - 업데이트(갱신) ------------------------------------------------------------------------
     public void itemModifyUpdate(Long no, String item_name, Long ori_price, Long count,
-                                 Long price, String exp_date, Long discount, Long itemCategoryNo) {
+                                 Long price, String exp_date, Long discount, Long itemCategoryNo, String picture) {
 
         // 데이터를 가져올 url를 작성해줌
         String url = Base.url + "modeal/list/itemModifyUpdate";
         HttpRequest httpRequest = HttpRequest.post(url);
 
+        Log.d("1erwerrw",""+picture);
         httpRequest.contentType(HttpRequest.CONTENT_TYPE_FORM);
         httpRequest.accept(httpRequest.CONTENT_TYPE_JSON);
         httpRequest.connectTimeout(10000);
         httpRequest.readTimeout(10000);
 
-        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + item_name + ori_price + count + price + exp_date + discount);
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + picture);
 
         // from 방식 (안드로이드에서 이클립스(서버)로 데이터를 전송시 사용)
         int responseCode = httpRequest.send(    // "키값"은 타입(vo)에 맞는 변수명으로 작성, 밸류값은 내가 받아온 파라미터명 작성
-                "name=" + item_name +
-                        "&no=" + no +
+                        "no=" + no +
+                        "&name=" + item_name +
                         "&oriPrice=" + ori_price +
                         "&count=" + count +
                         "&price=" + price +
                         "&expDate=" + exp_date +
+                        "&discount=" + discount +
                         "&itemCategoryNo=" + itemCategoryNo +
-                        "&discount=" + discount).code();
+                        "&picture=" + picture).code();
 
         if (responseCode != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("HTTP Response : " + responseCode);

@@ -98,21 +98,6 @@
                         android:imeOptions="actionNext"
                         android:inputType="number"
                         android:text="" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="원가" />
-
-                    <EditText
-                        android:id="@+id/item_insert_ori_price"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:digits="0123456789"
-                        android:ems="10"
-                        android:imeOptions="actionNext"
-                        android:inputType="number"
-                        android:text="" />
                 </LinearLayout>
 
                 <!-- 이미지뷰 / 업로드 -->
@@ -163,10 +148,10 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="판매가" />
+                            android:text="원가" />
 
                         <EditText
-                            android:id="@+id/item_insert_price"
+                            android:id="@+id/item_insert_ori_price"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:digits="0123456789"
@@ -185,17 +170,17 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="할인율" />
+                            android:text="판매가" />
 
                         <EditText
-                            android:id="@+id/item_insert_discount"
+                            android:id="@+id/item_insert_price"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:digits="0123456789"
                             android:ems="10"
                             android:imeOptions="actionGo"
                             android:inputType="number"
-                            android:text=""/>
+                            android:text="" />
                     </LinearLayout>
                 </LinearLayout>
 
