@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
 import com.ff.modealapplication.app.core.service.SearchService;
+import com.ff.modealapplication.app.core.util.GPSPreference;
 import com.ff.modealapplication.app.ui.item.ItemDetailActivity;
 
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.Map;
 public class SearchResultActivity extends AppCompatActivity {
 
     SearchResultListAdapter searchResultListAdapter =null;
-
+    private  String result_search;
     public SearchResultActivity() {
 
     }
@@ -40,6 +41,8 @@ public class SearchResultActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(SearchResultActivity.this, ItemDetailActivity.class);
+                intent.putExtra("no", (Double.valueOf(((TextView) view.findViewById(R.id.send_no)).getText().toString())).longValue());
+                intent.putExtra("shopNo", (Double.valueOf(((TextView) view.findViewById(R.id.send_shopNo)).getText().toString())).longValue());
                 startActivity(intent);
 
             }
@@ -53,7 +56,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
         //searchactivity 에서 검색값 받아오기
         Intent intent = getIntent();
-        String result_search=intent.getExtras().getString("SEARCH");
+        result_search=intent.getExtras().getString("SEARCH");
 
         TextView textView = (TextView)findViewById(R.id.search_result);
         textView.setText(result_search);
@@ -81,7 +84,11 @@ public class SearchResultActivity extends AppCompatActivity {
 
         @Override
         public List<Map<String, Object>> call() throws Exception {
-            List<Map<String, Object>> list= new SearchService().resultList();
+            SearchService searchService = new SearchService();
+//            List<Map<String, Object>> list= new SearchService().resultList();
+
+            List<Map<String, Object>> list= searchService.resultList((String) GPSPreference.getValue(getApplicationContext(), "latitude"), (String) GPSPreference.getValue(getApplicationContext(), "longitude"),result_search);
+
             return list;
         }
 

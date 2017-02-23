@@ -97,15 +97,17 @@
 
             <TextView
                 android:id="@+id/main_shop_shopName"
-                android:layout_width="175dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="3"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/main_shop_space"
-                android:layout_width="46dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.80"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:text="" />
 
         </LinearLayout>

@@ -85,30 +85,32 @@
 
                     <TextView
                         android:id="@+id/item_detail_name"
-                        android:layout_width="150dp"
-                        android:layout_height="25dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:text="TextView"
-                        android:textSize="17dp" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.20"
+                        android:text="TextView"/>
 
                     <TextView
                         android:id="@+id/item_detail_ori_price"
                         android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.05"
                         android:text="TextView"
-                        android:textSize="14dp" />
+                        android:textStyle=""  />
 
                     <TextView
                         android:id="@+id/item_detail_price"
-                        android:layout_width="match_parent"
-                        android:layout_height="25dp"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="10dp"
-                        android:gravity="right"
-                        android:text="TextView"
-                        android:textSize="17dp" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.03"
+                        android:text="TextView" />
+
+                    <TextView
+                        android:id="@+id/item_detail_discount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.03"
+                        android:text="TextView" />
 
                     <TextView
                         android:id="@+id/send_no"

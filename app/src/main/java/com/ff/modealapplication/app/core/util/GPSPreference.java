@@ -44,4 +44,6 @@ public class GPSPreference {
         editor.clear();
         editor.commit();
     }
+
+
 }

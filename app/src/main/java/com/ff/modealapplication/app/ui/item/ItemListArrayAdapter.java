@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  * Created by bit-desktop on 2017-02-01.
@@ -63,11 +65,18 @@ public class ItemListArrayAdapter extends ArrayAdapter<Map<String, Object>> {
         }
 
         final Map<String, Object> map = getItem(position);
-        ((TextView) convertView.findViewById(R.id.item_list_clock)).setText(map.get("expDate").toString());                           // 유통기한
+        StringTokenizer tokens = new StringTokenizer(map.get("expDate").toString(), "-/: ");
+        String year = tokens.nextToken();
+        String month = tokens.nextToken();
+        String day = tokens.nextToken();
+        String hour = tokens.nextToken();
+        String minute = tokens.nextToken();
+
+        ((TextView) convertView.findViewById(R.id.item_list_clock)).setText(year + "년 " + month + "월 " + day + "일 " + hour + "시 " + minute + "분 "); // 유통기한
         ((TextView) convertView.findViewById(R.id.item_list_name)).setText(map.get("name").toString());                               // 상품명
-//        textOriPriceView.setPaintFlags(textOriPriceView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);                                //가운데 줄긋기
-        ((TextView) convertView.findViewById(R.id.item_list_ori_price)).setText(((Double)map.get("oriPrice")).longValue() + "");   // 원가
-        ((TextView) convertView.findViewById(R.id.item_list_price)).setText(((Double)map.get("price")).longValue() + "");           // 판매가
+        ((TextView) convertView.findViewById(R.id.item_list_ori_price)).setPaintFlags(((TextView) convertView.findViewById(R.id.item_list_ori_price)).getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG); //가운데 줄긋기
+        ((TextView) convertView.findViewById(R.id.item_list_ori_price)).setText(((Double)map.get("oriPrice")).longValue() + "원");   // 원가
+        ((TextView) convertView.findViewById(R.id.item_list_price)).setText(((Double)map.get("price")).longValue() + "원");           // 판매가
 
         // 액티비티로 데이터 보내기 위해서...
         ((TextView) convertView.findViewById(R.id.send_no)).setText(String.valueOf(((Double) map.get("no")).longValue()));

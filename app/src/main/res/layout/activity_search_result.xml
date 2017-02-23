@@ -70,7 +70,6 @@
             android:layout_centerHorizontal="true"
             android:dividerHeight="10dp"
             android:background="#fff"
-            android:layout_margin="10dp"
             android:divider="#E5E5E2"
             android:layout_weight="4.06" />
     </LinearLayout>

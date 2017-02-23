@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -376,11 +377,11 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                     if (newtime.equals("0:0:0:0")) {
                         clock.setText("판매종료");
                     } else if (days == 0 && hours != 0) {
-                        clock.setText(hours + "시간  " + minutes + "분  " + seconds + "초 남음");
+                        clock.setText(hours + "시간 " + minutes + "분 " + seconds + "초 남음");
                     } else if (days == 0 && hours == 0) {
-                        clock.setText(minutes + "분  " + seconds + "초 남음");
+                        clock.setText(minutes + "분 " + seconds + "초 남음");
                     } else {
-                        clock.setText(days + "일  " + hours + "시간  " + minutes + "분  " + seconds + "초 남음");
+                        clock.setText(days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초 남음");
                     }
                 }
 
@@ -390,9 +391,11 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                 }
             }.start();
             ((TextView) findViewById(R.id.item_detail_name)).setText(itemMap.get("name").toString());
-            ((TextView) findViewById(R.id.item_detail_ori_price)).setText(((Double) itemMap.get("oriPrice")).longValue() + "");
-            ((TextView) findViewById(R.id.item_detail_price)).setText(((Double) itemMap.get("price")).longValue() + "");
+            ((TextView) findViewById(R.id.item_detail_ori_price)).setPaintFlags(((TextView) findViewById(R.id.item_detail_ori_price)).getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            ((TextView) findViewById(R.id.item_detail_ori_price)).setText(((Double) itemMap.get("oriPrice")).longValue() + "원");
+            ((TextView) findViewById(R.id.item_detail_price)).setText(((Double) itemMap.get("price")).longValue() + "원");
             ((TextView) findViewById(R.id.item_detail_shop_name)).setText(itemMap.get("shopName").toString());
+            ((TextView)findViewById(R.id.item_detail_discount)).setText((itemMap.get("discount").toString()+"%"));
             if (itemMap.get("grade") != null) {
                 ((RatingBar) findViewById(R.id.item_detail_ratingBar)).setRating(((Double) itemMap.get("grade")).floatValue());
             }

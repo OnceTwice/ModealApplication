@@ -47,9 +47,9 @@ public class MainListArrayAdapter extends RecyclerView.Adapter<MainListArrayAdap
 
         holder.itemName.setText(item.get("name").toString());
         // ((Double)itemVo.get("discount")).longValue() [Double형 → Long형]
-        holder.itemPrice.setText(String.valueOf(((Double) item.get("price")).longValue()));
+        holder.itemPrice.setText(((Double) item.get("price")).longValue() + "원");
         holder.itemOriPrice.setPaintFlags(holder.itemOriPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG); //가운데 줄긋기
-        holder.itemOriPrice.setText(String.valueOf(((Double) item.get("oriPrice")).longValue()));
+        holder.itemOriPrice.setText(String.valueOf(((Double) item.get("oriPrice")).longValue() + "원"));
         holder.discount.setText(((Double) item.get("discount")).longValue() + "%");
         holder.shopName.setText(String.valueOf(item.get("shopName")));
         if (item.get("distance") != null) {
