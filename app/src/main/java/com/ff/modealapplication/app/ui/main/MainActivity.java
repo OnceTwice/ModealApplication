@@ -15,6 +15,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -48,7 +49,6 @@ import com.ff.modealapplication.app.ui.join.JoinActivity;
 import com.ff.modealapplication.app.ui.join.JoinLeaveActivity;
 import com.ff.modealapplication.app.ui.login.LoginActivity;
 import com.ff.modealapplication.app.ui.map.SearchMapRangeActivity;
-import com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity;
 import com.ff.modealapplication.app.ui.message.AlarmActivity;
 import com.ff.modealapplication.app.ui.mypage.OwnerMyPageActivity;
 import com.ff.modealapplication.app.ui.mypage.UserMyPageActivity;
@@ -65,6 +65,8 @@ import static com.ff.modealapplication.R.id.nav_manage;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, AdapterView.OnItemClickListener {
     NavigationView navigationView;
     boolean flag_withdraw = false;
+    SwipeRefreshLayout layout;      // refresh
+    int i = 0;                      // refresh count
 
     //    ListView listView = null; // 리사이클러뷰 쓰면서 제거
     MainListArrayAdapter mainListArrayAdapter = null;
@@ -86,6 +88,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        layout = (SwipeRefreshLayout) findViewById(R.id.layout);
+        layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // 새로고침 작업 진행
+                Toast.makeText(MainActivity.this, "새로고침 : " + i++, Toast.LENGTH_SHORT).show();
+
+                layout.setRefreshing(false);        // 새로고침 작업 끝난 후 새로고침 중단
+            }
+        });
+
 
         backPressCloseHandler = new BackPressCloseHandler(this);
 
