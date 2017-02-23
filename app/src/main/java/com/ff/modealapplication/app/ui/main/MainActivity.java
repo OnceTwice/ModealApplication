@@ -94,8 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onRefresh() {
                 // 새로고침 작업 진행
-                Toast.makeText(MainActivity.this, "새로고침 : " + i++, Toast.LENGTH_SHORT).show();
-
+                new MainListAsyncTask().execute();
                 layout.setRefreshing(false);        // 새로고침 작업 끝난 후 새로고침 중단
             }
         });
@@ -136,28 +135,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        listView.setFooterDividersEnabled(false);
 
         new MainListAsyncTask().execute();
+        // 로고 클릭시 새로고침
+        findViewById(R.id.logo_id).setOnClickListener(this);
 
-        // ---------------- GPS ---------------- (170211/상욱추가)
+        // ---------------- GPS ----------------
         // LocationManager 객체를 얻어온다
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        // checkSelfPermission이 권한 확인
-        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // requestPermissions가 권한 요청(안드로이드 6.0이상부터 대화상자가 표시된다고 함...)
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{/*android.*/Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-        }
-        // 둘다 쓰면 둘중 호출되어 들어온값 사용
-        // GPS로 위치정보 얻기
-        lm.requestLocationUpdates(GPS_PROVIDER, // 등록할 위치제공자
-                1000, // 통지사이의 최소 시간간격 (miliSecond)
-                3, // 통지사이의 최소 변경거리 (m)
-                locationListener);
-        // network로 위치정보 얻기
-        lm.requestLocationUpdates(NETWORK_PROVIDER, // 등록할 위치제공자
-                1000, // 통지사이의 최소 시간간격 (miliSecond)
-                3, // 통지사이의 최소 변경거리 (m)
-                locationListener);
-        // ---------------- GPS ---------------- (170211/상욱추가)
+        gps();
+        // ---------------- GPS ----------------
 
         final LayoutInflater inflater = getLayoutInflater();
 
@@ -212,20 +197,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        // checkSelfPermission이 권한 확인
-                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                            // requestPermissions가 권한 요청(안드로이드 6.0이상부터 대화상자가 표시된다고 함...)
-                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{/*android.*/Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-                        }
-                        lm.requestLocationUpdates(GPS_PROVIDER, // 등록할 위치제공자
-                                1000, // 통지사이의 최소 시간간격 (miliSecond)
-                                3, // 통지사이의 최소 변경거리 (m)
-                                locationListener);
-                        // network로 위치정보 얻기
-                        lm.requestLocationUpdates(NETWORK_PROVIDER, // 등록할 위치제공자
-                                1000, // 통지사이의 최소 시간간격 (miliSecond)
-                                3, // 통지사이의 최소 변경거리 (m)
-                                locationListener);
+                        gps();
                         snackbar.dismiss();
                         findViewById(R.id.fab).setVisibility(View.VISIBLE);
                     }
@@ -472,6 +444,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent1 = new Intent(this, JoinActivity.class);
                 startActivity(intent1);
                 break;
+            case R.id.logo_id: // 로고 클릭시 새로고침 후 맨 위로!!!
+                new MainListAsyncTask().execute();
+                recyclerView.smoothScrollToPosition(0);
+                break;
         }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -555,5 +531,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    public void gps() {
+        // checkSelfPermission이 권한 확인
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // requestPermissions가 권한 요청(안드로이드 6.0이상부터 대화상자가 표시된다고 함...)
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{/*android.*/Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        }
+        // 둘다 쓰면 둘중 호출되어 들어온값 사용
+        // GPS로 위치정보 얻기
+        lm.requestLocationUpdates(GPS_PROVIDER, // 등록할 위치제공자
+                1000, // 통지사이의 최소 시간간격 (miliSecond)
+                3, // 통지사이의 최소 변경거리 (m)
+                locationListener);
+        // network로 위치정보 얻기
+        lm.requestLocationUpdates(NETWORK_PROVIDER, // 등록할 위치제공자
+                1000, // 통지사이의 최소 시간간격 (miliSecond)
+                3, // 통지사이의 최소 변경거리 (m)
+                locationListener);
     }
 }
