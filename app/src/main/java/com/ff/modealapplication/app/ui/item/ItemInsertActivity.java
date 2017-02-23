@@ -1,19 +1,21 @@
 package com.ff.modealapplication.app.ui.item;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -65,6 +67,9 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
     private Uri uri;
     private Bitmap bitmap;
     private Bitmap final_bitmap;
+    public ImageView item_insert_image_view;
+    private static final int RESULT_SELECT_IMAGE = 1;
+    private String timestamp;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,6 +88,8 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         Hour = calendar.get(Calendar.HOUR_OF_DAY);
         Minute = calendar.get(Calendar.MINUTE);
         UpdateNow();
+
+        item_insert_image_view = (ImageView) findViewById(R.id.item_insert_image_view);
 
         // 등록 버튼 클릭시
         findViewById(R.id.item_insert_button_insert).setOnClickListener(this);
@@ -148,10 +155,17 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
 
             // 업로드 버튼 클릭시
             case R.id.item_insert_button_upload: {
-                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                intent.setType("image/*");
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent.createChooser(intent, "Select Image"), 1);
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    // requestPermissions가 권한 요청(안드로이드 6.0이상부터 대화상자가 표시된다고 함...)
+                    ActivityCompat.requestPermissions(ItemInsertActivity.this, new String[]{/*android.*/Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                }
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                galleryIntent.setType("gallery*//*");
+                startActivityForResult(galleryIntent.createChooser(galleryIntent, "Select Image"), RESULT_SELECT_IMAGE);
+//                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                intent.setType("image*//*");
+////                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivityForResult(intent.createChooser(intent, "Select Image"), 1);
                 final_bitmap = null;
             }
         }
@@ -160,7 +174,17 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
     // 업로드
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1 && resultCode == RESULT_OK) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_SELECT_IMAGE && resultCode == RESULT_OK && data != null) {
+
+            uri = data.getData();
+            item_insert_image_view.setImageURI(uri);
+
+            Log.w("path?", uri.getPath() + " << uri.getPath(), " + uri + " << uri, " + getPath(uri) + " << getPath(uri)");
+        }
+
+        // 구버전용
+/*        if (requestCode == 1 && resultCode == RESULT_OK) {
             uri = data.getData();
             // 같은듯...
             bitmap = BitmapFactory.decodeFile(getPath(uri));
@@ -174,7 +198,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
             bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
             ((ImageView) findViewById(R.id.item_insert_image_view)).setImageBitmap(bitmap);
             Log.w("path?", uri.getPath() + " << uri.getPath(), " + uri + " << uri, " + getPath(uri) + " << getPath(uri)");
-        }
+        }*/
     }
 
     // 업로드용(사진의 절대 경로 구하기)
@@ -218,7 +242,6 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         imgur = new JSONObject(response.body().string());
         imgur = new JSONObject(String.valueOf(imgur.get("data")));
         url = imgur.getString("link");
-
     }
 
     // run()을 비동기로 돌리기 위한 AsyncTask
@@ -238,7 +261,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
             try {
                 run();
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.w("ImageUpload Error : ", e + "!!!");
             }
             return true;
         }
@@ -249,6 +272,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
             if (progressDialog != null) {
                 progressDialog.dismiss();
             }
+            Log.w("업로드된 주소", url + "");
             itemListAsyncTask = new ItemListAsyncTask();                                         // 생성
             itemListAsyncTask.execute();                                                         // 실행
 
@@ -300,6 +324,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
     private class ItemListAsyncTask extends SafeAsyncTask<ItemVo> {
 
         public ItemVo call() throws Exception {
+
             EditText nameInsert = (EditText) findViewById(R.id.item_insert_name);
             String item_name = nameInsert.getText().toString();
 
@@ -312,7 +337,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
             EditText priceInsert = (EditText) findViewById(R.id.item_insert_price);
             Long price = Long.parseLong(priceInsert.getText().toString());
 
-            Long discount = price / ori_price *100;
+            Long discount = price / ori_price * 100;
 
             TextView dateText = (TextView) findViewById(R.id.item_insert_date_text);
             String exp_date = dateText.getText().toString();

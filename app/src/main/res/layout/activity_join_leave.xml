@@ -34,7 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="로그인"
+                    android:text="회원 탈퇴"
                     android:textColor="#ffffff"
                     android:textSize="18dp" />
 
