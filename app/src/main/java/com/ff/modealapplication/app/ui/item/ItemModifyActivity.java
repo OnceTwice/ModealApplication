@@ -1,21 +1,20 @@
 package com.ff.modealapplication.app.ui.item;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -31,9 +30,12 @@ import com.ff.modealapplication.app.core.domain.ItemVo;
 import com.ff.modealapplication.app.core.service.ItemService;
 import com.ff.modealapplication.app.core.util.LoginPreference;
 import com.ff.modealapplication.app.ui.message.MessagingService;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
@@ -73,12 +75,12 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
     private static final int RESULT_SELECT_IMAGE = 1;
     private String timestamp;
 
-//    DisplayImageOptions displayImageOption = new DisplayImageOptions.Builder()
-//            .showImageForEmptyUri(R.drawable.apple)
-//            .showImageOnFail(R.drawable.apple)
-//            .delayBeforeLoading(0)
-//            .cacheOnDisc(true)
-//            .build();
+    DisplayImageOptions displayImageOption = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.drawable.apple)
+            .showImageOnFail(R.drawable.apple)
+            .delayBeforeLoading(0)
+            .cacheOnDisc(true)
+            .build();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -185,13 +187,22 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    // 이미지 업로드
+    // 이미지 업로드 ======================================================= 여기부터 =================================================
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_SELECT_IMAGE && resultCode == RESULT_OK && data != null) {
 
             uri = data.getData();
+
+            bitmap = BitmapFactory.decodeFile(getPath(uri)); // uri → bitmap 변환
+            // 이미지의 가로길이 200으로 맞춰 이미지 크기 조절
+            int resizeWidth = 200;
+            double aspectRatio = (double)bitmap.getHeight() / bitmap.getWidth();
+            int targetHeight = (int) (resizeWidth * aspectRatio);
+            final_bitmap = Bitmap.createScaledBitmap(bitmap, resizeWidth, targetHeight, false);
+            uri = getImageUri(getApplicationContext(), final_bitmap);
+
             ((ImageView) findViewById(R.id.item_modify_image_view)).setImageURI(uri);
 
             Log.w("path?", uri.getPath() + " << uri.getPath(), " + uri + " << uri, " + getPath(uri) + " << getPath(uri)");
@@ -226,6 +237,14 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
 //        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 //        cursor.moveToFirst();
 //        return cursor.getString(column_index);
+    }
+
+    // bit -> uri
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 
     // imgur에 사진 업로드
@@ -266,8 +285,10 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(ItemModifyActivity.this);
-            progressDialog.setMessage("Upload...");
+            progressDialog.setMessage("상품을 등록하고 있습니다...");
             progressDialog.show();
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);;
         }
 
         @Override
@@ -300,6 +321,8 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
             }.start();
         }
     }
+
+    // 이미지 업로드 ======================================================= 여기까지 =================================================
 
     // 날짜 클릭시
     DatePickerDialog.OnDateSetListener DateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -363,8 +386,8 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
 //            ((EditText) findViewById(R.id.item_modify_discount)).setText(itemVo.getDiscount() + "");        // 할인율
             ((TextView) findViewById(R.id.item_modify_date_text)).setText(year + "/" + month + "/" + day);  // 날짜
             ((TextView) findViewById(R.id.item_modify_time_text)).setText(hour + ":" + minute);             // 시간
-//            ImageLoader.getInstance().displayImage(itemVo.getPicture(),
-//                    (ImageView) findViewById(R.id.item_modify_image_view), displayImageOption);         // 상품이미지
+            ImageLoader.getInstance().displayImage(itemVo.getPicture(),
+                    (ImageView) findViewById(R.id.item_modify_image_view), displayImageOption);         // 상품이미지
         }
     }
 
@@ -387,7 +410,7 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
             EditText priceModify = (EditText) findViewById(R.id.item_modify_price);
             Long price = Long.parseLong(priceModify.getText().toString());
 
-            Long discount = (long) (Math.ceil((price.doubleValue() / ori_price) * 100));             // 할인율 계산
+            Long discount = 100 - (long)(Math.ceil((price.doubleValue() / ori_price) * 100));             // 할인율 계산
 
             TextView dateText = (TextView) findViewById(R.id.item_modify_date_text);
             String exp_date = dateText.getText().toString();

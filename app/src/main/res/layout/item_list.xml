@@ -56,7 +56,7 @@
                 android:layout_marginTop="10dp"
                 android:background="#fff"
                 android:gravity="center"
-                android:text="TextView"
+                android:text="매장명"
                 android:textSize="20dp" />
 
             <!-- 해당 매장 상품 목록 출력 -->

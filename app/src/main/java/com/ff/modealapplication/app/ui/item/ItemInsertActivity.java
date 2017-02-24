@@ -5,12 +5,14 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -35,6 +37,7 @@ import com.ff.modealapplication.app.ui.message.MessagingService;
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
@@ -177,8 +180,17 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_SELECT_IMAGE && resultCode == RESULT_OK && data != null) {
-
             uri = data.getData();
+
+            bitmap = BitmapFactory.decodeFile(getPath(uri)); // uri → bitmap 변환
+
+            // 이미지의 가로길이 200으로 맞춰 이미지 크기 조절
+            int resizeWidth = 200;
+            double aspectRatio = (double) bitmap.getHeight() / bitmap.getWidth();
+            int targetHeight = (int) (resizeWidth * aspectRatio);
+            final_bitmap = Bitmap.createScaledBitmap(bitmap, resizeWidth, targetHeight, false);
+            uri = getImageUri(getApplicationContext(), final_bitmap);
+
             item_insert_image_view.setImageURI(uri);
 
             Log.w("path?", uri.getPath() + " << uri.getPath(), " + uri + " << uri, " + getPath(uri) + " << getPath(uri)");
@@ -202,6 +214,18 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         }*/
     }
 
+    // 이미지 회전용 (안씀...)
+    public int exifOrientationToDegrees(int exifOrientation) {
+        if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
+            return 90;
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_180) {
+            return 180;
+        } else if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_270) {
+            return 270;
+        }
+        return 0;
+    }
+
     // 업로드용(사진의 절대 경로 구하기)
     public String getPath(Uri uri) {
         Cursor cursor = getContentResolver().query(Uri.parse(uri.toString()), null, null, null, null);
@@ -213,6 +237,14 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
 //        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 //        cursor.moveToFirst();
 //        return cursor.getString(column_index);
+    }
+
+    // bit -> uri
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 
     // imgur에 사진 업로드
@@ -229,7 +261,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("title", "Square Logo")
                 .addFormDataPart("image", "logo-square.png",
-                        RequestBody.create(MEDIA_TYPE_PNG, new File(getPath(uri))))
+                        RequestBody.create(MEDIA_TYPE_PNG, new File(final_bitmap.toString())))
                 .build();
 
         Request request = new Request.Builder()
@@ -253,8 +285,10 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog = new ProgressDialog(ItemInsertActivity.this);
-            progressDialog.setMessage("Upload...");
+            progressDialog.setMessage("상품을 등록하고 있습니다...");
             progressDialog.show();
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
         }
 
         @Override
@@ -337,7 +371,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
             EditText priceInsert = (EditText) findViewById(R.id.item_insert_price);
             Long price = Long.parseLong(priceInsert.getText().toString());
 
-            Long discount = (long)(Math.ceil((price.doubleValue() / ori_price) * 100));             // 할인율 계산
+            Long discount = 100 - (long) (Math.ceil((price.doubleValue() / ori_price) * 100));             // 할인율 계산
 
             TextView dateText = (TextView) findViewById(R.id.item_insert_date_text);
             String exp_date = dateText.getText().toString();

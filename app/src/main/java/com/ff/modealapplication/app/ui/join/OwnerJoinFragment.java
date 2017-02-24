@@ -1,11 +1,16 @@
 package com.ff.modealapplication.app.ui.join;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -23,20 +28,32 @@ import android.widget.Toast;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
+import com.ff.modealapplication.app.core.domain.ShopVo;
+import com.ff.modealapplication.app.core.domain.UserVo;
 import com.ff.modealapplication.app.core.service.EmailCheckService;
 import com.ff.modealapplication.app.core.service.OwnerJoinService;
 import com.ff.modealapplication.app.core.service.map.JoinMapInfoVo;
-import com.ff.modealapplication.app.core.domain.ShopVo;
-import com.ff.modealapplication.app.core.domain.UserVo;
 import com.ff.modealapplication.app.ui.map.SearchShopToJoinActivity;
 import com.ff.modealapplication.app.ui.map.SearchToShopInMapActivity;
 
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 import static android.app.Activity.RESULT_OK;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class OwnerJoinFragment extends Fragment {
     private OwnerJoinService ownerJoinService = new OwnerJoinService();
@@ -73,6 +90,11 @@ public class OwnerJoinFragment extends Fragment {
 
     private Button btnSubmit;
     private Button btnCancel;
+
+    // 이미지 업로드
+    private Uri uri;
+    private Bitmap shop_bitmap;
+    private static final int RESULT_SELECT_IMAGE = 1;
 
     String id = "";
     String password = "";
@@ -152,8 +174,8 @@ public class OwnerJoinFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {        // SearchShopToJoinActivity.java에서 보낸 데이터를 받아옴
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode== RESULT_OK && requestCode == 1000) {
-            if(flag[0] == 0) {
+        if (resultCode == RESULT_OK && requestCode == 1000) {
+            if (flag[0] == 0) {
                 Log.d("tttttttt", "bbbbbbbbb");
                 JoinMapInfoVo joinMapInfoVo = (JoinMapInfoVo) data.getSerializableExtra("joinMapInfoVo");
 
@@ -185,7 +207,7 @@ public class OwnerJoinFragment extends Fragment {
 
                             InputStream is = conn.getInputStream();
                             bitmap = BitmapFactory.decodeStream(is);
-                        } catch(IOException ex) {
+                        } catch (IOException ex) {
 
                         }
                     }
@@ -202,19 +224,32 @@ public class OwnerJoinFragment extends Fragment {
                     //  이제 작업 스레드에서 이미지를 불러오는 작업을 완료했기에
                     //  UI 작업을 할 수 있는 메인스레드에서 이미지뷰에 이미지를 지정합니다.
                     imageView.setImageBitmap(bitmap);
-                } catch(InterruptedException e) {
+                } catch (InterruptedException e) {
 
                 }
                 ////////////////////////////////////////////////////////////////////////////////////
 
-            } else if(flag[0] == 1) {
+            } else if (flag[0] == 1) {
                 longitude = data.getStringExtra("longitude");
                 latitude = data.getStringExtra("latitude");
 //                Log.d("위치위치위치", longitude + "=======" + latitude);
 //                Toast.makeText(getActivity(), "longitude : " + longitude + ", latitude : " + latitude, Toast.LENGTH_SHORT).show();
             }
-        } else {
+        } else if (requestCode == RESULT_SELECT_IMAGE && resultCode == RESULT_OK && data != null) {
+            uri = data.getData();
 
+            shop_bitmap = BitmapFactory.decodeFile(getPath(uri)); // uri → bitmap 변환
+
+            // 이미지의 가로길이 200으로 맞춰 이미지 크기 조절
+            int resizeWidth = 200;
+            double aspectRatio = (double) shop_bitmap.getHeight() / shop_bitmap.getWidth();
+            int targetHeight = (int) (resizeWidth * aspectRatio);
+            shop_bitmap = Bitmap.createScaledBitmap(shop_bitmap, resizeWidth, targetHeight, false);
+            uri = getImageUri(getApplicationContext(), shop_bitmap);
+
+            imageView.setImageURI(uri);
+
+            Log.w("path?", uri.getPath() + " << uri.getPath(), " + uri + " << uri, " + getPath(uri) + " << getPath(uri)");
         }
     }
 
@@ -261,11 +296,10 @@ public class OwnerJoinFragment extends Fragment {
         });
 
         /********  성별입력(최초선택)    ********/
-        if(man.isChecked()) {
+        if (man.isChecked()) {
             gender = "man";
             Log.d("사업자 젠더젠더12121212", gender);
-        }
-        else if(woman.isChecked()) {
+        } else if (woman.isChecked()) {
             gender = "woman";
             Log.d("사업자 젠더젠더13131313", gender);
         }
@@ -275,12 +309,12 @@ public class OwnerJoinFragment extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 switch (i) {
-                    case R.id.OwnerRadio_man : {
+                    case R.id.OwnerRadio_man: {
                         gender = "man";
                         Log.d("사업자 젠더젠더", gender);
                         break;
                     }
-                    case R.id.OwnerRadio_woman : {
+                    case R.id.OwnerRadio_woman: {
                         gender = "woman";
                         Log.d("사업자 젠더젠더", gender);
                         break;
@@ -293,7 +327,7 @@ public class OwnerJoinFragment extends Fragment {
         spinnerMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                month = (String)adapterView.getItemAtPosition(position);
+                month = (String) adapterView.getItemAtPosition(position);
 //                Log.d("=========month", month);
             }
 
@@ -320,10 +354,10 @@ public class OwnerJoinFragment extends Fragment {
                     }
                 }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        if(flag[0] == 0) {
+                        if (flag[0] == 0) {
                             Intent intentToMap = new Intent(OwnerJoinFragment.this.getActivity(), SearchShopToJoinActivity.class);
                             startActivityForResult(intentToMap, 1000);
-                        } else if(flag[0] == 1) {
+                        } else if (flag[0] == 1) {
                             Intent intentToMap = new Intent(OwnerJoinFragment.this.getActivity(), SearchToShopInMapActivity.class);
                             startActivityForResult(intentToMap, 1000);
                         }
@@ -340,34 +374,50 @@ public class OwnerJoinFragment extends Fragment {
 
         });
 
+        // 매장 이미지 업로드
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                galleryIntent.setType("gallery*//*");
+
+                startActivityForResult(galleryIntent.createChooser(galleryIntent, "Select Image"), RESULT_SELECT_IMAGE);
+//                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                intent.setType("image*//*");
+////                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivityForResult(intent.createChooser(intent, "Select Image"), 1);
+                shop_bitmap = null;
+            }
+        });
+
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("사업자 회원가입", "제출!!!!!");
 
                 // 아이디 입력 확인
-                if( etID.getText().toString().length() == 0 ) {
+                if (etID.getText().toString().length() == 0) {
                     Toast.makeText(OwnerJoinFragment.this.getActivity(), "사업자 ID를 입력하세요!", Toast.LENGTH_SHORT).show();
                     etID.requestFocus();
                     return;
                 }
 
                 // 비밀번호 입력 확인
-                if( etPassword.getText().toString().length() == 0 ) {
+                if (etPassword.getText().toString().length() == 0) {
                     Toast.makeText(OwnerJoinFragment.this.getActivity(), "사업자 비밀번호를 입력하세요!", Toast.LENGTH_SHORT).show();
                     etPassword.requestFocus();
                     return;
                 }
 
                 // 비밀번호 확인 입력 확인
-                if( etPasswordConfirm.getText().toString().length() == 0 ) {
+                if (etPasswordConfirm.getText().toString().length() == 0) {
                     Toast.makeText(OwnerJoinFragment.this.getActivity(), "사업자 비밀번호 확인을 입력하세요!", Toast.LENGTH_SHORT).show();
                     etPasswordConfirm.requestFocus();
                     return;
                 }
 
                 // 비밀번호 일치 확인
-                if( !etPassword.getText().toString().equals(etPasswordConfirm.getText().toString()) ) {
+                if (!etPassword.getText().toString().equals(etPasswordConfirm.getText().toString())) {
                     Toast.makeText(OwnerJoinFragment.this.getActivity(), "사업자 비밀번호가 일치하지 않습니다!", Toast.LENGTH_SHORT).show();
                     etPassword.setText("");
                     etPasswordConfirm.setText("");
@@ -375,7 +425,8 @@ public class OwnerJoinFragment extends Fragment {
                     return;
                 }
 
-                new FetchOwnerListAsyncTask().execute();
+                new ImageUpload().execute(); // 이미지 업로드가 이루어 진후 성공하면 회원가입 AsyncTask가 이루어짐
+//                new FetchOwnerListAsyncTask().execute();
             }
         });
 
@@ -391,7 +442,99 @@ public class OwnerJoinFragment extends Fragment {
         return view;
     }
 
-    private class EmailDuplicationCheck extends  SafeAsyncTask<Integer> {
+
+    // 이미지 업로드 ======================================================= 여기부터 =================================================
+    // 업로드용(사진의 절대 경로 구하기)
+    public String getPath(Uri uri) {
+        Cursor cursor = getActivity().getContentResolver().query(Uri.parse(uri.toString()), null, null, null, null);
+        cursor.moveToNext();
+        return cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
+        // 역시 위아래 같은듯...
+//        String[] projection = {MediaStore.Images.Media.DATA};
+//        Cursor cursor = managedQuery(uri, projection, null, null, null);
+//        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//        cursor.moveToFirst();
+//        return cursor.getString(column_index);
+    }
+
+    // bit -> uri
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    // imgur에 사진 업로드
+    private static final String IMGUR_CLIENT_ID = "39c074c1942156b";
+    private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
+    private JSONObject imgur;
+    private String url; // DB에 저장해야함
+
+    private final OkHttpClient client = new OkHttpClient();
+
+    public void run() throws Exception {
+        // Use the imgur image upload API as documented at https://api.imgur.com/endpoints/image
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("title", "Square Logo")
+                .addFormDataPart("image", "logo-square.png",
+                        RequestBody.create(MEDIA_TYPE_PNG, new File(getPath(uri))))
+                .build();
+
+        Request request = new Request.Builder()
+                .header("Authorization", "Client-ID " + IMGUR_CLIENT_ID)
+                .url("https://api.imgur.com/3/image")
+                .post(requestBody)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+        imgur = new JSONObject(response.body().string());
+        imgur = new JSONObject(String.valueOf(imgur.get("data")));
+        url = imgur.getString("link");
+    }
+
+    // run()을 비동기로 돌리기 위한 AsyncTask
+    public class ImageUpload extends AsyncTask<Void, Integer, Boolean> {
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage("상품을 등록하고 있습니다...");
+            progressDialog.show();
+            progressDialog.setCancelable(false);
+            progressDialog.setCanceledOnTouchOutside(false);
+            ;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                run();
+            } catch (Exception e) {
+                Log.w("ImageUpload Error : ", e + "!!!");
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+            }
+            Log.w("업로드된 주소", url + "");
+            imageURL = url;
+            new FetchOwnerListAsyncTask().execute();
+        }
+    }
+
+    // 이미지 업로드 ======================================================= 여기까지 =================================================
+
+    private class EmailDuplicationCheck extends SafeAsyncTask<Integer> {
         @Override
         public Integer call() throws Exception {
             id = etID.getText().toString();
@@ -406,13 +549,13 @@ public class OwnerJoinFragment extends Fragment {
         @Override
         protected void onException(Exception e) throws RuntimeException {
 //            super.onException(e);
-            Log.d("아이디 중복 체크", "사업자 서비스 에러뜸!!!"+e);
+            Log.d("아이디 중복 체크", "사업자 서비스 에러뜸!!!" + e);
             throw new RuntimeException(e);
         }
 
         @Override
         protected void onSuccess(Integer check) throws Exception {
-            if((check == null) || (check == 0)) {
+            if ((check == null) || (check == 0)) {
                 Toast.makeText(OwnerJoinFragment.this.getActivity(), "중복검사 완료 \n 회원가입을 진행하세요", Toast.LENGTH_SHORT).show();
                 emailFlag = 0;
             } else {
@@ -437,9 +580,9 @@ public class OwnerJoinFragment extends Fragment {
             id = etID.getText().toString();
             password = etPassword.getText().toString();
 
-            city = etCity.getText().toString()+"시 ";
-            gu = etGu.getText().toString()+"구 ";
-            dong = etDong.getText().toString()+"동 ";
+            city = etCity.getText().toString() + "시 ";
+            gu = etGu.getText().toString() + "구 ";
+            dong = etDong.getText().toString() + "동 ";
 
             year = etYear.getText().toString();
             day = etDay.getText().toString();
@@ -452,8 +595,8 @@ public class OwnerJoinFragment extends Fragment {
             userVo.setId(id);
             userVo.setPassword(password);
             userVo.setGender(gender);
-            userVo.setLocation(city+gu+dong);
-            userVo.setBirth(year+month+day);
+            userVo.setLocation(city + gu + dong);
+            userVo.setBirth(year + month + day);
             userVo.setManagerIdentified(2L);     // 2 : 사업자 고유 번호
 
             Log.d("id======", id);
@@ -483,12 +626,12 @@ public class OwnerJoinFragment extends Fragment {
             Log.d("longitude===", longitude);
             Log.d("latitude===", latitude);
 
-            if(longitude == null) {
+            if (longitude == null) {
                 shopVo.setLongitude(Double.parseDouble("0.0"));
             } else {
                 shopVo.setLongitude(Double.parseDouble(longitude));
             }
-            if(latitude == null) {
+            if (latitude == null) {
                 shopVo.setLatitude(Double.parseDouble("0.0"));
             } else {
                 shopVo.setLatitude(Double.parseDouble(latitude));
@@ -504,7 +647,7 @@ public class OwnerJoinFragment extends Fragment {
         @Override
         protected void onException(Exception e) throws RuntimeException {
 //            super.onException(e);
-            Log.d("사업자", "서비스 에러뜸!!!"+e);
+            Log.d("사업자", "서비스 에러뜸!!!" + e);
             throw new RuntimeException(e);
         }
 

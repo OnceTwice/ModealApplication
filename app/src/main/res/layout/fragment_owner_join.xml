@@ -280,11 +280,11 @@
 
             <ImageView
                 android:id="@+id/marketImage"
-                android:layout_width="180dp"
+                android:layout_width="110dp"
                 android:layout_height="80dp"
                 android:layout_marginLeft="30dp"
                 android:background="#F2F2F2"
-                android:src="@drawable/market" />
+                android:src="@drawable/upload" />
         </LinearLayout>
 
         <LinearLayout
