@@ -154,21 +154,12 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
 
             // 수정 버튼 클릭시
             case R.id.item_modify_button_modify: {
-//                itemModifyUpdateTask = new ItemModifyUpdateTask();
-//                itemModifyUpdateTask.execute();
-
                 new ImageUpload().execute();                                                        // 사진을 imgur에 업로드
-
-//                Intent intent = new Intent(ItemModifyActivity.this, ItemActivity.class);          // 경로 설정해주고
-//                startActivity(intent);                                                              // 여기서 이동
-//                finish();
                 break;
             }
 
             // 취소 버튼 클릭시
             case R.id.item_modify_button_cancel: {
-//                Intent intent = new Intent(ItemModifyActivity.this, ItemActivity.class);
-//                startActivity(intent);
                 finish();
                 break;
             }
@@ -187,7 +178,7 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    // 이미지 업로드 ======================================================= 여기부터 =================================================
+    // 이미지 업로드 -------------------------------------------------------------------------------
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -322,9 +313,7 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    // 이미지 업로드 ======================================================= 여기까지 =================================================
-
-    // 날짜 클릭시
+    // 날짜 클릭시 ---------------------------------------------------------------------------------
     DatePickerDialog.OnDateSetListener DateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfyear, int dayOfMonth) {      // 사용자가 입력한 값(날짜)을 가져온뒤
@@ -376,14 +365,13 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
 
             String[] category = getResources().getStringArray(R.array.item_category_list);       // 상품 카테고리 숫자→한글로 출력
             String choice = category[((int) itemVo.getItemCategoryNo()) - 1];
-            categoryNo = (itemVo.getItemCategoryNo()) - 1;                                       // 상품 화면 출력시 해당 categoryNo 값 기본 세팅
+            categoryNo = (itemVo.getItemCategoryNo()) - 1;                                        // 상품 화면 출력시 해당 categoryNo 값 기본 세팅
 
             ((TextView) findViewById(R.id.item_modify_category)).setText(choice);                           // 카테고리
             ((EditText) findViewById(R.id.item_modify_name)).setText(itemVo.getName().toString());           // 상품명
             ((EditText) findViewById(R.id.item_modify_count)).setText(itemVo.getCount() + "");              // 수량
             ((EditText) findViewById(R.id.item_modify_ori_price)).setText((itemVo.getOriPrice()) + "");     // 원가
             ((EditText) findViewById(R.id.item_modify_price)).setText((itemVo.getPrice()) + "");            // 판매가
-//            ((EditText) findViewById(R.id.item_modify_discount)).setText(itemVo.getDiscount() + "");        // 할인율
             ((TextView) findViewById(R.id.item_modify_date_text)).setText(year + "/" + month + "/" + day);  // 날짜
             ((TextView) findViewById(R.id.item_modify_time_text)).setText(hour + ":" + minute);             // 시간
             ImageLoader.getInstance().displayImage(itemVo.getPicture(),
@@ -410,7 +398,7 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
             EditText priceModify = (EditText) findViewById(R.id.item_modify_price);
             Long price = Long.parseLong(priceModify.getText().toString());
 
-            Long discount = 100 - (long)(Math.ceil((price.doubleValue() / ori_price) * 100));             // 할인율 계산
+            Long discount = 100 - (long)(Math.ceil((price.doubleValue() / ori_price) * 100));      // 할인율 계산
 
             TextView dateText = (TextView) findViewById(R.id.item_modify_date_text);
             String exp_date = dateText.getText().toString();

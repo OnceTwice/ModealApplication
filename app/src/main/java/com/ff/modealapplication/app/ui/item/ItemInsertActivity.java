@@ -73,7 +73,6 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
     private Bitmap final_bitmap;
     public ImageView item_insert_image_view;
     private static final int RESULT_SELECT_IMAGE = 1;
-    private String timestamp;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -251,7 +250,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
     private static final String IMGUR_CLIENT_ID = "39c074c1942156b";
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
     private JSONObject imgur;
-    private String url; // DB에 저장해야함
+    private String url;                                                                            // DB에 저장해야함
 
     private final OkHttpClient client = new OkHttpClient();
 
@@ -310,10 +309,8 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
             Log.w("업로드된 주소", url + "");
             itemListAsyncTask = new ItemListAsyncTask();                                         // 생성
             itemListAsyncTask.execute();                                                         // 실행
-
-//            Intent intent = new Intent(ItemInsertActivity.this, ItemActivity.class);          // 경로 설정해주고
-//            startActivity(intent);                                                              // 여기서 이동하고
             finish();                                                                               // 액티비티를 종료
+
             new Thread() {
                 public void run() {
                     MessagingService.send(((TextView) findViewById(R.id.item_insert_name)).getText().toString() + " 상품이 등록되었습니다.", // 제목
@@ -324,7 +321,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    // 날짜 클릭시
+    // 날짜 클릭시 ---------------------------------------------------------------------------------
     DatePickerDialog.OnDateSetListener DateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfyear, int dayOfMonth) {      // 사용자가 입력한 값(날짜)을 가져온뒤
@@ -356,9 +353,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
     }
 
     private class ItemListAsyncTask extends SafeAsyncTask<ItemVo> {
-
         public ItemVo call() throws Exception {
-
             EditText nameInsert = (EditText) findViewById(R.id.item_insert_name);
             String item_name = nameInsert.getText().toString();
 
@@ -371,7 +366,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
             EditText priceInsert = (EditText) findViewById(R.id.item_insert_price);
             Long price = Long.parseLong(priceInsert.getText().toString());
 
-            Long discount = 100 - (long) (Math.ceil((price.doubleValue() / ori_price) * 100));             // 할인율 계산
+            Long discount = 100 - (long) (Math.ceil((price.doubleValue() / ori_price) * 100));      // 할인율 계산
 
             TextView dateText = (TextView) findViewById(R.id.item_insert_date_text);
             String exp_date = dateText.getText().toString();
@@ -380,7 +375,6 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
             String exp_time = timeText.getText().toString();
 
             Long shopNo = (Long) LoginPreference.getValue(getApplicationContext(), "shopNo");
-
             Long itemCategoryNo = categoryNo + 1;                                                 // 카테고리가 0 부터라서 +1 추가
 
             itemService.itemInsert(item_name, ori_price, count, price, exp_date + " " + exp_time, discount, shopNo, itemCategoryNo, url);

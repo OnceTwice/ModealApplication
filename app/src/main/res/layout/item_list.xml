@@ -29,13 +29,27 @@
                 android:layout_height="45dp"
                 android:background="@color/colorModeal">
 
-                <TextView
+                <!-- <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="상품목록(점주용)"
                     android:textColor="#fff"
-                    android:textSize="18dp" />
+                    android:textSize="18dp" /> -->
+
+                <TextView
+                    android:id="@+id/shop_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="TextView"
+                    android:textSize="20dp"
+                    android:textColor="#fff"
+                    android:textStyle="bold" />
+
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
 
@@ -46,7 +60,7 @@
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <!-- 해당 매장명 출력 -->
+            <!-- 해당 매장명 출력
             <TextView
                 android:id="@+id/shop_name"
                 android:layout_width="match_parent"
@@ -54,10 +68,13 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:background="#fff"
+                android:background="#E5E5E2"
                 android:gravity="center"
                 android:text="매장명"
                 android:textSize="20dp" />
+                android:text="TextView"
+                android:textSize="20dp"
+                android:textStyle="bold" /> -->
 
             <!-- 해당 매장 상품 목록 출력 -->
             <ListView

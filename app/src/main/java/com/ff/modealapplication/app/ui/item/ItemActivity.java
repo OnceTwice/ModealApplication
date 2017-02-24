@@ -28,7 +28,7 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
     private ListView listView = null;
 
     @Override //
-    protected void onCreate(/*@Nullable*/ Bundle savedInstanceState) {
+    protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_list);                                                        // 첫화면인 item_list.xml을 출력
 
@@ -63,8 +63,6 @@ public class ItemActivity extends AppCompatActivity implements AdapterView.OnIte
         Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
         intent.putExtra("no", Long.valueOf(((TextView)view.findViewById(R.id.send_no)).getText().toString()));
         intent.putExtra("shopNo", getIntent().getLongExtra("shopNo", -1));
-//        intent.putExtra("shopName". get)
-
         startActivity(intent);
     }
 

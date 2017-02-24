@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -99,7 +98,6 @@
                         android:imeOptions="actionNext"
                         android:inputType="number"
                         android:text="" />
-
                 </LinearLayout>
 
                 <!-- 이미지뷰 / 업로드 -->
@@ -113,8 +111,8 @@
 
                     <ImageView
                         android:id="@+id/item_modify_image_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="140dp"
+                        android:layout_height="50dp"
                         android:layout_weight="0.90"
                         app:srcCompat="@android:drawable/ic_menu_report_image" />
 
@@ -156,8 +154,8 @@
                             android:id="@+id/item_modify_ori_price"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:ems="10"
                             android:digits="0123456789"
+                            android:ems="10"
                             android:imeOptions="actionNext"
                             android:inputType="number"
                             android:text="" />
@@ -178,8 +176,8 @@
                             android:id="@+id/item_modify_price"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:ems="10"
                             android:digits="0123456789"
+                            android:ems="10"
                             android:imeOptions="actionGo"
                             android:inputType="number"
                             android:text="" />
