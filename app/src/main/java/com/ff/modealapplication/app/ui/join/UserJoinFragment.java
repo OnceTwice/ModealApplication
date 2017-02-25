@@ -17,11 +17,15 @@ import android.widget.Toast;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
+import com.ff.modealapplication.app.core.domain.UserVo;
 import com.ff.modealapplication.app.core.service.EmailCheckService;
 import com.ff.modealapplication.app.core.service.UserJoinService;
-import com.ff.modealapplication.app.core.domain.UserVo;
 
+import java.util.Calendar;
 import java.util.List;
+
+import static com.ff.modealapplication.app.core.util.Base.LeafYear;
+import static com.ff.modealapplication.app.core.util.Base.returnDay;
 
 public class UserJoinFragment extends Fragment {
     private UserJoinService userJoinService = new UserJoinService();
@@ -58,8 +62,10 @@ public class UserJoinFragment extends Fragment {
     String year = "";
     String month = "";
     String day = "";
+    int maxDay = 0;
 
-    int flag = 1;
+    int emailFlag = 1;
+    int allCheck = 1;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -184,7 +190,9 @@ public class UserJoinFragment extends Fragment {
             public void onClick(View view) {
                 isCheckedJoin();            // 회원가입 체크 메소드 호출
 
-                new FetchUserListAsyncTask().execute();
+                if(allCheck == 0) {
+                    new FetchUserListAsyncTask().execute();
+                }
             }
         });
 
@@ -201,6 +209,8 @@ public class UserJoinFragment extends Fragment {
     }
 
     private void isCheckedJoin() {      // 회원가입 체크 메소드
+        Calendar cal = Calendar.getInstance();
+
         // 아이디 입력 확인
         if (TextUtils.isEmpty(etID.getText().toString())) {
             etID.setError("이메일을 입력하세요");
@@ -209,6 +219,11 @@ public class UserJoinFragment extends Fragment {
         } else if (!isEmailValid(etID.getText().toString())) {
             etID.setError("이메일 형식이 아닙니다");
             etID.requestFocus();
+            return;
+        }
+
+        if( !(emailFlag == 0) ) {
+            Toast.makeText(UserJoinFragment.this.getActivity(), "중복검사를 진행해 주세요", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -236,11 +251,6 @@ public class UserJoinFragment extends Fragment {
             etPassword.setText("");
             etPasswordConfirm.setText("");
             etPassword.requestFocus();
-            return;
-        }
-
-        if( !(flag == 0) ) {
-            Toast.makeText(UserJoinFragment.this.getActivity(), "중복검사를 진행해 주세요", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -274,7 +284,7 @@ public class UserJoinFragment extends Fragment {
             return;
         }
 
-        if( (Integer.parseInt((etYear.getText().toString()))) >= 2017 ) {
+        if( (Integer.parseInt((etYear.getText().toString()))) >= cal.get(cal.YEAR) ) {
             etYear.setError("미래에서 오셨군요^^");
             etYear.requestFocus();
             return;
@@ -290,6 +300,20 @@ public class UserJoinFragment extends Fragment {
             etDay.requestFocus();
             return;
         }
+
+        if(spinnerMonth.getSelectedItem().toString().equals("2")) {             // 월별 날짜 체크
+            maxDay = LeafYear(Integer.parseInt((etYear.getText().toString())));
+        } else {
+            maxDay = returnDay(Integer.parseInt(spinnerMonth.getSelectedItem().toString()));
+        }
+
+        if(Integer.parseInt(etDay.getText().toString()) > maxDay) {
+            Toast.makeText(UserJoinFragment.this.getActivity(), "정말이신가요?", Toast.LENGTH_SHORT).show();
+            etDay.requestFocus();
+            return;
+        }
+
+        allCheck = 0;
     }
 
     private boolean isEmailValid(String email) {
@@ -343,12 +367,12 @@ public class UserJoinFragment extends Fragment {
         protected void onSuccess(Integer check) throws Exception {
             if((check == null) || (check == 0)) {
                 Toast.makeText(UserJoinFragment.this.getActivity(), "중복검사 완료 \n 회원가입을 진행하세요", Toast.LENGTH_SHORT).show();
-                flag = 0;
+                emailFlag = 0;
             } else {
                 Toast.makeText(UserJoinFragment.this.getActivity(), "중복입니다!!!", Toast.LENGTH_SHORT).show();
                 etID.setText("");
                 etID.requestFocus();
-                flag = 1;
+                emailFlag = 1;
             }
 
             Log.d("아이디 중복 체크", "성공!!!!!");

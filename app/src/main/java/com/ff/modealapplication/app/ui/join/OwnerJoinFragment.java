@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -54,6 +56,8 @@ import okhttp3.Response;
 
 import static android.app.Activity.RESULT_OK;
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.ff.modealapplication.app.core.util.Base.LeafYear;
+import static com.ff.modealapplication.app.core.util.Base.returnDay;
 
 public class OwnerJoinFragment extends Fragment {
     private OwnerJoinService ownerJoinService = new OwnerJoinService();
@@ -107,6 +111,7 @@ public class OwnerJoinFragment extends Fragment {
     String year = "";
     String month = "";
     String day = "";
+    int maxDay = 0;
 
     String marketName = "";
     String marketAddress = "";
@@ -120,6 +125,7 @@ public class OwnerJoinFragment extends Fragment {
     final int[] flag = {0};
 
     int emailFlag = 1;
+    int allCheck = 1;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -393,40 +399,10 @@ public class OwnerJoinFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("사업자 회원가입", "제출!!!!!");
+                isCheckedJoin();            // 회원가입 체크 메소드 호출
 
-                // 아이디 입력 확인
-                if (etID.getText().toString().length() == 0) {
-                    Toast.makeText(OwnerJoinFragment.this.getActivity(), "사업자 ID를 입력하세요!", Toast.LENGTH_SHORT).show();
-                    etID.requestFocus();
-                    return;
-                }
-
-                // 비밀번호 입력 확인
-                if (etPassword.getText().toString().length() == 0) {
-                    Toast.makeText(OwnerJoinFragment.this.getActivity(), "사업자 비밀번호를 입력하세요!", Toast.LENGTH_SHORT).show();
-                    etPassword.requestFocus();
-                    return;
-                }
-
-                // 비밀번호 확인 입력 확인
-                if (etPasswordConfirm.getText().toString().length() == 0) {
-                    Toast.makeText(OwnerJoinFragment.this.getActivity(), "사업자 비밀번호 확인을 입력하세요!", Toast.LENGTH_SHORT).show();
-                    etPasswordConfirm.requestFocus();
-                    return;
-                }
-
-                // 비밀번호 일치 확인
-                if (!etPassword.getText().toString().equals(etPasswordConfirm.getText().toString())) {
-                    Toast.makeText(OwnerJoinFragment.this.getActivity(), "사업자 비밀번호가 일치하지 않습니다!", Toast.LENGTH_SHORT).show();
-                    etPassword.setText("");
-                    etPasswordConfirm.setText("");
-                    etPassword.requestFocus();
-                    return;
-                }
-
-                new ImageUpload().execute(); // 이미지 업로드가 이루어 진후 성공하면 회원가입 AsyncTask가 이루어짐
-//                new FetchOwnerListAsyncTask().execute();
+//                new ImageUpload().execute(); // 이미지 업로드가 이루어진 후 성공하면 회원가입 AsyncTask가 이루어짐
+                new FetchOwnerListAsyncTask().execute();
             }
         });
 
@@ -440,6 +416,142 @@ public class OwnerJoinFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    private void isCheckedJoin() {
+        Calendar cal = Calendar.getInstance();
+
+        // 아이디 입력 확인
+        if (TextUtils.isEmpty(etID.getText().toString())) {
+            etID.setError("이메일을 입력하세요");
+            etID.requestFocus();
+            return;
+        } else if (!isEmailValid(etID.getText().toString())) {
+            etID.setError("이메일 형식이 아닙니다");
+            etID.requestFocus();
+            return;
+        }
+
+        if( !(emailFlag == 0) ) {
+            Toast.makeText(OwnerJoinFragment.this.getActivity(), "중복검사를 진행해 주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // 비밀번호 입력 확인
+        if (TextUtils.isEmpty(etPassword.getText().toString())) {
+            etPassword.setError("비밀번호를 입력하세요");
+            etPassword.requestFocus();
+            return;
+        } else if (!isPasswordValid(etPassword.getText().toString())) {
+            etPassword.setError("비밀번호가 너무 짧아요");
+            etPassword.requestFocus();
+            return;
+        }
+
+        // 비밀번호 확인 입력 확인
+        if (TextUtils.isEmpty(etPasswordConfirm.getText().toString())) {
+            etPasswordConfirm.setError("비밀번호를 입력하세요");
+            etPasswordConfirm.requestFocus();
+            return;
+        }
+
+        // 비밀번호 일치 확인
+        if( !etPassword.getText().toString().equals(etPasswordConfirm.getText().toString()) ) {
+            Toast.makeText(OwnerJoinFragment.this.getActivity(), "사업자 비밀번호가 일치하지 않습니다!", Toast.LENGTH_SHORT).show();
+            etPassword.setText("");
+            etPasswordConfirm.setText("");
+            etPassword.requestFocus();
+            return;
+        }
+
+        if(TextUtils.isEmpty(etCity.getText().toString())) {
+            etCity.setError("시(도)를 입력하세요");
+            etCity.requestFocus();
+            return;
+        }
+
+        if(TextUtils.isEmpty(etGu.getText().toString())) {
+            etGu.setError("구(군)을 입력하세요");
+            etGu.requestFocus();
+            return;
+        }
+
+        if(TextUtils.isEmpty(etDong.getText().toString())) {
+            etDong.setError("동(읍/면/리)를 입력하세요");
+            etDong.requestFocus();
+            return;
+        }
+
+        if(TextUtils.isEmpty(etYear.getText().toString())) {
+            etYear.setError("년도를 입력하세요");
+            etYear.requestFocus();
+            return;
+        }
+
+        if(( (Integer.parseInt((etYear.getText().toString()))) / 1000) == 0) {
+            etYear.setError("태어난 년도 4자리를 정확하게 입력하세요.");
+            etYear.requestFocus();
+            return;
+        }
+
+        if( (Integer.parseInt((etYear.getText().toString()))) >= cal.get(cal.YEAR) ) {
+            etYear.setError("미래에서 오셨군요^^");
+            etYear.requestFocus();
+            return;
+        }
+
+        if(spinnerMonth.getSelectedItem().toString().equals("월")) {
+            Toast.makeText(OwnerJoinFragment.this.getActivity(), "월을 선택하세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(TextUtils.isEmpty(etDay.getText().toString())) {
+            etDay.setError("일을 입력하세요");
+            etDay.requestFocus();
+            return;
+        }
+
+        if(spinnerMonth.getSelectedItem().toString().equals("2")) {             // 월별 날짜 체크
+            maxDay = LeafYear(Integer.parseInt((etYear.getText().toString())));
+        } else {
+            maxDay = returnDay(Integer.parseInt(spinnerMonth.getSelectedItem().toString()));
+        }
+
+        if(Integer.parseInt(etDay.getText().toString()) > maxDay) {
+            Toast.makeText(OwnerJoinFragment.this.getActivity(), "정말이신가요?", Toast.LENGTH_SHORT).show();
+            etDay.requestFocus();
+            return;
+        }
+
+        if(TextUtils.isEmpty(etMarketName.getText().toString())) {
+            etMarketName.setError("매장 이름을 입력하세요");
+            etMarketName.requestFocus();
+            return;
+        }
+
+        if(TextUtils.isEmpty(etMarketAddress.getText().toString())) {
+            etMarketAddress.setError("매장주소를 입력하세요");
+            etMarketAddress.requestFocus();
+            return;
+        }
+
+        if(TextUtils.isEmpty(etMarketPhoneNumber.getText().toString())) {
+            etMarketPhoneNumber.setError("매장 전화번호를 입력하세요");
+            etMarketPhoneNumber.requestFocus();
+            return;
+        }
+
+        allCheck = 0;
+    }
+
+    private boolean isEmailValid(String email) {
+        //TODO: Replace this with your own logic
+        return email.contains("@");
+    }
+
+    private boolean isPasswordValid(String password) {
+        //TODO: Replace this with your own logic
+        return password.length() > 4;
     }
 
 
@@ -507,7 +619,6 @@ public class OwnerJoinFragment extends Fragment {
             progressDialog.show();
             progressDialog.setCancelable(false);
             progressDialog.setCanceledOnTouchOutside(false);
-            ;
         }
 
         @Override
@@ -528,7 +639,10 @@ public class OwnerJoinFragment extends Fragment {
             }
             Log.w("업로드된 주소", url + "");
             imageURL = url;
-            new FetchOwnerListAsyncTask().execute();
+
+            if(allCheck == 0) {
+                new FetchOwnerListAsyncTask().execute();
+            }
         }
     }
 

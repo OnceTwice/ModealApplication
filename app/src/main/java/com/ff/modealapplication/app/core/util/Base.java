@@ -9,7 +9,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import java.io.Reader;
 
 public class Base {
-    public static final String url = "http://192.168.1.90:8088/";       // 자신의 ip주소
+    public static final String url = "http://192.168.1.26:8088/";       // 자신의 ip주소
 
     public static DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
             // .showImageOnLoading( R.drawable.ic_default_profile ) // resource or drawable
@@ -59,5 +59,37 @@ public class Base {
         }
 
         return json;
+    }
+
+    // 윤년조건 : 4로 나눈 나머지가 0인 해로서 100의 배수인 해는 제외하며, 400의 배수인 해는 포함
+    public static int LeafYear(int year) {                      // 윤년:2월29일, 평년:2월28일
+        int day = 0;
+        boolean isYun = false;
+
+        if ((0 == (year % 4) && 0 != (year % 100)) || 0 == year % 400) {
+            isYun = true;
+        } else {
+            isYun = false;
+        }
+
+        if (isYun) {        // 윤년이면 그 달은 29일까지 존재
+            day = 29;
+        } else {            // 평년이면 그 달은 28일까지 존재
+            day = 28;
+        }
+
+        return day;
+    }
+
+    public static int returnDay(int month) {
+        int day = 0;
+
+        if(month==1 || month== 3 || month==5 || month==7 || month==8 || month==10 || month== 12) {
+            day = 31;
+        } else if(month==4 || month==6 || month==9 || month==11) {
+            day = 30;
+        }
+
+        return day;
     }
 }

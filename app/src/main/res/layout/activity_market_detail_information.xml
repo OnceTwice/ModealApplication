@@ -98,7 +98,7 @@
                         android:id="@+id/rbOutput"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:isIndicator="true"/>
+                        android:isIndicator="true" />
 
                 </LinearLayout>
 
@@ -181,17 +181,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:text="=== 매장 댓글 ==="
                     android:textColor="#153"
-                    android:textSize="20dp"
-                    android:text="=== 매장 댓글 ==="/>
+                    android:textSize="20dp" />
 
                 <ListView
                     android:id="@+id/commentList"
                     android:layout_width="wrap_content"
-                    android:dividerHeight="2dp"
-                    android:divider="#999999"
                     android:layout_height="180dp"
-                    android:layout_gravity="center">
+                    android:layout_gravity="center"
+                    android:divider="#999999"
+                    android:dividerHeight="2dp">
 
                 </ListView>
 
