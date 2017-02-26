@@ -135,20 +135,20 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "즐겨찾기에 추가되었습니다", Toast.LENGTH_SHORT).show();
                         Log.d("매장 topic 알림 등록", "bs" + getIntent().getLongExtra("ShopNo", 0));
                         FirebaseMessaging.getInstance().subscribeToTopic("bs" + getIntent().getLongExtra("ShopNo", 0)); // 즐겨찾기 상품 알림 설정
-                        btnBookmark.setBackground(ContextCompat.getDrawable(MarketDetailInformationActivity.this, R.drawable.heart_full));
+                        btnBookmark.setBackground(ContextCompat.getDrawable(MarketDetailInformationActivity.this, R.drawable.bookmark_select));
                         new BookmarkAdd().execute(); // 서버에 즐겨찾기 정보 저장
                         isChecked = true;
                     } else {                        // 즐겨찾기 해제
                         Toast.makeText(getApplicationContext(), "즐겨찾기가 해제되었습니다", Toast.LENGTH_SHORT).show();
                         Log.d("매장 topic 알림 해제", "bs" + getIntent().getLongExtra("ShopNo", 0));
                         FirebaseMessaging.getInstance().unsubscribeFromTopic("bs" + getIntent().getLongExtra("ShopNo", 0)); // 즐겨찾기 상품 알림 해제
-                        btnBookmark.setBackground(ContextCompat.getDrawable(MarketDetailInformationActivity.this, R.drawable.heart_empty));
+                        btnBookmark.setBackground(ContextCompat.getDrawable(MarketDetailInformationActivity.this, R.drawable.bookmark_unselect));
                         new BookmarkDelete().execute(); // 서버에서 즐겨찾기 정보 삭제
                         isChecked = false;
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "즐겨찾기 서비스를 이용하려면 로그인하세요", Toast.LENGTH_SHORT).show();
-                    btnBookmark.setBackground(ContextCompat.getDrawable(MarketDetailInformationActivity.this, R.drawable.heart_empty));
+                    btnBookmark.setBackground(ContextCompat.getDrawable(MarketDetailInformationActivity.this, R.drawable.bookmark_unselect));
                 }
             }
         });
@@ -481,10 +481,10 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
         protected void onSuccess(Long no) throws Exception {
             super.onSuccess(no);
             if (no != null) {
-                btnBookmark.setBackground(getResources().getDrawable(R.drawable.heart_full));
+                btnBookmark.setBackground(getResources().getDrawable(R.drawable.bookmark_select));
                 isChecked = true;
             } else {
-                btnBookmark.setBackground(getResources().getDrawable(R.drawable.heart_empty));
+                btnBookmark.setBackground(getResources().getDrawable(R.drawable.bookmark_unselect));
                 isChecked = false;
             }
         }

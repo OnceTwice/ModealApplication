@@ -70,7 +70,6 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
     // 이미지 업로드
     private Uri uri;
     private Bitmap bitmap;
-    private Bitmap final_bitmap;
     public ImageView item_insert_image_view;
     private static final int RESULT_SELECT_IMAGE = 1;
 
@@ -169,7 +168,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
 //                intent.setType("image*//*");
 ////                intent.setAction(Intent.ACTION_GET_CONTENT);
 //                startActivityForResult(intent.createChooser(intent, "Select Image"), 1);
-                final_bitmap = null;
+                bitmap = null;
             }
         }
     }
@@ -187,8 +186,8 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
             int resizeWidth = 200;
             double aspectRatio = (double) bitmap.getHeight() / bitmap.getWidth();
             int targetHeight = (int) (resizeWidth * aspectRatio);
-            final_bitmap = Bitmap.createScaledBitmap(bitmap, resizeWidth, targetHeight, false);
-            uri = getImageUri(getApplicationContext(), final_bitmap);
+            bitmap = Bitmap.createScaledBitmap(bitmap, resizeWidth, targetHeight, false);
+            uri = getImageUri(getApplicationContext(), bitmap);
 
             item_insert_image_view.setImageURI(uri);
 
@@ -260,7 +259,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("title", "Square Logo")
                 .addFormDataPart("image", "logo-square.png",
-                        RequestBody.create(MEDIA_TYPE_PNG, new File(final_bitmap.toString())))
+                        RequestBody.create(MEDIA_TYPE_PNG, new File(getPath(uri))))
                 .build();
 
         Request request = new Request.Builder()

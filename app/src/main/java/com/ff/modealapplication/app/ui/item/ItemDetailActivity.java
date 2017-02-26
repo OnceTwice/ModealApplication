@@ -136,20 +136,20 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                         Toast.makeText(getApplicationContext(), "즐겨찾기에 추가되었습니다", Toast.LENGTH_SHORT).show();
                         Log.d("상품 topic 알림 등록", "bi" + getIntent().getLongExtra("no", -1));
                         FirebaseMessaging.getInstance().subscribeToTopic("bi" + getIntent().getLongExtra("no", -1)); // 즐겨찾기 상품 알림 설정
-                        bookmark_button.setBackground(getResources().getDrawable(R.drawable.heart_full)); // 즐겨찾기 추가 이미지 변경
+                        bookmark_button.setBackground(getResources().getDrawable(R.drawable.bookmark_select)); // 즐겨찾기 추가 이미지 변경
                         new BookmarkAdd().execute(); // 서버에 즐겨찾기 정보 저장
                         isChecked = true;
                     } else { // 즐겨찾기 해제
                         Toast.makeText(getApplicationContext(), "즐겨찾기가 해제되었습니다", Toast.LENGTH_SHORT).show();
                         Log.d("상품 topic 알림 해제", "bi" + getIntent().getLongExtra("no", -1));
                         FirebaseMessaging.getInstance().unsubscribeFromTopic("bi" + getIntent().getLongExtra("no", -1)); // 즐겨찾기 상품 알림 해제
-                        bookmark_button.setBackground(getResources().getDrawable(R.drawable.heart_empty)); // 즐겨찾기 해제 이미지로 변경
+                        bookmark_button.setBackground(getResources().getDrawable(R.drawable.bookmark_unselect)); // 즐겨찾기 해제 이미지로 변경
                         new BookmarkDelete().execute(); // 서버에서 즐겨찾기 정보 삭제
                         isChecked = false;
                     }
                 } else { // 비로그인시
                     Toast.makeText(getApplicationContext(), "즐겨찾기 서비스를 이용하려면 로그인하세요", Toast.LENGTH_SHORT).show();
-                    bookmark_button.setBackground(getResources().getDrawable(R.drawable.heart_empty));
+                    bookmark_button.setBackground(getResources().getDrawable(R.drawable.bookmark_unselect));
                 }
             }
         });
@@ -264,7 +264,10 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
             ImageView imageView = new ImageView(context);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            imageView.setMinimumWidth(500);
+            imageView.setAdjustViewBounds(true);
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
 
             ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
             ImageLoader.getInstance().displayImage(itemList.get(position).get("picture").toString(), imageView, displayImageOption);
@@ -395,7 +398,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
             ((TextView) findViewById(R.id.item_detail_ori_price)).setText(((Double) itemMap.get("oriPrice")).longValue() + "원");
             ((TextView) findViewById(R.id.item_detail_price)).setText(((Double) itemMap.get("price")).longValue() + "원");
             ((TextView) findViewById(R.id.item_detail_shop_name)).setText(itemMap.get("shopName").toString());
-            ((TextView)findViewById(R.id.item_detail_discount)).setText((itemMap.get("discount").toString()+"%"));
+            ((TextView)findViewById(R.id.item_detail_discount)).setText(((Double) itemMap.get("discount")).longValue() + "%");
             if (itemMap.get("grade") != null) {
                 ((RatingBar) findViewById(R.id.item_detail_ratingBar)).setRating(((Double) itemMap.get("grade")).floatValue());
             }
@@ -454,10 +457,10 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         protected void onSuccess(Long no) throws Exception {
             super.onSuccess(no);
             if (no != null) {
-                bookmark_button.setBackground(getResources().getDrawable(R.drawable.heart_full));
+                bookmark_button.setBackground(getResources().getDrawable(R.drawable.bookmark_select));
                 isChecked = true;
             } else {
-                bookmark_button.setBackground(getResources().getDrawable(R.drawable.heart_empty));
+                bookmark_button.setBackground(getResources().getDrawable(R.drawable.bookmark_unselect));
                 isChecked = false;
             }
         }

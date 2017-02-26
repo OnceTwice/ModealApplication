@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity">
 
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
@@ -139,7 +138,7 @@
                         android:layout_height="30dp"
                         android:layout_gravity="left"
                         android:layout_marginLeft="10dp"
-                        android:background="@drawable/heart_empty" />
+                        android:background="@drawable/bookmark_unselect" />
                 </LinearLayout>
 
             </LinearLayout>

@@ -52,14 +52,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.20"
-                android:text="TextView" />
+                android:text="상품명"
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/main_item_ori_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.05"
-                android:text="TextView"
+                android:text="원가"
                 android:textStyle="" />
 
             <TextView
@@ -67,14 +68,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.03"
-                android:text="TextView" />
+                android:text="판매가"
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/main_item_discount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.03"
-                android:text="TextView" />
+                android:text="할인율"
+                android:textColor="@color/colorModeal"
+                android:textSize="15dp" />
 
             <TextView
                 android:id="@+id/send_no"
@@ -100,7 +104,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="TextView" />
+                android:text="매장명" />
 
             <TextView
                 android:id="@+id/main_shop_space"
@@ -108,7 +112,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="" />
+                android:text=""
+                android:textColor="@color/colorModeal"
+                android:textSize="15dp" />
 
         </LinearLayout>
 

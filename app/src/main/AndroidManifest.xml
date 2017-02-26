@@ -4,7 +4,7 @@
     package="com.ff.modealapplication">
 
     <!-- 알림시 꺼진화면 켜지기 했으나 안됨... -->
-    <!--<uses-permission android:name="android.permission.WAKE_LOCK" />-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!--<permission android:name="com.ff.modealapplication.permission.C2D_MESSAGE"-->
         <!--android:protectionLevel="signature" />-->
     <!--<uses-permission android:name="com.ff.modealapplication.permission.C2D_MESSAGE" />-->
