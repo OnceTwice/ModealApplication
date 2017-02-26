@@ -79,39 +79,33 @@
                 <!-- 상품명 / 원가 / 판매가 -->
                 <LinearLayout
                     android:layout_width="300dp"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/item_detail_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.20"
+                        android:layout_weight="2"
                         android:text="상품명"
                         android:textSize="20dp" />
 
                     <TextView
                         android:id="@+id/item_detail_ori_price"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.05"
+                        android:layout_weight="1"
+                        android:gravity="left"
                         android:text="원가"
                         android:textStyle="" />
 
                     <TextView
-                        android:id="@+id/item_detail_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.03"
-                        android:text="판매가"
-                        android:textSize="15dp" />
-
-                    <TextView
                         android:id="@+id/item_detail_discount"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.03"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:text="할인율"
                         android:textColor="@color/colorModeal"
                         android:textSize="15dp" />
@@ -126,51 +120,35 @@
                 <!-- 매장명 / 별점 ★★★★★ / 거리 / 찜♡ 버튼 -->
                 <LinearLayout
                     android:layout_width="300dp"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:orientation="vertical"
-                        android:weightSum="1">
-
-                        <TextView
-                            android:id="@+id/item_detail_shop_name"
-                            android:layout_width="170dp"
-                            android:layout_height="0dp"
-                            android:layout_marginLeft="3dp"
-                            android:layout_weight="1"
-                            android:text="매장명"
-                            android:textSize="17dp" />
-
-                        <RatingBar
-                            android:id="@+id/item_detail_ratingBar"
-                            style="?android:attr/ratingBarStyleSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:isIndicator="true"
-                            android:numStars="5"
-                            android:paddingLeft="2dp"
-                            android:rating="0"
-                            android:stepSize="0.5" />
-                    </LinearLayout>
-
                     <TextView
                         android:id="@+id/item_detail_distance"
-                        android:layout_width="70dp"
-                        android:layout_height="30dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
                         android:gravity="center"
                         android:text=""
                         android:textColor="@color/colorModeal"
-                        android:textSize="15dp" />
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:id="@+id/item_detail_price"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:gravity="right"
+                        android:text="판매가"
+                        android:textSize="20dp" />
 
                     <Button
                         android:id="@+id/bookmark_button"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:layout_weight="0.5"
                         android:background="@drawable/bookmark_unselect" />
                 </LinearLayout>
             </LinearLayout>
@@ -223,6 +201,36 @@
                     android:text="삭제"
                     android:textColor="#fff"
                     android:textSize="14dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/item_detail_shop_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="매장명"
+                    android:textSize="17dp" />
+
+                <RatingBar
+                    android:id="@+id/item_detail_ratingBar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:paddingLeft="2dp"
+                    android:rating="0"
+                    android:stepSize="0.5" />
             </LinearLayout>
 
             <LinearLayout
