@@ -247,7 +247,7 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
             ImageView imageView = new ImageView(context);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
             ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
             ImageLoader.getInstance().displayImage(itemList.get(position).get("picture").toString(), imageView, displayImageOption);

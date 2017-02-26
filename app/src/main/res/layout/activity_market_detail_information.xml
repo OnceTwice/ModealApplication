@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_market_detail_information"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -38,190 +38,195 @@
         <!-- layout_behavior를 사용해야 액션바 밑에서부터 출력 -->
 
         <!-- TextView 대신 자신에게 맞는 뷰 넣기 -->
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp"
+            android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/imgVMarketDetailInformationImg"
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/market" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="매장명 : " />
-
-                    <TextView
-                        android:id="@+id/tvMarketDetailInformationName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:id="@+id/imgVMarketDetailInformationImg"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/market" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="매장명 : " />
+
+                        <TextView
+                            android:id="@+id/tvMarketDetailInformationName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvRatingBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="평균평점 : " />
+
+                        <RatingBar
+                            android:id="@+id/rbOutput"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:isIndicator="true" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="주소 : " />
+
+                        <TextView
+                            android:id="@+id/tvMarketDetailInformationAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="소개 : " />
+
+                        <TextView
+                            android:id="@+id/tvMarketDetailInformationIntroduce"
+                            android:layout_width="250dp"
+                            android:layout_height="wrap_content" />
+
+                        <Button
+                            android:id="@+id/btnBookmarkMarket"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="left"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/bookmark_unselect" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/image_left_shop"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/arrow_left" />
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/view_pager_shop"
+                        android:layout_width="250dp"
+                        android:layout_height="100dp" />
+
+                    <Button
+                        android:id="@+id/image_right_shop"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/arrow_right" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ListView
+                        android:id="@+id/commentList"
+                        android:layout_width="wrap_content"
+                        android:layout_height="350dp"
+                        android:layout_gravity="center"
+                        android:divider="#999999"
+                        android:dividerHeight="2dp">
+
+                    </ListView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tvRatingBar"
+                    <RatingBar
+                        android:id="@+id/rbInput"
+                        style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="평균평점 : " />
+                        android:numStars="5"
+                        android:stepSize="1" />
 
-                    <RatingBar
-                        android:id="@+id/rbOutput"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/etMarketDetailInformationComment"
+                        android:layout_width="180dp"
                         android:layout_height="wrap_content"
-                        android:isIndicator="true" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="주소 : " />
-
-                    <TextView
-                        android:id="@+id/tvMarketDetailInformationAddress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="소개 : " />
-
-                    <TextView
-                        android:id="@+id/tvMarketDetailInformationIntroduce"
-                        android:layout_width="250dp"
-                        android:layout_height="wrap_content" />
+                        android:background="@android:drawable/editbox_background"
+                        android:hint="내용(30자 이내)"
+                        android:maxLength="30"
+                        android:maxLines="1" />
 
                     <Button
-                        android:id="@+id/btnBookmarkMarket"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="left"
-                        android:layout_marginLeft="10dp"
-                        android:background="@drawable/bookmark_unselect" />
+                        android:id="@+id/btnMarketDetailInformationSubmit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="등록" />
+
+
                 </LinearLayout>
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/image_left_shop"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/arrow_left" />
-
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/view_pager_shop"
-                    android:layout_width="250dp"
-                    android:layout_height="100dp" />
-
-                <Button
-                    android:id="@+id/image_right_shop"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/arrow_right" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <ListView
-                    android:id="@+id/commentList"
-                    android:layout_width="wrap_content"
-                    android:layout_height="150dp"
-                    android:layout_gravity="center"
-                    android:divider="#999999"
-                    android:dividerHeight="2dp">
-
-                </ListView>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RatingBar
-                    android:id="@+id/rbInput"
-                    style="?android:attr/ratingBarStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:numStars="5"
-                    android:stepSize="1" />
-
-                <EditText
-                    android:id="@+id/etMarketDetailInformationComment"
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
-                    android:background="@android:drawable/editbox_background"
-                    android:hint="내용(30자 이내)"
-                    android:maxLength="30"
-                    android:maxLines="1" />
-
-                <Button
-                    android:id="@+id/btnMarketDetailInformationSubmit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="등록" />
-
-
-            </LinearLayout>
-
-        </LinearLayout>
+        </ScrollView>
 
     </android.support.design.widget.CoordinatorLayout>
 
