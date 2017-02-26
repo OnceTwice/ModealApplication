@@ -401,8 +401,8 @@ public class OwnerJoinFragment extends Fragment {
             public void onClick(View view) {
                 isCheckedJoin();            // 회원가입 체크 메소드 호출
 
-//                new ImageUpload().execute(); // 이미지 업로드가 이루어진 후 성공하면 회원가입 AsyncTask가 이루어짐
-                new FetchOwnerListAsyncTask().execute();
+                new ImageUpload().execute(); // 이미지 업로드가 이루어진 후 성공하면 회원가입 AsyncTask가 이루어짐
+//                new FetchOwnerListAsyncTask().execute();
             }
         });
 
