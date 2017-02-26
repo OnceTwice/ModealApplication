@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +64,8 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
     private ItemService itemService = new ItemService();
     private List<Map<String, Object>> itemList; // 동일매장 상품리스트
 
+    private ScrollView scrollView;
+
     private CommentListAdapter commentListAdapter = null;
     private ListView listView = null;
 
@@ -73,6 +76,8 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
     private TextView tvAddress;
     private TextView tvIntroduce;
     private Button btnBookmark;
+
+    private ListView listViewComment;
 
     private RatingBar inputRatingBar;
     private TextView tvComment;
@@ -93,12 +98,16 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market_detail_information);
 
+        scrollView = (ScrollView) findViewById(R.id.marketScrollView);
+
         imageView = (ImageView) findViewById(R.id.imgVMarketDetailInformationImg);
         tvName = (TextView) findViewById(R.id.tvMarketDetailInformationName);
         outputRatingBar = (RatingBar) findViewById(rbOutput);
         tvAddress = (TextView) findViewById(R.id.tvMarketDetailInformationAddress);
         tvIntroduce = (TextView) findViewById(R.id.tvMarketDetailInformationIntroduce);
         btnBookmark = (Button) findViewById(R.id.btnBookmarkMarket);
+
+        listViewComment = (ListView) findViewById(R.id.commentList);
 
         inputRatingBar = (RatingBar) findViewById(R.id.rbInput);
         tvComment = (TextView) findViewById(R.id.etMarketDetailInformationComment);
@@ -117,6 +126,14 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
         commentListAdapter = new CommentListAdapter(this);
         listView = (ListView) findViewById(R.id.commentList);
         listView.setAdapter(commentListAdapter);
+
+        listView.setOnTouchListener(new View.OnTouchListener() {            // 리스트뷰터치될때에는
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                scrollView.requestDisallowInterceptTouchEvent(true);        // 스크롤뷰 기능을 막음(충돌방지)
+                return false;
+            }
+        });
 
         new MarketInformationAsyncTask().execute();
         new FetchCommentListAsyncTask().execute();
