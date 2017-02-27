@@ -12,13 +12,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
+import com.ff.modealapplication.app.core.domain.ShopVo;
 import com.ff.modealapplication.app.core.service.MapsService;
 import com.ff.modealapplication.app.core.service.map.MapApiConst;
-import com.ff.modealapplication.app.core.domain.ShopVo;
 import com.ff.modealapplication.app.ui.market.MarketDetailInformationActivity;
 
 import net.daum.mf.map.api.CalloutBalloonAdapter;
@@ -99,11 +98,12 @@ public class SearchShopToPointActivity extends AppCompatActivity implements MapV
         ShopVo shopVo = mTagItemMap.get(mapPOIItem.getTag());
 
         StringBuilder sb = new StringBuilder();
-        sb.append("ShopTitle=").append(shopVo.getName()).append("\n");
+        sb.append("ShopTitle=").append(shopVo.getNo()).append("\n");
 
-        Toast.makeText(getApplicationContext(), sb.toString(), Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(), sb.toString(), Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(this, MarketDetailInformationActivity.class); // 마커 해당 매장으로 이동
+        intent.putExtra("ShopNo", shopVo.getNo());
         startActivity(intent);
     }
 

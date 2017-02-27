@@ -710,7 +710,7 @@ public class OwnerJoinFragment extends Fragment {
             userVo.setPassword(password);
             userVo.setGender(gender);
             userVo.setLocation(city + gu + dong);
-            userVo.setBirth(year + month + day);
+            userVo.setBirth(year+"."+month+"."+day);
             userVo.setManagerIdentified(2L);     // 2 : 사업자 고유 번호
 
             Log.d("id======", id);
