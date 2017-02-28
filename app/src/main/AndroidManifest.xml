@@ -4,10 +4,12 @@
     package="com.ff.modealapplication">
 
     <!-- 알림시 꺼진화면 켜지기 했으나 안됨... -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <!--<permission android:name="com.ff.modealapplication.permission.C2D_MESSAGE"-->
-        <!--android:protectionLevel="signature" />-->
-    <!--<uses-permission android:name="com.ff.modealapplication.permission.C2D_MESSAGE" />-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <permission android:name="com.ff.modealapplication.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.ff.modealapplication.permission.C2D_MESSAGE" />
 
     <!-- 이미지 업로드용(폰 갤러리에서 사진 뽑아오기) -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
