@@ -1,9 +1,11 @@
 package com.ff.modealapplication.app.ui.join;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +13,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -34,6 +37,7 @@ import com.ff.modealapplication.app.core.domain.UserVo;
 import com.ff.modealapplication.app.core.service.EmailCheckService;
 import com.ff.modealapplication.app.core.service.OwnerJoinService;
 import com.ff.modealapplication.app.core.service.map.JoinMapInfoVo;
+import com.ff.modealapplication.app.ui.item.ItemInsertActivity;
 import com.ff.modealapplication.app.ui.map.SearchShopToJoinActivity;
 import com.ff.modealapplication.app.ui.map.SearchToShopInMapActivity;
 
@@ -384,6 +388,10 @@ public class OwnerJoinFragment extends Fragment {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    // requestPermissions가 권한 요청(안드로이드 6.0이상부터 대화상자가 표시된다고 함...)
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{/*android.*/Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                }
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //                galleryIntent.setType("gallery*//*");
 
