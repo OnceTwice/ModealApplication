@@ -9,7 +9,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import java.io.Reader;
 
 public class Base {
-    public static final String url = "http://192.168.1.90:8088/";       // 자신의 ip주소
+    public static final String url = "http://192.168.1.93:8088/";       // 자신의 ip주소
 
     public static DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
             // .showImageOnLoading( R.drawable.ic_default_profile ) // resource or drawable

@@ -74,7 +74,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
 
         new ItemDetailTask().execute();
 
-        Toast.makeText(this, "로그인정보(자신의 매장정보) : " + LoginPreference.getValue(getApplicationContext(), "shopNo") + " 상점NO : " + getIntent().getLongExtra("shopNo", -1) , Toast.LENGTH_SHORT).show();        // 자기 매장의 no값 출력(일반사용자는 -1;매장이없기때문)
+//        Toast.makeText(this, "로그인정보(자신의 매장정보) : " + LoginPreference.getValue(getApplicationContext(), "shopNo") + " 상점NO : " + getIntent().getLongExtra("shopNo", -1) , Toast.LENGTH_SHORT).show();        // 자기 매장의 no값 출력(일반사용자는 -1;매장이없기때문)
 //        Toast.makeText(this, "상품에서받아온정보 : " + (Double.valueOf(getIntent().getStringExtra("shopNo"))).longValue(), Toast.LENGTH_SHORT).show();
 
         // 해당 상품 매장아이디로 접속시 삭제/수정/보이기(숨기기)버튼 보임
@@ -162,7 +162,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
             public void run() {
                 ImageAdapter adapter = new ImageAdapter(getApplicationContext());
                 viewPager.setAdapter(adapter);
-                viewPager.setPageMargin(getResources().getDisplayMetrics().widthPixels / -4);
+                viewPager.setPageMargin((int)(getResources().getDisplayMetrics().widthPixels / -2.5));
                 viewPager.setOffscreenPageLimit(2);
                 viewPager.setCurrentItem(1);
             }

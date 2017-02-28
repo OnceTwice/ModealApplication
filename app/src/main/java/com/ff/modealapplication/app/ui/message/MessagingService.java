@@ -6,6 +6,8 @@ import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import static android.R.string.no;
+
 /**
  * Created by BIT on 2017-02-06.
  */

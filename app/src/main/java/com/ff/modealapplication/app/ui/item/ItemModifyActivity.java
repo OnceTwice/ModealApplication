@@ -341,8 +341,8 @@ public class ItemModifyActivity extends AppCompatActivity implements View.OnClic
     };
 
     void UpdateNow() {
-        dateText.setText(String.format("%d 년 %d 월 %d 일", Year, Month + 1, Day));
-        timeText.setText(String.format("%d 시 %d 분 까지", Hour, Minute));
+        dateText.setText(String.format("%d/%d/%d", Year, Month + 1, Day));
+        timeText.setText(String.format("%d:%d", Hour, Minute));
         String expDate = dateText.getText().toString() + " " + timeText.getText().toString();
     }
 

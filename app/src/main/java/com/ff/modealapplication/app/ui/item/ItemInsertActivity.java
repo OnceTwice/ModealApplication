@@ -344,7 +344,7 @@ public class ItemInsertActivity extends AppCompatActivity implements View.OnClic
 
     void UpdateNow() {
 
-        dateText.setText(String.format("%d/%d/%d", Year, Month + 1, Day));
+        dateText.setText(String.format("%d/%d/%d", Year, Month+1, Day));
         timeText.setText(String.format("%d:%d", Hour, Minute));
 
         String expDate = dateText.getText().toString() + " " + timeText.getText().toString();
