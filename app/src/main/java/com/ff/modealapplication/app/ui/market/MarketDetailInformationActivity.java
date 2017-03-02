@@ -120,7 +120,7 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 뒤로가기 화살표 표시
 
-        Toast.makeText(getApplicationContext(), "MarketDetailInformationActivity.java 에서의 ShopNo : " + getIntent().getLongExtra("ShopNo", 0), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "MarketDetailInformationActivity.java 에서의 ShopNo : " + getIntent().getLongExtra("ShopNo", 0), Toast.LENGTH_SHORT).show();
 
         // 댓글 리스트(출력)
         commentListAdapter = new CommentListAdapter(this);
@@ -298,7 +298,7 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {            // 최초선택: which:-1, marketScore:0
                 marketScore = Math.abs(which-5);
-                Toast.makeText(MarketDetailInformationActivity.this, which + "점 선택 \n" + marketScore+"점 선택", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MarketDetailInformationActivity.this, which + "점 선택 \n" + marketScore+"점 선택", Toast.LENGTH_SHORT).show();
             }
         }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
@@ -309,7 +309,7 @@ public class MarketDetailInformationActivity extends AppCompatActivity {
                     return;
                 }
 
-                Toast.makeText(MarketDetailInformationActivity.this, which + "점 선택 \n" + marketScore+"점 선택", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MarketDetailInformationActivity.this, which + "점 선택 \n" + marketScore+"점 선택", Toast.LENGTH_SHORT).show();
                 inputRatingBar.setRating(marketScore);
             }
         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

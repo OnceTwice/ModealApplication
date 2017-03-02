@@ -15,12 +15,11 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ff.modealapplication.R;
 import com.ff.modealapplication.andorid.network.SafeAsyncTask;
-import com.ff.modealapplication.app.core.service.SearchService;
 import com.ff.modealapplication.app.core.domain.ItemVo;
+import com.ff.modealapplication.app.core.service.SearchService;
 
 import java.util.List;
 
@@ -101,18 +100,18 @@ public class SearchActivity extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 //                SearchActivity.this.searchListArrayAdapter.getFilter().filter(s);
 //                getSharedPreference();
-                Toast.makeText(SearchActivity.this, "입력전",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SearchActivity.this, "입력전",Toast.LENGTH_SHORT).show();
             }
             //count 갯수만큼 글자들로 대치되었을때 호출
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 //                SearchActivity.this.searchListArrayAdapter.getFilter().filter(s);
-                Toast.makeText(SearchActivity.this, "입력중",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SearchActivity.this, "입력중",Toast.LENGTH_SHORT).show();
             }
             //edittext 텍스트가 변경시 호출
             @Override
             public void afterTextChanged(Editable s) {
-                Toast.makeText(SearchActivity.this, "입력후",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SearchActivity.this, "입력후",Toast.LENGTH_SHORT).show();
 
             }
         });
