@@ -89,7 +89,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:text="상품명"
-                        android:textSize="20dp" />
+                        android:textSize="17dp" />
 
                     <TextView
                         android:id="@+id/item_detail_ori_price"
