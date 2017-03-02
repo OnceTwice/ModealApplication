@@ -11,7 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.ff.modealapplication.R;
-import com.ff.modealapplication.app.ui.item.ItemDetailActivity;
+import com.ff.modealapplication.app.ui.main.MainActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -49,7 +49,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotification(String title, String body) { // 메세지 날라온거 띄울때
 
-        Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 //        intent.putExtra("no", 4L);
 //        intent.putExtra("shopNo", 1L);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
