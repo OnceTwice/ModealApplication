@@ -49,7 +49,6 @@ import com.ff.modealapplication.app.ui.join.JoinActivity;
 import com.ff.modealapplication.app.ui.join.JoinLeaveActivity;
 import com.ff.modealapplication.app.ui.login.LoginActivity;
 import com.ff.modealapplication.app.ui.map.SearchMapRangeActivity;
-import com.ff.modealapplication.app.ui.message.AlarmActivity;
 import com.ff.modealapplication.app.ui.mypage.OwnerMyPageActivity;
 import com.ff.modealapplication.app.ui.mypage.UserMyPageActivity;
 import com.ff.modealapplication.app.ui.notice.NoticeActivity;
@@ -505,14 +504,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_notice) { // 공지사항
             Intent intent = new Intent(this, NoticeActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_setup) { // 알림 설정
+        } /*else if (id == R.id.nav_setup) { // 알림 설정
             if ((Long) LoginPreference.getValue(getApplicationContext(), "managerIdentified") == -1) {       // 로그인 안했을때
                 Toast.makeText(getApplicationContext(), "로그인하세요", Toast.LENGTH_SHORT).show();
             } else {
                 Intent intent = new Intent(this, AlarmActivity.class);
                 startActivity(intent);
             }
-        } else if (id == R.id.nav_help) { // 고객센터
+        }*/ else if (id == R.id.nav_help) { // 고객센터
             if ((Long) LoginPreference.getValue(getApplicationContext(), "managerIdentified") == -1) {       // 로그인 안했을때
                 Toast.makeText(getApplicationContext(), "로그인하세요", Toast.LENGTH_SHORT).show();
             } else {

@@ -189,55 +189,6 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                             Toast.LENGTH_SHORT).show();    //메시지 출력
             }
         });
-
-//        // 뷰플리퍼 (자동 슬라이드 되는 동일 매장 상품 이미지)
-//        flipper = (ViewFlipper) findViewById(R.id.item_detail_flipper);
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                for (int i = 0; i < itemList.size(); i++) {
-//                    LinearLayout linearLayout = new LinearLayout(getApplicationContext());
-//                    linearLayout.setOrientation(LinearLayout.VERTICAL);
-//
-//                    ImageView img = new ImageView(getApplicationContext());
-//                    img.setScaleType(ImageView.ScaleType.CENTER);
-//                    ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getApplicationContext()));
-//                    ImageLoader.getInstance().displayImage(Base.url + "modeal/shop/images/" + itemList.get(i).get("picture"), img, displayImageOption);
-//
-//                    linearLayout.addView(img);
-//                    flipper.addView(linearLayout);
-//                    flipper.setDisplayedChild(i);
-//                    flipper.setOnClickListener(new View.OnClickListener() { // 클릭시 해당 상품 상세페이지로 이동
-//                        @Override
-//                        public void onClick(View v) {
-//                            Intent intent = new Intent(getApplicationContext(), ItemDetailActivity.class);
-//                            intent.putExtra("no", ((Double) itemList.get(flipper.getDisplayedChild()).get("no")).longValue());
-//                            intent.putExtra("shopNo", ((Double) itemList.get(flipper.getDisplayedChild()).get("shopNo")).longValue());
-//                            startActivity(intent);
-//                            finish();
-//                        }
-//                    });
-//                }
-//                Animation shownIn = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
-//                flipper.setInAnimation(shownIn);
-//                flipper.setOutAnimation(getApplicationContext(), android.R.anim.fade_out);
-//                flipper.setFlipInterval(2000);
-//                flipper.startFlipping();
-//            }
-//        }, 1000);
-//
-//        findViewById(R.id.image_left).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                flipper.showNext();
-//            }
-//        });
-//        findViewById(R.id.image_right).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                flipper.showPrevious();
-//            }
-//        });
     }
 
     // 뷰페이저를 쓰기 위한 어댑터
